@@ -1,0 +1,5 @@
+
+syntax: regexp
+^akpdomain/target$
+syntax: regexp
+^akpwebapp/target$
