@@ -1,0 +1,111 @@
+
+/* === Standard elements === */
+
+body,table,select,input,button {
+	font-family: "Times New Roman", Times, "serif";
+	font-size: 12pt;
+}
+
+body {
+	margin: 0;
+}
+
+pre {
+	font-family: "Courier New", courier;
+	font-size: 10pt;
+}
+
+input:focus {
+	background-color: #ffffaa;
+}
+
+fieldset {
+	border: 1px solid #777777;
+}
+
+a:link,a:active,a:visited {
+	text-decoration: none;
+	color: #000088;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1,h2,h3,h4 {
+	font-family: Helvetica, Arial, "sans-serif";
+	border: none;
+	margin: 3px;
+	padding: 3px;
+	font-weight: bold;
+	text-align: left;
+}
+
+h1 {
+	font-size: 20pt;
+	color: #222222;
+}
+
+h2 {
+	font-size: 16pt;
+	color: #333333;
+}
+
+h3 {
+	font-size: 14pt;
+	color: #444444;
+}
+
+h4 {
+	font-size: 12pt;
+	color: #555555;
+}
+
+p {
+	margin: 3px;
+	padding: 3px;
+}
+
+hr {
+	color: #dddddd;
+	background-color: #dddddd;
+	height: 1px;
+	border: 0;
+}
+
+table {
+	border: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+button img {
+	vertical-align: middle;
+}
+
+a img {
+	border: none;
+}
+
+/* === Header === */
+div.header {
+	background-color: #eeeeee;
+	border-bottom: 1px solid #888888;
+	margin: 0;
+	padding: 0;
+}
+
+div.header div.logo {
+	width: 120px;
+	height: 24px;
+	float: left;
+	background-image: url("plantkelt_logo_hz24.png");
+	background-repeat: no-repeat;
+	background-position: 3px 0px;
+}
+
+div.header div.user {
+	float: right;
+	margin-top: 5px;
+	margin-right: 5px;
+}

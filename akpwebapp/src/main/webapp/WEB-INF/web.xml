@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>AKP</display-name>
+
+    <!-- Global configuration -->
+    <context-param>
+        <param-name>net.plantkelt.akp.configuration</param-name>
+        <param-value>development</param-value>
+        <!-- <param-value>deployment</param-value> -->
+    </context-param>
+    <context-param>
+        <param-name>javax.persistence.jdbc.url</param-name>
+        <param-value>jdbc:postgresql://localhost:5432/akp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.persistence.jdbc.user</param-name>
+        <param-value>akp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.persistence.jdbc.password</param-name>
+        <param-value></param-value>
+    </context-param>
+
+    <!-- Guice -->
+
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>net.plantkelt.akp.webapp.guice.AkpGuiceApplicationConfig</listener-class>
+    </listener>
+
+</web-app>

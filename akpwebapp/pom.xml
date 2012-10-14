@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>akp</artifactId>
+        <groupId>net.plantkelt</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>akpwebapp</artifactId>
+    <packaging>war</packaging>
+    <name>akpwebapp</name>
+    <url>http://maven.apache.org</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <wicket.version>1.5.4</wicket.version>
+    </properties>
+    <dependencies>
+
+        <!-- AKP domain -->
+        <dependency>
+            <groupId>net.plantkelt</groupId>
+            <artifactId>akpdomain</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Wicket -->
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-core</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-auth-roles</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-datetime</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-devutils</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-guice</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>

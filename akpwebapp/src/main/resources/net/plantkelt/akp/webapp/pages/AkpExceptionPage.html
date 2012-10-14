@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+</head>
+<body>
+	<h1>
+		<img src="common/img/dialog-warning.png" />
+		<wicket:message key="exception.header" />
+	</h1>
+	<p>
+		<b><span wicket:id="exceptionLabel" /></b>
+	</p>
+	<div wicket:id="exceptionStackTracePanel">
+		<h2>
+			<wicket:message key="exception.stacktrace.header" />
+		</h2>
+		<span wicket:id="exceptionStackTraceContent" />
+	</div>
+	<p>
+		<wicket:message key="exception.continue" />
+	</p>
+</body>
+</html>
