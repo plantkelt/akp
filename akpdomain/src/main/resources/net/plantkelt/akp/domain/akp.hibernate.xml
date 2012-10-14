@@ -23,7 +23,7 @@
         <property name="order" type="integer" column="ordre" />
         <property name="level" type="integer" column="niveau" />
         <many-to-one name="parent" />
-        <bag name="childrens" lazy="false" table="classe" order-by="ordre" inverse="true">
+        <bag name="childrens" lazy="true" table="classe" order-by="ordre" inverse="true">
             <key column="parent" />
             <one-to-many class="AkpClass" />
         </bag>
