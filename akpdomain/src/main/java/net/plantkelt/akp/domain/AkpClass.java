@@ -11,7 +11,7 @@ public class AkpClass {
 	private AkpClass parent;
 	private List<AkpClass> childrens;
 	private String synonyms;
-//	private int order;
+	private int order;
 	private int level;
 	private List<AkpPlant> plants;
 
@@ -77,13 +77,13 @@ public class AkpClass {
 		this.synonyms = synonyms;
 	}
 
-//	public int getOrder() {
-//		return order;
-//	}
-//
-//	public void setOrder(int order) {
-//		this.order = order;
-//	}
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
 
 	public int getLevel() {
 		return level;

@@ -20,14 +20,13 @@
         <id name="xid" type="int">
             <generator class="native" />
         </id>
-        <!-- <property name="order" type="integer" column="ordre" /> -->
+        <property name="order" type="integer" column="ordre" />
         <property name="level" type="integer" column="niveau" />
         <many-to-one name="parent" />
-        <list name="childrens" lazy="false" table="classe">
+        <bag name="childrens" lazy="false" table="classe" order-by="ordre" inverse="true">
             <key column="parent" />
-            <list-index column="ordre" base="1" />
             <one-to-many class="AkpClass" />
-        </list>
+        </bag>
         <property name="name" type="string" column="nom" />
         <property name="comments" type="string" column="commentaire" />
         <property name="synonyms" type="string" column="synonymes" />
@@ -62,10 +61,11 @@
         <id name="xid" type="int">
             <generator class="native" />
         </id>
-        <many-to-one name="parent" />
-        <list name="children" table="node">
+        <property name="xorder" not-null="true" />
+        <many-to-one name="parent" lazy="false" />
+        <list name="children" table="node" inverse="true">
             <key column="parent" />
-            <list-index column="xorder" />
+            <index column="xorder" />
             <one-to-many class="Node" />
         </list>
     </class>

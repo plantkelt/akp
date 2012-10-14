@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,17 +43,18 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Override
 	public void moveDownChildClass(AkpClass parentClass,
 			int childIndexToMoveDown) {
+		// TODO Use hibernate list-index
 		List<AkpClass> children = parentClass.getChildrens();
-		AkpClass toMove = children.remove(childIndexToMoveDown);
-		int where = childIndexToMoveDown >= children.size() ? 0
-				: childIndexToMoveDown + 1;
-		children.add(where, toMove);
-		parentClass.setChildrens(children);
-		toMove.setParent(parentClass);
-		getSession().update(parentClass);
-		// for (AkpClass child: children) {
-		// getSession().update(child);
-		// }
+		if (childIndexToMoveDown >= children.size() - 1)
+			return;
+		AkpClass child1 = children.get(childIndexToMoveDown);
+		AkpClass child2 = children.get(childIndexToMoveDown + 1);
+		int order1 = child1.getOrder();
+		int order2 = child2.getOrder();
+		child1.setOrder(order2);
+		child2.setOrder(order1);
+		getSession().update(child1);
+		getSession().update(child2);
 	}
 
 	@Transactional
@@ -89,8 +91,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Override
 	public void testNode() {
 		Node parent = (Node) getSession().get(Node.class, 1);
-		Node child0 = parent.getChildren().remove(0);
-		parent.getChildren().add(1, child0);
+		// Node child0 = parent.getChildren().remove(0);
+		// parent.getChildren().add(1, child0);
+		Collections.reverse(parent.getChildren());
+		Node x = new Node();
+		x.setParent(parent);
+		parent.getChildren().add(x);
+		getSession().save(x);
 		getSession().update(parent);
 	}
 
