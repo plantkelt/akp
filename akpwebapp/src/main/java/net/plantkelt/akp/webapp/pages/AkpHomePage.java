@@ -8,5 +8,6 @@ public class AkpHomePage extends AkpPageTemplate {
 	private static final long serialVersionUID = 1L;
 
 	public AkpHomePage() {
+		add(AkpClassesPage.link("adminClassesLink"));
 	}
 }

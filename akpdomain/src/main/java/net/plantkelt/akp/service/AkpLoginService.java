@@ -5,4 +5,6 @@ import net.plantkelt.akp.domain.AkpUser;
 public interface AkpLoginService {
 
 	public abstract AkpUser login(String login, String password);
+
+	public abstract AkpUser getUser(String login);
 }

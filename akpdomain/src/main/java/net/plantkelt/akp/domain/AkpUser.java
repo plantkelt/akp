@@ -1,8 +1,10 @@
 package net.plantkelt.akp.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AkpUser {
+public class AkpUser implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String login;
 	private String md5;
@@ -76,8 +78,14 @@ public class AkpUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public boolean isAdmin() {
 		return profile == 3;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("[AkpUser %s]", getLogin());
+	}
+
 }

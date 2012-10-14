@@ -88,6 +88,7 @@ a img {
 }
 
 /* === Header === */
+
 div.header {
 	background-color: #eeeeee;
 	border-bottom: 1px solid #888888;
@@ -108,4 +109,17 @@ div.header div.user {
 	float: right;
 	margin-top: 5px;
 	margin-right: 5px;
+}
+
+/* === Footer === */
+
+div.footer {
+	margin-top: 20px;
+	border-top: 1px solid #888888;
+}
+
+div.footer p#copyright {
+	float: right;
+	font-size: 10pt;
+	color: #888888;
 }

@@ -28,18 +28,18 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		AkpUser user = (AkpUser) getSession().createCriteria(AkpUser.class)
 				.add(Restrictions.eq("login", login)).uniqueResult();
 		if (user.getExpire().compareTo(new Date()) < 0) {
-			// User account expired
-			return null;
+			return null; // User account expired
 		}
-		String passwordHash = hash(password);
-		System.err.println("*** password:    [" + password + "]");
-		System.err.println("*** computed hash:" + passwordHash);
-		System.err.println("*** account hash :" + user.getMd5());
-		if (!passwordHash.equals(user.getMd5())) {
-			// Invalid password
-			return null;
+		if (!md5Hash(password).equals(user.getMd5())) {
+			return null; // Invalid password
 		}
 		return user;
+	}
+
+	@Transactional
+	@Override
+	public AkpUser getUser(String login) {
+		return (AkpUser) getSession().get(AkpUser.class, login);
 	}
 
 	private Session getSession() {
@@ -54,16 +54,15 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 			BigInteger bi = new BigInteger(1, raw);
 			return String.format("%0" + (raw.length << 1) + "x", bi);
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return "" + data.hashCode();
+			throw new RuntimeException(e);
 		}
 	}
 
-	private String hash(String content) {
+	private String md5Hash(String content) {
 		try {
 			return hash(content.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			return content; // Should not happen
+			throw new RuntimeException(e);
 		}
 	}
 

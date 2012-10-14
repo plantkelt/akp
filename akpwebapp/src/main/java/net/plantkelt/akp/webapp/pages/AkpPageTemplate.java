@@ -5,10 +5,11 @@ import net.plantkelt.akp.webapp.components.AkpHeaderPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.devutils.debugbar.DebugBar;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.CssResourceReference;
 
 public class AkpPageTemplate extends WebPage {
 
@@ -28,8 +29,8 @@ public class AkpPageTemplate extends WebPage {
 	@Override
 	public void renderHead(final IHeaderResponse response) {
 		super.renderHead(response);
-		response.renderCSSReference(new PackageResourceReference(
-				AkpPageTemplate.class, "res/akp.css"));
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				AkpPageTemplate.class, "res/akp.css")));
 	}
 
 	public AkpUser getUtilisateur() {

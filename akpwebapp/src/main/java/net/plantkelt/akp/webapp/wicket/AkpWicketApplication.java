@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.wicket;
 import java.lang.reflect.InvocationTargetException;
 
 import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.webapp.pages.AkpClassesPage;
 import net.plantkelt.akp.webapp.pages.AkpExceptionPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpIndexPage;
@@ -12,13 +13,13 @@ import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.core.request.handler.PageProvider;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.handler.PageProvider;
-import org.apache.wicket.request.handler.RenderPageRequestHandler;
 
 import com.google.inject.Injector;
 
@@ -46,6 +47,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/home", AkpHomePage.class);
 		mountPage("/login", AkpLoginPage.class);
 		mountPage("/logout", AkpLogoutPage.class);
+		mountPage("/badluck", AkpExceptionPage.class);
+		mountPage("/classes/${xid}", AkpClassesPage.class);
 
 		// Look for extended browser info from client. Needed as server is in
 		// UTC.
@@ -70,9 +73,6 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 				return null;
 			}
 		});
-
-		// getResourceSettings().getStringResourceLoaders().add(0,
-		// new MecatrappStringResourceLoader());
 	}
 
 	@Override

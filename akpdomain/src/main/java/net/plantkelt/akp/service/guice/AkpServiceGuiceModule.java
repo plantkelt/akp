@@ -3,7 +3,9 @@ package net.plantkelt.akp.service.guice;
 import java.util.Properties;
 
 import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.service.impl.AkpLoginServiceImpl;
+import net.plantkelt.akp.service.impl.AkpTaxonServiceImpl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
@@ -24,7 +26,9 @@ public class AkpServiceGuiceModule extends AbstractModule {
 	protected void configure() {
 		// Config
 		bindConstant().annotatedWith(Names.named("dev")).to(dev);
-		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class)
-				.in(Scopes.SINGLETON);
+		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class).in(
+				Scopes.SINGLETON);
+		bind(AkpTaxonService.class).to(AkpTaxonServiceImpl.class).in(
+				Scopes.SINGLETON);
 	}
 }

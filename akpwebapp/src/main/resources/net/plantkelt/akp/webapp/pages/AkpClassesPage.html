@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<span wicket:id="parentPath" />
+		<h1>
+			<span wicket:id="className"></span>
+		</h1>
+		<h2>
+			<wicket:message key="class.subclasses.header" />
+		</h2>
+		<ul>
+			<li wicket:id="subClasses"><span wicket:id="adminSection">(<a
+					wicket:id="downLink">+</a>)
+			</span><a wicket:id="subClassLink"><span wicket:id="subClassName" /></a></li>
+		</ul>
+		<form wicket:id="addClassForm">
+			<button type="submit">
+				<wicket:message key="add.class.button" />
+			</button>
+		</form>
+		<h2>
+			<wicket:message key="class.plants.header" />
+		</h2>
+		<ul>
+			<li wicket:id="ownedPlants"><a wicket:id="ownedPlantLink"><span
+					wicket:id="ownedPlantName" /></a></li>
+		</ul>
+	</wicket:extend>
+</body>
+</html>
