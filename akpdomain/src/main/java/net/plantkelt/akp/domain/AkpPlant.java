@@ -38,7 +38,7 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.comments = comments == null ? "" : comments;
 	}
 
 	public SortedSet<AkpPlantTag> getTags() {
@@ -54,9 +54,21 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	}
 
 	public synchronized void removeTaxon(AkpTaxon taxon) {
+		if (taxon.getType() == AkpTaxon.TYPE_MAIN)
+			throw new IllegalArgumentException(
+					"Cannot remove main name from plant");
 		mainName = null;
 		synonyms = null;
 		this.taxons.remove(taxon);
+	}
+
+	public synchronized void addTaxon(AkpTaxon taxon) {
+		if (taxon.getType() == AkpTaxon.TYPE_MAIN)
+			throw new IllegalArgumentException(
+					"Cannot add main name from plant");
+		mainName = null;
+		synonyms = null;
+		this.taxons.add(taxon);
 	}
 
 	public synchronized void setTaxons(List<AkpTaxon> taxons) {
@@ -90,10 +102,10 @@ public class AkpPlant implements Comparable<AkpPlant> {
 		synonyms = new ArrayList<AkpTaxon>(getTaxons().size() - 1);
 		for (AkpTaxon taxon : getTaxons()) {
 			switch (taxon.getType()) {
-			case 0:
+			case AkpTaxon.TYPE_MAIN:
 				mainName = taxon;
 				break;
-			case 2:
+			case AkpTaxon.TYPE_SYNONYM:
 				synonyms.add(taxon);
 				break;
 			default:

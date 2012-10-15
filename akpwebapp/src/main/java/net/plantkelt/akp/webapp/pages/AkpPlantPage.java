@@ -1,17 +1,16 @@
 package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
-import java.util.SortedSet;
 
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.components.AkpPlantHeaderPanel;
 import net.plantkelt.akp.webapp.components.AkpPlantSynonymsPanel;
+import net.plantkelt.akp.webapp.components.AkpPlantTagsPanel;
 
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -19,7 +18,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -32,13 +30,13 @@ public class AkpPlantPage extends AkpPageTemplate {
 	private AkpTaxonService akpTaxonService;
 
 	private Integer plantId;
-	private IModel<AkpPlant> akpPlantModel;
+	private IModel<AkpPlant> plantModel;
 
 	public AkpPlantPage(PageParameters parameters) {
 
 		// Load data
 		plantId = parameters.get("xid").toOptionalInteger();
-		akpPlantModel = new LoadableDetachableModel<AkpPlant>() {
+		plantModel = new LoadableDetachableModel<AkpPlant>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -46,7 +44,7 @@ public class AkpPlantPage extends AkpPageTemplate {
 				return akpTaxonService.getPlant(plantId);
 			}
 		};
-		AkpPlant plant = akpPlantModel.getObject();
+		AkpPlant plant = plantModel.getObject();
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
@@ -54,29 +52,19 @@ public class AkpPlantPage extends AkpPageTemplate {
 		add(parentPathLabel);
 
 		// Plant main name
-		Label classNameLabel = new Label("plantName", plant.getMainName()
-				.getHtmlName());
-		classNameLabel.setEscapeModelStrings(false);
-		add(classNameLabel);
+		AkpPlantHeaderPanel headerPanel = new AkpPlantHeaderPanel(
+				"headerPanel", plantModel);
+		add(headerPanel);
 
 		// Synonyms
 		AkpPlantSynonymsPanel synonymsPanel = new AkpPlantSynonymsPanel(
-				"synonymsPanel", akpPlantModel);
+				"synonymsPanel", plantModel);
 		add(synonymsPanel);
 
 		// Tags
-		RepeatingView tagsRepeat = new RepeatingView("tags");
-		add(tagsRepeat);
-		SortedSet<AkpPlantTag> tags = plant.getTags();
-		for (AkpPlantTag tag : tags) {
-			WebMarkupContainer item = new WebMarkupContainer(
-					tagsRepeat.newChildId());
-			tagsRepeat.add(item);
-			Label label = new Label("tagValue", tag.getValue());
-			label.add(new AttributeAppender("class", new Model<String>("tag_"
-					+ tag.getType()), " "));
-			item.add(label);
-		}
+		AkpPlantTagsPanel tagsPanel = new AkpPlantTagsPanel("tagsPanel",
+				plantModel);
+		add(tagsPanel);
 
 		// Lexical groups
 		RepeatingView lexicalGroupsRepeat = new RepeatingView("lexicalGroups");

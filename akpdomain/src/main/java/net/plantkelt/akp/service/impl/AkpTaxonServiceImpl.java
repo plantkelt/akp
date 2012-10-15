@@ -126,6 +126,18 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Transactional
 	@Override
+	public void createNewTaxon(AkpPlant ownerPlant) {
+		AkpTaxon taxon = new AkpTaxon();
+		taxon.setPlant(ownerPlant);
+		taxon.setType(AkpTaxon.TYPE_SYNONYM);
+		taxon.setName("<l><b>Aaa aaa</b></l>");
+		ownerPlant.addTaxon(taxon);
+		getSession().save(taxon);
+		getSession().update(ownerPlant);
+	}
+
+	@Transactional
+	@Override
 	public void updateTaxon(AkpTaxon taxon) {
 		getSession().update(taxon);
 	}
@@ -133,7 +145,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Transactional
 	@Override
 	public void deleteTaxon(AkpTaxon taxon) {
+		AkpPlant ownerPlant = taxon.getPlant();
+		ownerPlant.removeTaxon(taxon);
 		getSession().delete(taxon);
+		getSession().update(ownerPlant);
 	}
 
 	private Session getSession() {

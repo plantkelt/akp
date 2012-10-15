@@ -23,6 +23,8 @@ public interface AkpTaxonService {
 	
 	public void updatePlant(AkpPlant plant);
 	
+	public void createNewTaxon(AkpPlant ownerPlant);
+	
 	public void updateTaxon(AkpTaxon taxon);
 	
 	public void deleteTaxon(AkpTaxon taxon);

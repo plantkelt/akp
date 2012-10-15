@@ -2,6 +2,9 @@ package net.plantkelt.akp.domain;
 
 public class AkpTaxon implements Comparable<AkpTaxon> {
 
+	public static final int TYPE_MAIN = 0;
+	public static final int TYPE_SYNONYM = 2;
+
 	private Integer xid;
 	private AkpPlant plant;
 	private String name;
