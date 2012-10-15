@@ -9,13 +9,11 @@
 		<h2>Tags</h2>
 		<div wicket:id="tagsPanel" />
 		<h2>Verna</h2>
-		<ul>
-			<li wicket:id="lexicalGroups"><span
-				wicket:id="lexicalGroupValue" />
-				<ul>
-					<li wicket:id="vernaNames"><span wicket:id="vernaNameValue" /></li>
-				</ul></li>
-		</ul>
+
+		<div wicket:id="lexicalGroups">
+			<h3 wicket:id="langGroupName"></h3>
+			<div wicket:id="lexicalGroupPanel" />
+		</div>
 	</wicket:extend>
 </body>
 </html>

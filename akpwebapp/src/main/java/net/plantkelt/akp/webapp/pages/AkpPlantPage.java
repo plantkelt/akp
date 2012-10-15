@@ -2,21 +2,22 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.components.AkpPlantHeaderPanel;
 import net.plantkelt.akp.webapp.components.AkpPlantSynonymsPanel;
 import net.plantkelt.akp.webapp.components.AkpPlantTagsPanel;
 
-import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.authorization.AuthorizationException;
+import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -37,6 +38,10 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 		// Load data
 		plantId = parameters.get("xid").toOptionalInteger();
+
+		if (plantId == 3000)
+			throw new UnauthorizedInstantiationException(AkpPlantPage.class);
+
 		plantModel = new LoadableDetachableModel<AkpPlant>() {
 			private static final long serialVersionUID = 1L;
 
@@ -68,39 +73,30 @@ public class AkpPlantPage extends AkpPageTemplate {
 		add(tagsPanel);
 
 		// Lexical groups
-		RepeatingView lexicalGroupsRepeat = new RepeatingView("lexicalGroups");
-		add(lexicalGroupsRepeat);
-		List<AkpLexicalGroup> lexicalGroups = plant.getLexicalGroups();
-		for (AkpLexicalGroup lexicalGroup : lexicalGroups) {
-			WebMarkupContainer item = new WebMarkupContainer(
-					lexicalGroupsRepeat.newChildId());
-			lexicalGroupsRepeat.add(item);
-			String xxx = String.format("%d - %s - %s",
-					lexicalGroup.getCorrect(), lexicalGroup.getLang().getXid(),
-					lexicalGroup.getLang().getLangGroup().getName());
-			Label label = new Label("lexicalGroupValue", xxx);
-			item.add(label);
-			// Names
-			RepeatingView vernaNamesRepeat = new RepeatingView("vernaNames");
-			item.add(vernaNamesRepeat);
-			List<AkpVernacularName> vernaNames = lexicalGroup
-					.getVernacularNames();
-			for (AkpVernacularName vernaName : vernaNames) {
-				WebMarkupContainer item2 = new WebMarkupContainer(
-						vernaNamesRepeat.newChildId());
-				vernaNamesRepeat.add(item2);
-				StringBuffer bibsb = new StringBuffer();
-				for (AkpBib bib : vernaName.getBibs()) {
-					bibsb.append("[").append(bib.getXid()).append("]");
-				}
-				String xxx2 = String.format("%d -> %d : %s (%s) -> %s",
-						vernaName.getXid(), vernaName.getParentId(),
-						vernaName.getName(), vernaName.getComment(),
-						bibsb.toString());
-				Label label2 = new Label("vernaNameValue", xxx2);
-				item2.add(label2);
+		IModel<List<AkpLexicalGroup>> lexicalGroupsModel = new LoadableDetachableModel<List<AkpLexicalGroup>>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<AkpLexicalGroup> load() {
+				// TODO Sort based on group lang + lang order
+				return plantModel.getObject().getLexicalGroups();
 			}
-		}
+		};
+		ListView<AkpLexicalGroup> lexicalGroupsListView = new ListView<AkpLexicalGroup>(
+				"lexicalGroups", lexicalGroupsModel) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem<AkpLexicalGroup> item) {
+				Label langGroupLabel = new Label("langGroupName", item
+						.getModelObject().getLang().getLangGroup().getName());
+				item.add(langGroupLabel);
+				AkpLexicalGroupPanel lexicalGroupPanel = new AkpLexicalGroupPanel(
+						"lexicalGroupPanel", item.getModel());
+				item.add(lexicalGroupPanel);
+			}
+		};
+		add(lexicalGroupsListView);
 	}
 
 	public static Link<AkpPlantPage> link(String id, Integer xid) {
