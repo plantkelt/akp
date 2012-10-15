@@ -2,6 +2,7 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
+import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpVernacularName;
@@ -88,9 +89,14 @@ public class AkpPlantPage extends AkpPageTemplate {
 				WebMarkupContainer item2 = new WebMarkupContainer(
 						vernaNamesRepeat.newChildId());
 				vernaNamesRepeat.add(item2);
-				String xxx2 = String.format("%d -> %d : %s (%s)",
+				StringBuffer bibsb = new StringBuffer();
+				for (AkpBib bib : vernaName.getBibs()) {
+					bibsb.append("[").append(bib.getXid()).append("]");
+				}
+				String xxx2 = String.format("%d -> %d : %s (%s) -> %s",
 						vernaName.getXid(), vernaName.getParentId(),
-						vernaName.getName(), vernaName.getComment());
+						vernaName.getName(), vernaName.getComment(),
+						bibsb.toString());
 				Label label2 = new Label("vernaNameValue", xxx2);
 				item2.add(label2);
 			}

@@ -6,11 +6,12 @@ public class AkpVernacularName {
 
 	private int xid;
 	private int parentId;
-//	private AkpVernacularName parent;
-//	private List<AkpVernacularName> children;
+	// private AkpVernacularName parent;
+	// private List<AkpVernacularName> children;
 	private String name;
 	private String comment;
 	private AkpLexicalGroup lexicalGroup;
+	private List<AkpBib> bibs;
 
 	public int getXid() {
 		return xid;
@@ -28,21 +29,21 @@ public class AkpVernacularName {
 		this.parentId = parentId;
 	}
 
-//	public AkpVernacularName getParent() {
-//		return parent;
-//	}
-//
-//	public void setParent(AkpVernacularName parent) {
-//		this.parent = parent;
-//	}
-//
-//	public List<AkpVernacularName> getChildren() {
-//		return children;
-//	}
-//
-//	public void setChildren(List<AkpVernacularName> children) {
-//		this.children = children;
-//	}
+	// public AkpVernacularName getParent() {
+	// return parent;
+	// }
+	//
+	// public void setParent(AkpVernacularName parent) {
+	// this.parent = parent;
+	// }
+	//
+	// public List<AkpVernacularName> getChildren() {
+	// return children;
+	// }
+	//
+	// public void setChildren(List<AkpVernacularName> children) {
+	// this.children = children;
+	// }
 
 	public String getName() {
 		return name;
@@ -66,6 +67,14 @@ public class AkpVernacularName {
 
 	public void setLexicalGroup(AkpLexicalGroup lexicalGroup) {
 		this.lexicalGroup = lexicalGroup;
+	}
+
+	public List<AkpBib> getBibs() {
+		return bibs;
+	}
+
+	public void setBibs(List<AkpBib> bibs) {
+		this.bibs = bibs;
 	}
 
 	@Override

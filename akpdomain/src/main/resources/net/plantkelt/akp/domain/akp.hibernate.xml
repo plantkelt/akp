@@ -128,6 +128,20 @@
         <property name="name" type="string" column="nom" />
         <property name="comment" type="string" column="commentaire" />
         <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" />
+        <bag name="bibs" lazy="false" batch-size="100" table="bib_verna2">
+            <key column="verna2" />
+            <many-to-many column="bib" class="AkpBib" />
+        </bag>
+    </class>
+
+    <class name="AkpBib" table="bib">
+        <id name="xid" type="string" />
+        <property name="title" type="string" column="titre" />
+        <property name="author" type="string" column="auteur" />
+        <property name="date" type="string" column="date_parution" />
+        <property name="isbn" type="string" />
+        <property name="comments" type="string" column="commentaire" />
+        <property name="editor" type="string" column="editeur" />
     </class>
 
     <class name="Node" table="node">
