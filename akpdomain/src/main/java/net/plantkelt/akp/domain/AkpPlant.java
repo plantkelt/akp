@@ -53,6 +53,12 @@ public class AkpPlant implements Comparable<AkpPlant> {
 		return taxons;
 	}
 
+	public synchronized void removeTaxon(AkpTaxon taxon) {
+		mainName = null;
+		synonyms = null;
+		this.taxons.remove(taxon);
+	}
+
 	public synchronized void setTaxons(List<AkpTaxon> taxons) {
 		mainName = null;
 		synonyms = null;
@@ -68,6 +74,7 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	public synchronized List<AkpTaxon> getSynonyms() {
 		if (synonyms == null)
 			updateTaxons();
+		Collections.sort(synonyms);
 		return synonyms;
 	}
 
@@ -94,7 +101,6 @@ public class AkpPlant implements Comparable<AkpPlant> {
 						+ taxon.getType());
 			}
 		}
-		Collections.sort(synonyms);
 	}
 
 	@Override

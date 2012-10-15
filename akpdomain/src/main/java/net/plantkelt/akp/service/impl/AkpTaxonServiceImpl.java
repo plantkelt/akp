@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.Node;
 import net.plantkelt.akp.service.AkpTaxonService;
 
@@ -66,6 +67,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		newClass.setSynonyms("");
 		newClass.setLevel(parentClass.getLevel() + 1);
 		newClass.setParent(parentClass);
+		int maxOrder = -1;
+		for (AkpClass child : parentClass.getChildren()) {
+			if (child.getOrder() > maxOrder)
+				maxOrder = child.getOrder();
+		}
+		newClass.setOrder(maxOrder + 1);
 		parentClass.getChildren().add(newClass);
 		getSession().save(newClass);
 		getSession().update(parentClass);
@@ -74,7 +81,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Transactional
 	@Override
 	public void updateClass(AkpClass akpClass) {
-		getSession().saveOrUpdate(akpClass);
+		getSession().update(akpClass);
 	}
 
 	@Override
@@ -91,6 +98,16 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	public boolean deleteClass(AkpClass akpClass) {
 		if (!canDeleteClass(akpClass))
 			return false;
+		int order = akpClass.getOrder();
+		AkpClass parentClass = akpClass.getParent();
+		if (parentClass != null) {
+			for (AkpClass sibling : parentClass.getChildren()) {
+				if (sibling.getOrder() > order) {
+					sibling.setOrder(sibling.getOrder() - 1);
+					getSession().update(sibling);
+				}
+			}
+		}
 		getSession().delete(akpClass);
 		return true;
 	}
@@ -99,6 +116,24 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Override
 	public AkpPlant getPlant(Integer xid) {
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
+	}
+
+	@Transactional
+	@Override
+	public void updatePlant(AkpPlant plant) {
+		getSession().update(plant);
+	}
+
+	@Transactional
+	@Override
+	public void updateTaxon(AkpTaxon taxon) {
+		getSession().update(taxon);
+	}
+
+	@Transactional
+	@Override
+	public void deleteTaxon(AkpTaxon taxon) {
+		getSession().delete(taxon);
 	}
 
 	private Session getSession() {

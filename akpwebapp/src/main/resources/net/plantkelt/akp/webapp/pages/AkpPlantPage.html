@@ -7,20 +7,17 @@
 		<h1>
 			<span wicket:id="plantName"></span>
 		</h1>
-		<ul>
-			<li wicket:id="synonyms"><span wicket:id="synonymName" /></li>
-		</ul>
+		<div wicket:id="synonymsPanel" />
 		<h2>Tags</h2>
 		<ul>
-			<li wicket:id="tags"><span wicket:id="tagValue" /></li>
+			<li wicket:id="tags"><span class="tag" wicket:id="tagValue" /></li>
 		</ul>
 		<h2>Verna</h2>
 		<ul>
 			<li wicket:id="lexicalGroups"><span
 				wicket:id="lexicalGroupValue" />
 				<ul>
-					<li wicket:id="vernaNames"><span
-						wicket:id="vernaNameValue" /></li>
+					<li wicket:id="vernaNames"><span wicket:id="vernaNameValue" /></li>
 				</ul></li>
 		</ul>
 	</wicket:extend>

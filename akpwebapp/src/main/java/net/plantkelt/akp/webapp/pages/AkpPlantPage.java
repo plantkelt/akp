@@ -6,16 +6,20 @@ import java.util.SortedSet;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
-import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.components.AkpPlantSynonymsPanel;
 
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -27,31 +31,39 @@ public class AkpPlantPage extends AkpPageTemplate {
 	@Inject
 	private AkpTaxonService akpTaxonService;
 
+	private Integer plantId;
+	private IModel<AkpPlant> akpPlantModel;
+
 	public AkpPlantPage(PageParameters parameters) {
-		Integer plantId = parameters.get("xid").toOptionalInteger();
-		AkpPlant plant = akpTaxonService.getPlant(plantId);
+
+		// Load data
+		plantId = parameters.get("xid").toOptionalInteger();
+		akpPlantModel = new LoadableDetachableModel<AkpPlant>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpPlant load() {
+				return akpTaxonService.getPlant(plantId);
+			}
+		};
+		AkpPlant plant = akpPlantModel.getObject();
+
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
 				"parentPath", plant.getAkpClass());
 		add(parentPathLabel);
+
 		// Plant main name
 		Label classNameLabel = new Label("plantName", plant.getMainName()
 				.getHtmlName());
 		classNameLabel.setEscapeModelStrings(false);
 		add(classNameLabel);
+
 		// Synonyms
-		RepeatingView synonymsRepeat = new RepeatingView("synonyms");
-		add(synonymsRepeat);
-		List<AkpTaxon> taxons = plant.getSynonyms();
-		for (AkpTaxon taxon : taxons) {
-			WebMarkupContainer item = new WebMarkupContainer(
-					synonymsRepeat.newChildId());
-			synonymsRepeat.add(item);
-			Label synonymNameLabel = new Label("synonymName",
-					taxon.getHtmlName());
-			synonymNameLabel.setEscapeModelStrings(false);
-			item.add(synonymNameLabel);
-		}
+		AkpPlantSynonymsPanel synonymsPanel = new AkpPlantSynonymsPanel(
+				"synonymsPanel", akpPlantModel);
+		add(synonymsPanel);
+
 		// Tags
 		RepeatingView tagsRepeat = new RepeatingView("tags");
 		add(tagsRepeat);
@@ -60,11 +72,12 @@ public class AkpPlantPage extends AkpPageTemplate {
 			WebMarkupContainer item = new WebMarkupContainer(
 					tagsRepeat.newChildId());
 			tagsRepeat.add(item);
-			String xxx = String.format("%d - %d - %s", tag.getType(),
-					tag.getIntValue(), tag.getStringValue());
-			Label label = new Label("tagValue", xxx);
+			Label label = new Label("tagValue", tag.getValue());
+			label.add(new AttributeAppender("class", new Model<String>("tag_"
+					+ tag.getType()), " "));
 			item.add(label);
 		}
+
 		// Lexical groups
 		RepeatingView lexicalGroupsRepeat = new RepeatingView("lexicalGroups");
 		add(lexicalGroupsRepeat);

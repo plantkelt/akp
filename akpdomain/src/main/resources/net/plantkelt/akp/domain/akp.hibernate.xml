@@ -27,9 +27,9 @@
             <key column="parent" />
             <one-to-many class="AkpClass" />
         </bag>
-        <property name="name" type="string" column="nom" />
-        <property name="comments" type="string" column="commentaire" />
-        <property name="synonyms" type="string" column="synonymes" />
+        <property name="name" type="string" column="nom" not-null="true" />
+        <property name="comments" type="string" column="commentaire" not-null="true" />
+        <property name="synonyms" type="string" column="synonymes" not-null="true" />
         <bag name="plants" lazy="true" table="plante">
             <key column="classe" />
             <one-to-many class="AkpPlant" />
@@ -42,15 +42,15 @@
         </id>
         <property name="comments" type="string" column="commentaire" />
         <many-to-one name="akpClass" column="classe" />
-        <bag name="taxons" lazy="false" batch-size="100" table="taxon">
+        <bag name="taxons" lazy="false" batch-size="100" table="taxon" inverse="true">
             <key column="plante" />
             <one-to-many class="AkpTaxon" />
         </bag>
-        <set name="tags" sort="natural" lazy="false" batch-size="100" table="plante_etiquette">
+        <set name="tags" sort="natural" lazy="true" batch-size="100" table="plante_etiquette" inverse="true">
             <key column="plante" />
             <one-to-many class="AkpPlantTag" />
         </set>
-        <bag name="lexicalGroups" lazy="false" batch-size="100" table="grplex2">
+        <bag name="lexicalGroups" lazy="true" batch-size="100" table="grplex2" inverse="true">
             <key column="plante" />
             <one-to-many class="AkpLexicalGroup" />
         </bag>
@@ -63,6 +63,18 @@
         </composite-id>
         <property name="stringValue" type="string" column="valeur" not-null="true" />
         <property name="intValue" type="integer" column="valeur2" not-null="true" />
+        <many-to-one name="tagValue" not-found="ignore" lazy="false" insert="false" update="false" fetch="join">
+            <column name="etiquette" />
+            <column name="valeur2" />
+        </many-to-one>
+    </class>
+
+    <class name="AkpTagValue" table="valeur_etiquette">
+        <composite-id>
+            <key-property name="type" type="integer" column="etiquette" />
+            <key-property name="value" type="integer" column="valeur2" />
+        </composite-id>
+        <property name="name" type="string" column="texte" not-null="true" />
     </class>
 
     <class name="AkpTaxon" table="taxon">
@@ -70,7 +82,7 @@
             <generator class="native" />
         </id>
         <property name="name" type="string" column="nom" />
-        <many-to-one name="plant" column="plante" />
+        <many-to-one name="plant" column="plante" not-null="true" />
         <property name="type" type="integer" column="synsan" />
     </class>
 

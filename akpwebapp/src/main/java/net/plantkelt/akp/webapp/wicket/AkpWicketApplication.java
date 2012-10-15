@@ -3,7 +3,7 @@ package net.plantkelt.akp.webapp.wicket;
 import java.lang.reflect.InvocationTargetException;
 
 import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.webapp.pages.AkpClassesPage;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpExceptionPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpIndexPage;
@@ -49,7 +49,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/login", AkpLoginPage.class);
 		mountPage("/logout", AkpLogoutPage.class);
 		mountPage("/badluck", AkpExceptionPage.class);
-		mountPage("/classes/${xid}", AkpClassesPage.class);
+		mountPage("/class/${xid}", AkpClassPage.class);
 		mountPage("/plant/${xid}", AkpPlantPage.class);
 
 		// Look for extended browser info from client. Needed as server is in

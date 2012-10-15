@@ -61,7 +61,7 @@ public class InPlaceEditor extends Border {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				String value = textField.getModelObject();
-				editorModel.saveObject(value);
+				editorModel.saveObject(target, value);
 				viewPanel.setVisible(true);
 				editForm.setVisible(false);
 				target.add(editForm, viewPanel);

@@ -86,7 +86,7 @@ form.inlineeditor-form {
 	display: inline;
 }
 
-form.inlineeditor-form div.oneline > span {
+form.inlineeditor-form div.oneline>span {
 	display: block;
 	overflow: hidden;
 	padding-right: 10px;
@@ -108,6 +108,43 @@ a.edit {
 	height: 16px;
 }
 
+a.down {
+	background-image: url("16x16/down-arrow.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	height: 16px;
+}
+
+/* === Tags icons === */
+span.tag {
+	background-repeat: no-repeat;
+	padding-left: 22px;
+}
+
+span.tag_7 {
+	background-image: url("20x20/tag_7.png");
+}
+
+span.tag_8 {
+	background-image: url("20x20/tag_8.png");
+}
+
+span.tag_9 {
+	background-image: url("20x20/tag_9.png");
+}
+
+span.tag_10 {
+	background-image: url("20x20/tag_10.png");
+}
+
+span.tag_11 {
+	background-image: url("20x20/tag_11.png");
+}
+
+span.tag_12 {
+	background-image: url("20x20/tag_12.png");
+}
+
 /* === Header === */
 div.header {
 	background-color: #eeeeee;
@@ -127,14 +164,25 @@ div.header div.logo {
 
 div.header div.links {
 	float: left;
-	margin-top: 5px;
-	margin-left: 10px;
+	height: 24px;
+	border-left: 1px solid #888888;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 div.header div.user {
-	float: right;
-	margin-top: 5px;
-	margin-right: 5px;
+	float: left;
+	height: 24px;
+	border-left: 1px solid #888888;
+	padding-top: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+/* === Content === */
+div.content {
+	padding: 5px;
 }
 
 /* === Footer === */

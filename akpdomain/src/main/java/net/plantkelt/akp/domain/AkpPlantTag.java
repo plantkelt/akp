@@ -10,6 +10,7 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 	private String stringValue;
 	private Integer intValue;
 	private AkpPlant plant;
+	private AkpTagValue tagValue;
 
 	public int getType() {
 		return type;
@@ -33,6 +34,20 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 
 	public void setIntValue(Integer intValue) {
 		this.intValue = intValue;
+	}
+
+	public AkpTagValue getTagValue() {
+		return tagValue;
+	}
+
+	public void setTagValue(AkpTagValue tagValue) {
+		this.tagValue = tagValue;
+	}
+
+	public String getValue() {
+		if (tagValue != null)
+			return tagValue.getName();
+		return stringValue;
 	}
 
 	public AkpPlant getPlant() {

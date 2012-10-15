@@ -11,6 +11,7 @@ import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -25,7 +26,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-public class AkpClassesPage extends AkpPageTemplate {
+public class AkpClassPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +36,7 @@ public class AkpClassesPage extends AkpPageTemplate {
 	private Integer classId;
 	private IModel<AkpClass> akpClassModel;
 
-	public AkpClassesPage(PageParameters parameters) {
+	public AkpClassPage(PageParameters parameters) {
 
 		// Load data
 		classId = parameters.get("xid").toOptionalInteger();
@@ -66,7 +67,7 @@ public class AkpClassesPage extends AkpPageTemplate {
 					}
 
 					@Override
-					public void saveObject(String name) {
+					public void saveObject(AjaxRequestTarget target, String name) {
 						AkpClass akpClass = akpClassModel.getObject();
 						akpClass.setName(name);
 						akpTaxonService.updateClass(akpClass);
@@ -79,6 +80,29 @@ public class AkpClassesPage extends AkpPageTemplate {
 		classNameLabel.setEscapeModelStrings(false);
 		classNameEditor.add(classNameLabel);
 
+		// Comments
+		InPlaceEditor commentsEditor = new InPlaceEditor("classCommentsEditor",
+				new EditorModel<String>() {
+					@Override
+					public String getObject() {
+						return akpClassModel.getObject().getComments();
+					}
+
+					@Override
+					public void saveObject(AjaxRequestTarget target,
+							String comments) {
+						AkpClass akpClass = akpClassModel.getObject();
+						akpClass.setComments(comments);
+						akpTaxonService.updateClass(akpClass);
+					}
+				});
+		add(commentsEditor);
+		commentsEditor.setReadOnly(!isAdmin || isFake);
+		Label classComments = new Label("classComments",
+				new PropertyModel<String>(akpClassModel, "comments"));
+		classComments.setEscapeModelStrings(false);
+		commentsEditor.add(classComments);
+
 		// Synonyms
 		InPlaceEditor synonymsEditor = new InPlaceEditor("classSynonymsEditor",
 				new EditorModel<String>() {
@@ -88,7 +112,8 @@ public class AkpClassesPage extends AkpPageTemplate {
 					}
 
 					@Override
-					public void saveObject(String synonyms) {
+					public void saveObject(AjaxRequestTarget target,
+							String synonyms) {
 						AkpClass akpClass = akpClassModel.getObject();
 						akpClass.setSynonyms(synonyms);
 						akpTaxonService.updateClass(akpClass);
@@ -126,8 +151,8 @@ public class AkpClassesPage extends AkpPageTemplate {
 				}
 			};
 			adminSection.add(downLink);
-			Link<AkpClassesPage> subClassLink = AkpClassesPage.link(
-					"subClassLink", subClass.getXid());
+			Link<AkpClassPage> subClassLink = AkpClassPage.link("subClassLink",
+					subClass.getXid());
 			Label subClassNameLabel = new Label("subClassName",
 					subClass.getName());
 			subClassNameLabel.setEscapeModelStrings(false);
@@ -161,10 +186,10 @@ public class AkpClassesPage extends AkpPageTemplate {
 				boolean ok = akpTaxonService.deleteClass(akpClass);
 				if (ok) {
 					if (parentClass == null)
-						setResponsePage(AkpClassesPage.class);
+						setResponsePage(AkpClassPage.class);
 					else
 						setResponsePage(
-								AkpClassesPage.class,
+								AkpClassPage.class,
 								new PageParameters().add("xid",
 										parentClass.getXid()));
 				}
@@ -195,20 +220,22 @@ public class AkpClassesPage extends AkpPageTemplate {
 	}
 
 	private void refreshPage() {
-		setResponsePage(AkpClassesPage.class,
-				new PageParameters().add("xid", classId));
+		if (classId == null)
+			setResponsePage(AkpClassPage.class);
+		else
+			setResponsePage(AkpClassPage.class,
+					new PageParameters().add("xid", classId));
 	}
 
-	public static Link<AkpClassesPage> link(String id, Integer xid) {
+	public static Link<AkpClassPage> link(String id, Integer xid) {
 		if (xid == null)
 			return link(id);
-		return new BookmarkablePageLink<AkpClassesPage>(id,
-				AkpClassesPage.class, new PageParameters().add("xid", xid));
+		return new BookmarkablePageLink<AkpClassPage>(id, AkpClassPage.class,
+				new PageParameters().add("xid", xid));
 	}
 
-	public static Link<AkpClassesPage> link(String id) {
-		return new BookmarkablePageLink<AkpClassesPage>(id,
-				AkpClassesPage.class);
+	public static Link<AkpClassPage> link(String id) {
+		return new BookmarkablePageLink<AkpClassPage>(id, AkpClassPage.class);
 	}
 
 }

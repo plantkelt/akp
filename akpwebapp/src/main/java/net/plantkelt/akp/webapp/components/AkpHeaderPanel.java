@@ -1,7 +1,7 @@
 package net.plantkelt.akp.webapp.components;
 
 import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.webapp.pages.AkpClassesPage;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -28,7 +28,7 @@ public class AkpHeaderPanel extends Panel {
 
 		// Links
 		BookmarkablePageLink<WebPage> classesLink = new BookmarkablePageLink<WebPage>(
-				"classesLink", AkpClassesPage.class);
+				"classesLink", AkpClassPage.class);
 		add(classesLink);
 
 		// No-User section

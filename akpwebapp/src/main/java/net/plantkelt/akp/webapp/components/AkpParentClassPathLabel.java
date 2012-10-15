@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
-import net.plantkelt.akp.webapp.pages.AkpClassesPage;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -31,7 +31,7 @@ public class AkpParentClassPathLabel extends Panel {
 			WebMarkupContainer item = new WebMarkupContainer(
 					classPathRepeat.newChildId());
 			classPathRepeat.add(item);
-			Link<AkpClassesPage> link = AkpClassesPage.link("classLink",
+			Link<AkpClassPage> link = AkpClassPage.link("classLink",
 					cls.getXid());
 			item.add(link);
 			Label classNameLabel = new Label("className", cls.getHtmlName());

@@ -9,6 +9,9 @@
 				<span wicket:id="className"></span>
 			</h1>
 		</div>
+		<div wicket:id="classCommentsEditor">
+			<span wicket:id="classComments" />
+		</div>
 		<div wicket:id="classSynonymsEditor">
 			<span wicket:id="classSynonyms" />
 		</div>
@@ -16,9 +19,9 @@
 			<wicket:message key="class.subclasses.header" />
 		</h2>
 		<ul>
-			<li wicket:id="subClasses"><span wicket:id="adminSection">(<a
-					wicket:id="downLink">+</a>)
-			</span><a wicket:id="subClassLink"><span wicket:id="subClassName" /></a></li>
+			<li wicket:id="subClasses"><span wicket:id="adminSection"><a
+					class="down" wicket:id="downLink"></a> </span><a wicket:id="subClassLink"><span
+					wicket:id="subClassName" /></a></li>
 		</ul>
 		<form wicket:id="form">
 			<button type="submit" wicket:id="addSubClassButton">
