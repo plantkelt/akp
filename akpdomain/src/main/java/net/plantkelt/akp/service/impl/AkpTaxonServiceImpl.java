@@ -77,6 +77,24 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		getSession().saveOrUpdate(akpClass);
 	}
 
+	@Override
+	public boolean canDeleteClass(AkpClass akpClass) {
+		if (akpClass.getChildren().size() > 0)
+			return false;
+		if (akpClass.getPlants().size() > 0)
+			return false;
+		return true;
+	}
+
+	@Transactional
+	@Override
+	public boolean deleteClass(AkpClass akpClass) {
+		if (!canDeleteClass(akpClass))
+			return false;
+		getSession().delete(akpClass);
+		return true;
+	}
+
 	@Transactional
 	@Override
 	public AkpPlant getPlant(Integer xid) {

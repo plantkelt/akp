@@ -1,0 +1,15 @@
+<wicket:border xmlns:wicket="http://wicket.apache.org">
+	<span class="inlineeditor-view" wicket:id="viewPanel"><wicket:body />
+		<a class="edit" wicket:id="editLink"></a> </span>
+	<form class="inlineeditor-form" wicket:id="editForm">
+		<div class="oneline">
+			<button wicket:id="saveButton">
+				<wicket:message key="save.button" />
+			</button>
+			<button wicket:id="cancelButton">
+				<wicket:message key="cancel.button" />
+			</button>
+			<span><input wicket:id="textInput" type="text" /></span>
+		</div>
+	</form>
+</wicket:border>

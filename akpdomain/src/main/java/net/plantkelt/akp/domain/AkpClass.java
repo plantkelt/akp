@@ -40,7 +40,7 @@ public class AkpClass {
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.comments = comments == null ? "" : comments;
 	}
 
 	public AkpClass getParent() {
@@ -74,7 +74,7 @@ public class AkpClass {
 	}
 
 	public void setSynonyms(String synonyms) {
-		this.synonyms = synonyms;
+		this.synonyms = synonyms == null ? "" : synonyms;
 	}
 
 	public int getOrder() {

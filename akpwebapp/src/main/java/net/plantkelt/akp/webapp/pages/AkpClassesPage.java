@@ -4,18 +4,23 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -31,6 +36,8 @@ public class AkpClassesPage extends AkpPageTemplate {
 	private IModel<AkpClass> akpClassModel;
 
 	public AkpClassesPage(PageParameters parameters) {
+
+		// Load data
 		classId = parameters.get("xid").toOptionalInteger();
 		akpClassModel = new LoadableDetachableModel<AkpClass>() {
 			private static final long serialVersionUID = 1L;
@@ -41,15 +48,59 @@ public class AkpClassesPage extends AkpPageTemplate {
 			}
 		};
 		AkpClass akpClass = akpClassModel.getObject();
-		boolean isAdmin = AkpWicketSession.get().getAkpUser().isAdmin();
+		AkpUser user = AkpWicketSession.get().getAkpUser();
+		boolean isFake = akpClass.getXid() == null;
+		boolean isAdmin = user != null && user.isAdmin();
+
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
 				"parentPath", akpClass.getParent());
 		add(parentPathLabel);
+
 		// Class name
-		Label classNameLabel = new Label("className", akpClass.getHtmlName());
+		InPlaceEditor classNameEditor = new InPlaceEditor("classNameEditor",
+				new EditorModel<String>() {
+					@Override
+					public String getObject() {
+						return akpClassModel.getObject().getName();
+					}
+
+					@Override
+					public void saveObject(String name) {
+						AkpClass akpClass = akpClassModel.getObject();
+						akpClass.setName(name);
+						akpTaxonService.updateClass(akpClass);
+					}
+				});
+		add(classNameEditor);
+		classNameEditor.setReadOnly(!isAdmin || isFake);
+		Label classNameLabel = new Label("className",
+				new PropertyModel<String>(akpClassModel, "htmlName"));
 		classNameLabel.setEscapeModelStrings(false);
-		add(classNameLabel);
+		classNameEditor.add(classNameLabel);
+
+		// Synonyms
+		InPlaceEditor synonymsEditor = new InPlaceEditor("classSynonymsEditor",
+				new EditorModel<String>() {
+					@Override
+					public String getObject() {
+						return akpClassModel.getObject().getSynonyms();
+					}
+
+					@Override
+					public void saveObject(String synonyms) {
+						AkpClass akpClass = akpClassModel.getObject();
+						akpClass.setSynonyms(synonyms);
+						akpTaxonService.updateClass(akpClass);
+					}
+				});
+		add(synonymsEditor);
+		synonymsEditor.setReadOnly(!isAdmin || isFake);
+		Label classSynonyms = new Label("classSynonyms",
+				new PropertyModel<String>(akpClassModel, "synonyms"));
+		classSynonyms.setEscapeModelStrings(false);
+		synonymsEditor.add(classSynonyms);
+
 		// Sub-classes
 		RepeatingView subClassesRepeat = new RepeatingView("subClasses");
 		add(subClassesRepeat);
@@ -84,8 +135,11 @@ public class AkpClassesPage extends AkpPageTemplate {
 			item.add(subClassLink);
 			i++;
 		}
-		// Add a class form
-		Form<Void> addClassForm = new Form<Void>("addClassForm") {
+
+		// Add a sub-class button
+		Form<Void> form = new Form<Void>("form");
+		add(form);
+		Button addSubClassButton = new Button("addSubClassButton") {
 			private static final long serialVersionUID = 1L;
 
 			public void onSubmit() {
@@ -93,9 +147,36 @@ public class AkpClassesPage extends AkpPageTemplate {
 				refreshPage();
 			}
 		};
+		// We need to be admin to add, we can't add a new root class
+		addSubClassButton.setVisible(isAdmin && akpClass.getXid() != null);
+		form.add(addSubClassButton);
+
+		// Remove class button
+		Button removeClassButton = new Button("removeClassButton") {
+			private static final long serialVersionUID = 1L;
+
+			public void onSubmit() {
+				AkpClass akpClass = akpClassModel.getObject();
+				AkpClass parentClass = akpClass.getParent();
+				boolean ok = akpTaxonService.deleteClass(akpClass);
+				if (ok) {
+					if (parentClass == null)
+						setResponsePage(AkpClassesPage.class);
+					else
+						setResponsePage(
+								AkpClassesPage.class,
+								new PageParameters().add("xid",
+										parentClass.getXid()));
+				}
+			}
+		};
+		// We need to be admin to remove, we can't remove a non-empty class
+		removeClassButton.setVisible(isAdmin
+				&& akpTaxonService.canDeleteClass(akpClass));
+		form.add(removeClassButton);
 		// We can't add a new root class
-		addClassForm.setVisible(isAdmin && akpClass.getXid() != null);
-		add(addClassForm);
+		addSubClassButton.setVisible(isAdmin && akpClass.getXid() != null);
+
 		// Owned-plants
 		RepeatingView ownedPlantsRepeat = new RepeatingView("ownedPlants");
 		add(ownedPlantsRepeat);

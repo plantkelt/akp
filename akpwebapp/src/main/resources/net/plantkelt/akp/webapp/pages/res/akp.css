@@ -1,6 +1,4 @@
-
 /* === Standard elements === */
-
 body,table,select,input,button {
 	font-family: "Times New Roman", Times, "serif";
 	font-size: 12pt;
@@ -37,28 +35,24 @@ h1,h2,h3,h4 {
 	border: none;
 	margin: 3px;
 	padding: 3px;
-	font-weight: bold;
+	font-weight: normal;
 	text-align: left;
 }
 
 h1 {
-	font-size: 20pt;
-	color: #222222;
+	font-size: 16pt;
 }
 
 h2 {
-	font-size: 16pt;
-	color: #333333;
+	font-size: 14pt;
 }
 
 h3 {
-	font-size: 14pt;
-	color: #444444;
+	font-size: 13pt;
 }
 
 h4 {
 	font-size: 12pt;
-	color: #555555;
 }
 
 p {
@@ -87,8 +81,34 @@ a img {
 	border: none;
 }
 
-/* === Header === */
+/* === Components === */
+form.inlineeditor-form {
+	display: inline;
+}
 
+form.inlineeditor-form div.oneline > span {
+	display: block;
+	overflow: hidden;
+	padding-right: 10px;
+}
+
+form.inlineeditor-form div.oneline input[type=text] {
+	width: 100%;
+}
+
+form.inlineeditor-form div.oneline button {
+	float: right;
+}
+
+/* === Icons links === */
+a.edit {
+	background-image: url("16x16/edit.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	height: 16px;
+}
+
+/* === Header === */
 div.header {
 	background-color: #eeeeee;
 	border-bottom: 1px solid #888888;
@@ -105,6 +125,12 @@ div.header div.logo {
 	background-position: 3px 0px;
 }
 
+div.header div.links {
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
 div.header div.user {
 	float: right;
 	margin-top: 5px;
@@ -112,7 +138,6 @@ div.header div.user {
 }
 
 /* === Footer === */
-
 div.footer {
 	margin-top: 20px;
 	border-top: 1px solid #888888;

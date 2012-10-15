@@ -4,9 +4,14 @@
 <body>
 	<wicket:extend>
 		<span wicket:id="parentPath" />
-		<h1>
-			<span wicket:id="className"></span>
-		</h1>
+		<div wicket:id="classNameEditor">
+			<h1>
+				<span wicket:id="className"></span>
+			</h1>
+		</div>
+		<div wicket:id="classSynonymsEditor">
+			<span wicket:id="classSynonyms" />
+		</div>
 		<h2>
 			<wicket:message key="class.subclasses.header" />
 		</h2>
@@ -15,9 +20,12 @@
 					wicket:id="downLink">+</a>)
 			</span><a wicket:id="subClassLink"><span wicket:id="subClassName" /></a></li>
 		</ul>
-		<form wicket:id="addClassForm">
-			<button type="submit">
-				<wicket:message key="add.class.button" />
+		<form wicket:id="form">
+			<button type="submit" wicket:id="addSubClassButton">
+				<wicket:message key="add.subclass.button" />
+			</button>
+			<button type="submit" wicket:id="removeClassButton">
+				<wicket:message key="remove.class.button" />
 			</button>
 		</form>
 		<h2>

@@ -13,6 +13,10 @@ public interface AkpTaxonService {
 			int childIndexToMoveDown);
 
 	public void updateClass(AkpClass akpClass);
+	
+	public boolean canDeleteClass(AkpClass akpClass);
+	
+	public boolean deleteClass(AkpClass akpClass);
 
 	public AkpPlant getPlant(Integer xid);
 	
