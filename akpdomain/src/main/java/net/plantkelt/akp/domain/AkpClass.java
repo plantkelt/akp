@@ -9,7 +9,7 @@ public class AkpClass {
 	private String name;
 	private String comments;
 	private AkpClass parent;
-	private List<AkpClass> childrens;
+	private List<AkpClass> children;
 	private String synonyms;
 	private int order;
 	private int level;
@@ -61,12 +61,12 @@ public class AkpClass {
 		this.parent = parent;
 	}
 
-	public List<AkpClass> getChildrens() {
-		return childrens;
+	public List<AkpClass> getChildren() {
+		return children;
 	}
 
-	public void setChildrens(List<AkpClass> childrens) {
-		this.childrens = childrens;
+	public void setChildren(List<AkpClass> children) {
+		this.children = children;
 	}
 
 	public String getSynonyms() {

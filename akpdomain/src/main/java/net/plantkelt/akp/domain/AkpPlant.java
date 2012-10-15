@@ -3,13 +3,16 @@ package net.plantkelt.akp.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedSet;
 
 public class AkpPlant implements Comparable<AkpPlant> {
 
 	private Integer xid;
 	private AkpClass akpClass;
 	private String comments;
+	private SortedSet<AkpPlantTag> tags;
 	private List<AkpTaxon> taxons;
+	private List<AkpLexicalGroup> lexicalGroups;
 
 	private transient AkpTaxon mainName;
 	private transient List<AkpTaxon> synonyms;
@@ -38,6 +41,14 @@ public class AkpPlant implements Comparable<AkpPlant> {
 		this.comments = comments;
 	}
 
+	public SortedSet<AkpPlantTag> getTags() {
+		return tags;
+	}
+
+	public void setTags(SortedSet<AkpPlantTag> tags) {
+		this.tags = tags;
+	}
+
 	public synchronized List<AkpTaxon> getTaxons() {
 		return taxons;
 	}
@@ -58,6 +69,14 @@ public class AkpPlant implements Comparable<AkpPlant> {
 		if (synonyms == null)
 			updateTaxons();
 		return synonyms;
+	}
+
+	public List<AkpLexicalGroup> getLexicalGroups() {
+		return lexicalGroups;
+	}
+
+	public void setLexicalGroups(List<AkpLexicalGroup> lexicalGroups) {
+		this.lexicalGroups = lexicalGroups;
 	}
 
 	private void updateTaxons() {

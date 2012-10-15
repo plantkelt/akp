@@ -8,7 +8,6 @@ import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -21,7 +20,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
 public class AkpClassesPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
@@ -55,7 +53,7 @@ public class AkpClassesPage extends AkpPageTemplate {
 		// Sub-classes
 		RepeatingView subClassesRepeat = new RepeatingView("subClasses");
 		add(subClassesRepeat);
-		List<AkpClass> subClasses = akpClass.getChildrens();
+		List<AkpClass> subClasses = akpClass.getChildren();
 		int i = 0;
 		for (AkpClass subClass : subClasses) {
 			final int index = i;

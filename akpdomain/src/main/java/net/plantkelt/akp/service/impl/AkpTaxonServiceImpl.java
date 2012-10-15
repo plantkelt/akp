@@ -31,7 +31,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 					.createCriteria(AkpClass.class)
 					.add(Restrictions.isNull("parent")).list();
 			AkpClass rootClass = new AkpClass();
-			rootClass.setChildrens(rootClasses);
+			rootClass.setChildren(rootClasses);
 			rootClass.setName("/");
 			return rootClass;
 		} else {
@@ -44,7 +44,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	public void moveDownChildClass(AkpClass parentClass,
 			int childIndexToMoveDown) {
 		// TODO Use hibernate list-index
-		List<AkpClass> children = parentClass.getChildrens();
+		List<AkpClass> children = parentClass.getChildren();
 		if (childIndexToMoveDown >= children.size() - 1)
 			return;
 		AkpClass child1 = children.get(childIndexToMoveDown);
@@ -66,7 +66,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		newClass.setSynonyms("");
 		newClass.setLevel(parentClass.getLevel() + 1);
 		newClass.setParent(parentClass);
-		parentClass.getChildrens().add(newClass);
+		parentClass.getChildren().add(newClass);
 		getSession().save(newClass);
 		getSession().update(parentClass);
 	}

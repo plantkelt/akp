@@ -22,8 +22,8 @@
         </id>
         <property name="order" type="integer" column="ordre" />
         <property name="level" type="integer" column="niveau" />
-        <many-to-one name="parent" />
-        <bag name="childrens" lazy="true" table="classe" order-by="ordre" inverse="true">
+        <many-to-one name="parent" fetch="join" />
+        <bag name="children" lazy="true" table="classe" order-by="ordre" inverse="true">
             <key column="parent" />
             <one-to-many class="AkpClass" />
         </bag>
@@ -46,6 +46,23 @@
             <key column="plante" />
             <one-to-many class="AkpTaxon" />
         </bag>
+        <set name="tags" sort="natural" lazy="false" batch-size="100" table="plante_etiquette">
+            <key column="plante" />
+            <one-to-many class="AkpPlantTag" />
+        </set>
+        <bag name="lexicalGroups" lazy="false" batch-size="100" table="grplex2">
+            <key column="plante" />
+            <one-to-many class="AkpLexicalGroup" />
+        </bag>
+    </class>
+
+    <class name="AkpPlantTag" table="plante_etiquette">
+        <composite-id>
+            <key-property name="type" type="integer" column="etiquette" />
+            <key-many-to-one name="plant" class="AkpPlant" column="plante" />
+        </composite-id>
+        <property name="stringValue" type="string" column="valeur" not-null="true" />
+        <property name="intValue" type="integer" column="valeur2" not-null="true" />
     </class>
 
     <class name="AkpTaxon" table="taxon">
@@ -55,6 +72,50 @@
         <property name="name" type="string" column="nom" />
         <many-to-one name="plant" column="plante" />
         <property name="type" type="integer" column="synsan" />
+    </class>
+
+    <class name="AkpLangGroup" table="grplng">
+        <id name="xid" type="int">
+            <generator class="native" />
+        </id>
+        <property name="order" type="integer" column="ordre" />
+        <property name="code" type="string" column="code" />
+        <property name="name" type="string" column="nom" />
+        <bag name="langs" lazy="true" table="langue" order-by="ordre">
+            <key column="grplng" />
+            <one-to-many class="AkpLang" />
+        </bag>
+    </class>
+
+    <class name="AkpLang" table="langue">
+        <id name="xid" type="string" />
+        <property name="order" type="integer" column="ordre" />
+        <property name="name" type="string" column="nom" />
+        <property name="level" type="integer" column="niveau" />
+        <many-to-one name="langGroup" class="AkpLangGroup" column="grplng" not-null="true" lazy="false"
+            fetch="join" />
+    </class>
+
+    <class name="AkpLexicalGroup" table="grplex2">
+        <id name="xid" type="int">
+            <generator class="native" />
+        </id>
+        <property name="correct" type="integer" />
+        <many-to-one name="lang" class="AkpLang" column="langue" not-null="true" lazy="false" fetch="join" />
+        <bag name="vernacularNames" lazy="false" batch-size="100" table="verna2">
+            <key column="grplex2" />
+            <one-to-many class="AkpVernacularName" />
+        </bag>
+    </class>
+
+    <class name="AkpVernacularName" table="verna2">
+        <id name="xid" type="int">
+            <generator class="native" />
+        </id>
+        <property name="parentId" type="int" column="parent" />
+        <property name="name" type="string" column="nom" />
+        <property name="comment" type="string" column="commentaire" />
+        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" />
     </class>
 
     <class name="Node" table="node">
