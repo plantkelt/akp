@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.domain.Node;
 import net.plantkelt.akp.service.AkpTaxonService;
 
@@ -149,6 +150,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		ownerPlant.removeTaxon(taxon);
 		getSession().delete(taxon);
 		getSession().update(ownerPlant);
+	}
+
+	@Transactional
+	@Override
+	public void updateVernacularName(AkpVernacularName vernacularName) {
+		getSession().update(vernacularName);
 	}
 
 	private Session getSession() {

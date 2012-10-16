@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
-import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -34,8 +33,7 @@ public class AkpPlantTagsPanel extends Panel {
 	public AkpPlantTagsPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		AkpUser user = AkpWicketSession.get().getAkpUser();
-		final boolean isAdmin = user != null && user.isAdmin();
+		final boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		IModel<List<AkpPlantTag>> listModel = new LoadableDetachableModel<List<AkpPlantTag>>() {
 			private static final long serialVersionUID = 1L;

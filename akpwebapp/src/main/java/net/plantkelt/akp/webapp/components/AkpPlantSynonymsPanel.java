@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
-import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -30,8 +29,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 	public AkpPlantSynonymsPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		AkpUser user = AkpWicketSession.get().getAkpUser();
-		final boolean isAdmin = user != null && user.isAdmin();
+		final boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		IModel<List<AkpTaxon>> listModel = new PropertyModel<List<AkpTaxon>>(
 				plantModel, "synonyms");

@@ -3,15 +3,17 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<span wicket:id="parentPath" />
+		<div class="classPath" wicket:id="parentPath" />
+		<div class="tagsSection">
+			<h2>Tags</h2>
+			<div wicket:id="tagsPanel" />
+		</div>
 		<div wicket:id="headerPanel" />
 		<div wicket:id="synonymsPanel" />
-		<h2>Tags</h2>
-		<div wicket:id="tagsPanel" />
 		<h2>Verna</h2>
 
 		<div wicket:id="lexicalGroups">
-			<h3 wicket:id="langGroupName"></h3>
+			<h3 class="langGroup" wicket:id="langGroupName"></h3>
 			<div wicket:id="lexicalGroupPanel" />
 		</div>
 	</wicket:extend>

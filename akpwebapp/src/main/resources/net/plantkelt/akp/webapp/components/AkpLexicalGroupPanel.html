@@ -1,6 +1,13 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-	<span wicket:id="lexicalGroupValue"></span>
-	<ul>
-		<li wicket:id="vernaNames"><span wicket:id="vernaNameValue"></span></li>
-	</ul>
+	<div class="lexicalGroup">
+		<div class="langSection">
+			<h4 class="langCode" wicket:id="langCode"></h4>
+		</div>
+		<div class="vernaSection">
+			<div wicket:id="vernaListView">
+				<div wicket:id="vernaPanel"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
 </wicket:panel>

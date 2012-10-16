@@ -81,6 +81,10 @@ a img {
 	border: none;
 }
 
+div.clear {
+	clear: both;
+}
+
 /* === Components === */
 form.inlineeditor-form {
 	display: inline;
@@ -155,11 +159,11 @@ div.header {
 
 div.header div.logo {
 	width: 120px;
-	height: 24px;
+	height: 28px;
 	float: left;
 	background-image: url("plantkelt_logo_hz24.png");
 	background-repeat: no-repeat;
-	background-position: 3px 0px;
+	background-position: 4px 4px;
 }
 
 div.header div.links {
@@ -195,4 +199,55 @@ div.footer p#copyright {
 	float: right;
 	font-size: 10pt;
 	color: #888888;
+}
+
+/* === AKP === */
+h3.langGroup {
+	clear: both;
+}
+
+div.tagsSection {
+	float: right;
+	width: 20em;
+	margin-right: 5px;
+	margin-top: 5px;
+	background-color: #eeeeaa;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	border-radius: 8px;
+}
+
+div.classPath {
+	font-size: 10pt;
+}
+
+div.lexicalGroup {
+	background-color: #cccccc;
+	width: 100%;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+
+div.lexicalGroup div.langSection {
+	float: left;
+	width: 50px;
+}
+
+div.lexicalGroup div.langSection h4.langCode {
+	font-weight: bold;
+}
+
+div.lexicalGroup div.vernaSection {
+	margin-left: 50px;
+	overflow: hidden;
+	background-color: #eeeeee;
+	border-left: 1px solid gray;
+	padding: 4px;
+}
+
+div.lexicalGroup div.vernaSection div.childrenList {
+	margin-left: 2em;
 }

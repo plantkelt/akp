@@ -2,7 +2,6 @@ package net.plantkelt.akp.webapp.components;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
-import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -24,8 +23,7 @@ public class AkpPlantHeaderPanel extends Panel {
 	public AkpPlantHeaderPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		AkpUser user = AkpWicketSession.get().getAkpUser();
-		final boolean isAdmin = user != null && user.isAdmin();
+		final boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Main name
 		InPlaceEditor nameEditor = new InPlaceEditor("nameEditor",

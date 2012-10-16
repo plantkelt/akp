@@ -37,7 +37,13 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 			else
 				return new Roles("USER");
 		}
-		return null;
+		return new Roles();
+	}
+
+	public boolean isAdmin() {
+		if (getAkpUser() == null)
+			return false;
+		return getAkpUser().isAdmin();
 	}
 
 	@Override
@@ -50,4 +56,5 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	public AkpWicketApplication getAkpApplication() {
 		return (AkpWicketApplication) getApplication();
 	}
+
 }
