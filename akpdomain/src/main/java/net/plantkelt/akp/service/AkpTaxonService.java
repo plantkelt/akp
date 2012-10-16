@@ -1,6 +1,7 @@
 package net.plantkelt.akp.service;
 
 import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
@@ -30,7 +31,13 @@ public interface AkpTaxonService {
 
 	public void deleteTaxon(AkpTaxon taxon);
 
+	public void addRootVernacularName(AkpLexicalGroup lexicalGroup);
+
+	public void addChildVernacularName(AkpVernacularName parentName);
+
 	public void updateVernacularName(AkpVernacularName vernacularName);
+
+	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 
 	public void testNode();
 

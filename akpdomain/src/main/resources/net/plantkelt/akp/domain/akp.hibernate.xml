@@ -114,7 +114,7 @@
         </id>
         <property name="correct" type="integer" />
         <many-to-one name="lang" class="AkpLang" column="langue" not-null="true" lazy="false" fetch="join" />
-        <bag name="vernacularNames" lazy="false" batch-size="100" table="verna2">
+        <bag name="vernacularNames" lazy="false" batch-size="100" table="verna2" inverse="true">
             <key column="grplex2" />
             <one-to-many class="AkpVernacularName" />
         </bag>
@@ -127,7 +127,7 @@
         <property name="parentId" type="int" column="parent" />
         <property name="name" type="string" column="nom" />
         <property name="comment" type="string" column="commentaire" />
-        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" />
+        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true" />
         <bag name="bibs" lazy="false" batch-size="100" table="bib_verna2">
             <key column="verna2" />
             <many-to-many column="bib" class="AkpBib" />

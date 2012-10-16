@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
@@ -154,8 +155,48 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Transactional
 	@Override
+	public void addRootVernacularName(AkpLexicalGroup lexicalGroup) {
+		AkpVernacularName name = new AkpVernacularName();
+		name.setLexicalGroup(lexicalGroup);
+		name.setName("Zzz");
+		name.setComment("");
+		name.setParentId(0);
+		lexicalGroup.getVernacularNames().add(name);
+		lexicalGroup.refreshVernacularNamesTree();
+		getSession().save(name);
+	}
+
+	@Transactional
+	@Override
+	public void addChildVernacularName(AkpVernacularName parentName) {
+		AkpLexicalGroup lexicalGroup = parentName.getLexicalGroup();
+		AkpVernacularName name = new AkpVernacularName();
+		name.setLexicalGroup(lexicalGroup);
+		name.setName("Zzz");
+		name.setComment("");
+		name.setParentId(parentName.getXid());
+		lexicalGroup.getVernacularNames().add(name);
+		lexicalGroup.refreshVernacularNamesTree();
+		getSession().save(name);
+	}
+
+	@Transactional
+	@Override
 	public void updateVernacularName(AkpVernacularName vernacularName) {
+		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
 		getSession().update(vernacularName);
+	}
+
+	@Transactional
+	@Override
+	public boolean deleteVernacularName(AkpVernacularName vernacularName) {
+		if (vernacularName.getChildren().size() > 0)
+			return false;
+		vernacularName.getLexicalGroup().getVernacularNames()
+				.remove(vernacularName);
+		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
+		getSession().delete(vernacularName);
+		return true;
 	}
 
 	private Session getSession() {

@@ -9,7 +9,9 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -45,13 +47,12 @@ public class AkpVernacularNamePanel extends Panel {
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
 						if (name == null || name.length() == 0) {
-							// TODO delete verna
+							akpTaxonService.deleteVernacularName(vernaName);
 						} else {
 							vernaName.setName(name);
-							vernaName.getLexicalGroup().refreshVernacularNamesTree();
 							akpTaxonService.updateVernacularName(vernaName);
-							target.add(refreshComponent);
 						}
+						target.add(refreshComponent);
 					}
 				});
 		add(vernaEditor);
@@ -79,7 +80,7 @@ public class AkpVernacularNamePanel extends Panel {
 		};
 		add(bibListView);
 
-		// TODO Add children recursive list
+		// Children recursive list
 		IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(
 				vernaNameModel, "children");
 		ListView<AkpVernacularName> childrenListView = new ListView<AkpVernacularName>(
@@ -95,6 +96,21 @@ public class AkpVernacularNamePanel extends Panel {
 			}
 		};
 		add(childrenListView);
+
+		// Add child name button
+		Form<Void> form = new Form<Void>("form");
+		form.add(new AjaxSubmitLink("addChildButton") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				akpTaxonService.addChildVernacularName(vernaNameModel
+						.getObject());
+				target.add(AkpVernacularNamePanel.this);
+			}
+		});
+		add(form);
+		form.setVisible(isAdmin);
 
 		setOutputMarkupId(true);
 	}

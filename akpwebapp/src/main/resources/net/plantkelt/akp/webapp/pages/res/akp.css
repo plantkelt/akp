@@ -86,21 +86,21 @@ div.clear {
 }
 
 /* === Components === */
-form.inlineeditor-form {
+form.inlineeditor {
 	display: inline;
 }
 
-form.inlineeditor-form div.oneline>span {
+form.inlineeditor div.oneline>span {
 	display: block;
 	overflow: hidden;
 	padding-right: 10px;
 }
 
-form.inlineeditor-form div.oneline input[type=text] {
+form.inlineeditor div.oneline input[type=text] {
 	width: 100%;
 }
 
-form.inlineeditor-form div.oneline button {
+form.inlineeditor div.oneline button {
 	float: right;
 }
 
@@ -250,4 +250,26 @@ div.lexicalGroup div.vernaSection {
 
 div.lexicalGroup div.vernaSection div.childrenList {
 	margin-left: 2em;
+}
+
+div.lexicalGroup div.vernaSection form.addForm {
+	display: inline;
+}
+
+div.lexicalGroup div.vernaSection form.addForm button {
+	font-size: 8pt;
+}
+
+span.bibRef {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+	background-color: #555555;
+	color: white;
+	font-family: Helvetica, Arial, "sans-serif";
+	font-size: 8pt;
+	font-weight: bold;
+	padding-left: 4px;
+	padding-right: 4px;
 }

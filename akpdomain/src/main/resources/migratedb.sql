@@ -6,3 +6,6 @@ update classe set parent=null where parent=0;
 delete from taxon where verna2!=0;
 alter table taxon drop column verna2;
 
+-- Add foreign key constraints
+alter table bib_verna2 add foreign key (verna2) references verna2 (xid);
+alter table bib_verna2 add foreign key (bib) references bib (xid);
