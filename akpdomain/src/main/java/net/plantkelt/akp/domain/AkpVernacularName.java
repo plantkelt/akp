@@ -13,6 +13,7 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 	private String comments;
 	private AkpLexicalGroup lexicalGroup;
 	private List<AkpBib> bibs;
+	private List<AkpPlant> plantRefs;
 
 	private static Collator defaultCollator = Collator.getInstance();
 
@@ -78,6 +79,14 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 
 	public void setBibs(List<AkpBib> bibs) {
 		this.bibs = bibs;
+	}
+
+	public List<AkpPlant> getPlantRefs() {
+		return plantRefs;
+	}
+
+	public void setPlantRefs(List<AkpPlant> plantRefs) {
+		this.plantRefs = plantRefs;
 	}
 
 	@Override

@@ -25,6 +25,8 @@ public interface AkpTaxonService {
 	public boolean deleteClass(AkpClass akpClass);
 
 	public AkpPlant getPlant(Integer xid);
+	
+	public List<AkpPlant> searchPlantFromName(String name);
 
 	public void updatePlant(AkpPlant plant);
 
@@ -44,7 +46,7 @@ public interface AkpTaxonService {
 
 	public AkpBib getBib(String xid);
 	
-	public List<String> getBibIdsStartingWith(String fill);
+	public List<String> searchBibFromId(String id);
 	
 	public void testNode();
 

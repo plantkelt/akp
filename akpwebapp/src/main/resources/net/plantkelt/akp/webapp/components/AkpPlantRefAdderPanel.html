@@ -1,10 +1,9 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-	<span class="bibAdder" wicket:id="openSection"><button
-			wicket:id="newLink">
-			<wicket:message key="add.bib.button" />
-		</button></span>
-	<form class="bibAdder" wicket:id="form">
-		<input type="text" size="10" wicket:id="bibSelect"></input>
+	<span class="plantRefAdder" wicket:id="openSection">
+		<button wicket:id="newLink"><wicket:message key="add.ref.button"/></button>
+	</span>
+	<form class="plantRefAdder" wicket:id="form">
+		<input type="text" size="80" wicket:id="plantRefSelect"></input>
 		<button type="submit" wicket:id="addButton">
 			<wicket:message key="add.button" />
 		</button>

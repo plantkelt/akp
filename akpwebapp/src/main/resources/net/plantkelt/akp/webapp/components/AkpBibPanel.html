@@ -1,5 +1,10 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-	<span class="bib"> <span wicket:id="bibId"></span> <a
-		class="delete-small" wicket:id="deleteLink">&nbsp;</a>
-	</span>
+	<a class="delete-small" wicket:id="deleteLink">&nbsp;</a>
+	<a wicket:id="bibLink" class="bibPopup"> <span wicket:id="bibId"></span>
+		<span class="moreInfo">
+			<h4 wicket:id="bibTitle"></h4>
+			<p class="author" wicket:id="bibAuthor"></p>
+			<p class="isbn" wicket:id="bibISBN"></p>
+		</span>
+	</a>
 </wicket:panel>

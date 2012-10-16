@@ -122,6 +122,18 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpPlant> searchPlantFromName(String name) {
+		return (List<AkpPlant>) getSession()
+				.createCriteria(AkpPlant.class)
+				.createCriteria("taxons")
+				.add(Restrictions.and(
+						Restrictions.eq("type", AkpTaxon.TYPE_MAIN),
+						Restrictions.like("name", "%" + name + "%"))).list();
+	}
+
 	@Transactional
 	@Override
 	public void updatePlant(AkpPlant plant) {
@@ -210,9 +222,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<String> getBibIdsStartingWith(String fill) {
+	public List<String> searchBibFromId(String id) {
 		return (List<String>) getSession().createCriteria(AkpBib.class)
-				.add(Restrictions.like("xid", fill + "%"))
+				.add(Restrictions.like("xid", "%" + id + "%"))
 				.setProjection(Projections.property("xid")).list();
 	}
 

@@ -1,15 +1,13 @@
 package net.plantkelt.akp.webapp.components;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -24,25 +22,23 @@ import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 
-public class AkpBibAdderPanel extends Panel {
+public class AkpPlantRefAdderPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private AkpTaxonService akpTaxonService;
-	@Inject
-	private AkpLoginService akpLoginService;
 
 	private WebMarkupContainer openSection;
 	private Form<Void> form;
-	private IModel<String> bibEntryModel;
+	private IModel<String> plantRefEntryModel;
 
-	public AkpBibAdderPanel(String id,
+	public AkpPlantRefAdderPanel(String id,
 			final IModel<AkpVernacularName> vernaNameModel,
 			final Component refreshComponent) {
 		super(id);
 
-		bibEntryModel = new Model<String>("");
+		plantRefEntryModel = new Model<String>("");
 
 		// Open section
 		openSection = new WebMarkupContainer("openSection");
@@ -56,8 +52,6 @@ public class AkpBibAdderPanel extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				openSection.setVisible(false);
 				form.setVisible(true);
-				AkpUser user = AkpWicketSession.get().getAkpUser();
-				bibEntryModel.setObject(user == null ? "" : user.getLastbib());
 				target.add(form, openSection);
 			}
 		};
@@ -68,37 +62,46 @@ public class AkpBibAdderPanel extends Panel {
 		add(form);
 		form.setOutputMarkupId(true);
 		form.setOutputMarkupPlaceholderTag(true);
-		AutoCompleteTextField<String> bibSelect = new AutoCompleteTextField<String>(
-				"bibSelect", bibEntryModel) {
+		AutoCompleteTextField<String> plantRefSelect = new AutoCompleteTextField<String>(
+				"plantRefSelect", plantRefEntryModel) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected Iterator<String> getChoices(String fill) {
-				if (fill.length() <= 2)
+				if (fill.length() <= 4)
 					return null;
-				List<String> bibEntries = akpTaxonService.searchBibFromId(fill);
-				Collections.sort(bibEntries);
-				return bibEntries.iterator();
+				List<AkpPlant> plants = akpTaxonService
+						.searchPlantFromName(fill);
+				List<String> retval = new ArrayList<String>(plants.size());
+				for (AkpPlant plant : plants)
+					retval.add(plant.getXid() + " - "
+							+ plant.getMainName().getTextName());
+				Collections.sort(retval);
+				return retval.iterator();
 			}
 		};
-		form.add(bibSelect);
+		form.add(plantRefSelect);
 		form.add(new AjaxSubmitLink("addButton") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				AkpBib bib = akpTaxonService.getBib(bibEntryModel.getObject());
-				AkpVernacularName vernaName = vernaNameModel.getObject();
-				if (bib != null && !vernaName.getBibs().contains(bib)) {
-					vernaName.getBibs().add(bib);
-					akpTaxonService.updateVernacularName(vernaName);
-					AkpUser user = AkpWicketSession.get().getAkpUser();
-					if (user != null) {
-						user.setLastbib(bib.getXid());
-						akpLoginService.updateUser(user);
+				String plantName = plantRefEntryModel.getObject();
+				if (plantName.matches("^[0-9]+ - .*")) {
+					String xidStr = plantName.substring(0,
+							plantName.indexOf(" - "));
+					int xid = Integer.parseInt(xidStr);
+					AkpPlant plant = akpTaxonService.getPlant(xid);
+					if (plant != null) {
+						AkpVernacularName vernaName = vernaNameModel
+								.getObject();
+						if (!vernaName.getPlantRefs().contains(plant)) {
+							vernaName.getPlantRefs().add(plant);
+							akpTaxonService.updateVernacularName(vernaName);
+						}
 					}
 				}
-				bibEntryModel.setObject("");
+				plantRefEntryModel.setObject(null);
 				target.add(refreshComponent);
 			}
 		});
@@ -107,7 +110,7 @@ public class AkpBibAdderPanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				bibEntryModel.setObject("");
+				plantRefEntryModel.setObject(null);
 				openSection.setVisible(true);
 				form.setVisible(false);
 				target.add(form, openSection);

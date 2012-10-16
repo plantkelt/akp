@@ -107,23 +107,6 @@ form.inlineeditor div.oneline button {
 	float: right;
 }
 
-span.bibAdder {
-	margin-left: 2px;
-}
-
-form.bibAdder {
-	margin-left: 2px;
-	display: inline;
-}
-
-form.bibAdder input {
-	font-size: 10pt;
-}
-
-span.vernaComment {
-	margin-left: 10px;
-}
-
 /* === Wicket autocomplete === */
 div.wicket-aa {
 	font-size: 10pt;
@@ -311,7 +294,9 @@ div.lexicalGroup div.vernaSection {
 }
 
 div.lexicalGroup div.vernaSection div.childrenList {
-	margin-left: 2em;
+	margin-left: 1.5em;
+	padding-left: 4px;
+	border-left: 1px #888888 dotted;
 }
 
 div.lexicalGroup div.vernaSection form.addForm {
@@ -334,6 +319,97 @@ span.bibRef {
 	padding-left: 2px;
 	padding-right: 2px;
 	margin-right: 2px;
+}
+
+span.bibRef:hover {
+	background-color: white;
+	color: black;
+}
+
+span.bibRef a {
+	color: white;
+}
+
+span.bibRef a:hover {
+	color: black;
+}
+
+a.bibPopup {
+	position: relative;
+}
+
+a.bibPopup:hover {
+	background: none;
+	z-index: 50;
+}
+
+a.bibPopup span.moreInfo {
+	display: none;
+}
+
+span.moreInfo p.isbn {
+	font-size: 12pt;
+	font-family: monospace;
+	font-weight: bold;
+}
+
+a.bibPopup:hover span.moreInfo {
+	display: block;
+	position: absolute;
+	top: -10px;
+	left: 40px;
+	width: 400px;
+	background: #eeeeaa;
+	padding: 5px;
+	z-index: 51;
+}
+
+span.plantRef {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+	background-color: #eeeeaa;
+	font-size: 10pt;
+	max-width: 20em;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 2px;
+	padding-right: 2px;
+	margin-right: 2px;
+	padding-left: 2px;
+}
+
+span.plantRef:hover {
+	background-color: #555533;
+	color: white;
+}
+
+span.plantRef a:hover {
+	color: white;
+}
+
+span.bibAdder {
+	margin-left: 2px;
+}
+
+form.bibAdder {
+	margin-left: 2px;
+	display: inline;
+}
+
+form.bibAdder input {
+	font-size: 10pt;
+}
+
+span.vernaComment {
+	margin-left: 10px;
+}
+
+form.plantRefAdder input {
+	font-size: 10pt;
 }
 
 .tag {

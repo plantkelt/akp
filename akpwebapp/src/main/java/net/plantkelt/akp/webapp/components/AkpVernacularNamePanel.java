@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.components;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -88,8 +89,14 @@ public class AkpVernacularNamePanel extends Panel {
 		add(bibAdder);
 		bibAdder.setVisible(isAdmin);
 
+		// Plant ref adder
+		AkpPlantRefAdderPanel plantRefAdder = new AkpPlantRefAdderPanel(
+				"plantRefAdder", vernaNameModel, this);
+		add(plantRefAdder);
+		plantRefAdder.setVisible(isAdmin);
+
 		// Children recursive list
-		IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(
+		final IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(
 				vernaNameModel, "children");
 		ListView<AkpVernacularName> childrenListView = new ListView<AkpVernacularName>(
 				"childrenList", childrenNamesModel) {
@@ -145,6 +152,23 @@ public class AkpVernacularNamePanel extends Panel {
 				new PropertyModel<String>(vernaNameModel, "comments"));
 		commentsLabel.setEscapeModelStrings(false);
 		commentsEditor.add(commentsLabel);
+
+		// Plant refs
+		IModel<List<AkpPlant>> plantRefsModel = new PropertyModel<List<AkpPlant>>(
+				vernaNameModel, "plantRefs");
+		ListView<AkpPlant> plantRefsList = new ListView<AkpPlant>(
+				"plantRefsList", plantRefsModel) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem<AkpPlant> item) {
+				AkpPlantRefPanel plantRefPanel = new AkpPlantRefPanel(
+						"plantRef", item.getModel(), vernaNameModel,
+						AkpVernacularNamePanel.this);
+				item.add(plantRefPanel);
+			}
+		};
+		add(plantRefsList);
 
 		setOutputMarkupId(true);
 	}

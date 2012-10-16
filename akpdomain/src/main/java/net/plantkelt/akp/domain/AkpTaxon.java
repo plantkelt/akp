@@ -34,7 +34,11 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public String getHtmlName() {
 		// TODO compute and cache the returned value
-		return name;
+		return name.replace("<a>", "").replace("</a>", "");
+	}
+
+	public String getTextName() {
+		return name.replaceAll("<.*?>", "");
 	}
 
 	public synchronized void setName(String name) {
