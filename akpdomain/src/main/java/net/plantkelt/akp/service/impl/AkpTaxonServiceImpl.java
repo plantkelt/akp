@@ -161,7 +161,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
 		name.setName("Zzz");
-		name.setComment("");
+		name.setComments("");
 		name.setParentId(0);
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
@@ -175,7 +175,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
 		name.setName("Zzz");
-		name.setComment("");
+		name.setComments("");
 		name.setParentId(parentName.getXid());
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();

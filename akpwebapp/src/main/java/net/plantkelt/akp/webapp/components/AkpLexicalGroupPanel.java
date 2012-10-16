@@ -33,9 +33,13 @@ public class AkpLexicalGroupPanel extends Panel {
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 		AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
 
-		// Lang code
+		// Lang ID / correct code
 		Label langCode = new Label("langCode", lexicalGroup.getLang().getXid());
 		add(langCode);
+		Label correctCode = new Label("correctCode",
+				lexicalGroup.getCorrectDisplayCode());
+		correctCode.setVisible(lexicalGroup.getCorrect() != 0);
+		add(correctCode);
 
 		// List of root names
 		IModel<List<AkpVernacularName>> vernaListModel = new PropertyModel<List<AkpVernacularName>>(

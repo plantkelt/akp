@@ -10,7 +10,7 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 	private AkpVernacularName parent;
 	private List<AkpVernacularName> children;
 	private String name;
-	private String comment;
+	private String comments;
 	private AkpLexicalGroup lexicalGroup;
 	private List<AkpBib> bibs;
 
@@ -56,12 +56,12 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 		this.name = name;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getComments() {
+		return comments;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setComments(String comments) {
+		this.comments = comments == null ? "" : comments;
 	}
 
 	public AkpLexicalGroup getLexicalGroup() {

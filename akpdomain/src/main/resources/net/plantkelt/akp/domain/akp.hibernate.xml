@@ -126,7 +126,7 @@
         </id>
         <property name="parentId" type="int" column="parent" />
         <property name="name" type="string" column="nom" />
-        <property name="comment" type="string" column="commentaire" />
+        <property name="comments" type="string" column="commentaire" />
         <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true" />
         <bag name="bibs" lazy="false" batch-size="100" table="bib_verna2">
             <key column="verna2" />

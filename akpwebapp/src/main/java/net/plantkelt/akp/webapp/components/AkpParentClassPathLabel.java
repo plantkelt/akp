@@ -25,18 +25,23 @@ public class AkpParentClassPathLabel extends Panel {
 			akpClass = akpClass.getParent();
 		}
 		AkpClass rootClass = new AkpClass();
-		rootClass.setName("...");
+		rootClass.setName("●");
 		parentList.add(0, rootClass);
+		boolean first = true;
 		for (AkpClass cls : parentList) {
 			WebMarkupContainer item = new WebMarkupContainer(
 					classPathRepeat.newChildId());
 			classPathRepeat.add(item);
+			Label classSeparatorLabel = new Label("separator", first ? ""
+					: " → ");
+			item.add(classSeparatorLabel);
 			Link<AkpClassPage> link = AkpClassPage.link("classLink",
 					cls.getXid());
 			item.add(link);
 			Label classNameLabel = new Label("className", cls.getHtmlName());
 			classNameLabel.setEscapeModelStrings(false);
 			link.add(classNameLabel);
+			first = false;
 		}
 		add(classPathRepeat);
 	}

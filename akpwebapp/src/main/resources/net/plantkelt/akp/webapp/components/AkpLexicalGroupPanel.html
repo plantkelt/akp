@@ -1,7 +1,10 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
 	<div class="lexicalGroup">
 		<div class="langSection">
-			<h4 class="langCode" wicket:id="langCode"></h4>
+			<h4>
+				<span class="langCode" wicket:id="langCode"></span><br /> <span
+					class="correctCode" wicket:id="correctCode"></span>
+			</h4>
 		</div>
 		<div class="vernaSection">
 			<div wicket:id="vernaListView">
@@ -9,11 +12,10 @@
 			</div>
 			<form wicket:id="form">
 				<button wicket:id="addRootNameButton" type="submit">
-					<wicket:message key="add.root.verna.button"/>
+					<wicket:message key="add.root.verna.button" />
 				</button>
 			</form>
 		</div>
-		<div class="clear">
-		</div>
+		<div class="clear"></div>
 	</div>
 </wicket:panel>

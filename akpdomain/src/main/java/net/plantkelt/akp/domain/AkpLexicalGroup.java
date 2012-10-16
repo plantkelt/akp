@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class AkpLexicalGroup {
 
+	private static final String[] CORRECT_DISPLAY_CODES = { "=", "≈", "≠", "?" };
+
 	private int xid;
 	private int correct;
 	private AkpLang lang;
@@ -24,6 +26,13 @@ public class AkpLexicalGroup {
 
 	public int getCorrect() {
 		return correct;
+	}
+
+	public String getCorrectDisplayCode() {
+		if (correct >= 0 && correct < CORRECT_DISPLAY_CODES.length)
+			return CORRECT_DISPLAY_CODES[correct];
+		else
+			return "" + correct;
 	}
 
 	public void setCorrect(int correct) {
@@ -51,7 +60,7 @@ public class AkpLexicalGroup {
 		this.vernacularNames = vernacularNames;
 		updateVernacularNamesTree();
 	}
-	
+
 	public synchronized void refreshVernacularNamesTree() {
 		updateVernacularNamesTree();
 	}

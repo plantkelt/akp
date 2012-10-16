@@ -1,12 +1,16 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-	<span wicket:id="vernaEditor"><span class="verna" wicket:id="vernaName"></span></span>
+	<span wicket:id="vernaEditor"><span class="verna"
+		wicket:id="vernaName"></span></span>
 	<form class="addForm" wicket:id="form">
 		<button wicket:id="addChildButton" type="submit">
 			<wicket:message key="add.child.verna.button" />
 		</button>
 	</form>
-	<span wicket:id="bibList"><span class="bibRef" wicket:id="bibEntry"></span> </span>
+	<span wicket:id="bibList"><span class="bibRef"
+		wicket:id="bibEntry"></span> </span>
 	<span wicket:id="bibAdder"></span>
+	<span class="vernaComment" wicket:id="commentsEditor"><span class="comments"
+		wicket:id="commentsLabel"></span></span>
 	<div class="childrenList" wicket:id="childrenList">
 		<div wicket:id="childrenPanel"></div>
 	</div>

@@ -120,6 +120,10 @@ form.bibAdder input {
 	font-size: 10pt;
 }
 
+span.vernaComment {
+	margin-left: 10px;
+}
+
 /* === Wicket autocomplete === */
 div.wicket-aa {
 	font-size: 10pt;
@@ -296,10 +300,6 @@ div.lexicalGroup {
 div.lexicalGroup div.langSection {
 	float: left;
 	width: 50px;
-}
-
-div.lexicalGroup div.langSection h4.langCode {
-	font-weight: bold;
 }
 
 div.lexicalGroup div.vernaSection {

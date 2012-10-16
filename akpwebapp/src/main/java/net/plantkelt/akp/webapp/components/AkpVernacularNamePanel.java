@@ -120,6 +120,32 @@ public class AkpVernacularNamePanel extends Panel {
 		add(form);
 		form.setVisible(isAdmin);
 
+		// Comments editor
+		InPlaceEditor commentsEditor = new InPlaceEditor("commentsEditor",
+				new EditorModel<String>() {
+
+					@Override
+					public String getObject() {
+						return vernaNameModel.getObject().getComments();
+					}
+
+					@Override
+					public void saveObject(AjaxRequestTarget target,
+							String comments) {
+						AkpVernacularName vernaName = vernaNameModel
+								.getObject();
+						vernaName.setComments(comments);
+						akpTaxonService.updateVernacularName(vernaName);
+						target.add(AkpVernacularNamePanel.this);
+					}
+				});
+		add(commentsEditor);
+		commentsEditor.setReadOnly(!isAdmin);
+		Label commentsLabel = new Label("commentsLabel",
+				new PropertyModel<String>(vernaNameModel, "comments"));
+		commentsLabel.setEscapeModelStrings(false);
+		commentsEditor.add(commentsLabel);
+
 		setOutputMarkupId(true);
 	}
 }
