@@ -1,0 +1,14 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<span class="bibAdder" wicket:id="openSection">
+		<a class="add" wicket:id="newLink"></a>
+	</span>
+	<form class="bibAdder" wicket:id="form">
+		<input type="text" size="8" wicket:id="bibSelect"></input>
+		<button type="submit" wicket:id="addButton">
+			<wicket:message key="add.bib.button" />
+		</button>
+		<button type="submit" wicket:id="cancelButton">
+			<wicket:message key="cancel.button" />
+		</button>
+	</form>
+</wicket:panel>

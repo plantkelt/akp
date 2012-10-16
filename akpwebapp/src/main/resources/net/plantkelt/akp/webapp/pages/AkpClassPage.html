@@ -3,17 +3,17 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<span wicket:id="parentPath" />
+		<div class="classPath" wicket:id="parentPath" />
 		<div wicket:id="classNameEditor">
-			<h1>
+			<h1 class="taxon">
 				<span wicket:id="className"></span>
 			</h1>
 		</div>
 		<div wicket:id="classCommentsEditor">
-			<span wicket:id="classComments" />
+			<span class="comments" wicket:id="classComments" />
 		</div>
 		<div wicket:id="classSynonymsEditor">
-			<span wicket:id="classSynonyms" />
+			<span class="taxon" wicket:id="classSynonyms" />
 		</div>
 		<h2>
 			<wicket:message key="class.subclasses.header" />
@@ -21,7 +21,7 @@
 		<ul>
 			<li wicket:id="subClasses"><span wicket:id="adminSection"><a
 					class="down" wicket:id="downLink"></a> </span><a wicket:id="subClassLink"><span
-					wicket:id="subClassName" /></a></li>
+					class="taxon" wicket:id="subClassName" /></a></li>
 		</ul>
 		<form wicket:id="form">
 			<button type="submit" wicket:id="addSubClassButton">
@@ -36,7 +36,7 @@
 		</h2>
 		<ul>
 			<li wicket:id="ownedPlants"><a wicket:id="ownedPlantLink"><span
-					wicket:id="ownedPlantName" /></a></li>
+					class="taxon" wicket:id="ownedPlantName" /></a></li>
 		</ul>
 	</wicket:extend>
 </body>

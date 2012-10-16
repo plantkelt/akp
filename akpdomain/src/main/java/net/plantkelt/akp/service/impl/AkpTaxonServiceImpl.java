@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -14,6 +15,7 @@ import net.plantkelt.akp.domain.Node;
 import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.google.inject.Provider;
@@ -199,6 +201,21 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		return true;
 	}
 
+	@Transactional
+	@Override
+	public AkpBib getBib(String xid) {
+		return (AkpBib) getSession().get(AkpBib.class, xid);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<String> getBibIdsStartingWith(String fill) {
+		return (List<String>) getSession().createCriteria(AkpBib.class)
+				.add(Restrictions.like("xid", fill + "%"))
+				.setProjection(Projections.property("xid")).list();
+	}
+
 	private Session getSession() {
 		return sessionProvider.get();
 	}
@@ -216,5 +233,4 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		getSession().save(x);
 		getSession().update(parent);
 	}
-
 }

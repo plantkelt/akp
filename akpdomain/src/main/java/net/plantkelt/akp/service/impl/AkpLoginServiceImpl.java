@@ -42,6 +42,12 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		return (AkpUser) getSession().get(AkpUser.class, login);
 	}
 
+	@Transactional
+	@Override
+	public void updateUser(AkpUser user) {
+		getSession().update(user);
+	}
+
 	private Session getSession() {
 		return sessionProvider.get();
 	}

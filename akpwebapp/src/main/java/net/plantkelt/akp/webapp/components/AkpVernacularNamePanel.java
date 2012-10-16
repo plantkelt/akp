@@ -32,6 +32,7 @@ public class AkpVernacularNamePanel extends Panel {
 			final Component refreshComponent) {
 		super(id);
 
+		AkpVernacularName vernaName = vernaNameModel.getObject();
 		final boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Vernacular name in-place editor
@@ -57,6 +58,7 @@ public class AkpVernacularNamePanel extends Panel {
 				});
 		add(vernaEditor);
 		vernaEditor.setReadOnly(!isAdmin);
+		vernaEditor.setVisible(isAdmin || !vernaName.getName().equals("#"));
 
 		// Vernacular name label
 		Label vernaNameLabel = new Label("vernaName",
@@ -72,13 +74,19 @@ public class AkpVernacularNamePanel extends Panel {
 
 			@Override
 			protected void populateItem(ListItem<AkpBib> item) {
-				// TODO bib editor
-				AkpBib bib = item.getModelObject();
-				Label bibLabel = new Label("bibEntry", bib.getXid());
-				item.add(bibLabel);
+				AkpBibPanel bibPanel = new AkpBibPanel("bibEntry",
+						item.getModel(), vernaNameModel,
+						AkpVernacularNamePanel.this);
+				item.add(bibPanel);
 			}
 		};
 		add(bibListView);
+
+		// Bib adder
+		AkpBibAdderPanel bibAdder = new AkpBibAdderPanel("bibAdder",
+				vernaNameModel, this);
+		add(bibAdder);
+		bibAdder.setVisible(isAdmin);
 
 		// Children recursive list
 		IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(

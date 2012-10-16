@@ -1,6 +1,6 @@
 /* === Standard elements === */
 body,table,select,input,button {
-	font-family: "Times New Roman", Times, "serif";
+	font-family: Helvetica, Arial, "sans-serif";
 	font-size: 12pt;
 }
 
@@ -31,11 +31,10 @@ a:hover {
 }
 
 h1,h2,h3,h4 {
-	font-family: Helvetica, Arial, "sans-serif";
 	border: none;
 	margin: 3px;
 	padding: 3px;
-	font-weight: normal;
+	font-weight: bold;
 	text-align: left;
 }
 
@@ -86,6 +85,10 @@ div.clear {
 }
 
 /* === Components === */
+span.inlineeditor h1 {
+	display: inline;
+}
+
 form.inlineeditor {
 	display: inline;
 }
@@ -104,6 +107,47 @@ form.inlineeditor div.oneline button {
 	float: right;
 }
 
+span.bibAdder {
+	margin-left: 2px;
+}
+
+form.bibAdder {
+	margin-left: 2px;
+	display: inline;
+}
+
+form.bibAdder input {
+	font-size: 10pt;
+}
+
+/* === Wicket autocomplete === */
+div.wicket-aa {
+	font-size: 10pt;
+	background-color: white;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-style: solid;
+	padding: 2px;
+	margin: 0 0 0 0;
+	text-align: left;
+}
+
+div.wicket-aa ul {
+	list-style: none;
+	padding: 2px;
+	margin: 0;
+}
+
+div.wicket-aa ul li {
+	padding: 2px;
+	margin: 0;
+}
+
+div.wicket-aa ul li.selected {
+	background-color: #555555;
+	color: white;
+}
+
 /* === Icons links === */
 a.edit {
 	background-image: url("16x16/edit.png");
@@ -117,6 +161,20 @@ a.down {
 	background-repeat: no-repeat;
 	padding-left: 18px;
 	height: 16px;
+}
+
+a.add {
+	background-image: url("16x16/new.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	height: 16px;
+}
+
+a.delete-small {
+	background-image: url("12x12/delete.png");
+	background-repeat: no-repeat;
+	padding-left: 12px;
+	height: 12px;
 }
 
 /* === Tags icons === */
@@ -218,6 +276,10 @@ div.tagsSection {
 	border-radius: 8px;
 }
 
+div.tagsSection button {
+	font-size: 8pt;
+}
+
 div.classPath {
 	font-size: 10pt;
 }
@@ -256,7 +318,7 @@ div.lexicalGroup div.vernaSection form.addForm {
 	display: inline;
 }
 
-div.lexicalGroup div.vernaSection form.addForm button {
+div.lexicalGroup button {
 	font-size: 8pt;
 }
 
@@ -267,9 +329,30 @@ span.bibRef {
 	border-radius: 3px;
 	background-color: #555555;
 	color: white;
-	font-family: Helvetica, Arial, "sans-serif";
 	font-size: 8pt;
 	font-weight: bold;
-	padding-left: 4px;
-	padding-right: 4px;
+	padding-left: 2px;
+	padding-right: 2px;
+	margin-right: 2px;
+}
+
+.tag {
+	font-family: "Times New Roman", Times, "serif";
+	font-style: italic;
+	color: #335577;
+}
+
+.taxon {
+	font-family: "Times New Roman", Times, "serif";
+	font-weight: normal;
+}
+
+.verna {
+	margin-right: 10px;
+}
+
+.comments {
+	font-family: "Times New Roman", Times, "serif";
+	font-style: italic;
+	color: #775533;
 }

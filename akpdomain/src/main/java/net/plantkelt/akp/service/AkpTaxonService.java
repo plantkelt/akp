@@ -1,5 +1,8 @@
 package net.plantkelt.akp.service;
 
+import java.util.List;
+
+import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -39,6 +42,10 @@ public interface AkpTaxonService {
 
 	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 
+	public AkpBib getBib(String xid);
+	
+	public List<String> getBibIdsStartingWith(String fill);
+	
 	public void testNode();
 
 }
