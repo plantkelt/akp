@@ -246,6 +246,23 @@ div.footer p#copyright {
 	color: #888888;
 }
 
+/* === Collapsible === */
+a.collapsible-opened {
+	background-repeat: no-repeat;
+	background-image: url('16x16/opened.png');
+	background-position: center;
+	padding-left: 16px;
+	height: 16px;
+}
+
+a.collapsible-closed {
+	background-repeat: no-repeat;
+	background-image: url('16x16/closed.png');
+	background-position: center;
+	padding-left: 16px;
+	height: 16px;
+}
+
 /* === AKP === */
 h3.langGroup {
 	clear: both;
@@ -263,7 +280,7 @@ div.tagsSection {
 	border-radius: 8px;
 }
 
-div.tagsSection button {
+div.tagsSection button,div.synonymsSection button {
 	font-size: 8pt;
 }
 
@@ -278,15 +295,16 @@ div.lexicalGroup {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
+	margin-bottom: 4px;
 }
 
 div.lexicalGroup div.langSection {
 	float: left;
-	width: 50px;
+	width: 80px;
 }
 
 div.lexicalGroup div.vernaSection {
-	margin-left: 50px;
+	margin-left: 80px;
 	overflow: hidden;
 	background-color: #eeeeee;
 	border-left: 1px solid gray;
@@ -312,7 +330,7 @@ span.bibRef {
 	-webkit-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	border-radius: 3px;
-	background-color: #555555;
+	background-color: #333333;
 	color: white;
 	font-size: 8pt;
 	font-weight: bold;
@@ -322,8 +340,7 @@ span.bibRef {
 }
 
 span.bibRef:hover {
-	background-color: white;
-	color: black;
+	background-color: #777777;
 }
 
 span.bibRef a {
@@ -331,7 +348,7 @@ span.bibRef a {
 }
 
 span.bibRef a:hover {
-	color: black;
+	
 }
 
 a.bibPopup {
@@ -359,9 +376,17 @@ a.bibPopup:hover span.moreInfo {
 	top: -10px;
 	left: 40px;
 	width: 400px;
+	color: black;
 	background: #eeeeaa;
 	padding: 5px;
 	z-index: 51;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	border-radius: 8px;
+	-moz-box-shadow: 4px 4px 6px 2px #888888;
+	-webkit-box-shadow: 4px 4px 6px 2px #888888;
+	box-shadow: 4px 4px 6px 2px #888888;
 }
 
 span.plantRef {
@@ -383,12 +408,7 @@ span.plantRef {
 }
 
 span.plantRef:hover {
-	background-color: #555533;
-	color: white;
-}
-
-span.plantRef a:hover {
-	color: white;
+	background-color: #cccc88;
 }
 
 span.bibAdder {

@@ -1,14 +1,18 @@
-package net.plantkelt.akp.webapp.components;
+package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.CollapsibleButton;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -30,6 +34,13 @@ public class AkpPlantSynonymsPanel extends Panel {
 		super(id);
 
 		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+
+		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
+		add(collapseDiv);
+
+		CollapsibleButton collapseButton = new CollapsibleButton(
+				"collapseButton", collapseDiv, false);
+		add(collapseButton);
 
 		IModel<List<AkpTaxon>> listModel = new PropertyModel<List<AkpTaxon>>(
 				plantModel, "synonyms");
@@ -69,7 +80,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 				synonymLabel.setEscapeModelStrings(false);
 			}
 		};
-		add(synonymsList);
+		collapseDiv.add(synonymsList);
 		setOutputMarkupId(true);
 
 		// Add synonym button
@@ -83,7 +94,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 				target.add(AkpPlantSynonymsPanel.this);
 			}
 		});
-		add(form);
+		collapseDiv.add(form);
 		form.setVisible(isAdmin);
 	}
 }

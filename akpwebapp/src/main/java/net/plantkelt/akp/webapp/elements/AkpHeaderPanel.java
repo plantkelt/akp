@@ -1,4 +1,4 @@
-package net.plantkelt.akp.webapp.components;
+package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;

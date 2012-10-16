@@ -1,4 +1,4 @@
-package net.plantkelt.akp.webapp.components;
+package net.plantkelt.akp.webapp.elements;
 
 import java.util.Collections;
 import java.util.Iterator;

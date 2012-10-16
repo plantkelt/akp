@@ -2,16 +2,18 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
+import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.AkpLexicalGroupPanel;
-import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
-import net.plantkelt.akp.webapp.components.AkpPlantHeaderPanel;
-import net.plantkelt.akp.webapp.components.AkpPlantSynonymsPanel;
-import net.plantkelt.akp.webapp.components.AkpPlantTagsPanel;
+import net.plantkelt.akp.webapp.elements.AkpLexicalGroupAdderPanel;
+import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
+import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.elements.AkpPlantHeaderPanel;
+import net.plantkelt.akp.webapp.elements.AkpPlantSynonymsPanel;
+import net.plantkelt.akp.webapp.elements.AkpPlantTagsPanel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
-import org.apache.wicket.authorization.AuthorizationException;
 import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -33,6 +35,7 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 	private Integer plantId;
 	private IModel<AkpPlant> plantModel;
+	private int lastLangGroupXid = -1;
 
 	public AkpPlantPage(PageParameters parameters) {
 
@@ -78,7 +81,6 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpLexicalGroup> load() {
-				// TODO Sort based on group lang + lang order
 				return plantModel.getObject().getLexicalGroups();
 			}
 		};
@@ -88,15 +90,33 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 			@Override
 			protected void populateItem(ListItem<AkpLexicalGroup> item) {
-				Label langGroupLabel = new Label("langGroupName", item
-						.getModelObject().getLang().getLangGroup().getName());
+				if (item.getIndex() == 0)
+					lastLangGroupXid = -1;
+				AkpLexicalGroup lexicalGroup = item.getModelObject();
+				AkpLangGroup langGroup = lexicalGroup.getLang().getLangGroup();
+				// If needed lang group header
+				Label langGroupLabel = new Label("langGroupName",
+						langGroup.getName());
 				item.add(langGroupLabel);
+				langGroupLabel.setVisible(lastLangGroupXid != langGroup
+						.getXid());
+				lastLangGroupXid = langGroup.getXid();
+				// Lexical group panel
 				AkpLexicalGroupPanel lexicalGroupPanel = new AkpLexicalGroupPanel(
 						"lexicalGroupPanel", item.getModel());
 				item.add(lexicalGroupPanel);
 			}
 		};
 		add(lexicalGroupsListView);
+
+		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		// Add new lexical group panel
+		AkpLexicalGroupAdderPanel lexicalGroupAdderPanel = new AkpLexicalGroupAdderPanel(
+				"lexicalGroupAdd", this, plantModel);
+		add(lexicalGroupAdderPanel);
+		lexicalGroupAdderPanel.setVisible(isAdmin);
+
+		this.setOutputMarkupId(true);
 	}
 
 	public static Link<AkpPlantPage> link(String id, Integer xid) {

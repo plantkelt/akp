@@ -91,6 +91,7 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	}
 
 	public List<AkpLexicalGroup> getLexicalGroups() {
+		Collections.sort(lexicalGroups);
 		return lexicalGroups;
 	}
 

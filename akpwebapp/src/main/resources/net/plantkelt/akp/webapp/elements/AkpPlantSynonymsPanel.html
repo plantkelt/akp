@@ -1,0 +1,17 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<h3>
+		<span wicket:id="collapseButton"></span>Synonymes
+	</h3>
+	<div wicket:id="collapseDiv">
+		<ul>
+			<li wicket:id="synonyms"><span wicket:id="synonymEditor">
+					<span class="taxon" wicket:id="synonymName"></span>
+			</span></li>
+		</ul>
+		<form wicket:id="form">
+			<button type="submit" wicket:id="addSynonymButton">
+				<wicket:message key="add.synonym.button" />
+			</button>
+		</form>
+	</div>
+</wicket:panel>

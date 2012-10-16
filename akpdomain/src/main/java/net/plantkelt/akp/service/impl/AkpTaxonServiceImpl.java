@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
@@ -206,10 +207,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	public boolean deleteVernacularName(AkpVernacularName vernacularName) {
 		if (vernacularName.getChildren().size() > 0)
 			return false;
-		vernacularName.getLexicalGroup().getVernacularNames()
-				.remove(vernacularName);
-		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
+		AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
+		lexicalGroup.getVernacularNames().remove(vernacularName);
+		lexicalGroup.refreshVernacularNamesTree();
 		getSession().delete(vernacularName);
+		if (lexicalGroup.getVernacularNames().size() == 0)
+			getSession().delete(lexicalGroup);
 		return true;
 	}
 
@@ -226,6 +229,37 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		return (List<String>) getSession().createCriteria(AkpBib.class)
 				.add(Restrictions.like("xid", "%" + id + "%"))
 				.setProjection(Projections.property("xid")).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpLang> getLangList() {
+		return (List<AkpLang>) getSession().createCriteria(AkpLang.class)
+				.list();
+	}
+
+	@Override
+	public AkpLang getLang(String xid) {
+		return (AkpLang) getSession().get(AkpLang.class, xid);
+	}
+
+	@Override
+	public boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
+			Integer correct) {
+		for (AkpLexicalGroup grp : plant.getLexicalGroups()) {
+			if (grp.getLang().getXid().equals(lang.getXid())
+					&& grp.getCorrect() == correct)
+				return false;
+		}
+		AkpLexicalGroup lexicalGroup = new AkpLexicalGroup();
+		lexicalGroup.setLang(lang);
+		lexicalGroup.setCorrect(correct);
+		lexicalGroup.setPlant(plant);
+		plant.getLexicalGroups().add(lexicalGroup);
+		getSession().save(lexicalGroup);
+		getSession().update(plant);
+		return true;
 	}
 
 	private Session getSession() {
@@ -245,4 +279,5 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		getSession().save(x);
 		getSession().update(parent);
 	}
+
 }

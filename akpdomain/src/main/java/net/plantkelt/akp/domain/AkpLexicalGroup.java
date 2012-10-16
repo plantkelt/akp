@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AkpLexicalGroup {
+public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 
 	private static final String[] CORRECT_DISPLAY_CODES = { "=", "≈", "≠", "?" };
+
+	public static final int MAX_CORRECT = 3;
 
 	private int xid;
 	private int correct;
 	private AkpLang lang;
+	private AkpPlant plant;
 	private List<AkpVernacularName> vernacularNames;
 	private List<AkpVernacularName> rootVernacularNames;
 
@@ -29,6 +32,10 @@ public class AkpLexicalGroup {
 	}
 
 	public String getCorrectDisplayCode() {
+		return getCorrectDisplayCode(correct);
+	}
+
+	public static String getCorrectDisplayCode(int correct) {
 		if (correct >= 0 && correct < CORRECT_DISPLAY_CODES.length)
 			return CORRECT_DISPLAY_CODES[correct];
 		else
@@ -45,6 +52,14 @@ public class AkpLexicalGroup {
 
 	public void setLang(AkpLang lang) {
 		this.lang = lang;
+	}
+
+	public AkpPlant getPlant() {
+		return plant;
+	}
+
+	public void setPlant(AkpPlant plant) {
+		this.plant = plant;
 	}
 
 	public synchronized List<AkpVernacularName> getVernacularNames() {
@@ -92,6 +107,17 @@ public class AkpLexicalGroup {
 	@Override
 	public String toString() {
 		return String.format("[AkpLexicalGroup %d %d]", getXid(), getCorrect());
+	}
+
+	@Override
+	public int compareTo(AkpLexicalGroup o) {
+		AkpLangGroup langGroup = getLang().getLangGroup();
+		AkpLangGroup oLangGroup = o.getLang().getLangGroup();
+		int cmp = langGroup.getOrder() - oLangGroup.getOrder();
+		if (cmp == 0) {
+			cmp = getLang().getOrder() - o.getLang().getOrder();
+		}
+		return cmp;
 	}
 
 }

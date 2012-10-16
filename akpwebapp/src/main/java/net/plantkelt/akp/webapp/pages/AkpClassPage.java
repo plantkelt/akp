@@ -6,9 +6,9 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;

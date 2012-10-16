@@ -1,14 +1,16 @@
-package net.plantkelt.akp.webapp.components;
+package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.CollapsibleButton;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -33,6 +35,13 @@ public class AkpLexicalGroupPanel extends Panel {
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 		AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
 
+		// Collapsible stuff
+		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
+		add(collapseDiv);
+		CollapsibleButton collapseButton = new CollapsibleButton(
+				"collapseButton", collapseDiv, false);
+		add(collapseButton);
+
 		// Lang ID / correct code
 		Label langCode = new Label("langCode", lexicalGroup.getLang().getXid());
 		add(langCode);
@@ -56,7 +65,7 @@ public class AkpLexicalGroupPanel extends Panel {
 				item.add(vernaNamePanel);
 			}
 		};
-		add(vernaListView);
+		collapseDiv.add(vernaListView);
 
 		// Add root name button
 		Form<Void> form = new Form<Void>("form");
@@ -70,7 +79,7 @@ public class AkpLexicalGroupPanel extends Panel {
 				target.add(AkpLexicalGroupPanel.this);
 			}
 		});
-		add(form);
+		collapseDiv.add(form);
 		form.setVisible(isAdmin);
 
 		setOutputMarkupId(true);

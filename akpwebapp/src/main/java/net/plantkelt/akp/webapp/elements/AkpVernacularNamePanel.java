@@ -1,4 +1,4 @@
-package net.plantkelt.akp.webapp.components;
+package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
@@ -6,6 +6,8 @@ import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;

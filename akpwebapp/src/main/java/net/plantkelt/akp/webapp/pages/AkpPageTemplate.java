@@ -1,7 +1,7 @@
 package net.plantkelt.akp.webapp.pages;
 
 import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.webapp.components.AkpHeaderPanel;
+import net.plantkelt.akp.webapp.elements.AkpHeaderPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.devutils.debugbar.DebugBar;

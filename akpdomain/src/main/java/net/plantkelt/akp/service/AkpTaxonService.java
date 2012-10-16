@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
@@ -25,7 +26,7 @@ public interface AkpTaxonService {
 	public boolean deleteClass(AkpClass akpClass);
 
 	public AkpPlant getPlant(Integer xid);
-	
+
 	public List<AkpPlant> searchPlantFromName(String name);
 
 	public void updatePlant(AkpPlant plant);
@@ -45,9 +46,16 @@ public interface AkpTaxonService {
 	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 
 	public AkpBib getBib(String xid);
-	
+
 	public List<String> searchBibFromId(String id);
-	
+
+	public AkpLang getLang(String xid);
+
+	public List<AkpLang> getLangList();
+
+	public boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
+			Integer correct);
+
 	public void testNode();
 
 }
