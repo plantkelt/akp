@@ -4,25 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-public class AkpLexicalGroupAdderPanel extends Panel {
+public class AkpPlantControlPanel extends Panel {
 
 	@Inject
 	private AkpTaxonService akpTaxonService;
@@ -32,12 +37,15 @@ public class AkpLexicalGroupAdderPanel extends Panel {
 	private IModel<String> addLangModel;
 	private IModel<Integer> addCorrectModel;
 
-	public AkpLexicalGroupAdderPanel(String id,
-			final Component refreshComponent, final IModel<AkpPlant> plantModel) {
+	public AkpPlantControlPanel(String id, final Component refreshComponent,
+			final IModel<AkpPlant> plantModel) {
 		super(id);
 
 		Form<Void> form = new Form<Void>("form");
 		add(form);
+
+		// Feedback panel
+		form.add(new FeedbackPanel("feedbackPanel"));
 
 		// Lang select
 		List<AkpLang> langs = akpTaxonService.getLangList();
@@ -91,9 +99,30 @@ public class AkpLexicalGroupAdderPanel extends Panel {
 								.setDefautLangXid(lang.getXid());
 						target.add(refreshComponent);
 					}
+				} else {
+					error(getString("lang.or.correct.not.selected"));
 				}
 			}
 		});
+
+		// Delete plant button
+		Button deletePlantButton = new Button("deletePlantButton") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				AkpPlant akpPlant = plantModel.getObject();
+				if (!akpTaxonService.canDeletePlant(akpPlant)) {
+					error(getString("cannot.delete.non.empty.plant"));
+				} else {
+					AkpClass akpClass = akpPlant.getAkpClass();
+					akpTaxonService.deletePlant(akpPlant);
+					setResponsePage(AkpClassPage.class,
+							new PageParameters().add("xid", akpClass.getXid()));
+				}
+			}
+		};
+		form.add(deletePlantButton);
 
 	}
 }

@@ -5,24 +5,25 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.border.Border;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-public class InPlaceEditor extends Border {
+public class InPlaceSelector<T> extends Border {
 
 	private static final long serialVersionUID = 1L;
 
 	private WebMarkupContainer viewPanel;
 	private Form<Void> editForm;
-	private TextField<String> textField;
+	private DropDownChoice<T> valueSelect;
 	private AjaxLink<Void> editLink;
-	private EditorModel<String> editorModel;
+	private SelectorModel<T> selectorModel;
 
-	public InPlaceEditor(String id, EditorModel<String> model) {
+	public InPlaceSelector(String id, SelectorModel<T> model) {
 		super(id);
-		editorModel = model;
+		selectorModel = model;
 		viewPanel = new WebMarkupContainer("viewPanel");
 		addToBorder(viewPanel);
 		viewPanel.setOutputMarkupPlaceholderTag(true);
@@ -39,12 +40,12 @@ public class InPlaceEditor extends Border {
 		};
 		viewPanel.add(editLink);
 		viewPanel.add(getBodyContainer());
-		IModel<String> stringModel = new LoadableDetachableModel<String>() {
+		IModel<T> valueModel = new LoadableDetachableModel<T>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected String load() {
-				return editorModel.getObject();
+			protected T load() {
+				return selectorModel.getObject();
 			}
 		};
 
@@ -53,15 +54,28 @@ public class InPlaceEditor extends Border {
 		editForm.setVisible(false);
 		editForm.setOutputMarkupPlaceholderTag(true);
 		editForm.setOutputMarkupId(true);
-		textField = new TextField<String>("textInput", stringModel);
-		editForm.add(textField);
+		valueSelect = new DropDownChoice<T>("valueSelect", valueModel,
+				selectorModel.getValues(), new IChoiceRenderer<T>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Object getDisplayValue(T object) {
+						return selectorModel.getDisplayValue(object);
+					}
+
+					@Override
+					public String getIdValue(T object, int index) {
+						return "" + index;
+					}
+				});
+		editForm.add(valueSelect);
 		editForm.add(new AjaxSubmitLink("saveButton") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				String value = textField.getModelObject();
-				editorModel.saveObject(target, value);
+				T value = valueSelect.getModelObject();
+				selectorModel.saveObject(target, value);
 				viewPanel.setVisible(true);
 				editForm.setVisible(false);
 				target.add(editForm, viewPanel);
@@ -79,12 +93,7 @@ public class InPlaceEditor extends Border {
 		});
 	}
 
-	public void open() {
-		viewPanel.setVisible(false);
-		editForm.setVisible(true);
-	}
-
-	public InPlaceEditor setReadOnly(boolean readonly) {
+	public InPlaceSelector<T> setReadOnly(boolean readonly) {
 		editLink.setVisible(!readonly);
 		return this;
 	}

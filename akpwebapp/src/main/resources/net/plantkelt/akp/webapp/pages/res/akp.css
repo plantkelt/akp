@@ -274,16 +274,14 @@ div.tagsSection {
 	margin-right: 5px;
 	margin-top: 5px;
 	background-color: #eeeeaa;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-khtml-border-radius: 8px;
 	border-radius: 8px;
 }
 
 div.plantRefsSection {
+	
 }
 
-div.tagsSection button,div.synonymsSection button,div.plantRefsSection button
+div.tagsSection button,div.tagsSection select,div.synonymsSection button,div.plantRefsSection button,div.plantControlSection button,div.plantControlSection select
 	{
 	font-size: 8pt;
 }
@@ -295,9 +293,6 @@ div.classPath {
 div.lexicalGroup {
 	background-color: #cccccc;
 	width: 100%;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	margin-bottom: 4px;
 }
@@ -313,6 +308,9 @@ div.lexicalGroup div.vernaSection {
 	background-color: #eeeeee;
 	border-left: 1px solid gray;
 	padding: 4px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	min-height: 1.5em;
 }
 
 div.lexicalGroup div.vernaSection div.childrenList {
@@ -330,9 +328,6 @@ div.lexicalGroup button {
 }
 
 span.bibRef {
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	border-radius: 3px;
 	background-color: #333333;
 	color: white;
@@ -384,19 +379,11 @@ a.bibPopup:hover span.moreInfo {
 	background: #eeeeaa;
 	padding: 5px;
 	z-index: 51;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-khtml-border-radius: 8px;
 	border-radius: 8px;
-	-moz-box-shadow: 4px 4px 6px 2px #888888;
-	-webkit-box-shadow: 4px 4px 6px 2px #888888;
 	box-shadow: 4px 4px 6px 2px #888888;
 }
 
 span.plantRef {
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	border-radius: 3px;
 	background-color: #eeeeaa;
 	font-size: 10pt;

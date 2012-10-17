@@ -2,14 +2,13 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.elements.AkpLexicalGroupAdderPanel;
 import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.elements.AkpPlantControlPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantHeaderPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantRefsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantSynonymsPanel;
@@ -18,8 +17,6 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -132,33 +129,11 @@ public class AkpPlantPage extends AkpPageTemplate {
 		};
 		add(lexicalGroupsListView);
 
-		// Add new lexical group panel
-		AkpLexicalGroupAdderPanel lexicalGroupAdderPanel = new AkpLexicalGroupAdderPanel(
-				"lexicalGroupAdd", this, plantModel);
-		add(lexicalGroupAdderPanel);
-		lexicalGroupAdderPanel.setVisible(isAdmin);
-
-		Form<Void> form = new Form<Void>("form");
-		form.setVisible(isAdmin);
-		add(form);
-		Button deletePlantButton = new Button("deletePlantButton") {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onSubmit() {
-				AkpPlant akpPlant = plantModel.getObject();
-				AkpClass akpClass = akpPlant.getAkpClass();
-				akpTaxonService.deletePlant(akpPlant);
-				setResponsePage(AkpClassPage.class,
-						new PageParameters().add("xid", akpClass.getXid()));
-			}
-
-			@Override
-			public boolean isVisible() {
-				return akpTaxonService.canDeletePlant(plantModel.getObject());
-			}
-		};
-		form.add(deletePlantButton);
+		// Plant control panel (add lexical group, delete plant)
+		AkpPlantControlPanel plantControlPanel = new AkpPlantControlPanel(
+				"plantControlPanel", this, plantModel);
+		add(plantControlPanel);
+		plantControlPanel.setVisible(isAdmin);
 
 		this.setOutputMarkupId(true);
 	}

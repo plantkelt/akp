@@ -1,9 +1,13 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
 	<form wicket:id="form">
+		<div wicket:id="feedbackPanel"></div>
 		<select wicket:id="langSelect"></select> <select
 			wicket:id="correctSelect"></select>
 		<button wicket:id="addLexicalGroupButton" type="submit">
 			<wicket:message key="add.lexicalgroup.button" />
+		</button>
+		<button wicket:id="deletePlantButton" type="submit">
+			<wicket:message key="delete.plant.button" />
 		</button>
 	</form>
 </wicket:panel>

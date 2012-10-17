@@ -10,6 +10,7 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.domain.Node;
@@ -174,6 +175,32 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Transactional
 	@Override
+	public boolean createNewPlantTag(AkpPlant plant, int tagType) {
+		for (AkpPlantTag tag : plant.getTags())
+			if (tag.getType() == tagType)
+				return false;
+		AkpPlantTag tag = new AkpPlantTag(plant, tagType);
+		getSession().save(tag);
+		plant.getTags().add(tag);
+		return true;
+	}
+
+	@Transactional
+	@Override
+	public void updatePlantTag(AkpPlantTag tag) {
+		getSession().update(tag);
+	}
+
+	@Transactional
+	@Override
+	public void deletePlantTag(AkpPlantTag tag) {
+		AkpPlant plant = tag.getPlant();
+		plant.getTags().remove(tag);
+		getSession().delete(tag);
+	}
+
+	@Transactional
+	@Override
 	public void createNewTaxon(AkpPlant ownerPlant) {
 		AkpTaxon taxon = new AkpTaxon();
 		taxon.setPlant(ownerPlant);
@@ -203,7 +230,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	public void addRootVernacularName(AkpLexicalGroup lexicalGroup) {
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
-		name.setName("Zzz");
+		name.setName("");
 		name.setComments("");
 		name.setParentId(0);
 		lexicalGroup.getVernacularNames().add(name);
@@ -217,7 +244,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpLexicalGroup lexicalGroup = parentName.getLexicalGroup();
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
-		name.setName("Zzz");
+		name.setName("");
 		name.setComments("");
 		name.setParentId(parentName.getXid());
 		lexicalGroup.getVernacularNames().add(name);

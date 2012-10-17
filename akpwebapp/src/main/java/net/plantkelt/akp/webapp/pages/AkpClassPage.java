@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
@@ -18,7 +17,8 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
@@ -49,9 +49,8 @@ public class AkpClassPage extends AkpPageTemplate {
 			}
 		};
 		AkpClass akpClass = akpClassModel.getObject();
-		AkpUser user = AkpWicketSession.get().getAkpUser();
 		boolean isFake = akpClass.getXid() == null;
-		boolean isAdmin = user != null && user.isAdmin();
+		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
@@ -185,55 +184,63 @@ public class AkpClassPage extends AkpPageTemplate {
 		form.add(addPlantButton);
 
 		// Sub-classes
-		RepeatingView subClassesRepeat = new RepeatingView("subClasses");
-		add(subClassesRepeat);
-		List<AkpClass> subClasses = akpClass.getChildren();
-		int i = 0;
-		for (AkpClass subClass : subClasses) {
-			final int index = i;
-			WebMarkupContainer item = new WebMarkupContainer(
-					subClassesRepeat.newChildId());
-			subClassesRepeat.add(item);
-			WebMarkupContainer adminSection = new WebMarkupContainer(
-					"adminSection");
-			item.add(adminSection);
-			adminSection.setVisible(isAdmin);
-			Link<Void> downLink = new Link<Void>("downLink") {
-				private static final long serialVersionUID = 1L;
+		IModel<List<AkpClass>> subClassesModel = new PropertyModel<List<AkpClass>>(
+				akpClassModel, "children");
+		ListView<AkpClass> subClassesListView = new ListView<AkpClass>(
+				"subClasses", subClassesModel) {
+			private static final long serialVersionUID = 1L;
 
-				@Override
-				public void onClick() {
-					akpTaxonService.moveDownChildClass(
-							akpClassModel.getObject(), index);
-					refreshPage();
-				}
-			};
-			adminSection.add(downLink);
-			Link<AkpClassPage> subClassLink = AkpClassPage.link("subClassLink",
-					subClass.getXid());
-			Label subClassNameLabel = new Label("subClassName",
-					subClass.getName());
-			subClassNameLabel.setEscapeModelStrings(false);
-			subClassLink.add(subClassNameLabel);
-			item.add(subClassLink);
-			i++;
-		}
+			@Override
+			protected void populateItem(ListItem<AkpClass> item) {
+				AkpClass subClass = item.getModelObject();
+				final int index = item.getIndex();
+				WebMarkupContainer adminSection = new WebMarkupContainer(
+						"adminSection");
+				item.add(adminSection);
+				boolean isAdmin = AkpWicketSession.get().isAdmin();
+				adminSection.setVisible(isAdmin);
+				Link<Void> downLink = new Link<Void>("downLink") {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onClick() {
+						akpTaxonService.moveDownChildClass(
+								akpClassModel.getObject(), index);
+						refreshPage();
+					}
+				};
+				adminSection.add(downLink);
+				Link<AkpClassPage> subClassLink = AkpClassPage.link(
+						"subClassLink", subClass.getXid());
+				Label subClassNameLabel = new Label("subClassName",
+						subClass.getName());
+				subClassNameLabel.setEscapeModelStrings(false);
+				subClassLink.add(subClassNameLabel);
+				item.add(subClassLink);
+			}
+		};
+		add(subClassesListView);
 
 		// Owned-plants
-		RepeatingView ownedPlantsRepeat = new RepeatingView("ownedPlants");
-		add(ownedPlantsRepeat);
-		for (AkpPlant plant : akpClass.getPlants()) {
-			WebMarkupContainer item = new WebMarkupContainer(
-					ownedPlantsRepeat.newChildId());
-			ownedPlantsRepeat.add(item);
-			Link<AkpPlantPage> ownedPlantLink = AkpPlantPage.link(
-					"ownedPlantLink", plant.getXid());
-			Label ownedPlantNameLabel = new Label("ownedPlantName", plant
-					.getMainName().getHtmlName());
-			ownedPlantNameLabel.setEscapeModelStrings(false);
-			ownedPlantLink.add(ownedPlantNameLabel);
-			item.add(ownedPlantLink);
-		}
+		IModel<List<AkpPlant>> ownedPlantsModel = new PropertyModel<List<AkpPlant>>(
+				akpClassModel, "plants");
+		ListView<AkpPlant> ownedPlantsListView = new ListView<AkpPlant>(
+				"ownedPlants", ownedPlantsModel) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem<AkpPlant> item) {
+				AkpPlant plant = item.getModelObject();
+				Link<AkpPlantPage> ownedPlantLink = AkpPlantPage.link(
+						"ownedPlantLink", plant.getXid());
+				Label ownedPlantNameLabel = new Label("ownedPlantName", plant
+						.getMainName().getHtmlName());
+				ownedPlantNameLabel.setEscapeModelStrings(false);
+				ownedPlantLink.add(ownedPlantNameLabel);
+				item.add(ownedPlantLink);
+			}
+		};
+		add(ownedPlantsListView);
 	}
 
 	private void refreshPage() {

@@ -67,18 +67,6 @@
         </composite-id>
         <property name="stringValue" type="string" column="valeur" not-null="true" />
         <property name="intValue" type="integer" column="valeur2" not-null="true" />
-        <many-to-one name="tagValue" not-found="ignore" lazy="false" insert="false" update="false" fetch="join">
-            <column name="etiquette" />
-            <column name="valeur2" />
-        </many-to-one>
-    </class>
-
-    <class name="AkpTagValue" table="valeur_etiquette">
-        <composite-id>
-            <key-property name="type" type="integer" column="etiquette" />
-            <key-property name="value" type="integer" column="valeur2" />
-        </composite-id>
-        <property name="name" type="string" column="texte" not-null="true" />
     </class>
 
     <class name="AkpTaxon" table="taxon">

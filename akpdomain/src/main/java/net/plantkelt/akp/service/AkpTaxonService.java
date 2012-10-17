@@ -7,6 +7,7 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 
@@ -28,7 +29,7 @@ public interface AkpTaxonService {
 	public AkpPlant createNewPlant(AkpClass owningClass);
 
 	public AkpPlant getPlant(Integer xid);
-	
+
 	public List<AkpPlant> searchPlantFromName(String name);
 
 	public void updatePlant(AkpPlant plant);
@@ -36,6 +37,12 @@ public interface AkpTaxonService {
 	public boolean canDeletePlant(AkpPlant plant);
 
 	public boolean deletePlant(AkpPlant plant);
+
+	public boolean createNewPlantTag(AkpPlant plant, int tagType);
+
+	public void updatePlantTag(AkpPlantTag tag);
+
+	public void deletePlantTag(AkpPlantTag tag);
 
 	public void createNewTaxon(AkpPlant ownerPlant);
 

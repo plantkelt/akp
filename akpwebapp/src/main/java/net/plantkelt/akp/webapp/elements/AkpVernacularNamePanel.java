@@ -60,6 +60,8 @@ public class AkpVernacularNamePanel extends Panel {
 					}
 				});
 		add(vernaEditor);
+		if (vernaName.getName().equals(""))
+			vernaEditor.open();
 		vernaEditor.setReadOnly(!isAdmin);
 		vernaEditor.setVisible(isAdmin || !vernaName.getName().equals("#"));
 

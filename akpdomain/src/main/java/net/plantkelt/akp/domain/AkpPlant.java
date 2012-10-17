@@ -18,8 +18,7 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	private transient AkpTaxon mainName;
 	private transient List<AkpTaxon> synonyms;
 
-	@SuppressWarnings("unused")
-	private AkpPlant() {
+	public AkpPlant() {
 	}
 
 	public AkpPlant(AkpClass owningClass, AkpTaxon mainName) {

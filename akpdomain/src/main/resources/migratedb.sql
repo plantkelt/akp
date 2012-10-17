@@ -18,3 +18,6 @@ alter table plante_xref add foreign key (plante_from) references plante (xid);
 alter table plante_xref add foreign key (plante_to) references plante (xid);
 
 alter table taxon add foreign key (plante) references plante (xid);
+
+delete from plante_etiquette where plante not in (select xid from plante);
+alter table plante_etiquette add foreign key (plante) references plante (xid);
