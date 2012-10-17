@@ -150,7 +150,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		taxon.setName("<l><b>Aaa aaa</b></l>");
 		ownerPlant.addTaxon(taxon);
 		getSession().save(taxon);
-		getSession().update(ownerPlant);
 	}
 
 	@Transactional
@@ -244,6 +243,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		return (AkpLang) getSession().get(AkpLang.class, xid);
 	}
 
+	@Transactional
 	@Override
 	public boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
 			Integer correct) {
@@ -258,7 +258,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.setPlant(plant);
 		plant.getLexicalGroups().add(lexicalGroup);
 		getSession().save(lexicalGroup);
-		getSession().update(plant);
 		return true;
 	}
 
