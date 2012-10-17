@@ -8,6 +8,7 @@ import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -44,7 +45,8 @@ public class AkpLexicalGroupAdderPanel extends Panel {
 		for (AkpLang lang : langs)
 			langXids.add(lang.getXid());
 		Collections.sort(langXids);
-		addLangModel = new Model<String>();
+		addLangModel = new Model<String>(AkpWicketSession.get()
+				.getSessionData().getDefaultLangXid());
 		DropDownChoice<String> langSelect = new DropDownChoice<String>(
 				"langSelect", addLangModel, langXids);
 		form.add(langSelect);
@@ -53,7 +55,7 @@ public class AkpLexicalGroupAdderPanel extends Panel {
 		List<Integer> corrects = new ArrayList<Integer>();
 		for (int correct = 0; correct <= AkpLexicalGroup.MAX_CORRECT; correct++)
 			corrects.add(correct);
-		addCorrectModel = new Model<Integer>();
+		addCorrectModel = new Model<Integer>(0);
 		DropDownChoice<Integer> correctSelect = new DropDownChoice<Integer>(
 				"correctSelect", addCorrectModel, corrects,
 				new IChoiceRenderer<Integer>() {
@@ -85,6 +87,8 @@ public class AkpLexicalGroupAdderPanel extends Panel {
 					if (lang != null) {
 						akpTaxonService.createNewLexicalGroup(plant, lang,
 								correct);
+						AkpWicketSession.get().getSessionData()
+								.setDefautLangXid(lang.getXid());
 						target.add(refreshComponent);
 					}
 				}

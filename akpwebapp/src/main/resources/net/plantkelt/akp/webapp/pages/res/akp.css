@@ -280,7 +280,11 @@ div.tagsSection {
 	border-radius: 8px;
 }
 
-div.tagsSection button,div.synonymsSection button {
+div.plantRefsSection {
+}
+
+div.tagsSection button,div.synonymsSection button,div.plantRefsSection button
+	{
 	font-size: 8pt;
 }
 
@@ -403,8 +407,8 @@ span.plantRef {
 	text-overflow: ellipsis;
 	padding-left: 2px;
 	padding-right: 2px;
+	margin-left: 2px;
 	margin-right: 2px;
-	padding-left: 2px;
 }
 
 span.plantRef:hover {

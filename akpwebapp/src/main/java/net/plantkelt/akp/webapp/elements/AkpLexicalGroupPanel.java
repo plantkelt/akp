@@ -6,8 +6,10 @@ import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
+import net.plantkelt.akp.webapp.wicket.AkpSessionData;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -29,7 +31,8 @@ public class AkpLexicalGroupPanel extends Panel {
 	private static final long serialVersionUID = 1L;
 
 	public AkpLexicalGroupPanel(String id,
-			final IModel<AkpLexicalGroup> lexicalGroupModel) {
+			final IModel<AkpLexicalGroup> lexicalGroupModel,
+			final Component refreshMasterComponent) {
 		super(id);
 
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
@@ -39,7 +42,25 @@ public class AkpLexicalGroupPanel extends Panel {
 		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
 		add(collapseDiv);
 		CollapsibleButton collapseButton = new CollapsibleButton(
-				"collapseButton", collapseDiv, false);
+				"collapseButton", collapseDiv, AkpWicketSession
+						.get()
+						.getSessionData()
+						.isLexicalGroupDefaultOpen(
+								lexicalGroup.getLang().getXid(),
+								lexicalGroup.getCorrect())) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onOpenClose(boolean open) {
+				AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
+				AkpSessionData sessionData = AkpWicketSession.get()
+						.getSessionData();
+				String langXid = lexicalGroup.getLang().getXid();
+				sessionData.setLexicalGroupDefaultOpen(langXid,
+						lexicalGroup.getCorrect(), open);
+				sessionData.setDefautLangXid(langXid);
+			}
+		};
 		add(collapseButton);
 
 		// Lang ID / correct code
@@ -69,6 +90,8 @@ public class AkpLexicalGroupPanel extends Panel {
 
 		// Add root name button
 		Form<Void> form = new Form<Void>("form");
+		collapseDiv.add(form);
+		form.setVisible(isAdmin);
 		form.add(new AjaxSubmitLink("addRootNameButton") {
 			private static final long serialVersionUID = 1L;
 
@@ -79,8 +102,22 @@ public class AkpLexicalGroupPanel extends Panel {
 				target.add(AkpLexicalGroupPanel.this);
 			}
 		});
-		collapseDiv.add(form);
-		form.setVisible(isAdmin);
+		form.add(new AjaxSubmitLink("deleteLexicalGroupButton") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				akpTaxonService.deleteLexicalGroup(lexicalGroupModel
+						.getObject());
+				target.add(refreshMasterComponent);
+			}
+
+			@Override
+			public boolean isVisible() {
+				return (lexicalGroupModel.getObject().getVernacularNames()
+						.size() == 0);
+			}
+		});
 
 		setOutputMarkupId(true);
 	}

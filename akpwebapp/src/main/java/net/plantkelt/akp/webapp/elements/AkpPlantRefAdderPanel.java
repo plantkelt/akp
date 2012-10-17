@@ -6,10 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -34,8 +32,7 @@ public class AkpPlantRefAdderPanel extends Panel {
 	private IModel<String> plantRefEntryModel;
 
 	public AkpPlantRefAdderPanel(String id,
-			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent) {
+			final AkpPlantRefAdderListener adderModel) {
 		super(id);
 
 		plantRefEntryModel = new Model<String>("");
@@ -91,18 +88,12 @@ public class AkpPlantRefAdderPanel extends Panel {
 					String xidStr = plantName.substring(0,
 							plantName.indexOf(" - "));
 					int xid = Integer.parseInt(xidStr);
-					AkpPlant plant = akpTaxonService.getPlant(xid);
-					if (plant != null) {
-						AkpVernacularName vernaName = vernaNameModel
-								.getObject();
-						if (!vernaName.getPlantRefs().contains(plant)) {
-							vernaName.getPlantRefs().add(plant);
-							akpTaxonService.updateVernacularName(vernaName);
-						}
+					AkpPlant targetPlant = akpTaxonService.getPlant(xid);
+					if (targetPlant != null) {
+						adderModel.onPlantRefAdded(target, targetPlant);
 					}
 				}
 				plantRefEntryModel.setObject(null);
-				target.add(refreshComponent);
 			}
 		});
 		form.add(new AjaxSubmitLink("cancelButton") {

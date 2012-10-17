@@ -93,7 +93,19 @@ public class AkpVernacularNamePanel extends Panel {
 
 		// Plant ref adder
 		AkpPlantRefAdderPanel plantRefAdder = new AkpPlantRefAdderPanel(
-				"plantRefAdder", vernaNameModel, this);
+				"plantRefAdder", new AkpPlantRefAdderListener() {
+					@Override
+					public void onPlantRefAdded(AjaxRequestTarget target,
+							AkpPlant targetPlant) {
+						AkpVernacularName vernaName = vernaNameModel
+								.getObject();
+						if (!vernaName.getPlantRefs().contains(targetPlant)) {
+							vernaName.getPlantRefs().add(targetPlant);
+							akpTaxonService.updateVernacularName(vernaName);
+						}
+						target.add(AkpVernacularNamePanel.this);
+					}
+				});
 		add(plantRefAdder);
 		plantRefAdder.setVisible(isAdmin);
 
@@ -165,8 +177,19 @@ public class AkpVernacularNamePanel extends Panel {
 			@Override
 			protected void populateItem(ListItem<AkpPlant> item) {
 				AkpPlantRefPanel plantRefPanel = new AkpPlantRefPanel(
-						"plantRef", item.getModel(), vernaNameModel,
-						AkpVernacularNamePanel.this);
+						"plantRef", item.getModel(), new AkpPlantRefListener() {
+
+							@Override
+							public void onPlantRefRemoved(
+									AjaxRequestTarget target,
+									AkpPlant targetPlant) {
+								AkpVernacularName vernaName = vernaNameModel
+										.getObject();
+								vernaName.getPlantRefs().remove(targetPlant);
+								akpTaxonService.updateVernacularName(vernaName);
+								target.add(AkpVernacularNamePanel.this);
+							}
+						});
 				item.add(plantRefPanel);
 			}
 		};

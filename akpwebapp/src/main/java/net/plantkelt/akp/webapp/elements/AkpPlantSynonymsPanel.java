@@ -39,7 +39,16 @@ public class AkpPlantSynonymsPanel extends Panel {
 		add(collapseDiv);
 
 		CollapsibleButton collapseButton = new CollapsibleButton(
-				"collapseButton", collapseDiv, false);
+				"collapseButton", collapseDiv, AkpWicketSession.get()
+						.getSessionData().isSynonymsDefaultOpen()) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onOpenClose(boolean opened) {
+				AkpWicketSession.get().getSessionData()
+						.setSynonymsDefaultOpen(opened);
+			}
+		};
 		add(collapseButton);
 
 		IModel<List<AkpTaxon>> listModel = new PropertyModel<List<AkpTaxon>>(

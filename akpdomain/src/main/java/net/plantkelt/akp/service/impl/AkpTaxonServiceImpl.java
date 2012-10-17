@@ -210,8 +210,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.getVernacularNames().remove(vernacularName);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().delete(vernacularName);
-		if (lexicalGroup.getVernacularNames().size() == 0)
-			getSession().delete(lexicalGroup);
 		return true;
 	}
 
@@ -258,6 +256,21 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.setPlant(plant);
 		plant.getLexicalGroups().add(lexicalGroup);
 		getSession().save(lexicalGroup);
+		return true;
+	}
+
+	@Transactional
+	@Override
+	public AkpLexicalGroup getLexicalGroup(Integer xid) {
+		return (AkpLexicalGroup) getSession().get(AkpLexicalGroup.class, xid);
+	}
+
+	@Transactional
+	@Override
+	public boolean deleteLexicalGroup(AkpLexicalGroup lexicalGroup) {
+		if (lexicalGroup.getVernacularNames().size() > 0)
+			return false;
+		getSession().delete(lexicalGroup);
 		return true;
 	}
 

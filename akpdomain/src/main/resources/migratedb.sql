@@ -12,3 +12,6 @@ alter table bib_verna2 add foreign key (bib) references bib (xid);
 
 alter table plante_verna2 add foreign key (verna2) references verna2 (xid);
 alter table plante_verna2 add foreign key (plante) references plante (xid);
+
+alter table plante_xref add foreign key (plante_from) references plante (xid);
+alter table plante_xref add foreign key (plante_to) references plante (xid);

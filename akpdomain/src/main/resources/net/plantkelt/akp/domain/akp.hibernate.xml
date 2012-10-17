@@ -54,6 +54,10 @@
             <key column="plante" />
             <one-to-many class="AkpLexicalGroup" />
         </bag>
+        <bag name="plantRefs" lazy="true" batch-size="100" table="plante_xref">
+            <key column="plante_from" />
+            <many-to-many column="plante_to" class="AkpPlant" />
+        </bag>
     </class>
 
     <class name="AkpPlantTag" table="plante_etiquette">

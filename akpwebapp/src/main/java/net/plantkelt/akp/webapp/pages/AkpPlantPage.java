@@ -10,6 +10,7 @@ import net.plantkelt.akp.webapp.elements.AkpLexicalGroupAdderPanel;
 import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.elements.AkpPlantHeaderPanel;
+import net.plantkelt.akp.webapp.elements.AkpPlantRefsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantSynonymsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantTagsPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -65,6 +66,11 @@ public class AkpPlantPage extends AkpPageTemplate {
 				"headerPanel", plantModel);
 		add(headerPanel);
 
+		// Plant xref
+		AkpPlantRefsPanel plantRefsPanel = new AkpPlantRefsPanel(
+				"plantRefsPanel", plantModel);
+		add(plantRefsPanel);
+
 		// Synonyms
 		AkpPlantSynonymsPanel synonymsPanel = new AkpPlantSynonymsPanel(
 				"synonymsPanel", plantModel);
@@ -101,9 +107,21 @@ public class AkpPlantPage extends AkpPageTemplate {
 				langGroupLabel.setVisible(lastLangGroupXid != langGroup
 						.getXid());
 				lastLangGroupXid = langGroup.getXid();
+				// Create model to prevent reloading whole plant
+				final Integer lexicalGroupXid = lexicalGroup.getXid();
+				IModel<AkpLexicalGroup> lexicalGroupModel = new LoadableDetachableModel<AkpLexicalGroup>(
+						lexicalGroup) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					protected AkpLexicalGroup load() {
+						return akpTaxonService.getLexicalGroup(lexicalGroupXid);
+					}
+				};
 				// Lexical group panel
 				AkpLexicalGroupPanel lexicalGroupPanel = new AkpLexicalGroupPanel(
-						"lexicalGroupPanel", item.getModel());
+						"lexicalGroupPanel", lexicalGroupModel,
+						AkpPlantPage.this);
 				item.add(lexicalGroupPanel);
 			}
 		};

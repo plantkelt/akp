@@ -13,6 +13,7 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	private SortedSet<AkpPlantTag> tags;
 	private List<AkpTaxon> taxons;
 	private List<AkpLexicalGroup> lexicalGroups;
+	private List<AkpPlant> plantRefs;
 
 	private transient AkpTaxon mainName;
 	private transient List<AkpTaxon> synonyms;
@@ -97,6 +98,14 @@ public class AkpPlant implements Comparable<AkpPlant> {
 
 	public void setLexicalGroups(List<AkpLexicalGroup> lexicalGroups) {
 		this.lexicalGroups = lexicalGroups;
+	}
+
+	public List<AkpPlant> getPlantRefs() {
+		return plantRefs;
+	}
+
+	public void setPlantRefs(List<AkpPlant> plantRefs) {
+		this.plantRefs = plantRefs;
 	}
 
 	private void updateTaxons() {

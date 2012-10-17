@@ -11,9 +11,19 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	private static final long serialVersionUID = 1L;
 
 	private AkpUser akpUser;
+	private AkpSessionData sessionData;
 
 	public AkpUser getAkpUser() {
 		return akpUser;
+	}
+
+	public AkpSessionData getSessionData() {
+		if (sessionData == null) {
+			sessionData = new AkpSessionData();
+			if (isAdmin())
+				sessionData.setSynonymsDefaultOpen(true);
+		}
+		return sessionData;
 	}
 
 	public void autologin(AkpUser utilisateur) {

@@ -12,11 +12,11 @@ public class CollapsibleButton extends Panel {
 	private static final long serialVersionUID = 1L;
 
 	private Component showHideComponent;
-	private boolean visible = false;
+	private boolean opened = false;
 
 	public CollapsibleButton(String id, Component showHide, boolean defaultOpen) {
 		super(id);
-		this.visible = defaultOpen;
+		this.opened = defaultOpen;
 		this.showHideComponent = showHide;
 
 		showHideComponent.setOutputMarkupId(true);
@@ -27,10 +27,11 @@ public class CollapsibleButton extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				visible = !visible;
-				showHideComponent.setVisible(visible);
+				opened = !opened;
+				showHideComponent.setVisible(opened);
 				target.add(showHideComponent);
 				target.add(this);
+				onOpenClose(opened);
 			}
 		};
 		AttributeModifier openClosedAttributeModifier = new AttributeModifier(
@@ -39,7 +40,8 @@ public class CollapsibleButton extends Panel {
 
 					@Override
 					public String getObject() {
-						return visible ? "collapsible-opened" : "collapsible-closed";
+						return opened ? "collapsible-opened"
+								: "collapsible-closed";
 					}
 				});
 		showHideLink.add(openClosedAttributeModifier);
@@ -49,10 +51,13 @@ public class CollapsibleButton extends Panel {
 	}
 
 	public void hide() {
-		visible = false;
+		opened = false;
 	}
 
 	public void show() {
-		visible = true;
+		opened = true;
+	}
+
+	protected void onOpenClose(boolean opened) {
 	}
 }

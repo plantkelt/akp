@@ -55,6 +55,10 @@ public interface AkpTaxonService {
 
 	public boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
 			Integer correct);
+	
+	public AkpLexicalGroup getLexicalGroup(Integer xid);
+	
+	public boolean deleteLexicalGroup(AkpLexicalGroup lexicalGroup);
 
 	public void testNode();
 

@@ -1,13 +1,11 @@
 package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -23,26 +21,21 @@ public class AkpPlantRefPanel extends Panel {
 	@Inject
 	private AkpTaxonService akpTaxonService;
 
-	public AkpPlantRefPanel(String id, final IModel<AkpPlant> plantModel,
-			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent) {
+	public AkpPlantRefPanel(String id, final IModel<AkpPlant> targetPlantModel,
+			final AkpPlantRefListener plantRefListener) {
 		super(id);
 
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
-		// <a wicket:id="plantRefLink"><span
-		// wicket:id="plantRefLabel"></span></a>
-		// <a class="delete-small" wicket:id="deleteLink">&nbsp;</a>
-
 		// Link to referenced plant
-		AkpPlant plant = plantModel.getObject();
+		AkpPlant targetPlant = targetPlantModel.getObject();
 		Link<AkpPlantPage> plantRefLink = AkpPlantPage.link("plantRefLink",
-				plant.getXid());
+				targetPlant.getXid());
 		add(plantRefLink);
 
 		// Label to display
 		Label plantRefLabel = new Label("plantRefLabel", "⇒ "
-				+ plant.getMainName().getHtmlName());
+				+ targetPlant.getMainName().getHtmlName());
 		plantRefLabel.setEscapeModelStrings(false);
 		plantRefLink.add(plantRefLabel);
 
@@ -53,11 +46,8 @@ public class AkpPlantRefPanel extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				AkpPlant plantRef = plantModel.getObject();
-				AkpVernacularName vernaName = vernaNameModel.getObject();
-				vernaName.getPlantRefs().remove(plantRef);
-				akpTaxonService.updateVernacularName(vernaName);
-				target.add(refreshComponent);
+				AkpPlant plantRef = targetPlantModel.getObject();
+				plantRefListener.onPlantRefRemoved(target, plantRef);
 			}
 		};
 		deleteLink.setVisible(isAdmin);
