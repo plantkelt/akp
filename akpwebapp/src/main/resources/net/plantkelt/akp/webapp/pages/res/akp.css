@@ -277,6 +277,11 @@ div.tagsSection {
 	border-radius: 8px;
 }
 
+div.linksSection {
+	float: right;
+	margin: 5px;
+}
+
 div.plantRefsSection {
 	
 }
@@ -442,4 +447,40 @@ form.plantRefAdder input {
 	font-family: "Times New Roman", Times, "serif";
 	font-style: italic;
 	color: #775533;
+}
+
+table.logs {
+	border-collapse: collapse;
+	border: 1px solid #888888;
+	font-size: 10pt;
+	width: 100%;
+}
+
+table.logs thead th {
+	background-color: #cccccc;
+}
+
+table.logs tr {
+	
+}
+
+table.logs tr.even {
+	background-color: #ccffcc;
+}
+
+table.logs td,table.logs th {
+	border: 1px solid #888888;
+}
+
+table.logs span.newValue {
+	display: block;
+	width: 100%;
+	min-height: 1em;
+	border-bottom: 1px dashed #888888;
+}
+
+table.logs span.oldValue {
+	display: block;
+	width: 100%;
+	min-height: 1em;
 }

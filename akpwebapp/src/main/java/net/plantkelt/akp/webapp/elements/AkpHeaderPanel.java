@@ -2,6 +2,7 @@ package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
+import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -11,6 +12,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
@@ -27,8 +29,9 @@ public class AkpHeaderPanel extends Panel {
 		String userName = akpUser != null ? akpUser.getLogin() : "";
 
 		// Links
-		BookmarkablePageLink<WebPage> classesLink = new BookmarkablePageLink<WebPage>(
-				"classesLink", AkpClassPage.class);
+		Link<AkpHomePage> searchLink = AkpHomePage.link("searchLink");
+		add(searchLink);
+		Link<AkpClassPage> classesLink = AkpClassPage.link("classesLink");
 		add(classesLink);
 
 		// No-User section

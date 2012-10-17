@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<div class="linksSection">
+			<a wicket:id="viewPlantLink"><wicket:message
+					key="view.plant.link" /></a>
+		</div>
+		<h1 class="taxon" wicket:id="plantName"></h1>
+		<table class="logs">
+			<thead>
+				<tr>
+					<th><wicket:message key="log.date" /></th>
+					<th><wicket:message key="log.user" /></th>
+					<th><wicket:message key="log.type" /></th>
+					<th><wicket:message key="log.new.value" /><br /> <wicket:message
+							key="log.old.value" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="logTable">
+					<td><span wicket:id="date" class="date" /></td>
+					<td><span wicket:id="user" class="user" /></td>
+					<td><span wicket:id="type" class="type" /></td>
+					<td><span wicket:id="newValue" class="newValue" /><span
+						wicket:id="oldValue" class="oldValue" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</wicket:extend>
+</body>
+</html>

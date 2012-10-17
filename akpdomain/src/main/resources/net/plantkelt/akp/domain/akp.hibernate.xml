@@ -141,6 +141,21 @@
         <property name="editor" type="string" column="editeur" />
     </class>
 
+    <class name="AkpLogEntry" table="hist">
+        <id name="xid" type="int">
+            <generator class="native" />
+        </id>
+        <property name="date" type="timestamp" column="ts" not-null="true" />
+        <property name="login" type="string" column="xuser" not-null="true" />
+        <property name="type" type="integer" column="oper" not-null="true" />
+        <property name="plantId" type="integer" column="plante" not-null="true" />
+        <property name="lexicalGroupId" type="integer" column="grplex" />
+        <property name="vernacularNameId" type="integer" column="verna" />
+        <property name="taxonId" type="integer" column="taxon" />
+        <property name="oldValue" type="string" column="oldvalue" />
+        <property name="newValue" type="string" column="newvalue" />
+    </class>
+
     <class name="Node" table="node">
         <id name="xid" type="int">
             <generator class="native" />

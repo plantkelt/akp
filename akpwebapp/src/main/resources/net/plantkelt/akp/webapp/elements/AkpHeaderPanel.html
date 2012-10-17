@@ -1,6 +1,7 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
 	<div class="logo"></div>
 	<div class="links">
+		<a wicket:id="searchLink"><wicket:message key="search.link" /></a> ∙
 		<a wicket:id="classesLink"><wicket:message key="classes.link" /></a>
 	</div>
 	<div class="user" wicket:id="noUserSection">
@@ -8,7 +9,7 @@
 				key="login.label" /></a>
 	</div>
 	<div class="user" wicket:id="userSection">
-		<span wicket:id="currentUser"></span> - <a href="#"
+		<span wicket:id="currentUser"></span> ∙ <a href="#"
 			wicket:id="logoutLink"><wicket:message key="logout.label" /></a>
 	</div>
 	<div style="clear: both;"></div>

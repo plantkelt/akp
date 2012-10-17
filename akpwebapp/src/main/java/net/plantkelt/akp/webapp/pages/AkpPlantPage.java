@@ -83,6 +83,12 @@ public class AkpPlantPage extends AkpPageTemplate {
 				plantModel);
 		add(tagsPanel);
 
+		// Links
+		Link<AkpPlantLogsPage> viewHistoryLink = AkpPlantLogsPage.link(
+				"viewHistoryLink", plantId);
+		viewHistoryLink.setVisible(isAdmin);
+		add(viewHistoryLink);
+
 		// Lexical groups
 		IModel<List<AkpLexicalGroup>> lexicalGroupsModel = new LoadableDetachableModel<List<AkpLexicalGroup>>() {
 			private static final long serialVersionUID = 1L;

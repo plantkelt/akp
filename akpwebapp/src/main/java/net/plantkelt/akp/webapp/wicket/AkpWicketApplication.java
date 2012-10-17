@@ -9,6 +9,7 @@ import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpIndexPage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
+import net.plantkelt.akp.webapp.pages.AkpPlantLogsPage;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
 
 import org.apache.wicket.WicketRuntimeException;
@@ -51,6 +52,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/badluck", AkpExceptionPage.class);
 		mountPage("/class/${xid}", AkpClassPage.class);
 		mountPage("/plant/${xid}", AkpPlantPage.class);
+		mountPage("/plant/history/${xid}", AkpPlantLogsPage.class);
 
 		// Look for extended browser info from client. Needed as server is in
 		// UTC.
