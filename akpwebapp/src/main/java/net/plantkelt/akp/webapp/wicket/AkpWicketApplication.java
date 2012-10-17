@@ -2,6 +2,8 @@ package net.plantkelt.akp.webapp.wicket;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.plantkelt.akp.service.AkpLogService;
+import net.plantkelt.akp.service.AkpLogService.LoginGetter;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpExceptionPage;
@@ -42,6 +44,13 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		getComponentInstantiationListeners().add(
 				new GuiceComponentInjector(this, injector));
 		loginService = injector.getInstance(AkpLoginService.class);
+		injector.getInstance(AkpLogService.class).setLoginGetter(
+				new LoginGetter() {
+					@Override
+					public String getCurrentLogin() {
+						return AkpWicketSession.get().getAkpUser().getLogin();
+					}
+				});
 
 		// Mount pages
 		// Common

@@ -44,8 +44,9 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 		final DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
 
 		// Header
-		Label plantName = new Label("plantName", plant.getMainName()
-				.getHtmlName());
+		Label plantName = new Label("plantName",
+				plant == null ? plantId.toString() : plant.getMainName()
+						.getHtmlName());
 		plantName.setEscapeModelStrings(false);
 		add(plantName);
 

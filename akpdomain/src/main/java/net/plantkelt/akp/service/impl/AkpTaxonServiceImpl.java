@@ -14,6 +14,7 @@ import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.domain.Node;
+import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.hibernate.Session;
@@ -27,6 +28,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Inject
 	private Provider<Session> sessionProvider;
+
+	@Inject
+	private AkpLogService akpLogService;
 
 	@Transactional
 	@Override
@@ -127,6 +131,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpPlant plant = new AkpPlant(owningClass, mainTaxon);
 		getSession().save(plant);
 		getSession().save(mainTaxon);
+		akpLogService.logPlantCreation(plant);
 		return plant;
 	}
 
@@ -168,6 +173,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	public boolean deletePlant(AkpPlant plant) {
 		if (!canDeletePlant(plant))
 			return false;
+		akpLogService.logPlantDeletion(plant);
 		getSession().delete(plant.getMainName());
 		getSession().delete(plant);
 		return true;
