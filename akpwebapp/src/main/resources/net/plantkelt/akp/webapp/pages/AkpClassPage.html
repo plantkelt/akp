@@ -15,6 +15,17 @@
 		<div wicket:id="classSynonymsEditor">
 			<span class="taxon" wicket:id="classSynonyms" />
 		</div>
+		<form wicket:id="form">
+			<button type="submit" wicket:id="addSubClassButton">
+				<wicket:message key="add.subclass.button" />
+			</button>
+			<button type="submit" wicket:id="removeClassButton">
+				<wicket:message key="remove.class.button" />
+			</button>
+			<button type="submit" wicket:id="addPlantButton">
+				<wicket:message key="add.plant.button" />
+			</button>
+		</form>
 		<h2>
 			<wicket:message key="class.subclasses.header" />
 		</h2>
@@ -23,14 +34,6 @@
 					class="down" wicket:id="downLink"></a> </span><a wicket:id="subClassLink"><span
 					class="taxon" wicket:id="subClassName" /></a></li>
 		</ul>
-		<form wicket:id="form">
-			<button type="submit" wicket:id="addSubClassButton">
-				<wicket:message key="add.subclass.button" />
-			</button>
-			<button type="submit" wicket:id="removeClassButton">
-				<wicket:message key="remove.class.button" />
-			</button>
-		</form>
 		<h2>
 			<wicket:message key="class.plants.header" />
 		</h2>

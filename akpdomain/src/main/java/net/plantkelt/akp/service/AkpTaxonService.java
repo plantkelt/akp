@@ -25,11 +25,17 @@ public interface AkpTaxonService {
 
 	public boolean deleteClass(AkpClass akpClass);
 
-	public AkpPlant getPlant(Integer xid);
+	public AkpPlant createNewPlant(AkpClass owningClass);
 
+	public AkpPlant getPlant(Integer xid);
+	
 	public List<AkpPlant> searchPlantFromName(String name);
 
 	public void updatePlant(AkpPlant plant);
+
+	public boolean canDeletePlant(AkpPlant plant);
+
+	public boolean deletePlant(AkpPlant plant);
 
 	public void createNewTaxon(AkpPlant ownerPlant);
 
@@ -55,9 +61,9 @@ public interface AkpTaxonService {
 
 	public boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
 			Integer correct);
-	
+
 	public AkpLexicalGroup getLexicalGroup(Integer xid);
-	
+
 	public boolean deleteLexicalGroup(AkpLexicalGroup lexicalGroup);
 
 	public void testNode();

@@ -18,6 +18,21 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	private transient AkpTaxon mainName;
 	private transient List<AkpTaxon> synonyms;
 
+	@SuppressWarnings("unused")
+	private AkpPlant() {
+	}
+
+	public AkpPlant(AkpClass owningClass, AkpTaxon mainName) {
+		this.akpClass = owningClass;
+		mainName.setType(AkpTaxon.TYPE_MAIN);
+		mainName.setPlant(this);
+		taxons = new ArrayList<AkpTaxon>();
+		taxons.add(mainName);
+		lexicalGroups = Collections.emptyList();
+		plantRefs = Collections.emptyList();
+		comments = "";
+	}
+
 	public Integer getXid() {
 		return xid;
 	}

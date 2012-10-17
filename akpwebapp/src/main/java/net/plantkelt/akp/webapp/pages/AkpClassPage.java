@@ -126,44 +126,11 @@ public class AkpClassPage extends AkpPageTemplate {
 		classSynonyms.setEscapeModelStrings(false);
 		synonymsEditor.add(classSynonyms);
 
-		// Sub-classes
-		RepeatingView subClassesRepeat = new RepeatingView("subClasses");
-		add(subClassesRepeat);
-		List<AkpClass> subClasses = akpClass.getChildren();
-		int i = 0;
-		for (AkpClass subClass : subClasses) {
-			final int index = i;
-			WebMarkupContainer item = new WebMarkupContainer(
-					subClassesRepeat.newChildId());
-			subClassesRepeat.add(item);
-			WebMarkupContainer adminSection = new WebMarkupContainer(
-					"adminSection");
-			item.add(adminSection);
-			adminSection.setVisible(isAdmin);
-			Link<Void> downLink = new Link<Void>("downLink") {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void onClick() {
-					akpTaxonService.moveDownChildClass(
-							akpClassModel.getObject(), index);
-					refreshPage();
-				}
-			};
-			adminSection.add(downLink);
-			Link<AkpClassPage> subClassLink = AkpClassPage.link("subClassLink",
-					subClass.getXid());
-			Label subClassNameLabel = new Label("subClassName",
-					subClass.getName());
-			subClassNameLabel.setEscapeModelStrings(false);
-			subClassLink.add(subClassNameLabel);
-			item.add(subClassLink);
-			i++;
-		}
-
-		// Add a sub-class button
+		// Generic form
 		Form<Void> form = new Form<Void>("form");
 		add(form);
+
+		// Add a sub-class button
 		Button addSubClassButton = new Button("addSubClassButton") {
 			private static final long serialVersionUID = 1L;
 
@@ -201,6 +168,56 @@ public class AkpClassPage extends AkpPageTemplate {
 		form.add(removeClassButton);
 		// We can't add a new root class
 		addSubClassButton.setVisible(isAdmin && akpClass.getXid() != null);
+
+		// Add a plant button
+		Button addPlantButton = new Button("addPlantButton") {
+			private static final long serialVersionUID = 1L;
+
+			public void onSubmit() {
+				AkpPlant plant = akpTaxonService.createNewPlant(akpClassModel
+						.getObject());
+				setResponsePage(AkpPlantPage.class,
+						new PageParameters().add("xid", plant.getXid()));
+			}
+		};
+		// We need to be admin to add, we can't add a plant in root class
+		addPlantButton.setVisible(isAdmin && akpClass.getXid() != null);
+		form.add(addPlantButton);
+
+		// Sub-classes
+		RepeatingView subClassesRepeat = new RepeatingView("subClasses");
+		add(subClassesRepeat);
+		List<AkpClass> subClasses = akpClass.getChildren();
+		int i = 0;
+		for (AkpClass subClass : subClasses) {
+			final int index = i;
+			WebMarkupContainer item = new WebMarkupContainer(
+					subClassesRepeat.newChildId());
+			subClassesRepeat.add(item);
+			WebMarkupContainer adminSection = new WebMarkupContainer(
+					"adminSection");
+			item.add(adminSection);
+			adminSection.setVisible(isAdmin);
+			Link<Void> downLink = new Link<Void>("downLink") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void onClick() {
+					akpTaxonService.moveDownChildClass(
+							akpClassModel.getObject(), index);
+					refreshPage();
+				}
+			};
+			adminSection.add(downLink);
+			Link<AkpClassPage> subClassLink = AkpClassPage.link("subClassLink",
+					subClass.getXid());
+			Label subClassNameLabel = new Label("subClassName",
+					subClass.getName());
+			subClassNameLabel.setEscapeModelStrings(false);
+			subClassLink.add(subClassNameLabel);
+			item.add(subClassLink);
+			i++;
+		}
 
 		// Owned-plants
 		RepeatingView ownedPlantsRepeat = new RepeatingView("ownedPlants");

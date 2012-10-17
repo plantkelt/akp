@@ -119,6 +119,18 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Transactional
 	@Override
+	public AkpPlant createNewPlant(AkpClass owningClass) {
+		AkpTaxon mainTaxon = new AkpTaxon();
+		mainTaxon.setType(AkpTaxon.TYPE_MAIN);
+		mainTaxon.setName("<l><b>Aaa aaa</b></l>");
+		AkpPlant plant = new AkpPlant(owningClass, mainTaxon);
+		getSession().save(plant);
+		getSession().save(mainTaxon);
+		return plant;
+	}
+
+	@Transactional
+	@Override
 	public AkpPlant getPlant(Integer xid) {
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
 	}
@@ -139,6 +151,25 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Override
 	public void updatePlant(AkpPlant plant) {
 		getSession().update(plant);
+	}
+
+	@Transactional
+	@Override
+	public boolean canDeletePlant(AkpPlant plant) {
+		return plant.getLexicalGroups().size() == 0
+				&& plant.getTags().size() == 0
+				&& plant.getSynonyms().size() == 0
+				&& plant.getPlantRefs().size() == 0;
+	}
+
+	@Transactional
+	@Override
+	public boolean deletePlant(AkpPlant plant) {
+		if (!canDeletePlant(plant))
+			return false;
+		getSession().delete(plant.getMainName());
+		getSession().delete(plant);
+		return true;
 	}
 
 	@Transactional
