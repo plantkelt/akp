@@ -90,8 +90,7 @@ public class AkpBibAdderPanel extends Panel {
 				AkpBib bib = akpTaxonService.getBib(bibEntryModel.getObject());
 				AkpVernacularName vernaName = vernaNameModel.getObject();
 				if (bib != null && !vernaName.getBibs().contains(bib)) {
-					vernaName.getBibs().add(bib);
-					akpTaxonService.updateVernacularName(vernaName);
+					akpTaxonService.addBibToVernacularName(bib, vernaName);
 					AkpUser user = AkpWicketSession.get().getAkpUser();
 					if (user != null) {
 						user.setLastbib(bib.getXid());

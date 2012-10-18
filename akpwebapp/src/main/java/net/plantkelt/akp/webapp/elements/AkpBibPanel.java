@@ -60,8 +60,8 @@ public class AkpBibPanel extends Panel {
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				AkpVernacularName vernaName = vernaNameModel.getObject();
-				vernaName.getBibs().remove(bibModel.getObject());
-				akpTaxonService.updateVernacularName(vernaName);
+				akpTaxonService.removeBibFromVernacularName(bibModel.getObject(),
+						vernaName);
 				target.add(refreshComponent);
 			}
 		};

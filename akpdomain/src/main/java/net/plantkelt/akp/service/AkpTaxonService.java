@@ -32,7 +32,11 @@ public interface AkpTaxonService {
 
 	public List<AkpPlant> searchPlantFromName(String name);
 
-	public void updatePlant(AkpPlant plant);
+	public void updatePlantComments(AkpPlant plant, String newComments);
+
+	public void addPlantRefToPlant(AkpPlant plant, AkpPlant targetPlant);
+
+	public void removePlantRefFromPlant(AkpPlant plant, AkpPlant targetPlant);
 
 	public boolean canDeletePlant(AkpPlant plant);
 
@@ -46,7 +50,7 @@ public interface AkpTaxonService {
 
 	public void createNewTaxon(AkpPlant ownerPlant);
 
-	public void updateTaxon(AkpTaxon taxon);
+	public void updateTaxonName(AkpTaxon taxon, String newName);
 
 	public void deleteTaxon(AkpTaxon taxon);
 
@@ -54,7 +58,23 @@ public interface AkpTaxonService {
 
 	public void addChildVernacularName(AkpVernacularName parentName);
 
-	public void updateVernacularName(AkpVernacularName vernacularName);
+	public void updateVernacularNameName(AkpVernacularName vernacularName,
+			String newName);
+
+	public void updateVernacularNameComments(AkpVernacularName vernacularName,
+			String newComments);
+
+	public void addBibToVernacularName(AkpBib bib,
+			AkpVernacularName vernacularName);
+
+	public void removeBibFromVernacularName(AkpBib bib,
+			AkpVernacularName vernacularName);
+
+	public void addPlantRefToVernacularName(AkpPlant targetPlant,
+			AkpVernacularName vernacularName);
+
+	public void removePlantRefFromVernacularName(AkpPlant targetPlant,
+			AkpVernacularName vernacularName);
 
 	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 

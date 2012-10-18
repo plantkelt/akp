@@ -155,8 +155,30 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Transactional
 	@Override
-	public void updatePlant(AkpPlant plant) {
+	public void updatePlantComments(AkpPlant plant, String newComments) {
+		String oldComments = plant.getComments();
+		plant.setComments(newComments);
 		getSession().update(plant);
+		akpLogService.logPlantCommentsUpdate(plant, oldComments);
+	}
+
+	@Transactional
+	@Override
+	public void addPlantRefToPlant(AkpPlant plant, AkpPlant targetPlant) {
+		if (!plant.equals(targetPlant)
+				&& !plant.getPlantRefs().contains(targetPlant)) {
+			plant.getPlantRefs().add(targetPlant);
+			getSession().update(plant);
+			akpLogService.logPlantRefCreation(plant, targetPlant);
+		}
+	}
+
+	@Transactional
+	@Override
+	public void removePlantRefFromPlant(AkpPlant plant, AkpPlant targetPlant) {
+		plant.getPlantRefs().remove(targetPlant);
+		getSession().update(plant);
+		akpLogService.logPlantRefDeletion(plant, targetPlant);
 	}
 
 	@Transactional
@@ -188,6 +210,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpPlantTag tag = new AkpPlantTag(plant, tagType);
 		getSession().save(tag);
 		plant.getTags().add(tag);
+		akpLogService.logPlantTagCreation(tag);
 		return true;
 	}
 
@@ -195,11 +218,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Override
 	public void updatePlantTag(AkpPlantTag tag) {
 		getSession().update(tag);
+		akpLogService.logPlantTagUpdate(tag);
 	}
 
 	@Transactional
 	@Override
 	public void deletePlantTag(AkpPlantTag tag) {
+		akpLogService.logPlantTagDeletion(tag);
 		AkpPlant plant = tag.getPlant();
 		plant.getTags().remove(tag);
 		getSession().delete(tag);
@@ -211,15 +236,19 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpTaxon taxon = new AkpTaxon();
 		taxon.setPlant(ownerPlant);
 		taxon.setType(AkpTaxon.TYPE_SYNONYM);
-		taxon.setName("<l><b>Aaa aaa</b></l>");
+		taxon.setName("<l><b></b></l>");
 		ownerPlant.addTaxon(taxon);
 		getSession().save(taxon);
+		akpLogService.logTaxonCreation(taxon);
 	}
 
 	@Transactional
 	@Override
-	public void updateTaxon(AkpTaxon taxon) {
+	public void updateTaxonName(AkpTaxon taxon, String newName) {
+		String oldName = taxon.getName();
+		taxon.setName(newName);
 		getSession().update(taxon);
+		akpLogService.logTaxonUpdate(taxon, oldName);
 	}
 
 	@Transactional
@@ -229,6 +258,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		ownerPlant.removeTaxon(taxon);
 		getSession().delete(taxon);
 		getSession().update(ownerPlant);
+		akpLogService.logTaxonDeletion(taxon);
 	}
 
 	@Transactional
@@ -242,6 +272,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
+		akpLogService.logVernacularNameCreation(name);
 	}
 
 	@Transactional
@@ -256,13 +287,71 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
+		akpLogService.logVernacularNameCreation(name);
 	}
 
 	@Transactional
 	@Override
-	public void updateVernacularName(AkpVernacularName vernacularName) {
+	public void updateVernacularNameName(AkpVernacularName vernacularName,
+			String newName) {
+		String oldName = vernacularName.getName();
+		vernacularName.setName(newName);
 		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
 		getSession().update(vernacularName);
+		akpLogService.logVernacularNameNameUpdate(vernacularName, oldName);
+	}
+
+	@Transactional
+	@Override
+	public void updateVernacularNameComments(AkpVernacularName vernacularName,
+			String newComments) {
+		String oldComments = vernacularName.getComments();
+		vernacularName.setComments(newComments);
+		getSession().update(vernacularName);
+		akpLogService.logVernacularNameCommentsUpdate(vernacularName,
+				oldComments);
+	}
+
+	@Transactional
+	@Override
+	public void addBibToVernacularName(AkpBib bib,
+			AkpVernacularName vernacularName) {
+		if (vernacularName.getBibs().contains(bib))
+			return;
+		vernacularName.getBibs().add(bib);
+		getSession().update(vernacularName);
+		akpLogService.logVernacularNameBibAddition(vernacularName, bib);
+	}
+
+	@Transactional
+	@Override
+	public void removeBibFromVernacularName(AkpBib bib,
+			AkpVernacularName vernacularName) {
+		vernacularName.getBibs().remove(bib);
+		getSession().update(vernacularName);
+		akpLogService.logVernacularNameBibRemoval(vernacularName, bib);
+	}
+
+	@Transactional
+	@Override
+	public void addPlantRefToVernacularName(AkpPlant targetPlant,
+			AkpVernacularName vernacularName) {
+		if (!vernacularName.getPlantRefs().contains(targetPlant)) {
+			vernacularName.getPlantRefs().add(targetPlant);
+			getSession().update(vernacularName);
+			akpLogService.logVernacularNamePlantRefAddition(vernacularName,
+					targetPlant);
+		}
+	}
+
+	@Transactional
+	@Override
+	public void removePlantRefFromVernacularName(AkpPlant targetPlant,
+			AkpVernacularName vernacularName) {
+		vernacularName.getPlantRefs().remove(targetPlant);
+		getSession().update(vernacularName);
+		akpLogService.logVernacularNamePlantRefRemoval(vernacularName,
+				targetPlant);
 	}
 
 	@Transactional
@@ -273,6 +362,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
 		lexicalGroup.getVernacularNames().remove(vernacularName);
 		lexicalGroup.refreshVernacularNamesTree();
+		akpLogService.logVernacularNameDeletion(vernacularName);
 		getSession().delete(vernacularName);
 		return true;
 	}
@@ -320,6 +410,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		lexicalGroup.setPlant(plant);
 		plant.getLexicalGroups().add(lexicalGroup);
 		getSession().save(lexicalGroup);
+		akpLogService.logLexicalGroupCreation(lexicalGroup);
 		return true;
 	}
 

@@ -74,14 +74,16 @@ public class AkpPlantSynonymsPanel extends Panel {
 								if (name == null || name.length() == 0) {
 									akpTaxonService.deleteTaxon(taxon);
 								} else {
-									taxon.setName(name);
-									akpTaxonService.updateTaxon(taxon);
+									akpTaxonService
+											.updateTaxonName(taxon, name);
 								}
 								target.add(AkpPlantSynonymsPanel.this);
 							}
 						});
 				item.add(editor);
 				editor.setReadOnly(!isAdmin);
+				if (taxonModel.getObject().getName().equals("<l><b></b></l>"))
+					editor.open();
 				IModel<String> nameModel = new PropertyModel<String>(
 						taxonModel, "htmlName");
 				Label synonymLabel = new Label("synonymName", nameModel);

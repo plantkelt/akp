@@ -43,9 +43,8 @@ public class AkpPlantRefsPanel extends Panel {
 							public void onPlantRefRemoved(
 									AjaxRequestTarget target,
 									AkpPlant targetPlant) {
-								AkpPlant plant = plantModel.getObject();
-								plant.getPlantRefs().remove(targetPlant);
-								akpTaxonService.updatePlant(plant);
+								akpTaxonService.removePlantRefFromPlant(
+										plantModel.getObject(), targetPlant);
 								target.add(AkpPlantRefsPanel.this);
 							}
 						});
@@ -60,12 +59,8 @@ public class AkpPlantRefsPanel extends Panel {
 					@Override
 					public void onPlantRefAdded(AjaxRequestTarget target,
 							AkpPlant targetPlant) {
-						AkpPlant plant = plantModel.getObject();
-						if (!plant.equals(targetPlant)
-								&& !plant.getPlantRefs().contains(targetPlant)) {
-							plant.getPlantRefs().add(targetPlant);
-							akpTaxonService.updatePlant(plant);
-						}
+						akpTaxonService.addPlantRefToPlant(
+								plantModel.getObject(), targetPlant);
 						target.add(AkpPlantRefsPanel.this);
 					}
 				});

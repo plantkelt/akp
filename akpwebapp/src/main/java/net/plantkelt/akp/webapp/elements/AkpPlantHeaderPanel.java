@@ -40,8 +40,7 @@ public class AkpPlantHeaderPanel extends Panel {
 						AkpTaxon mainTaxon = plantModel.getObject()
 								.getMainName();
 						if (name != null && name.length() > 0) {
-							mainTaxon.setName(name);
-							akpTaxonService.updateTaxon(mainTaxon);
+							akpTaxonService.updateTaxonName(mainTaxon, name);
 						}
 						target.add(AkpPlantHeaderPanel.this);
 					}
@@ -65,9 +64,8 @@ public class AkpPlantHeaderPanel extends Panel {
 					@Override
 					public void saveObject(AjaxRequestTarget target,
 							String comments) {
-						AkpPlant plant = plantModel.getObject();
-						plant.setComments(comments);
-						akpTaxonService.updatePlant(plant);
+						akpTaxonService.updatePlantComments(
+								plantModel.getObject(), comments);
 						target.add(AkpPlantHeaderPanel.this);
 					}
 				});

@@ -53,8 +53,8 @@ public class AkpVernacularNamePanel extends Panel {
 						if (name == null || name.length() == 0) {
 							akpTaxonService.deleteVernacularName(vernaName);
 						} else {
-							vernaName.setName(name);
-							akpTaxonService.updateVernacularName(vernaName);
+							akpTaxonService.updateVernacularNameName(vernaName,
+									name);
 						}
 						target.add(refreshComponent);
 					}
@@ -101,10 +101,8 @@ public class AkpVernacularNamePanel extends Panel {
 							AkpPlant targetPlant) {
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
-						if (!vernaName.getPlantRefs().contains(targetPlant)) {
-							vernaName.getPlantRefs().add(targetPlant);
-							akpTaxonService.updateVernacularName(vernaName);
-						}
+						akpTaxonService.addPlantRefToVernacularName(
+								targetPlant, vernaName);
 						target.add(AkpVernacularNamePanel.this);
 					}
 				});
@@ -155,10 +153,8 @@ public class AkpVernacularNamePanel extends Panel {
 					@Override
 					public void saveObject(AjaxRequestTarget target,
 							String comments) {
-						AkpVernacularName vernaName = vernaNameModel
-								.getObject();
-						vernaName.setComments(comments);
-						akpTaxonService.updateVernacularName(vernaName);
+						akpTaxonService.updateVernacularNameComments(
+								vernaNameModel.getObject(), comments);
 						target.add(AkpVernacularNamePanel.this);
 					}
 				});
@@ -187,8 +183,9 @@ public class AkpVernacularNamePanel extends Panel {
 									AkpPlant targetPlant) {
 								AkpVernacularName vernaName = vernaNameModel
 										.getObject();
-								vernaName.getPlantRefs().remove(targetPlant);
-								akpTaxonService.updateVernacularName(vernaName);
+								akpTaxonService
+										.removePlantRefFromVernacularName(
+												targetPlant, vernaName);
 								target.add(AkpVernacularNamePanel.this);
 							}
 						});
