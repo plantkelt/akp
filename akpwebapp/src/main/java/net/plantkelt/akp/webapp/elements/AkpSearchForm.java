@@ -9,6 +9,8 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.AdminMarkupContainer;
+import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -42,13 +44,42 @@ public class AkpSearchForm extends Panel {
 				new CompoundPropertyModel<AkpSearchData>(searchDataModel));
 		add(form);
 
+		// Admin/logged-in/public containers
+		WebMarkupContainer taxonNameRow = new WebMarkupContainer("taxonNameRow");
+		form.add(taxonNameRow);
+		WebMarkupContainer includeSynonymsRow = new LoggedInMarkupContainer(
+				"includeSynonymsRow");
+		form.add(includeSynonymsRow);
+		WebMarkupContainer plantOriginRow = new LoggedInMarkupContainer(
+				"plantOriginRow");
+		form.add(plantOriginRow);
+		WebMarkupContainer plantCommentsRow = new LoggedInMarkupContainer(
+				"plantCommentsRow");
+		form.add(plantCommentsRow);
+		WebMarkupContainer plantFamilyRow = new LoggedInMarkupContainer(
+				"plantFamilyRow");
+		form.add(plantFamilyRow);
+		WebMarkupContainer vernacularNameRow = new LoggedInMarkupContainer(
+				"vernacularNameRow");
+		form.add(vernacularNameRow);
+		WebMarkupContainer langSelectRow = new LoggedInMarkupContainer(
+				"langSelectRow");
+		form.add(langSelectRow);
+		WebMarkupContainer vernacularNameBibRow = new LoggedInMarkupContainer(
+				"vernacularNameBibRow");
+		form.add(vernacularNameBibRow);
+		WebMarkupContainer vernacularNameCommentsRow = new AdminMarkupContainer(
+				"vernacularNameCommentsRow");
+		form.add(vernacularNameCommentsRow);
+
 		// Simple stuff
-		form.add(new TextField<String>("taxonName"));
-		form.add(new CheckBox("includeSynonyms"));
-		form.add(new TextField<String>("plantOrigin"));
-		form.add(new TextField<String>("plantComments"));
-		form.add(new TextField<String>("vernacularName"));
-		form.add(new TextField<String>("vernacularNameComments"));
+		taxonNameRow.add(new TextField<String>("taxonName"));
+		includeSynonymsRow.add(new CheckBox("includeSynonyms"));
+		plantOriginRow.add(new TextField<String>("plantOrigin"));
+		plantCommentsRow.add(new TextField<String>("plantComments"));
+		vernacularNameRow.add(new TextField<String>("vernacularName"));
+		vernacularNameCommentsRow.add(new TextField<String>(
+				"vernacularNameComments"));
 
 		// Families
 		familiesModel = new LoadableDetachableModel<List<AkpClass>>() {
@@ -101,7 +132,7 @@ public class AkpSearchForm extends Panel {
 						return akpClass.getXid().toString();
 					}
 				});
-		form.add(familySelect);
+		plantFamilyRow.add(familySelect);
 		familySelect.setNullValid(true);
 
 		// Vernacular languages
@@ -139,7 +170,7 @@ public class AkpSearchForm extends Panel {
 					langSelectModel);
 			item.add(langCheckBox);
 		}
-		form.add(langListRepeat);
+		langSelectRow.add(langListRepeat);
 
 		// Bib ref.
 		bibsModel = new LoadableDetachableModel<List<AkpBib>>() {
@@ -184,7 +215,7 @@ public class AkpSearchForm extends Panel {
 						return bib.getXid();
 					}
 				});
-		form.add(bibSelect);
+		vernacularNameBibRow.add(bibSelect);
 		bibSelect.setNullValid(true);
 
 		// Buttons

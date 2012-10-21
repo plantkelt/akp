@@ -4,47 +4,47 @@
 	</h1>
 	<form wicket:id="form">
 		<table>
-			<tr>
+			<tr wicket:id="taxonNameRow">
 				<td><label for="taxonName"> <wicket:message
 							key="search.taxon.label" /></label></td>
 				<td><input wicket:id="taxonName" type="text" size="60" /></td>
 			</tr>
-			<tr>
+			<tr wicket:id="includeSynonymsRow">
 				<td><label for="includeSynonyms"> <wicket:message
 							key="search.include.synonyms" /></label></td>
 				<td><input wicket:id="includeSynonyms" type="checkbox" /></td>
 			</tr>
-			<tr>
+			<tr wicket:id="plantOriginRow">
 				<td><label for="plantOrigin"> <wicket:message
 							key="search.plant.origin.label" /></label></td>
 				<td><input wicket:id="plantOrigin" type="text" size="60" /></td>
 			</tr>
-			<tr>
+			<tr wicket:id="plantCommentsRow">
 				<td><label for="plantComments"> <wicket:message
 							key="search.plant.comments.label" /></label></td>
 				<td><input wicket:id="plantComments" type="text" size="60" /></td>
 			</tr>
-			<tr>
+			<tr wicket:id="plantFamilyRow">
 				<td><label for="plantFamily"> <wicket:message
 							key="search.plant.family.label" /></label></td>
 				<td><select wicket:id="plantFamily"></select></td>
 			</tr>
-			<tr>
+			<tr wicket:id="vernacularNameRow">
 				<td><label for="vernacularName"> <wicket:message
 							key="search.vernacular.label" /></label></td>
 				<td><input wicket:id="vernacularName" type="text" size="60" /></td>
 			</tr>
-			<tr>
+			<tr wicket:id="langSelectRow">
 				<td><wicket:message key="search.vernacular.lang.label" /></td>
 				<td><span wicket:id="langList"><input type="checkbox"
 						wicket:id="langCheckbox"></input><span wicket:id="langName"></span></span></td>
 			</tr>
-			<tr>
+			<tr wicket:id="vernacularNameBibRow">
 				<td><label for="vernacularNameBib"> <wicket:message
 							key="search.plant.vernacular.bib.label" /></label></td>
 				<td><select wicket:id="vernacularNameBib"></select></td>
 			</tr>
-			<tr>
+			<tr wicket:id="vernacularNameCommentsRow">
 				<td><label for="vernacularNameComments"> <wicket:message
 							key="search.vernacular.comments.label" /></label></td>
 				<td><input wicket:id="vernacularNameComments" type="text"

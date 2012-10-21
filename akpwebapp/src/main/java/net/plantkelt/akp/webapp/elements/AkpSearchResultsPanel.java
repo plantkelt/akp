@@ -15,6 +15,7 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -66,22 +67,27 @@ public class AkpSearchResultsPanel extends Panel {
 				final String langXid = row.getLangXid();
 				final Integer correct = row.getCorrect();
 				for (AkpSearchResultColumn col : row.getColumns()) {
-					Link<AkpPlantPage> cell = new Link<AkpPlantPage>(
-							colRepeat.newChildId()) {
-						private static final long serialVersionUID = 1L;
+					WebMarkupContainer cell;
+					if (AkpWicketSession.get().isLoggedIn()) {
+						cell = new Link<AkpPlantPage>(colRepeat.newChildId()) {
+							private static final long serialVersionUID = 1L;
 
-						@Override
-						public void onClick() {
-							if (langXid != null && correct != null)
-								AkpWicketSession
-										.get()
-										.getSessionData()
-										.setLexicalGroupDefaultOpen(langXid,
-												correct, true);
-							setResponsePage(AkpPlantPage.class,
-									new PageParameters().add("xid", plantXid));
-						}
-					};
+							@Override
+							public void onClick() {
+								if (langXid != null && correct != null)
+									AkpWicketSession
+											.get()
+											.getSessionData()
+											.setLexicalGroupDefaultOpen(
+													langXid, correct, true);
+								setResponsePage(AkpPlantPage.class,
+										new PageParameters().add("xid",
+												plantXid));
+							}
+						};
+					} else {
+						cell = new WebMarkupContainer(colRepeat.newChildId());
+					}
 					colRepeat.add(cell);
 					Label cellValue = new Label("cellValue",
 							col.getDisplayValue());
