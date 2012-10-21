@@ -95,7 +95,7 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpLexicalGroup> load() {
-				return plantModel.getObject().getLexicalGroups();
+				return plantModel.getObject().getSortedLexicalGroups();
 			}
 		};
 		ListView<AkpLexicalGroup> lexicalGroupsListView = new ListView<AkpLexicalGroup>(

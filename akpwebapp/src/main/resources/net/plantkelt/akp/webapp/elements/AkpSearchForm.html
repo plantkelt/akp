@@ -1,0 +1,66 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<h1>
+		<wicket:message key="search.header" />
+	</h1>
+	<form wicket:id="form">
+		<table>
+			<tr>
+				<td><label for="taxonName"> <wicket:message
+							key="search.taxon.label" /></label></td>
+				<td><input wicket:id="taxonName" type="text" size="60" /></td>
+			</tr>
+			<tr>
+				<td><label for="includeSynonyms"> <wicket:message
+							key="search.include.synonyms" /></label></td>
+				<td><input wicket:id="includeSynonyms" type="checkbox" /></td>
+			</tr>
+			<tr>
+				<td><label for="plantOrigin"> <wicket:message
+							key="search.plant.origin.label" /></label></td>
+				<td><input wicket:id="plantOrigin" type="text" size="60" /></td>
+			</tr>
+			<tr>
+				<td><label for="plantComments"> <wicket:message
+							key="search.plant.comments.label" /></label></td>
+				<td><input wicket:id="plantComments" type="text" size="60" /></td>
+			</tr>
+			<tr>
+				<td><label for="plantFamily"> <wicket:message
+							key="search.plant.family.label" /></label></td>
+				<td><select wicket:id="plantFamily"></select></td>
+			</tr>
+			<tr>
+				<td><label for="vernacularName"> <wicket:message
+							key="search.vernacular.label" /></label></td>
+				<td><input wicket:id="vernacularName" type="text" size="60" /></td>
+			</tr>
+			<tr>
+				<td><wicket:message key="search.vernacular.lang.label" /></td>
+				<td><span wicket:id="langList"><input type="checkbox"
+						wicket:id="langCheckbox"></input><span wicket:id="langName"></span></span></td>
+			</tr>
+			<tr>
+				<td><label for="vernacularNameBib"> <wicket:message
+							key="search.plant.vernacular.bib.label" /></label></td>
+				<td><select wicket:id="vernacularNameBib"></select></td>
+			</tr>
+			<tr>
+				<td><label for="vernacularNameComments"> <wicket:message
+							key="search.vernacular.comments.label" /></label></td>
+				<td><input wicket:id="vernacularNameComments" type="text"
+					size="60" /></td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<button wicket:id="searchButton" type="submit">
+						<wicket:message key="search.button" />
+					</button>
+					<button wicket:id="luckyButton" type="submit">
+						<wicket:message key="search.button.lucky" />
+					</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</wicket:panel>

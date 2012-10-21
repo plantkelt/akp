@@ -32,8 +32,8 @@ a:hover {
 
 h1,h2,h3,h4 {
 	border: none;
-	margin: 3px;
-	padding: 3px;
+	margin: 0px;
+	padding: 2px;
 	font-weight: bold;
 	text-align: left;
 }
@@ -55,8 +55,8 @@ h4 {
 }
 
 p {
-	margin: 3px;
-	padding: 3px;
+	margin: 0px;
+	padding: 2px;
 }
 
 hr {
@@ -165,7 +165,7 @@ a.delete-small {
 }
 
 /* === Tags icons === */
-span.tag {
+span.tag_icon {
 	background-repeat: no-repeat;
 	padding-left: 22px;
 }
@@ -215,23 +215,23 @@ div.header div.links {
 	float: left;
 	height: 24px;
 	border-left: 1px solid #888888;
-	padding-top: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-top: 4px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 div.header div.user {
 	float: left;
 	height: 24px;
 	border-left: 1px solid #888888;
-	padding-top: 5px;
-	padding-right: 10px;
-	padding-left: 10px;
+	padding-top: 4px;
+	padding-right: 8px;
+	padding-left: 8px;
 }
 
 /* === Content === */
 div.content {
-	padding: 5px;
+	padding: 4px;
 }
 
 /* === Footer === */
@@ -264,6 +264,13 @@ a.collapsible-closed {
 }
 
 /* === AKP === */
+div.formPanel {
+	background-color: #eeeeee;
+	border-radius: 8px;
+	padding: 4px;
+	display: inline-block;
+}
+
 h3.langGroup {
 	clear: both;
 }
@@ -271,15 +278,15 @@ h3.langGroup {
 div.tagsSection {
 	float: right;
 	width: 20em;
-	margin-right: 5px;
-	margin-top: 5px;
+	margin-right: 4px;
+	margin-top: 4px;
 	background-color: #eeeeaa;
 	border-radius: 8px;
 }
 
 div.linksSection {
 	float: right;
-	margin: 5px;
+	margin: 4px;
 }
 
 div.plantRefsSection {
@@ -298,7 +305,7 @@ div.classPath {
 div.lexicalGroup {
 	background-color: #cccccc;
 	width: 100%;
-	border-radius: 5px;
+	border-radius: 4px;
 	margin-bottom: 4px;
 }
 
@@ -313,8 +320,8 @@ div.lexicalGroup div.vernaSection {
 	background-color: #eeeeee;
 	border-left: 1px solid gray;
 	padding: 4px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
 	min-height: 1.5em;
 }
 
@@ -333,7 +340,7 @@ div.lexicalGroup button {
 }
 
 span.bibRef {
-	border-radius: 3px;
+	border-radius: 4px;
 	background-color: #333333;
 	color: white;
 	font-size: 8pt;
@@ -382,14 +389,14 @@ a.bibPopup:hover span.moreInfo {
 	width: 400px;
 	color: black;
 	background: #eeeeaa;
-	padding: 5px;
+	padding: 4px;
 	z-index: 51;
 	border-radius: 8px;
 	box-shadow: 4px 4px 6px 2px #888888;
 }
 
 span.plantRef {
-	border-radius: 3px;
+	border-radius: 4px;
 	background-color: #eeeeaa;
 	font-size: 10pt;
 	max-width: 20em;
@@ -449,27 +456,26 @@ form.plantRefAdder input {
 	color: #775533;
 }
 
-table.logs {
+table.listing {
 	border-collapse: collapse;
-	border: 1px solid #888888;
 	font-size: 10pt;
 	width: 100%;
 }
 
-table.logs thead th {
+table.listing thead th {
 	background-color: #cccccc;
-}
+	text-align: left;
+}	
 
-table.logs tr {
+table.listing tr {
 	
 }
 
-table.logs tr.even {
+table.listing tr.even {
 	background-color: #ccffcc;
 }
 
-table.logs td,table.logs th {
-	border: 1px solid #888888;
+table.listing td,table.logs th {
 }
 
 table.logs span.newValue {
@@ -483,4 +489,9 @@ table.logs span.oldValue {
 	display: block;
 	width: 100%;
 	min-height: 1em;
+}
+
+table.searchResults tr:hover {
+	background-color: #ffffaa;
+	cursor: pointer;
 }

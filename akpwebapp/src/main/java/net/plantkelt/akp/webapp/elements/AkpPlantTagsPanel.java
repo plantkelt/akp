@@ -62,6 +62,7 @@ public class AkpPlantTagsPanel extends Panel {
 				IModel<String> valueModel = new PropertyModel<String>(tagModel,
 						"value");
 				Label valueLabel = new Label("tagValue", valueModel);
+				valueLabel.setEscapeModelStrings(false);
 				valueLabel.add(new AttributeAppender("class",
 						new Model<String>("tag_"
 								+ tagModel.getObject().getType()), " "));
@@ -131,6 +132,7 @@ public class AkpPlantTagsPanel extends Panel {
 								}
 							});
 					item.add(selector);
+					selector.setReadOnly(!isAdmin);
 					selector.add(valueLabel);
 				}
 			}

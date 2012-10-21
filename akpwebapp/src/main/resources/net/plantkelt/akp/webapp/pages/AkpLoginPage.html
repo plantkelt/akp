@@ -3,15 +3,16 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<h1>
-			<wicket:message key="please.login" />
-		</h1>
-		<span wicket:id="signInPanel" />
+		<div class="formPanel">
+			<h1>
+				<wicket:message key="please.login" />
+			</h1>
+			<span wicket:id="signInPanel" />
+			<form wicket:id="autologinForm">
+				<button>Autologin</button>
+			</form>
+		</div>
 
-		<form wicket:id="autologinForm">
-			<br /> <br />
-			<button>Autologin</button>
-		</form>
 		<form wicket:id="debugForm">
 			<br /> <br />
 			<button>Debug</button>

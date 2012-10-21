@@ -3,7 +3,9 @@ package net.plantkelt.akp.domain;
 import java.util.Collections;
 import java.util.List;
 
-public class AkpClass {
+public class AkpClass implements Comparable<AkpClass> {
+
+	public static final int LEVEL_FAMILY = 6;
 
 	private Integer xid;
 	private String name;
@@ -29,6 +31,10 @@ public class AkpClass {
 
 	public String getHtmlName() {
 		return name.replace("<l>", "<b>").replace("</l>", "</b>");
+	}
+
+	public String getTextName() {
+		return name.replaceAll("<.*?>", "");
 	}
 
 	public void setName(String name) {
@@ -106,6 +112,11 @@ public class AkpClass {
 	@Override
 	public String toString() {
 		return String.format("[AkpClass #%d %s]", getXid(), getName());
+	}
+
+	@Override
+	public int compareTo(AkpClass o) {
+		return getName().compareTo(o.getName());
 	}
 
 }

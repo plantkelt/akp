@@ -67,13 +67,14 @@ public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 	}
 
 	public synchronized List<AkpVernacularName> getRootVernacularNames() {
+		if (rootVernacularNames == null)
+			updateVernacularNamesTree();
 		return rootVernacularNames;
 	}
 
 	public synchronized void setVernacularNames(
 			List<AkpVernacularName> vernacularNames) {
 		this.vernacularNames = vernacularNames;
-		updateVernacularNamesTree();
 	}
 
 	public synchronized void refreshVernacularNamesTree() {

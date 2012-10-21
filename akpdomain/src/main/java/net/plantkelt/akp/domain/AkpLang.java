@@ -1,6 +1,6 @@
 package net.plantkelt.akp.domain;
 
-public class AkpLang {
+public class AkpLang implements Comparable<AkpLang> {
 
 	private String xid;
 	private int order;
@@ -51,5 +51,10 @@ public class AkpLang {
 	@Override
 	public String toString() {
 		return String.format("[AkpLang %s %s]", getXid(), getName());
+	}
+
+	@Override
+	public int compareTo(AkpLang o) {
+		return getXid().compareTo(o.getXid());
 	}
 }

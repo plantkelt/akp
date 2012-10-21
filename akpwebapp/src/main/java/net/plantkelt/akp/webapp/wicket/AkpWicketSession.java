@@ -56,6 +56,10 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 		return getAkpUser().isAdmin();
 	}
 
+	public boolean isLoggedIn() {
+		return getAkpUser() != null;
+	}
+
 	@Override
 	public boolean authenticate(String username, String password) {
 		akpUser = getAkpApplication().getLoginService().login(username,

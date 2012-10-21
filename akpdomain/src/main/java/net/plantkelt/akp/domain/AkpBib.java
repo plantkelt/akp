@@ -1,6 +1,6 @@
 package net.plantkelt.akp.domain;
 
-public class AkpBib {
+public class AkpBib implements Comparable<AkpBib> {
 
 	private String xid;
 	private String title;
@@ -64,6 +64,30 @@ public class AkpBib {
 
 	public void setEditor(String editor) {
 		this.editor = editor;
+	}
+
+	public String getShortName() {
+		String stitle = title;
+		if (stitle.length() > 50)
+			stitle = stitle.substring(0, 47) + "…";
+		return getXid() + " - " + stitle;
+	}
+
+	@Override
+	public int compareTo(AkpBib o) {
+		try {
+			if (getXid().length() < 4 || o.getXid().length() < 4)
+				return getXid().compareTo(o.getXid());
+			Integer xid1 = Integer.parseInt(getXid().substring(0, 4));
+			Integer xid2 = Integer.parseInt(o.getXid().substring(0, 4));
+			int diff = xid1 - xid2;
+			if (diff == 0)
+				return getXid().compareTo(o.getXid());
+			else
+				return diff;
+		} catch (NumberFormatException e) {
+			return getXid().compareTo(o.getXid());
+		}
 	}
 
 }

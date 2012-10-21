@@ -8,7 +8,6 @@ import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -39,7 +38,6 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 
 		// Load data
 		plantId = parameters.get("xid").toOptionalInteger();
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
 		AkpPlant plant = akpTaxonService.getPlant(plantId);
 		final DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
 

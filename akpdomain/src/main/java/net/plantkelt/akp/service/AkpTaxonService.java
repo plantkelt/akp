@@ -8,12 +8,16 @@ import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 
 public interface AkpTaxonService {
 
 	public AkpClass getClass(Integer xid);
+
+	public List<AkpClass> getFamilies();
 
 	public void createNewClass(AkpClass parentClass);
 
@@ -80,6 +84,8 @@ public interface AkpTaxonService {
 
 	public AkpBib getBib(String xid);
 
+	public List<AkpBib> getBibs();
+
 	public List<String> searchBibFromId(String id);
 
 	public AkpLang getLang(String xid);
@@ -92,6 +98,8 @@ public interface AkpTaxonService {
 	public AkpLexicalGroup getLexicalGroup(Integer xid);
 
 	public boolean deleteLexicalGroup(AkpLexicalGroup lexicalGroup);
+
+	public AkpSearchResult search(AkpSearchData searchData);
 
 	public void testNode();
 

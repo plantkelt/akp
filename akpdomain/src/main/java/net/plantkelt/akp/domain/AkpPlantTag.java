@@ -11,25 +11,32 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final int TAGTYPE_NATIVE_IN_BRITTANY = 7;
+	public static final int TAGTYPE_GLOBAL_STRUCTURE = 8;
+	public static final int TAGTYPE_ORIGIN = 9;
+	public static final int TAGTYPE_NUMBER_OF_SPECIES = 10;
+	public static final int TAGTYPE_REMARKS = 11;
+
 	private static final List<Integer> TYPES;
-	private static final Map<Integer, String> TYPE_7_VALUES;
-	private static final Map<Integer, String> TYPE_8_VALUES;
+	private static final Map<Integer, String> TAGTYPE_NATIVE_IN_BRITTANY_VALUES;
+	private static final Map<Integer, String> TAGTYPE_GLOBAL_STRUCTURE_VALUES;
 
 	static {
 		TYPES = new ArrayList<Integer>();
-		TYPES.add(7);
-		TYPES.add(8);
-		TYPES.add(9);
-		TYPES.add(10);
-		TYPES.add(11);
+		TYPES.add(TAGTYPE_NATIVE_IN_BRITTANY);
+		TYPES.add(TAGTYPE_GLOBAL_STRUCTURE);
+		TYPES.add(TAGTYPE_ORIGIN);
+		TYPES.add(TAGTYPE_NUMBER_OF_SPECIES);
+		TYPES.add(TAGTYPE_REMARKS);
 
-		TYPE_7_VALUES = new HashMap<Integer, String>();
-		TYPE_7_VALUES.put(1, "gouez / native / spontané");
-		TYPE_7_VALUES.put(2, "nann gouez / not native / non spontané");
+		TAGTYPE_NATIVE_IN_BRITTANY_VALUES = new HashMap<Integer, String>();
+		TAGTYPE_NATIVE_IN_BRITTANY_VALUES.put(1, "gouez / native / spontané");
+		TAGTYPE_NATIVE_IN_BRITTANY_VALUES.put(2,
+				"nann gouez / not native / non spontané");
 
-		TYPE_8_VALUES = new HashMap<Integer, String>();
-		TYPE_8_VALUES.put(1, "gwez / tree / arbre");
-		TYPE_8_VALUES.put(4, "gwez2 / tree2 / arbre2");
+		TAGTYPE_GLOBAL_STRUCTURE_VALUES = new HashMap<Integer, String>();
+		TAGTYPE_GLOBAL_STRUCTURE_VALUES.put(1, "gwez / tree / arbre");
+		TAGTYPE_GLOBAL_STRUCTURE_VALUES.put(4, "gwez2 / tree2 / arbre2");
 	}
 
 	private int type;
@@ -85,10 +92,10 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 
 	public String getIntValueAsString(int value) {
 		switch (type) {
-		case 7:
-			return TYPE_7_VALUES.get(value);
-		case 8:
-			return TYPE_8_VALUES.get(value);
+		case TAGTYPE_NATIVE_IN_BRITTANY:
+			return TAGTYPE_NATIVE_IN_BRITTANY_VALUES.get(value);
+		case TAGTYPE_GLOBAL_STRUCTURE:
+			return TAGTYPE_GLOBAL_STRUCTURE_VALUES.get(value);
 		default:
 			return null;
 		}
@@ -96,10 +103,10 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 
 	public Set<Integer> getAllIntPossibleValues() {
 		switch (type) {
-		case 7:
-			return TYPE_7_VALUES.keySet();
-		case 8:
-			return TYPE_8_VALUES.keySet();
+		case TAGTYPE_NATIVE_IN_BRITTANY:
+			return TAGTYPE_NATIVE_IN_BRITTANY_VALUES.keySet();
+		case TAGTYPE_GLOBAL_STRUCTURE:
+			return TAGTYPE_GLOBAL_STRUCTURE_VALUES.keySet();
 		default:
 			throw new IllegalArgumentException("Invalid type");
 		}
@@ -110,7 +117,7 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 	}
 
 	public boolean isTypeString() {
-		return !(type == 7 || type == 8);
+		return !(type == TAGTYPE_GLOBAL_STRUCTURE || type == TAGTYPE_GLOBAL_STRUCTURE);
 	}
 
 	public AkpPlant getPlant() {

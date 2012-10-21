@@ -87,8 +87,6 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	}
 
 	public synchronized void setTaxons(List<AkpTaxon> taxons) {
-		mainName = null;
-		synonyms = null;
 		this.taxons = taxons;
 	}
 
@@ -106,12 +104,16 @@ public class AkpPlant implements Comparable<AkpPlant> {
 	}
 
 	public List<AkpLexicalGroup> getLexicalGroups() {
-		Collections.sort(lexicalGroups);
 		return lexicalGroups;
 	}
 
 	public void setLexicalGroups(List<AkpLexicalGroup> lexicalGroups) {
 		this.lexicalGroups = lexicalGroups;
+	}
+
+	public List<AkpLexicalGroup> getSortedLexicalGroups() {
+		Collections.sort(lexicalGroups);
+		return lexicalGroups;
 	}
 
 	public List<AkpPlant> getPlantRefs() {
@@ -137,6 +139,11 @@ public class AkpPlant implements Comparable<AkpPlant> {
 						+ taxon.getType());
 			}
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		return getXid() != null ? getXid().hashCode() : 0;
 	}
 
 	@Override

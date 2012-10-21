@@ -11,12 +11,18 @@ import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
+import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.domain.Node;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -48,6 +54,16 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		} else {
 			return (AkpClass) getSession().get(AkpClass.class, xid);
 		}
+	}
+
+	@Transactional
+	@Override
+	public List<AkpClass> getFamilies() {
+		@SuppressWarnings("unchecked")
+		List<AkpClass> families = getSession().createCriteria(AkpClass.class)
+				.add(Restrictions.eq("level", AkpClass.LEVEL_FAMILY)).list();
+		Collections.sort(families);
+		return families;
 	}
 
 	@Transactional
@@ -138,6 +154,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Transactional
 	@Override
 	public AkpPlant getPlant(Integer xid) {
+		// return (AkpPlant) getSession().createCriteria(AkpPlant.class)
+		// .add(Restrictions.eq("xid", xid))
+		// .setFetchMode("lexicalGroups", FetchMode.JOIN).uniqueResult();
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
 	}
 
@@ -373,11 +392,20 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		return (AkpBib) getSession().get(AkpBib.class, xid);
 	}
 
+	@Transactional
+	@Override
+	public List<AkpBib> getBibs() {
+		@SuppressWarnings("unchecked")
+		List<AkpBib> bibs = getSession().createCriteria(AkpBib.class).list();
+		Collections.sort(bibs);
+		return bibs;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<String> searchBibFromId(String id) {
-		return (List<String>) getSession().createCriteria(AkpBib.class)
+		return getSession().createCriteria(AkpBib.class)
 				.add(Restrictions.like("xid", "%" + id + "%"))
 				.setProjection(Projections.property("xid")).list();
 	}
@@ -386,8 +414,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 	@Transactional
 	@Override
 	public List<AkpLang> getLangList() {
-		return (List<AkpLang>) getSession().createCriteria(AkpLang.class)
-				.list();
+		List<AkpLang> langs = getSession().createCriteria(AkpLang.class).list();
+		Collections.sort(langs);
+		return langs;
 	}
 
 	@Override
@@ -427,6 +456,186 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 			return false;
 		getSession().delete(lexicalGroup);
 		return true;
+	}
+
+	@Transactional
+	@Override
+	public AkpSearchResult search(AkpSearchData searchData) {
+		switch (searchData.getSearchType()) {
+		case TAXON:
+			return searchTaxon(searchData);
+		case VERNA:
+			return searchVerna(searchData);
+		default:
+			return new AkpSearchResult();
+		}
+	}
+
+	private AkpSearchResult searchTaxon(AkpSearchData searchData) {
+		// Create criterias
+		AkpSearchResult results = new AkpSearchResult();
+		Criteria taxonCriteria = getSession().createCriteria(AkpTaxon.class);
+		taxonCriteria.setMaxResults(searchData.getLimit());
+		if (searchData.getTaxonName() != null)
+			taxonCriteria.add(Restrictions.like("name",
+					"%" + searchData.getTaxonName() + "%"));
+		taxonCriteria.setFetchMode("plant", FetchMode.JOIN);
+		if (!(searchData.isIncludeSynonyms() && searchData.getTaxonName() != null))
+			taxonCriteria.add(Restrictions.eq("type", AkpTaxon.TYPE_MAIN));
+		if (searchData.getPlantComments() != null) {
+			Criteria plantCriteria = taxonCriteria.createCriteria("plant");
+			plantCriteria.add(Restrictions.like("comments",
+					"%" + searchData.getPlantComments() + "%"));
+		}
+		if (searchData.getPlantOrigin() != null) {
+			Criteria tagCriteria = taxonCriteria.createCriteria("plant.tags",
+					"tag");
+			tagCriteria
+					.add(Restrictions.eq("type", AkpPlantTag.TAGTYPE_ORIGIN));
+			tagCriteria.add(Restrictions.like("stringValue",
+					"%" + searchData.getPlantOrigin() + "%"));
+		}
+		if (searchData.getFamilyXid() != null) {
+			Criteria plantCriteria = taxonCriteria.createCriteria("plant");
+			plantCriteria.add(Restrictions.eq("akpClass.xid",
+					searchData.getFamilyXid()));
+		}
+		// Search
+		@SuppressWarnings("unchecked")
+		List<AkpTaxon> taxons = taxonCriteria.list();
+		Collections.sort(taxons);
+		// Build result
+		if (searchData.isIncludeSynonyms() && searchData.getTaxonName() != null)
+			results.addHeaderKey("result.column.synonym");
+		results.addHeaderKey("result.column.plantname");
+		if (searchData.getPlantComments() != null)
+			results.addHeaderKey("result.column.plant.comments");
+		if (searchData.getPlantOrigin() != null)
+			results.addHeaderKey("result.column.plant.origin");
+		for (AkpTaxon taxon : taxons) {
+			AkpPlant plant = taxon.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					null, null);
+			if (searchData.isIncludeSynonyms()
+					&& searchData.getTaxonName() != null)
+				result.addColumn(new AkpSearchResultColumn(taxon.getHtmlName(),
+						"taxon"));
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			if (searchData.getPlantComments() != null)
+				result.addColumn(new AkpSearchResultColumn(plant.getComments(),
+						"comments"));
+			if (searchData.getPlantOrigin() != null) {
+				String origin = "?";
+				for (AkpPlantTag tag : plant.getTags()) {
+					if (tag.getType() == AkpPlantTag.TAGTYPE_ORIGIN)
+						origin = tag.getValue();
+				}
+				result.addColumn(new AkpSearchResultColumn(origin, "tag"));
+			}
+			results.addRow(result);
+		}
+		return results;
+	}
+
+	private AkpSearchResult searchVerna(AkpSearchData searchData) {
+		// Create criterias
+		AkpSearchResult results = new AkpSearchResult();
+		Criteria vernaCriteria = getSession().createCriteria(
+				AkpVernacularName.class);
+		vernaCriteria.setMaxResults(searchData.getLimit());
+		vernaCriteria.setFetchMode("lexicalGroup", FetchMode.JOIN);
+		vernaCriteria.setFetchMode("lexicalGroup.plant", FetchMode.JOIN);
+		if (searchData.getVernacularName() != null)
+			vernaCriteria.add(Restrictions.like("name",
+					"%" + searchData.getVernacularName() + "%"));
+		if (searchData.getTaxonName() != null) {
+			Criteria taxonCriteria = vernaCriteria.createCriteria(
+					"lexicalGroup.plant.taxons", "taxon");
+			taxonCriteria.add(Restrictions.like("taxon.name",
+					"%" + searchData.getTaxonName() + "%"));
+			taxonCriteria
+					.add(Restrictions.eq("taxon.type", AkpTaxon.TYPE_MAIN));
+		}
+		if (searchData.getBibRefXid() != null) {
+			Criteria bibCriteria = vernaCriteria.createCriteria("bibs", "bib");
+			bibCriteria.add(Restrictions.eq("bib.xid",
+					searchData.getBibRefXid()));
+		}
+		if (searchData.getLangXids().size() > 0) {
+			Criteria lexgrpCriteria = vernaCriteria
+					.createCriteria("lexicalGroup");
+			lexgrpCriteria.add(Restrictions.in("lang.xid",
+					searchData.getLangXids()));
+		}
+		if (searchData.getVernacularNameComments() != null) {
+			vernaCriteria.add(Restrictions.like("comments",
+					"%" + searchData.getVernacularNameComments() + "%"));
+		}
+		if (searchData.getPlantComments() != null) {
+			Criteria plantCriteria = vernaCriteria.createCriteria(
+					"lexicalGroup.plant", "plant");
+			plantCriteria.add(Restrictions.like("comments",
+					"%" + searchData.getPlantComments() + "%"));
+		}
+		if (searchData.getPlantOrigin() != null) {
+			Criteria tagCriteria = vernaCriteria.createCriteria(
+					"lexicalGroup.plant.tags", "tag");
+			tagCriteria
+					.add(Restrictions.eq("type", AkpPlantTag.TAGTYPE_ORIGIN));
+			tagCriteria.add(Restrictions.like("stringValue",
+					"%" + searchData.getPlantOrigin() + "%"));
+		}
+		if (searchData.getFamilyXid() != null) {
+			Criteria plantCriteria = vernaCriteria
+					.createCriteria("lexicalGroup.plant");
+			plantCriteria.add(Restrictions.eq("akpClass.xid",
+					searchData.getFamilyXid()));
+		}
+		// Search
+		@SuppressWarnings("unchecked")
+		List<AkpVernacularName> vernacularNames = vernaCriteria.list();
+		Collections.sort(vernacularNames);
+		// Build result
+		results.addHeaderKey("result.column.vernaname");
+		results.addHeaderKey("result.column.lang");
+		results.addHeaderKey("result.column.plantname");
+		if (searchData.getVernacularNameComments() != null)
+			results.addHeaderKey("result.column.vernaname.comments");
+		if (searchData.getPlantComments() != null)
+			results.addHeaderKey("result.column.plant.comments");
+		if (searchData.getPlantOrigin() != null)
+			results.addHeaderKey("result.column.plant.origin");
+		for (AkpVernacularName vernacularName : vernacularNames) {
+			AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
+			AkpPlant plant = lexicalGroup.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
+			result.addColumn(new AkpSearchResultColumn(
+					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != 0 ? " "
+							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			if (searchData.getVernacularNameComments() != null)
+				result.addColumn(new AkpSearchResultColumn(vernacularName
+						.getComments(), "comments"));
+			if (searchData.getPlantComments() != null)
+				result.addColumn(new AkpSearchResultColumn(plant.getComments(),
+						"comments"));
+			if (searchData.getPlantOrigin() != null) {
+				String origin = "?";
+				for (AkpPlantTag tag : plant.getTags()) {
+					if (tag.getType() == AkpPlantTag.TAGTYPE_ORIGIN)
+						origin = tag.getValue();
+				}
+				result.addColumn(new AkpSearchResultColumn(origin, "tag"));
+			}
+			results.addRow(result);
+		}
+		return results;
 	}
 
 	private Session getSession() {
