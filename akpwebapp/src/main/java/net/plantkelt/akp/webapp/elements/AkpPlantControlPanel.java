@@ -123,6 +123,10 @@ public class AkpPlantControlPanel extends Panel {
 			}
 		};
 		form.add(deletePlantButton);
+	}
 
+	@Override
+	public boolean isVisible() {
+		return AkpWicketSession.get().isAdmin();
 	}
 }

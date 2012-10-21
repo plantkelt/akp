@@ -53,7 +53,7 @@ public class AkpSearchForm extends Panel {
 		WebMarkupContainer plantOriginRow = new LoggedInMarkupContainer(
 				"plantOriginRow");
 		form.add(plantOriginRow);
-		WebMarkupContainer plantCommentsRow = new LoggedInMarkupContainer(
+		WebMarkupContainer plantCommentsRow = new AdminMarkupContainer(
 				"plantCommentsRow");
 		form.add(plantCommentsRow);
 		WebMarkupContainer plantFamilyRow = new LoggedInMarkupContainer(
@@ -68,7 +68,7 @@ public class AkpSearchForm extends Panel {
 		WebMarkupContainer vernacularNameBibRow = new LoggedInMarkupContainer(
 				"vernacularNameBibRow");
 		form.add(vernacularNameBibRow);
-		WebMarkupContainer vernacularNameCommentsRow = new AdminMarkupContainer(
+		WebMarkupContainer vernacularNameCommentsRow = new LoggedInMarkupContainer(
 				"vernacularNameCommentsRow");
 		form.add(vernacularNameCommentsRow);
 

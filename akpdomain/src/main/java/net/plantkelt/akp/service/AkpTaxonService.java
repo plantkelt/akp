@@ -1,6 +1,7 @@
 package net.plantkelt.akp.service;
 
 import java.util.List;
+import java.util.Set;
 
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
@@ -33,6 +34,8 @@ public interface AkpTaxonService {
 	public AkpPlant createNewPlant(AkpClass owningClass);
 
 	public AkpPlant getPlant(Integer xid);
+	
+	public Set<Integer> getPublicPlantXids();
 
 	public List<AkpPlant> searchPlantFromName(String name);
 

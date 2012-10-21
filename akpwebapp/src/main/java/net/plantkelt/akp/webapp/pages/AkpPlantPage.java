@@ -44,8 +44,9 @@ public class AkpPlantPage extends AkpPageTemplate {
 		plantId = parameters.get("xid").toOptionalInteger();
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
-		// TODO check public access
-		if (plantId == 3000)
+		// Check for public access
+		if (!AkpWicketSession.get().isLoggedIn()
+				&& !akpTaxonService.getPublicPlantXids().contains(plantId))
 			throw new UnauthorizedInstantiationException(AkpPlantPage.class);
 
 		plantModel = new LoadableDetachableModel<AkpPlant>() {
@@ -139,7 +140,6 @@ public class AkpPlantPage extends AkpPageTemplate {
 		AkpPlantControlPanel plantControlPanel = new AkpPlantControlPanel(
 				"plantControlPanel", this, plantModel);
 		add(plantControlPanel);
-		plantControlPanel.setVisible(isAdmin);
 
 		this.setOutputMarkupId(true);
 	}

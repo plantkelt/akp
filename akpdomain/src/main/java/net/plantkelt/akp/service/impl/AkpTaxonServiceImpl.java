@@ -1,7 +1,9 @@
 package net.plantkelt.akp.service.impl;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -34,9 +36,20 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 
 	@Inject
 	private Provider<Session> sessionProvider;
-
 	@Inject
 	private AkpLogService akpLogService;
+
+	private static Set<Integer> PUBLIC_PLANT_XIDS;
+
+	static {
+		PUBLIC_PLANT_XIDS = new HashSet<Integer>();
+		PUBLIC_PLANT_XIDS.add(4648);
+		PUBLIC_PLANT_XIDS.add(478);
+		PUBLIC_PLANT_XIDS.add(4029);
+		PUBLIC_PLANT_XIDS.add(2640);
+		PUBLIC_PLANT_XIDS.add(3271);
+		PUBLIC_PLANT_XIDS.add(1974);
+	}
 
 	@Transactional
 	@Override
@@ -158,6 +171,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService {
 		// .add(Restrictions.eq("xid", xid))
 		// .setFetchMode("lexicalGroups", FetchMode.JOIN).uniqueResult();
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
+	}
+
+	@Override
+	public Set<Integer> getPublicPlantXids() {
+		return PUBLIC_PLANT_XIDS;
 	}
 
 	@SuppressWarnings("unchecked")
