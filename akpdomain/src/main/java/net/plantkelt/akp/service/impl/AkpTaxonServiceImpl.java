@@ -2,8 +2,10 @@ package net.plantkelt.akp.service.impl;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -508,11 +510,17 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<AkpAuthor> getAuthors(List<String> xids) {
+	public Map<String, AkpAuthor> getAuthors(Set<String> xids) {
 		if (xids.size() == 0)
-			return Collections.emptyList();
-		return getSession().createCriteria(AkpAuthor.class)
+			return Collections.emptyMap();
+		List<AkpAuthor> authors = getSession().createCriteria(AkpAuthor.class)
 				.add(Restrictions.in("xid", xids)).list();
+		Map<String, AkpAuthor> retval = new HashMap<String, AkpAuthor>(
+				authors.size());
+		for (AkpAuthor author : authors) {
+			retval.put(author.getXid(), author);
+		}
+		return retval;
 	}
 
 	@Transactional
