@@ -2,6 +2,7 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
+import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -23,6 +24,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -39,9 +41,10 @@ public class AkpPlantPage extends AkpPageTemplate {
 	private int lastLangGroupXid = -1;
 
 	public AkpPlantPage(PageParameters parameters) {
+		super(parameters);
 
-		// Load data
 		plantId = parameters.get("xid").toOptionalInteger();
+		// Load data
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Check for public access
@@ -57,11 +60,11 @@ public class AkpPlantPage extends AkpPageTemplate {
 				return akpTaxonService.getPlant(plantId);
 			}
 		};
-		AkpPlant plant = plantModel.getObject();
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
-				"parentPath", plant.getAkpClass());
+				"parentPath", new PropertyModel<AkpClass>(plantModel,
+						"akpClass"));
 		add(parentPathLabel);
 
 		// Plant main name

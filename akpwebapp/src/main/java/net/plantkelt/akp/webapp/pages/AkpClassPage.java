@@ -54,12 +54,15 @@ public class AkpClassPage extends AkpPageTemplate {
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
-				"parentPath", akpClass.getParent());
+				"parentPath", new PropertyModel<AkpClass>(akpClassModel,
+						"parent"));
 		add(parentPathLabel);
 
 		// Class name
 		InPlaceEditor classNameEditor = new InPlaceEditor("classNameEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return akpClassModel.getObject().getName();
@@ -82,6 +85,8 @@ public class AkpClassPage extends AkpPageTemplate {
 		// Comments
 		InPlaceEditor commentsEditor = new InPlaceEditor("classCommentsEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return akpClassModel.getObject().getComments();
@@ -105,6 +110,8 @@ public class AkpClassPage extends AkpPageTemplate {
 		// Synonyms
 		InPlaceEditor synonymsEditor = new InPlaceEditor("classSynonymsEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return akpClassModel.getObject().getSynonyms();
