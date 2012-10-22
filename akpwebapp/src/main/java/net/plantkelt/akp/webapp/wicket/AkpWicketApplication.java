@@ -46,6 +46,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		loginService = injector.getInstance(AkpLoginService.class);
 		injector.getInstance(AkpLogService.class).setLoginGetter(
 				new LoginGetter() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getCurrentLogin() {
 						return AkpWicketSession.get().getAkpUser().getLogin();
