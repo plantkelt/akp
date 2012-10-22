@@ -83,6 +83,10 @@ public class AkpClass implements Comparable<AkpClass> {
 		this.synonyms = synonyms == null ? "" : synonyms;
 	}
 
+	public String getHtmlSynonyms() {
+		return getSynonyms().replace("<l>", "<i>").replace("</l>", "</i>");
+	}
+
 	public int getOrder() {
 		return order;
 	}
@@ -116,7 +120,7 @@ public class AkpClass implements Comparable<AkpClass> {
 
 	@Override
 	public int compareTo(AkpClass o) {
-		return getName().compareTo(o.getName());
+		return getOrder() - o.getOrder();
 	}
 
 }
