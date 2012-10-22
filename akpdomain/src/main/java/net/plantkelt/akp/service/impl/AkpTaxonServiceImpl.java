@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
@@ -502,6 +503,16 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria plantRefCriteria = vernaCriteria.createCriteria("plantRefs",
 				"plantRef").add(Restrictions.eq("xid", plant.getXid()));
 		return plantRefCriteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpAuthor> getAuthors(List<String> xids) {
+		if (xids.size() == 0)
+			return Collections.emptyList();
+		return getSession().createCriteria(AkpAuthor.class)
+				.add(Restrictions.in("xid", xids)).list();
 	}
 
 	@Transactional

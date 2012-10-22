@@ -3,6 +3,7 @@ package net.plantkelt.akp.service;
 import java.util.List;
 import java.util.Set;
 
+import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
@@ -105,6 +106,8 @@ public interface AkpTaxonService {
 	public List<AkpPlant> getPlantBackRefs(AkpPlant plant);
 
 	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant);
+
+	public List<AkpAuthor> getAuthors(List<String> xids);
 
 	public AkpSearchResult search(AkpSearchData searchData);
 
