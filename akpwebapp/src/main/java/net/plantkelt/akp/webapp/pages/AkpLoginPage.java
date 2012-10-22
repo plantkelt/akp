@@ -68,15 +68,6 @@ public class AkpLoginPage extends AkpPageTemplate {
 			}
 		};
 		autologinForm.add(autologinUserButton);
-
-		Form<Void> debugForm = new Form<Void>("debugForm") {
-			private static final long serialVersionUID = 1L;
-
-			protected void onSubmit() {
-				akpTaxonService.testNode();
-			}
-		};
-		add(debugForm);
 	}
 
 }

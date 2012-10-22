@@ -20,7 +20,6 @@ import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.domain.Node;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
@@ -65,6 +64,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpClass rootClass = new AkpClass();
 			rootClass.setChildren(rootClasses);
 			rootClass.setName("/");
+			rootClass.setSynonyms("");
+			rootClass.setComments("");
 			return rootClass;
 		} else {
 			return (AkpClass) getSession().get(AkpClass.class, xid);
@@ -685,20 +686,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private Session getSession() {
 		return sessionProvider.get();
-	}
-
-	@Transactional
-	@Override
-	public void testNode() {
-		Node parent = (Node) getSession().get(Node.class, 1);
-		// Node child0 = parent.getChildren().remove(0);
-		// parent.getChildren().add(1, child0);
-		Collections.reverse(parent.getChildren());
-		Node x = new Node();
-		x.setParent(parent);
-		parent.getChildren().add(x);
-		getSession().save(x);
-		getSession().update(parent);
 	}
 
 }

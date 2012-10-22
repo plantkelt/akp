@@ -34,7 +34,7 @@ public interface AkpTaxonService {
 	public AkpPlant createNewPlant(AkpClass owningClass);
 
 	public AkpPlant getPlant(Integer xid);
-	
+
 	public Set<Integer> getPublicPlantXids();
 
 	public List<AkpPlant> searchPlantFromName(String name);
@@ -103,11 +103,9 @@ public interface AkpTaxonService {
 	public boolean deleteLexicalGroup(AkpLexicalGroup lexicalGroup);
 
 	public List<AkpPlant> getPlantBackRefs(AkpPlant plant);
-	
-	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant);
-	
-	public AkpSearchResult search(AkpSearchData searchData);
 
-	public void testNode();
+	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant);
+
+	public AkpSearchResult search(AkpSearchData searchData);
 
 }
