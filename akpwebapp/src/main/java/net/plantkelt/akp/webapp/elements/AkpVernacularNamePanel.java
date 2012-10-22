@@ -98,6 +98,8 @@ public class AkpVernacularNamePanel extends Panel {
 		// Plant ref adder
 		AkpPlantRefAdderPanel plantRefAdder = new AkpPlantRefAdderPanel(
 				"plantRefAdder", new AkpPlantRefAdderListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void onPlantRefAdded(AjaxRequestTarget target,
 							AkpPlant targetPlant) {
@@ -179,6 +181,7 @@ public class AkpVernacularNamePanel extends Panel {
 			protected void populateItem(ListItem<AkpPlant> item) {
 				AkpPlantRefPanel plantRefPanel = new AkpPlantRefPanel(
 						"plantRef", item.getModel(), new AkpPlantRefListener() {
+							private static final long serialVersionUID = 1L;
 
 							@Override
 							public void onPlantRefRemoved(
