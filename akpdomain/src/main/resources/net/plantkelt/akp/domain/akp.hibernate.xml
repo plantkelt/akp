@@ -18,7 +18,7 @@
 
     <class name="AkpClass" table="classe">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="order" type="integer" column="ordre" />
         <property name="level" type="integer" column="niveau" />
@@ -38,7 +38,7 @@
 
     <class name="AkpPlant" table="plante">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="comments" type="string" column="commentaire" />
         <many-to-one name="akpClass" column="classe" />
@@ -71,7 +71,7 @@
 
     <class name="AkpTaxon" table="taxon">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="name" type="string" column="nom" />
         <many-to-one name="plant" column="plante" not-null="true" />
@@ -80,7 +80,7 @@
 
     <class name="AkpLangGroup" table="grplng">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="order" type="integer" column="ordre" />
         <property name="code" type="string" column="code" />
@@ -102,7 +102,7 @@
 
     <class name="AkpLexicalGroup" table="grplex2">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="correct" type="integer" />
         <many-to-one name="lang" class="AkpLang" column="langue" not-null="true" lazy="false" fetch="join" />
@@ -115,7 +115,7 @@
 
     <class name="AkpVernacularName" table="verna2">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="parentId" type="int" column="parent" />
         <property name="name" type="string" column="nom" />
@@ -143,7 +143,7 @@
 
     <class name="AkpLogEntry" table="hist">
         <id name="xid" type="int">
-            <generator class="native" />
+            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="date" type="timestamp" column="ts" not-null="true" />
         <property name="login" type="string" column="xuser" not-null="true" />
@@ -154,19 +154,6 @@
         <property name="taxonId" type="integer" column="taxon" />
         <property name="oldValue" type="string" column="oldvalue" />
         <property name="newValue" type="string" column="newvalue" />
-    </class>
-
-    <class name="Node" table="node">
-        <id name="xid" type="int">
-            <generator class="native" />
-        </id>
-        <property name="xorder" not-null="true" />
-        <many-to-one name="parent" lazy="false" />
-        <list name="children" table="node" inverse="true">
-            <key column="parent" />
-            <index column="xorder" />
-            <one-to-many class="Node" />
-        </list>
     </class>
 
 </hibernate-mapping>
