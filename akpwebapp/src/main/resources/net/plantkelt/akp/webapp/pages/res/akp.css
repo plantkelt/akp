@@ -23,11 +23,12 @@ fieldset {
 
 a:link,a:active,a:visited {
 	text-decoration: none;
-	color: #000088;
+	color: #000044;
 }
 
 a:hover {
 	text-decoration: underline;
+	color: #000088;
 }
 
 h1,h2,h3,h4 {
@@ -448,6 +449,18 @@ form.plantRefAdder input {
 .taxon {
 	font-family: "Times New Roman", Times, "serif";
 	font-weight: normal;
+}
+
+.taxon span.epsilon {
+	color: #008800;
+}
+
+.taxon span.epsilon3 {
+	color: #880000;
+}
+
+.taxon span.author {
+	color: #000088;
 }
 
 .verna {
