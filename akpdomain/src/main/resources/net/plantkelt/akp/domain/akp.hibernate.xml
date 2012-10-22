@@ -141,6 +141,13 @@
         <property name="editor" type="string" column="editeur" />
     </class>
 
+    <class name="AkpAuthor" table="auteur">
+        <id name="xid" type="string" />
+        <property name="name" type="string" column="nom" />
+        <property name="source" type="string" />
+        <property name="dates" type="string" />
+    </class>
+
     <class name="AkpLogEntry" table="hist">
         <id name="xid" type="int">
             <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
