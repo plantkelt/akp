@@ -1,5 +1,6 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
@@ -128,7 +129,7 @@ public class AkpClassPage extends AkpPageTemplate {
 		add(synonymsEditor);
 		synonymsEditor.setReadOnly(!isAdmin || isFake);
 		Label classSynonyms = new Label("classSynonyms",
-				new PropertyModel<String>(akpClassModel, "synonyms"));
+				new PropertyModel<String>(akpClassModel, "htmlSynonyms"));
 		classSynonyms.setEscapeModelStrings(false);
 		synonymsEditor.add(classSynonyms);
 
@@ -191,8 +192,16 @@ public class AkpClassPage extends AkpPageTemplate {
 		form.add(addPlantButton);
 
 		// Sub-classes
-		IModel<List<AkpClass>> subClassesModel = new PropertyModel<List<AkpClass>>(
-				akpClassModel, "children");
+		IModel<List<AkpClass>> subClassesModel = new LoadableDetachableModel<List<AkpClass>>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<AkpClass> load() {
+				List<AkpClass> children = akpClassModel.getObject().getChildren();
+				Collections.sort(children);
+				return children;
+			}
+		};
 		ListView<AkpClass> subClassesListView = new ListView<AkpClass>(
 				"subClasses", subClassesModel) {
 			private static final long serialVersionUID = 1L;
