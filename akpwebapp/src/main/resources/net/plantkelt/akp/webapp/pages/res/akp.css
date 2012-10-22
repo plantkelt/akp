@@ -371,17 +371,17 @@ a.bibPopup:hover {
 	z-index: 50;
 }
 
-a.bibPopup span.moreInfo {
+a.bibPopup div.moreInfo {
 	display: none;
 }
 
-span.moreInfo p.isbn {
+div.moreInfo p.isbn {
 	font-size: 12pt;
 	font-family: monospace;
 	font-weight: bold;
 }
 
-a.bibPopup:hover span.moreInfo {
+a.bibPopup:hover div.moreInfo {
 	display: block;
 	position: absolute;
 	top: -10px;
@@ -493,5 +493,4 @@ table.logs span.oldValue {
 
 table.searchResults tr:hover {
 	background-color: #ffffaa;
-	cursor: pointer;
 }
