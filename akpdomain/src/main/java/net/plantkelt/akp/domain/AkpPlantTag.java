@@ -117,7 +117,7 @@ public class AkpPlantTag implements Comparable<AkpPlantTag>, Serializable {
 	}
 
 	public boolean isTypeString() {
-		return !(type == TAGTYPE_GLOBAL_STRUCTURE || type == TAGTYPE_GLOBAL_STRUCTURE);
+		return !(type == TAGTYPE_NATIVE_IN_BRITTANY || type == TAGTYPE_GLOBAL_STRUCTURE);
 	}
 
 	public AkpPlant getPlant() {
