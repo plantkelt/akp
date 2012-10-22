@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service.impl;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,8 @@ import org.hibernate.criterion.Restrictions;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
-public class AkpTaxonServiceImpl implements AkpTaxonService {
+public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private Provider<Session> sessionProvider;

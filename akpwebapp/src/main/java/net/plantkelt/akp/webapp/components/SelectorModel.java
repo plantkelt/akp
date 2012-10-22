@@ -1,10 +1,11 @@
 package net.plantkelt.akp.webapp.components;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-public abstract class SelectorModel<T> {
+public interface SelectorModel<T> extends Serializable {
 
 	public abstract T getObject();
 

@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
@@ -12,7 +13,7 @@ import net.plantkelt.akp.domain.AkpVernacularName;
 
 public interface AkpLogService {
 
-	public interface LoginGetter {
+	public interface LoginGetter extends Serializable {
 		public String getCurrentLogin();
 	}
 

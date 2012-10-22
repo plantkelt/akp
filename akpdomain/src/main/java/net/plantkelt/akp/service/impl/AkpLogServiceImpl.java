@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service.impl;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,8 @@ import org.hibernate.criterion.Restrictions;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
-public class AkpLogServiceImpl implements AkpLogService {
+public class AkpLogServiceImpl implements AkpLogService, Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public static final int LOG_TYPE_TAXON_DELETION = 1;
 	public static final int LOG_TYPE_TAXON_UPDATE = 2;
@@ -56,6 +58,8 @@ public class AkpLogServiceImpl implements AkpLogService {
 	private void logNewEntry(int type, Integer plantId, Integer taxonId,
 			Integer lexicalGroupId, Integer vernacularNameId, String oldValue,
 			String newValue) {
+		if (oldValue != null && oldValue.equals(newValue))
+			return;
 		AkpLogEntry logEntry = new AkpLogEntry();
 		logEntry.setType(type);
 		logEntry.setDate(new Date());

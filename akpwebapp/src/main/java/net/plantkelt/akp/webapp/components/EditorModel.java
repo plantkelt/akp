@@ -1,8 +1,10 @@
 package net.plantkelt.akp.webapp.components;
 
+import java.io.Serializable;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-public abstract class EditorModel<T> {
+public interface EditorModel<T> extends Serializable {
 
 	public abstract T getObject();
 
