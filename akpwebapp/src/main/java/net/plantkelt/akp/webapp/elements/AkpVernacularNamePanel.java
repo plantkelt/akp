@@ -41,6 +41,8 @@ public class AkpVernacularNamePanel extends Panel {
 		// Vernacular name in-place editor
 		InPlaceEditor vernaEditor = new InPlaceEditor("vernaEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return vernaNameModel.getObject().getName();
@@ -144,6 +146,7 @@ public class AkpVernacularNamePanel extends Panel {
 		// Comments editor
 		InPlaceEditor commentsEditor = new InPlaceEditor("commentsEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
 
 					@Override
 					public String getObject() {

@@ -62,6 +62,8 @@ public class AkpPlantSynonymsPanel extends Panel {
 				final IModel<AkpTaxon> taxonModel = item.getModel();
 				InPlaceEditor editor = new InPlaceEditor("synonymEditor",
 						new EditorModel<String>() {
+							private static final long serialVersionUID = 1L;
+
 							@Override
 							public String getObject() {
 								return taxonModel.getObject().getName();

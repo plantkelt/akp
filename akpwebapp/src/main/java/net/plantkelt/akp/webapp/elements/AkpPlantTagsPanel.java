@@ -69,6 +69,8 @@ public class AkpPlantTagsPanel extends Panel {
 				if (tag.isTypeString()) {
 					InPlaceEditor editor = new InPlaceEditor("tagEditor",
 							new EditorModel<String>() {
+								private static final long serialVersionUID = 1L;
+
 								@Override
 								public String getObject() {
 									return tagModel.getObject()
@@ -94,6 +96,8 @@ public class AkpPlantTagsPanel extends Panel {
 				} else {
 					InPlaceSelector<Integer> selector = new InPlaceSelector<Integer>(
 							"tagEditor", new SelectorModel<Integer>() {
+								private static final long serialVersionUID = 1L;
+
 								@Override
 								public Integer getObject() {
 									return tagModel.getObject().getIntValue();

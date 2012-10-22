@@ -67,9 +67,12 @@ public class AkpSearchResultsPanel extends Panel {
 				final String langXid = row.getLangXid();
 				final Integer correct = row.getCorrect();
 				for (AkpSearchResultColumn col : row.getColumns()) {
-					WebMarkupContainer cell;
+					WebMarkupContainer cell = new WebMarkupContainer(
+							colRepeat.newChildId());
+					colRepeat.add(cell);
+					WebMarkupContainer cellLink;
 					if (AkpWicketSession.get().isLoggedIn()) {
-						cell = new Link<AkpPlantPage>(colRepeat.newChildId()) {
+						cellLink = new Link<AkpPlantPage>("cellLink") {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -86,9 +89,9 @@ public class AkpSearchResultsPanel extends Panel {
 							}
 						};
 					} else {
-						cell = new WebMarkupContainer(colRepeat.newChildId());
+						cellLink = new WebMarkupContainer("cellLink");
 					}
-					colRepeat.add(cell);
+					cell.add(cellLink);
 					Label cellValue = new Label("cellValue",
 							col.getDisplayValue());
 					String className = col.getClassName();
@@ -103,7 +106,7 @@ public class AkpSearchResultsPanel extends Panel {
 						}
 						cellValue.add(classAttributeAppender);
 					}
-					cell.add(cellValue);
+					cellLink.add(cellValue);
 					cellValue.setEscapeModelStrings(false);
 				}
 				item.add(colRepeat);

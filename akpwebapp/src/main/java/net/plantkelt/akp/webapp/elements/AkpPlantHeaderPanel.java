@@ -30,6 +30,8 @@ public class AkpPlantHeaderPanel extends Panel {
 		// Main name
 		InPlaceEditor nameEditor = new InPlaceEditor("nameEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return plantModel.getObject().getMainName().getName();
@@ -56,6 +58,8 @@ public class AkpPlantHeaderPanel extends Panel {
 		// Comments
 		InPlaceEditor commentsEditor = new InPlaceEditor("commentsEditor",
 				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public String getObject() {
 						return plantModel.getObject().getComments();
