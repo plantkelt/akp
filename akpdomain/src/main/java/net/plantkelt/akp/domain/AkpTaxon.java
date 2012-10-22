@@ -34,11 +34,26 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public String getHtmlName() {
 		// TODO compute and cache the returned value
-		return name.replace("<a>", "").replace("</a>", "");
+		String html = name.replace("<x>", "×").replace("<+>", "+")
+				.replace("<urseurtad>", " - 1 seurtad:").replace("<l>", "")
+				.replace("</l>", "").replace("<y>", "<span class='txy'>")
+				.replace("</y>", "</span>");
+		if (type == TYPE_MAIN) {
+			html = html.replace("<b>", "<b><i>").replace("</b>", "</i></b>")
+					.replace("<e>", "<b><i>").replace("</e>", "</i></b>");
+		} else {
+			html = html.replace("<b>", "<i>").replace("</b>", "</i>")
+					.replace("<e>", "<i>").replace("</e>", "</i>");
+		}
+		// TODO Author
+		// TODO epsilons
+		html = html.replace("<a>", "[").replace("</a>", "]");
+		return html;
 	}
 
 	public String getTextName() {
-		return name.replaceAll("<.*?>", "");
+		return name.replace("<x>", "×").replace("<+>", "+")
+				.replaceAll("<.*?>", "");
 	}
 
 	public synchronized void setName(String name) {
@@ -56,8 +71,23 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	private synchronized String getSortKey() {
 		if (sortKey == null) {
-			// TODO compute sort key based on name
 			sortKey = name;
+			sortKey = sortKey
+					.replace("spp.", "")
+					.replace(", non ", "  ")
+					.replaceAll(
+							"^(<l><b>.*?</b>)(((?!\\s\\[=).)*?((<e>.*?</e>)|(cv\\.)).*)",
+							"\\1@\\2");
+			// TODO EPSILON
+			// for i in range(len(EPSILONS)):
+			// taxon = re.sub(r"\s(" + EPSILONS[i].replace('.', '\.').replace(
+			// '[', '\[').replace(']', '\]') + r")\s<e>([\w-]+)</e>",
+			// r" ~\2 \1", taxon)
+			sortKey = sortKey
+					.replaceAll("\\s(cv\\.)\\s'?([\\w-]+)'?", " ~\\2 \\1")
+					.replace("<x> ", "").replace("<+> ", "").replace("<x>", "")
+					.replace("<+>", "").replaceAll("<.*?>", "")
+					.replace("'", "");
 		}
 		return sortKey;
 	}
