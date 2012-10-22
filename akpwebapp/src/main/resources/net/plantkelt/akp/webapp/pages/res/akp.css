@@ -325,6 +325,10 @@ div.lexicalGroup div.vernaSection {
 	min-height: 1.5em;
 }
 
+div.lexicalGroup div.vernaSection span.verna {
+	margin-right: 10px;
+}
+
 div.lexicalGroup div.vernaSection div.childrenList {
 	margin-left: 1.5em;
 	padding-left: 4px;
@@ -447,7 +451,7 @@ form.plantRefAdder input {
 }
 
 .verna {
-	margin-right: 10px;
+	
 }
 
 .comments {
@@ -465,7 +469,7 @@ table.listing {
 table.listing thead th {
 	background-color: #cccccc;
 	text-align: left;
-}	
+}
 
 table.listing tr {
 	
@@ -476,6 +480,7 @@ table.listing tr.even {
 }
 
 table.listing td,table.logs th {
+	
 }
 
 table.logs span.newValue {

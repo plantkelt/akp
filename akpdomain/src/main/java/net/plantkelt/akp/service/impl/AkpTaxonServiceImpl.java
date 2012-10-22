@@ -226,7 +226,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return plant.getLexicalGroups().size() == 0
 				&& plant.getTags().size() == 0
 				&& plant.getSynonyms().size() == 0
-				&& plant.getPlantRefs().size() == 0;
+				&& plant.getPlantRefs().size() == 0
+				&& getPlantBackRefs(plant).size() == 0
+				&& getVernacularNameBackRefs(plant).size() == 0;
 	}
 
 	@Transactional
@@ -476,6 +478,29 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			return false;
 		getSession().delete(lexicalGroup);
 		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpPlant> getPlantBackRefs(AkpPlant plant) {
+		return getSession().createCriteria(AkpPlant.class)
+				.createCriteria("plantRefs", "plantRef")
+				.add(Restrictions.eq("xid", plant.getXid())).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant) {
+		Criteria vernaCriteria = getSession().createCriteria(
+				AkpVernacularName.class);
+		vernaCriteria.setFetchMode("lexicalGroup", FetchMode.JOIN)
+				.createCriteria("lexicalGroup")
+				.setFetchMode("plant", FetchMode.JOIN);
+		Criteria plantRefCriteria = vernaCriteria.createCriteria("plantRefs",
+				"plantRef").add(Restrictions.eq("xid", plant.getXid()));
+		return plantRefCriteria.list();
 	}
 
 	@Transactional

@@ -1,0 +1,13 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<h3>
+		<span wicket:id="collapseButton"></span>
+		<wicket:message key="back.refs.header" />
+	</h3>
+	<div wicket:id="collapseDiv">
+		<span class="plantRef" wicket:id="plantBackRefList"><a
+			wicket:id="plantLink"><span class="taxon" wicket:id="plant"></span></a></span>
+		<span class="plantRef" wicket:id="vernaBackRefList"><span
+			class="verna" wicket:id="vernaName"></span> (<span wicket:id="lang"></span>) <a
+			wicket:id="plantLink"><span class="taxon" wicket:id="plant"></span></a></span>
+	</div>
+</wicket:panel>

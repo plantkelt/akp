@@ -9,6 +9,7 @@ import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
+import net.plantkelt.akp.webapp.elements.AkpPlantBackRefsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantControlPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantHeaderPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantRefsPanel;
@@ -138,6 +139,11 @@ public class AkpPlantPage extends AkpPageTemplate {
 			}
 		};
 		add(lexicalGroupsListView);
+
+		// Back references
+		AkpPlantBackRefsPanel backRefsPanel = new AkpPlantBackRefsPanel(
+				"backRefsPanel", plantModel);
+		add(backRefsPanel);
 
 		// Plant control panel (add lexical group, delete plant)
 		AkpPlantControlPanel plantControlPanel = new AkpPlantControlPanel(

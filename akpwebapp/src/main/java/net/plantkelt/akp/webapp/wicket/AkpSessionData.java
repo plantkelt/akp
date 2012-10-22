@@ -9,6 +9,7 @@ public class AkpSessionData implements Serializable {
 
 	private String defaultLangXid = null;
 	private boolean synonymsDefaultOpen = false;
+	private boolean backRefsDefaultOpen = false;
 	private Set<String> lexicalGroupDefaultOpen = new HashSet<String>();
 
 	public String getDefaultLangXid() {
@@ -25,6 +26,14 @@ public class AkpSessionData implements Serializable {
 
 	public void setSynonymsDefaultOpen(boolean open) {
 		synonymsDefaultOpen = open;
+	}
+
+	public boolean isBackRefsDefaultOpen() {
+		return backRefsDefaultOpen;
+	}
+
+	public void setBackRefsDefaultOpen(boolean backRefsDefaultOpen) {
+		this.backRefsDefaultOpen = backRefsDefaultOpen;
 	}
 
 	public boolean isLexicalGroupDefaultOpen(String langXid, Integer correct) {
