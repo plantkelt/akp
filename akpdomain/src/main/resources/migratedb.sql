@@ -8,7 +8,10 @@ delete from taxon where plante = 0;
 alter table taxon drop column verna2;
 
 -- Add foreign key constraints
+delete from bib_verna2 where verna2=86450;
+delete from bib_verna2 where verna2=86449;
 alter table bib_verna2 add foreign key (verna2) references verna2 (xid);
+delete from bib_verna2 where bib='0000temp';
 alter table bib_verna2 add foreign key (bib) references bib (xid);
 
 alter table plante_verna2 add foreign key (verna2) references verna2 (xid);
