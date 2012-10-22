@@ -9,6 +9,7 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
 public class AkpPageTemplate extends WebPage {
@@ -16,6 +17,16 @@ public class AkpPageTemplate extends WebPage {
 	private static final long serialVersionUID = 1L;
 
 	public AkpPageTemplate() {
+		super();
+		init();
+	}
+
+	public AkpPageTemplate(PageParameters parameters) {
+		super(parameters);
+		init();
+	}
+
+	private void init() {
 		if (getApplication().usesDevelopmentConfig()) {
 			add(new DebugBar("debug"));
 		} else {
