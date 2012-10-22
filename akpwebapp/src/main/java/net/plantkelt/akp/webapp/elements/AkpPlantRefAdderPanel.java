@@ -66,7 +66,7 @@ public class AkpPlantRefAdderPanel extends Panel {
 			@Override
 			protected Iterator<String> getChoices(String fill) {
 				if (fill.length() <= 4)
-					return null;
+					return new ArrayList<String>(0).iterator();
 				List<AkpPlant> plants = akpTaxonService
 						.searchPlantFromName(fill);
 				List<String> retval = new ArrayList<String>(plants.size());
@@ -84,7 +84,7 @@ public class AkpPlantRefAdderPanel extends Panel {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				String plantName = plantRefEntryModel.getObject();
-				if (plantName.matches("^[0-9]+ - .*")) {
+				if (plantName != null && plantName.matches("^[0-9]+ - .*")) {
 					String xidStr = plantName.substring(0,
 							plantName.indexOf(" - "));
 					int xid = Integer.parseInt(xidStr);
