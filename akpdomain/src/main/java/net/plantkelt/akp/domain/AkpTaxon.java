@@ -1,5 +1,8 @@
 package net.plantkelt.akp.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public static final int TYPE_MAIN = 0;
@@ -61,6 +64,15 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public String[] getNameElements() {
 		return getXName().split("</?a>");
+	}
+
+	public Set<String> getReferencedAuthorIds() {
+		String[] elems = getNameElements();
+		Set<String> retval = new HashSet<String>(elems.length / 2 + 1);
+		for (int i = 1; i < elems.length; i += 2) {
+			retval.add(elems[i]);
+		}
+		return retval;
 	}
 
 	private synchronized String getXName() {
