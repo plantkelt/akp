@@ -317,7 +317,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
-		akpLogService.logVernacularNameCreation(name);
 	}
 
 	@Transactional
@@ -332,7 +331,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
-		akpLogService.logVernacularNameCreation(name);
 	}
 
 	@Transactional
@@ -343,7 +341,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		vernacularName.setName(newName);
 		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
 		getSession().update(vernacularName);
-		akpLogService.logVernacularNameNameUpdate(vernacularName, oldName);
+		if (oldName.length() == 0)
+			akpLogService.logVernacularNameCreation(vernacularName);
+		else
+			akpLogService.logVernacularNameNameUpdate(vernacularName, oldName);
 	}
 
 	@Transactional
@@ -407,7 +408,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
 		lexicalGroup.getVernacularNames().remove(vernacularName);
 		lexicalGroup.refreshVernacularNamesTree();
-		akpLogService.logVernacularNameDeletion(vernacularName);
+		if (vernacularName.getName().length() > 0)
+			akpLogService.logVernacularNameDeletion(vernacularName);
 		getSession().delete(vernacularName);
 		return true;
 	}
