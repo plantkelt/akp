@@ -79,11 +79,9 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 				Label newValueLabel = new Label("newValue",
 						logEntry.getNewValue());
 				item.add(newValueLabel);
-				newValueLabel.setEscapeModelStrings(false);
 				Label oldValueLabel = new Label("oldValue",
 						logEntry.getOldValue());
 				item.add(oldValueLabel);
-				oldValueLabel.setEscapeModelStrings(false);
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
