@@ -9,9 +9,11 @@ import java.util.Set;
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
 
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -34,7 +36,8 @@ public class AkpTaxonLabel extends Panel {
 	@Inject
 	private AkpTaxonService akpTaxonService;
 
-	public AkpTaxonLabel(String id, final IModel<AkpTaxon> taxonModel) {
+	public AkpTaxonLabel(String id, final IModel<AkpTaxon> taxonModel,
+			final IModel<Map<String, AkpAuthor>> authorsModel) {
 		super(id);
 
 		IModel<List<NameElement>> elemListModel = new LoadableDetachableModel<List<NameElement>>() {
@@ -48,8 +51,8 @@ public class AkpTaxonLabel extends Panel {
 				for (int i = 1; i < elems.length; i += 2) {
 					authorIds.add(elems[i]);
 				}
-				Map<String, AkpAuthor> authors = akpTaxonService
-						.getAuthors(authorIds);
+				Map<String, AkpAuthor> authors = authorsModel != null ? authorsModel
+						.getObject() : akpTaxonService.getAuthors(authorIds);
 				List<NameElement> retval = new ArrayList<NameElement>(
 						elems.length / 2 + 1);
 				for (int i = 0; i < elems.length; i += 2) {
@@ -75,16 +78,32 @@ public class AkpTaxonLabel extends Panel {
 				NameElement nameElement = item.getModelObject();
 				Label elemTaxon = new Label("elemTaxon",
 						nameElement.taxonElement);
-				elemTaxon.setEscapeModelStrings(true);
+				elemTaxon.setEscapeModelStrings(false);
 				item.add(elemTaxon);
-				Label elemAuthor = new Label("elemAuthor",
-						nameElement.authorElement == null ? "" : "[[["
-								+ nameElement.authorElement + "]]]");
-				elemAuthor.setVisible(nameElement.authorElement != null);
+				// TODO Link to author page
+				Link<?> elemAuthorLink = AkpClassPage.link("elemAuthorLink");
+				item.add(elemAuthorLink);
+				Label elemAuthorId = new Label("elemAuthorId",
+						nameElement.authorElement == null ? ""
+								: nameElement.authorElement);
+				elemAuthorId.setVisible(nameElement.authorElement != null);
 				if (nameElement.author == null)
-					elemAuthor.add(new AttributeAppender("class",
+					elemAuthorId.add(new AttributeAppender("class",
 							new Model<String>("wrong-author"), " "));
-				item.add(elemAuthor);
+				elemAuthorLink.add(elemAuthorId);
+				Label authorId = new Label("authorId",
+						nameElement.author == null ? nameElement.authorElement
+								: nameElement.author.getXid());
+				elemAuthorLink.add(authorId);
+				Label authorName = new Label("authorName",
+						nameElement.author == null ? "?"
+								: nameElement.author.getName());
+				authorName.setEscapeModelStrings(false);
+				elemAuthorLink.add(authorName);
+				Label authorDates = new Label("authorDates",
+						nameElement.author == null ? "?"
+								: nameElement.author.getDates());
+				elemAuthorLink.add(authorDates);
 			}
 		};
 		add(elemList);

@@ -51,7 +51,8 @@ public class AkpPlantHeaderPanel extends Panel {
 		nameEditor.setReadOnly(!isAdmin);
 		IModel<AkpTaxon> nameModel = new PropertyModel<AkpTaxon>(plantModel,
 				"mainName");
-		AkpTaxonLabel nameLabel = new AkpTaxonLabel("nameLabel", nameModel);
+		AkpTaxonLabel nameLabel = new AkpTaxonLabel("nameLabel", nameModel,
+				null);
 		nameEditor.add(nameLabel);
 		nameLabel.setEscapeModelStrings(false);
 

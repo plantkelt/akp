@@ -1,7 +1,11 @@
 package net.plantkelt.akp.webapp.elements;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
@@ -13,12 +17,12 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
@@ -51,8 +55,20 @@ public class AkpPlantSynonymsPanel extends Panel {
 		};
 		add(collapseButton);
 
-		IModel<List<AkpTaxon>> listModel = new PropertyModel<List<AkpTaxon>>(
+		final IModel<List<AkpTaxon>> listModel = new PropertyModel<List<AkpTaxon>>(
 				plantModel, "synonyms");
+		final IModel<Map<String, AkpAuthor>> authorsModel = new LoadableDetachableModel<Map<String, AkpAuthor>>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected Map<String, AkpAuthor> load() {
+				Set<String> authorIds = new HashSet<String>();
+				for (AkpTaxon taxon : listModel.getObject()) {
+					authorIds.addAll(taxon.getReferencedAuthorIds());
+				}
+				return akpTaxonService.getAuthors(authorIds);
+			}
+		};
 		ListView<AkpTaxon> synonymsList = new ListView<AkpTaxon>("synonyms",
 				listModel) {
 			private static final long serialVersionUID = 1L;
@@ -86,9 +102,8 @@ public class AkpPlantSynonymsPanel extends Panel {
 				editor.setReadOnly(!isAdmin);
 				if (taxonModel.getObject().getName().equals("<l><b></b></l>"))
 					editor.open();
-				IModel<String> nameModel = new PropertyModel<String>(
-						taxonModel, "htmlName");
-				Label synonymLabel = new Label("synonymName", nameModel);
+				AkpTaxonLabel synonymLabel = new AkpTaxonLabel("synonymName",
+						taxonModel, authorsModel);
 				editor.add(synonymLabel);
 				synonymLabel.setEscapeModelStrings(false);
 			}

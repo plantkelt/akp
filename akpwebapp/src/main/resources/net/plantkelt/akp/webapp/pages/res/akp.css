@@ -40,19 +40,19 @@ h1,h2,h3,h4 {
 }
 
 h1 {
-	font-size: 16pt;
+	font-size: 140%;
 }
 
 h2 {
-	font-size: 14pt;
+	font-size: 130%;
 }
 
 h3 {
-	font-size: 13pt;
+	font-size: 120%;
 }
 
 h4 {
-	font-size: 12pt;
+	font-size: 110%;
 }
 
 p {
@@ -264,6 +264,36 @@ a.collapsible-closed {
 	height: 16px;
 }
 
+/* === Hover popup === */
+a.popup {
+	position: relative;
+}
+
+a.popup:hover {
+	background: none;
+	z-index: 50;
+}
+
+a.popup div.popupContent {
+	display: none;
+	font-size: 10pt;
+	font-weight: normal;
+}
+
+a.popup:hover div.popupContent {
+	display: block;
+	position: absolute;
+	top: -10px;
+	left: 40px;
+	width: 400px;
+	color: black;
+	background: #eeeeaa;
+	padding: 4px;
+	z-index: 51;
+	border-radius: 8px;
+	box-shadow: 2px 2px 12px 0px #888888;
+}
+
 /* === AKP === */
 div.formPanel {
 	background-color: #eeeeee;
@@ -367,37 +397,18 @@ span.bibRef a:hover {
 	
 }
 
-a.bibPopup {
-	position: relative;
-}
-
-a.bibPopup:hover {
-	background: none;
-	z-index: 50;
-}
-
-a.bibPopup div.moreInfo {
-	display: none;
-}
-
-div.moreInfo p.isbn {
+div.popupContent p.isbn {
 	font-size: 12pt;
 	font-family: monospace;
 	font-weight: bold;
 }
 
-a.bibPopup:hover div.moreInfo {
-	display: block;
-	position: absolute;
-	top: -10px;
-	left: 40px;
-	width: 400px;
-	color: black;
-	background: #eeeeaa;
-	padding: 4px;
-	z-index: 51;
-	border-radius: 8px;
-	box-shadow: 4px 4px 6px 2px #888888;
+div.authorContent {
+	font-family: Helvetica, Arial, "sans-serif";
+}
+
+div.authorContent p.authorDates {
+	font-style: italic;
 }
 
 span.plantRef {
@@ -501,6 +512,9 @@ table.listing td,table.logs th {
 }
 
 table.logs span.newValue {
+	font-family: monospace;
+	font-size: 8pt;
+	font-weight: bold;
 	display: block;
 	width: 100%;
 	min-height: 1em;
@@ -508,9 +522,13 @@ table.logs span.newValue {
 }
 
 table.logs span.oldValue {
+	font-family: monospace;
 	display: block;
+	font-weight: bold;
+	font-size: 8pt;
 	width: 100%;
 	min-height: 1em;
+	display: block;
 }
 
 table.searchResults tr:hover {
