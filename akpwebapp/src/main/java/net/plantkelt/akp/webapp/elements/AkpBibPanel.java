@@ -4,7 +4,7 @@ import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
-import net.plantkelt.akp.webapp.pages.AkpClassPage;
+import net.plantkelt.akp.webapp.pages.AkpBibPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
@@ -32,8 +32,8 @@ public class AkpBibPanel extends Panel {
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Link
-		Link<AkpClassPage> bibLink = AkpClassPage.link("bibLink");
-		// TODO AkpBibPage.link("bibLink", bibModel.getObject().getXid());
+		Link<AkpBibPage> bibLink = AkpBibPage.link("bibLink", bibModel
+				.getObject().getXid());
 		add(bibLink);
 
 		// Label: displayed
@@ -60,8 +60,8 @@ public class AkpBibPanel extends Panel {
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				AkpVernacularName vernaName = vernaNameModel.getObject();
-				akpTaxonService.removeBibFromVernacularName(bibModel.getObject(),
-						vernaName);
+				akpTaxonService.removeBibFromVernacularName(
+						bibModel.getObject(), vernaName);
 				target.add(refreshComponent);
 			}
 		};

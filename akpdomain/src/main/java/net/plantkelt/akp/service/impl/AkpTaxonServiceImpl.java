@@ -438,6 +438,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				.setProjection(Projections.property("xid")).list();
 	}
 
+	@Transactional
+	@Override
+	public void updateBib(AkpBib bib) {
+		getSession().update(bib);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
@@ -507,6 +513,21 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria plantRefCriteria = vernaCriteria.createCriteria("plantRefs",
 				"plantRef").add(Restrictions.eq("xid", plant.getXid()));
 		return plantRefCriteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpVernacularName> getVernacularNameRefsFromBib(AkpBib bib) {
+		List<AkpVernacularName> retval = getSession()
+				.createCriteria(AkpVernacularName.class)
+				.setFetchMode("bibs", FetchMode.SELECT)
+				.setFetchMode("lexicalGroup", FetchMode.JOIN)
+				.setFetchMode("lexicalGroup.plant", FetchMode.JOIN)
+				.createCriteria("bibs", "bib")
+				.add(Restrictions.eq("xid", bib.getXid())).list();
+		Collections.sort(retval);
+		return retval;
 	}
 
 	@SuppressWarnings("unchecked")

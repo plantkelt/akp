@@ -93,6 +93,8 @@ public interface AkpTaxonService {
 
 	public List<String> searchBibFromId(String id);
 
+	public void updateBib(AkpBib bib);
+
 	public AkpLang getLang(String xid);
 
 	public List<AkpLang> getLangList();
@@ -107,6 +109,8 @@ public interface AkpTaxonService {
 	public List<AkpPlant> getPlantBackRefs(AkpPlant plant);
 
 	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant);
+
+	public List<AkpVernacularName> getVernacularNameRefsFromBib(AkpBib bib);
 
 	public Map<String, AkpAuthor> getAuthors(Set<String> xids);
 

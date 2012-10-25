@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<h1>
+			<span wicket:id="bibId"></span>
+		</h1>
+
+		<table style="width: 100%">
+			<tr>
+				<td><wicket:message key="bib.title" /></td>
+				<td>
+					<div wicket:id="titleEditor">
+						<span class="bibTitle" wicket:id="titleLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="bib.author" /></td>
+				<td>
+					<div wicket:id="authorEditor">
+						<span class="bibAuthor" wicket:id="authorLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="bib.date" /></td>
+				<td>
+					<div wicket:id="dateEditor">
+						<span class="bibDate" wicket:id="dateLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="bib.isbn" /></td>
+				<td>
+					<div wicket:id="isbnEditor">
+						<span class="bibISBN" wicket:id="isbnLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="bib.comments" /></td>
+				<td>
+					<div wicket:id="commentsEditor">
+						<span class="comments" wicket:id="commentsLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="bib.editor" /></td>
+				<td>
+					<div wicket:id="editorEditor">
+						<span class="bibEditor" wicket:id="editorLabel"></span>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<div wicket:id="vernaRefsSection">
+			<h3>
+				<span wicket:id="collapseButton"></span>
+				<wicket:message key="bib.vernacular.name.list" />
+			</h3>
+			<div wicket:id="collapseDiv">
+				<ul>
+					<li wicket:id="vernaRefsList"><span class="verna"
+						wicket:id="vernaName"></span> (<span wicket:id="lang"></span>) <a
+						wicket:id="plantLink"><span class="taxon" wicket:id="plant"></span></a></li>
+				</ul>
+			</div>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

@@ -107,7 +107,7 @@
         <property name="correct" type="integer" />
         <many-to-one name="lang" class="AkpLang" column="langue" not-null="true" lazy="false" fetch="join" />
         <many-to-one name="plant" class="AkpPlant" column="plante" not-null="true" />
-        <bag name="vernacularNames" lazy="false" batch-size="100" table="verna2" inverse="true">
+        <bag name="vernacularNames" lazy="true" batch-size="100" table="verna2" inverse="true">
             <key column="grplex2" />
             <one-to-many class="AkpVernacularName" />
         </bag>

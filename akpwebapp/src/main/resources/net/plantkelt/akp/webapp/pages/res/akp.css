@@ -397,12 +397,6 @@ span.bibRef a:hover {
 	
 }
 
-div.popupContent p.isbn {
-	font-size: 12pt;
-	font-family: monospace;
-	font-weight: bold;
-}
-
 div.authorContent {
 	font-family: Helvetica, Arial, "sans-serif";
 }
@@ -486,6 +480,12 @@ form.plantRefAdder input {
 	font-family: "Times New Roman", Times, "serif";
 	font-style: italic;
 	color: #775533;
+}
+
+.bibISBN {
+	font-size: 12pt;
+	font-family: monospace;
+	font-weight: bold;
 }
 
 table.listing {
