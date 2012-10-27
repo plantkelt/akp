@@ -95,6 +95,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 									akpTaxonService
 											.updateTaxonName(taxon, name);
 								}
+								authorsModel.detach();
 								target.add(AkpPlantSynonymsPanel.this);
 							}
 						});
