@@ -91,6 +91,10 @@ public interface AkpTaxonService {
 
 	public List<AkpBib> getBibs();
 
+	public List<AkpBib> searchBib(int limit, String xid, String title,
+			String author, String date, String isbn, String comments,
+			String editor);
+
 	public List<String> searchBibFromId(String id);
 
 	public void updateBib(AkpBib bib);

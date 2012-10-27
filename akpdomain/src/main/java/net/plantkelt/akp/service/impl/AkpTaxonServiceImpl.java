@@ -429,6 +429,33 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return bibs;
 	}
 
+	@Transactional
+	@Override
+	public List<AkpBib> searchBib(int limit, String xid, String title,
+			String author, String date, String isbn, String comments,
+			String editor) {
+		Criteria criteria = getSession().createCriteria(AkpBib.class);
+		criteria.setMaxResults(limit);
+		if (xid != null)
+			criteria.add(Restrictions.like("xid", "%" + xid + "%"));
+		if (title != null)
+			criteria.add(Restrictions.like("title", "%" + title + "%"));
+		if (author != null)
+			criteria.add(Restrictions.like("author", "%" + author + "%"));
+		if (date != null)
+			criteria.add(Restrictions.like("date", "%" + date + "%"));
+		if (isbn != null)
+			criteria.add(Restrictions.like("isbn", "%" + isbn + "%"));
+		if (comments != null)
+			criteria.add(Restrictions.like("comments", "%" + comments + "%"));
+		if (editor != null)
+			criteria.add(Restrictions.like("editor", "%" + editor + "%"));
+		@SuppressWarnings("unchecked")
+		List<AkpBib> retval = criteria.list();
+		Collections.sort(retval);
+		return retval;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override

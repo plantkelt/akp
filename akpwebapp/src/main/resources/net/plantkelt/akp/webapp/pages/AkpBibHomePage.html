@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<div class="formPanel">
+			<h2>
+				<wicket:message key="bib.search.header" />
+			</h2>
+			<form wicket:id="searchForm">
+				<table style="width: 100%">
+					<tr>
+						<td><wicket:message key="bib.xid" /></td>
+						<td><input type="text" wicket:id="xid" size="40" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.title" /></td>
+						<td><input type="text" wicket:id="title" size="80" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.author" /></td>
+						<td><input type="text" wicket:id="author" size="80" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.date" /></td>
+						<td><input type="text" wicket:id="date" size="80" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.isbn" /></td>
+						<td><input type="text" wicket:id="isbn" size="80" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.comments" /></td>
+						<td><input type="text" wicket:id="comments" size="80" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="bib.editor" /></td>
+						<td><input type="text" wicket:id="editor" size="80" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="bib.search.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div wicket:id="searchResultsSection">
+			<h2>
+				<wicket:message key="bib.search.results" />
+			</h2>
+			<table class="listing">
+				<thead>
+					<tr>
+						<th><wicket:message key="result.column.bib.xid" /></th>
+						<th><wicket:message key="result.column.bib.title" /></th>
+						<th><wicket:message key="result.column.bib.author" /></th>
+						<th><wicket:message key="result.column.bib.date" /></th>
+						<th><wicket:message key="result.column.bib.isbn" /></th>
+						<th><wicket:message key="result.column.bib.editor" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="bibList">
+						<td><a wicket:id="bibLink"><span class="bibRef"
+								wicket:id="xidLabel"></span></a></td>
+						<td><span wicket:id="titleLabel"></span></td>
+						<td><span wicket:id="authorLabel"></span></td>
+						<td><span wicket:id="dateLabel"></span></td>
+						<td><span class="bibISBN" wicket:id="isbnLabel"></span></td>
+						<td><span wicket:id="editorLabel"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

@@ -483,9 +483,10 @@ form.plantRefAdder input {
 }
 
 .bibISBN {
-	font-size: 12pt;
+	font-size: 110%;
 	font-family: monospace;
 	font-weight: bold;
+	white-space: nowrap;
 }
 
 table.listing {
