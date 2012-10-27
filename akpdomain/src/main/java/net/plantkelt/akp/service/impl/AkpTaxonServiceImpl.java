@@ -416,6 +416,28 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
+	public AkpBib createNewBib(String xid) {
+		AkpBib bib = new AkpBib();
+		bib.setXid(xid);
+		bib.setTitle(xid);
+		bib.setAuthor("");
+		bib.setDate("");
+		bib.setIsbn("");
+		bib.setComments("");
+		bib.setEditor("");
+		getSession().save(bib);
+		return bib;
+	}
+
+	@Transactional
+	@Override
+	public boolean deleteBib(AkpBib bib) {
+		getSession().delete(bib);
+		return true;
+	}
+
+	@Transactional
+	@Override
 	public AkpBib getBib(String xid) {
 		return (AkpBib) getSession().get(AkpBib.class, xid);
 	}

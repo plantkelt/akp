@@ -87,6 +87,10 @@ public interface AkpTaxonService {
 
 	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 
+	public AkpBib createNewBib(String xid);
+	
+	public boolean deleteBib(AkpBib bib);
+	
 	public AkpBib getBib(String xid);
 
 	public List<AkpBib> getBibs();
