@@ -6,6 +6,7 @@ import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
@@ -15,6 +16,8 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -206,7 +209,7 @@ public class AkpBibPage extends AkpPageTemplate {
 		editorEditor.add(editorLabel);
 
 		// Vernacular names
-		IModel<List<AkpVernacularName>> vernaRefsModel = new LoadableDetachableModel<List<AkpVernacularName>>() {
+		final IModel<List<AkpVernacularName>> vernaRefsModel = new LoadableDetachableModel<List<AkpVernacularName>>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -253,6 +256,28 @@ public class AkpBibPage extends AkpPageTemplate {
 			}
 		};
 		collapseDiv.add(vernaRefsList);
+
+		// Delete bib
+		Form<Void> deleteForm = new Form<Void>("deleteForm");
+		collapseDiv.add(deleteForm);
+		Button deleteButton = new Button("deleteButton") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				if (akpTaxonService.deleteBib(bibModel.getObject()))
+					setResponsePage(AkpBibHomePage.class);
+			}
+
+			@Override
+			public boolean isVisible() {
+				return AkpWicketSession.get().isAdmin()
+						&& vernaRefsModel.getObject().size() == 0;
+			}
+		};
+		deleteForm.add(deleteButton);
+		deleteButton.add(new JavascriptConfirmationModifier("onClick",
+				getString("confirm.action.message")));
 	}
 
 	public static Link<AkpBibPage> link(String id, String xid) {

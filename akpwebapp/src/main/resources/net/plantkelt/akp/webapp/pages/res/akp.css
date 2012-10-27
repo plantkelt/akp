@@ -85,6 +85,10 @@ div.clear {
 	clear: both;
 }
 
+div.floating {
+	float: left;
+}
+
 /* === Components === */
 span.inlineeditor h1 {
 	display: inline;
@@ -237,6 +241,7 @@ div.content {
 
 /* === Footer === */
 div.footer {
+	clear: both;
 	margin-top: 20px;
 	border-top: 1px solid #888888;
 }
@@ -299,6 +304,7 @@ div.formPanel {
 	background-color: #eeeeee;
 	border-radius: 8px;
 	padding: 4px;
+	margin: 4px;
 	display: inline-block;
 }
 

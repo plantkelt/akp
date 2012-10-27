@@ -58,7 +58,6 @@ public class AkpHomePage extends AkpPageTemplate {
 			}
 		};
 		add(resultsPanel);
-
 	}
 
 	public static Link<AkpHomePage> link(String id) {

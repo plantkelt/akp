@@ -3,7 +3,7 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<div class="formPanel">
+		<div class="formPanel floating">
 			<h2>
 				<wicket:message key="bib.search.header" />
 			</h2>
@@ -11,31 +11,31 @@
 				<table style="width: 100%">
 					<tr>
 						<td><wicket:message key="bib.xid" /></td>
-						<td><input type="text" wicket:id="xid" size="40" /></td>
+						<td><input type="text" wicket:id="xid" size="10" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.title" /></td>
-						<td><input type="text" wicket:id="title" size="80" /></td>
+						<td><input type="text" wicket:id="title" size="40" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.author" /></td>
-						<td><input type="text" wicket:id="author" size="80" /></td>
+						<td><input type="text" wicket:id="author" size="40" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.date" /></td>
-						<td><input type="text" wicket:id="date" size="80" /></td>
+						<td><input type="text" wicket:id="date" size="20" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.isbn" /></td>
-						<td><input type="text" wicket:id="isbn" size="80" /></td>
+						<td><input type="text" wicket:id="isbn" size="20" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.comments" /></td>
-						<td><input type="text" wicket:id="comments" size="80" /></td>
+						<td><input type="text" wicket:id="comments" size="40" /></td>
 					</tr>
 					<tr>
 						<td><wicket:message key="bib.editor" /></td>
-						<td><input type="text" wicket:id="editor" size="80" /></td>
+						<td><input type="text" wicket:id="editor" size="40" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">
@@ -48,7 +48,29 @@
 			</form>
 		</div>
 
-		<div wicket:id="searchResultsSection">
+		<div class="formPanel floating" wicket:id="addSection">
+			<h2>
+				<wicket:message key="bib.add.header" />
+			</h2>
+			<form wicket:id="addBibForm">
+				<div wicket:id="feedback" />
+				<table>
+					<tr>
+						<td><label for="xid"><wicket:message key="bib.xid" /></label></td>
+						<td><input type="text" wicket:id="xid" size="10" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="add.bib.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="clear" wicket:id="searchResultsSection">
 			<h2>
 				<wicket:message key="bib.search.results" />
 			</h2>

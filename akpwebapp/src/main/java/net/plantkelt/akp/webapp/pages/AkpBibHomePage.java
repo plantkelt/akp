@@ -16,9 +16,11 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
@@ -37,6 +39,8 @@ public class AkpBibHomePage extends AkpPageTemplate {
 	private IModel<String> commentsModel;
 	private IModel<String> editorModel;
 
+	private IModel<String> addXidModel;
+
 	public AkpBibHomePage() {
 		super();
 
@@ -51,6 +55,7 @@ public class AkpBibHomePage extends AkpPageTemplate {
 		isbnModel = new Model<String>();
 		commentsModel = new Model<String>();
 		editorModel = new Model<String>();
+		addXidModel = new Model<String>();
 		SearchForm searchForm = new SearchForm("searchForm");
 		add(searchForm);
 
@@ -105,6 +110,31 @@ public class AkpBibHomePage extends AkpPageTemplate {
 			}
 		};
 		searchResultsSection.add(bibList);
+
+		// Add bib section
+		WebMarkupContainer addSection = new WebMarkupContainer("addSection");
+		add(addSection);
+		addSection.setVisible(isAdmin);
+		Form<Void> addForm = new Form<Void>("addBibForm") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				String addXid = addXidModel.getObject();
+				AkpBib bib = akpTaxonService.getBib(addXid);
+				if (bib != null) {
+					error(getString("bib.xid.already.exists"));
+				} else {
+					akpTaxonService.createNewBib(addXid);
+					setResponsePage(AkpBibPage.class,
+							new PageParameters().add("xid", addXid));
+				}
+			}
+		};
+		addSection.add(addForm);
+		addForm.add(new FeedbackPanel("feedback"));
+		addForm.add(new TextField<String>("xid", addXidModel));
+
 	}
 
 	private boolean somethingToSearchFor() {
