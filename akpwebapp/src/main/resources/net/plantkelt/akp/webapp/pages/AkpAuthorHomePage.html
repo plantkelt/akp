@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<div class="formPanel floating">
+			<h2>
+				<wicket:message key="author.search.header" />
+			</h2>
+			<form wicket:id="searchForm">
+				<table style="width: 100%">
+					<tr>
+						<td><wicket:message key="author.xid" /></td>
+						<td><input type="text" wicket:id="xid" size="10" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="author.name" /></td>
+						<td><input type="text" wicket:id="name" size="40" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="author.dates" /></td>
+						<td><input type="text" wicket:id="dates" size="20" /></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="author.source" /></td>
+						<td><input type="text" wicket:id="source" size="40" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="author.search.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="formPanel floating" wicket:id="addSection">
+			<h2>
+				<wicket:message key="author.add.header" />
+			</h2>
+			<form wicket:id="addAuthorForm">
+				<div wicket:id="feedback" />
+				<table>
+					<tr>
+						<td><label for="xid"><wicket:message key="author.xid" /></label></td>
+						<td><input type="text" wicket:id="xid" size="10" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="add.author.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="clear" wicket:id="searchResultsSection">
+			<h2>
+				<wicket:message key="author.search.results" />
+			</h2>
+			<table class="listing">
+				<thead>
+					<tr>
+						<th><wicket:message key="result.column.author.xid" /></th>
+						<th><wicket:message key="result.column.author.name" /></th>
+						<th><wicket:message key="result.column.author.dates" /></th>
+						<th><wicket:message key="result.column.author.source" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="authorList">
+						<td><a wicket:id="authorLink"><span class="author"
+								wicket:id="xidLabel"></span></a></td>
+						<td><span wicket:id="nameLabel"></span></td>
+						<td><span wicket:id="datesLabel"></span></td>
+						<td><span wicket:id="sourceLabel"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

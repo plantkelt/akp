@@ -1,6 +1,7 @@
 package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
@@ -36,6 +37,9 @@ public class AkpHeaderPanel extends Panel {
 		add(classesLink);
 		Link<AkpBibHomePage> bibsLink = AkpBibHomePage.link("bibsLink");
 		add(bibsLink);
+		Link<AkpAuthorHomePage> authorsLink = AkpAuthorHomePage
+				.link("authorsLink");
+		add(authorsLink);
 
 		// No-User section
 		WebMarkupContainer noUserSection = new WebMarkupContainer(

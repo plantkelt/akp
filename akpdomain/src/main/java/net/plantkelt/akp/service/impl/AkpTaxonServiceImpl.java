@@ -579,6 +579,24 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return retval;
 	}
 
+	@Transactional
+	@Override
+	public AkpAuthor createNewAuthor(String xid) {
+		AkpAuthor author = new AkpAuthor();
+		author.setXid(xid);
+		author.setName(xid);
+		author.setSource("");
+		author.setDates("");
+		getSession().save(author);
+		return author;
+	}
+
+	@Transactional
+	@Override
+	public AkpAuthor getAuthor(String xid) {
+		return (AkpAuthor) getSession().get(AkpAuthor.class, xid);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
@@ -593,6 +611,52 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			retval.put(author.getXid(), author);
 		}
 		return retval;
+	}
+
+	@Transactional
+	@Override
+	public List<AkpAuthor> searchAuthor(int limit, String xid, String name,
+			String dates, String source) {
+		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
+		criteria.setMaxResults(limit);
+		if (xid != null)
+			criteria.add(Restrictions.like("xid", "%" + xid + "%"));
+		if (name != null)
+			criteria.add(Restrictions.like("name", "%" + name + "%"));
+		if (dates != null)
+			criteria.add(Restrictions.like("dates", "%" + dates + "%"));
+		if (source != null)
+			criteria.add(Restrictions.like("source", "%" + source + "%"));
+		@SuppressWarnings("unchecked")
+		List<AkpAuthor> retval = criteria.list();
+		Collections.sort(retval);
+		return retval;
+	}
+
+	@Transactional
+	@Override
+	public List<AkpTaxon> getTaxonsForAuthor(int limit, AkpAuthor author) {
+		@SuppressWarnings("unchecked")
+		List<AkpTaxon> taxons = getSession()
+				.createCriteria(AkpTaxon.class)
+				.setMaxResults(limit)
+				.add(Restrictions.like("name", "%<a>" + author.getXid()
+						+ "</a>%")).list();
+		Collections.sort(taxons);
+		return taxons;
+	}
+
+	@Transactional
+	@Override
+	public void updateAuthor(AkpAuthor author) {
+		getSession().update(author);
+	}
+
+	@Transactional
+	@Override
+	public boolean deleteAuthor(AkpAuthor author) {
+		getSession().delete(author);
+		return true;
 	}
 
 	@Transactional

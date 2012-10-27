@@ -9,9 +9,11 @@ import java.util.Set;
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.pages.AkpClassPage;
+import net.plantkelt.akp.webapp.pages.AkpAuthorPage;
 
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -80,8 +82,9 @@ public class AkpTaxonLabel extends Panel {
 						nameElement.taxonElement);
 				elemTaxon.setEscapeModelStrings(false);
 				item.add(elemTaxon);
-				// TODO Link to author page
-				Link<?> elemAuthorLink = AkpClassPage.link("elemAuthorLink");
+				WebMarkupContainer elemAuthorLink = nameElement.author == null ? new WebMarkupContainer(
+						"elemAuthorLink") : AkpAuthorPage.link(
+						"elemAuthorLink", nameElement.author.getXid());
 				item.add(elemAuthorLink);
 				Label elemAuthorId = new Label("elemAuthorId",
 						nameElement.authorElement == null ? ""

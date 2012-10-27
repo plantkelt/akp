@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLogService.LoginGetter;
 import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
+import net.plantkelt.akp.webapp.pages.AkpAuthorPage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibPage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
@@ -68,6 +70,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/plant/history/${xid}", AkpPlantLogsPage.class);
 		mountPage("/bib", AkpBibHomePage.class);
 		mountPage("/bib/${xid}", AkpBibPage.class);
+		mountPage("/author", AkpAuthorHomePage.class);
+		mountPage("/author/${xid}", AkpAuthorPage.class);
 
 		// Look for extended browser info from client. Needed as server is in
 		// UTC.

@@ -88,9 +88,9 @@ public interface AkpTaxonService {
 	public boolean deleteVernacularName(AkpVernacularName vernacularName);
 
 	public AkpBib createNewBib(String xid);
-	
+
 	public boolean deleteBib(AkpBib bib);
-	
+
 	public AkpBib getBib(String xid);
 
 	public List<AkpBib> getBibs();
@@ -120,7 +120,20 @@ public interface AkpTaxonService {
 
 	public List<AkpVernacularName> getVernacularNameRefsFromBib(AkpBib bib);
 
+	public AkpAuthor createNewAuthor(String xid);
+
+	public AkpAuthor getAuthor(String xid);
+
 	public Map<String, AkpAuthor> getAuthors(Set<String> xids);
+
+	public List<AkpAuthor> searchAuthor(int limit, String xid, String name,
+			String dates, String source);
+
+	public List<AkpTaxon> getTaxonsForAuthor(int limit, AkpAuthor author);
+
+	public void updateAuthor(AkpAuthor author);
+
+	public boolean deleteAuthor(AkpAuthor author);
 
 	public AkpSearchResult search(AkpSearchData searchData);
 

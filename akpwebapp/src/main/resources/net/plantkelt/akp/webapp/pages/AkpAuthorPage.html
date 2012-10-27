@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<h1>
+			<span wicket:id="authorId"></span>
+		</h1>
+
+		<table style="width: 100%">
+			<tr>
+				<td><wicket:message key="author.name" /></td>
+				<td style="width: 80%">
+					<div wicket:id="nameEditor">
+						<span wicket:id="nameLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="author.source" /></td>
+				<td>
+					<div wicket:id="sourceEditor">
+						<span wicket:id="sourceLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="author.dates" /></td>
+				<td>
+					<div wicket:id="datesEditor">
+						<span wicket:id="datesLabel"></span>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<div wicket:id="taxonRefsSection">
+			<h3>
+				<span wicket:id="collapseButton"></span>
+				<wicket:message key="author.taxon.list" />
+			</h3>
+			<div wicket:id="collapseDiv">
+				<table class="listing">
+					<thead>
+						<tr>
+							<th><wicket:message key="result.column.taxon" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="taxonRefsList">
+							<td><span class="taxon" wicket:id="taxonName"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				<form wicket:id="deleteForm">
+					<button wicket:id="deleteButton" type="submit">
+						<wicket:message key="delete.author.button" />
+					</button>
+				</form>
+			</div>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>
