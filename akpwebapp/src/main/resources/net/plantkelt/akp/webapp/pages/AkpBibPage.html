@@ -64,11 +64,23 @@
 				<wicket:message key="bib.vernacular.name.list" />
 			</h3>
 			<div wicket:id="collapseDiv">
-				<ul>
-					<li wicket:id="vernaRefsList"><span class="verna"
-						wicket:id="vernaName"></span> (<span wicket:id="lang"></span>) <a
-						wicket:id="plantLink"><span class="taxon" wicket:id="plant"></span></a></li>
-				</ul>
+				<table class="listing">
+					<thead>
+						<tr>
+							<th><wicket:message key="result.column.vernaname" /></th>
+							<th><wicket:message key="result.column.lang" /></th>
+							<th><wicket:message key="result.column.plantname" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="vernaRefsList">
+							<td><span class="verna" wicket:id="vernaName"></span></td>
+							<td><span wicket:id="lang"></span></td>
+							<td><a wicket:id="plantLink"><span class="taxon"
+									wicket:id="plant"></span></a></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 

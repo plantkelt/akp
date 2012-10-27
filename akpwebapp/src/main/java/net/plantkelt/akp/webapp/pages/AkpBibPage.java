@@ -11,6 +11,7 @@ import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -53,13 +54,6 @@ public class AkpBibPage extends AkpPageTemplate {
 		// Bib id
 		Label bibIdLabel = new Label("bibId", bibId);
 		add(bibIdLabel);
-
-		// private String title;
-		// private String author;
-		// private String date;
-		// private String isbn;
-		// private String comments;
-		// private String editor;
 
 		// Title
 		final InPlaceEditor titleEditor = new InPlaceEditor("titleEditor",
@@ -254,6 +248,8 @@ public class AkpBibPage extends AkpPageTemplate {
 						.getHtmlName());
 				plantLabel.setEscapeModelStrings(false);
 				plantLink.add(plantLabel);
+				item.add(new AttributeModifier("class",
+						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		collapseDiv.add(vernaRefsList);
