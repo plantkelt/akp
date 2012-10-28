@@ -150,7 +150,9 @@
 
     <class name="AkpLogEntry" table="hist">
         <id name="xid" type="int">
-            <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
+            <generator class="sequence">
+                <param name="sequence">hist_xid_seq</param>
+            </generator>
         </id>
         <property name="date" type="timestamp" column="ts" not-null="true" />
         <property name="login" type="string" column="xuser" not-null="true" />
@@ -161,6 +163,19 @@
         <property name="taxonId" type="integer" column="taxon" />
         <property name="oldValue" type="string" column="oldvalue" />
         <property name="newValue" type="string" column="newvalue" />
+    </class>
+
+    <class name="AkpUserLogEntry" table="xlog">
+        <id name="xid" type="int">
+            <generator class="sequence">
+                <param name="sequence">xlog_xid_seq</param>
+            </generator>
+        </id>
+        <property name="date" type="timestamp" column="ts" not-null="true" />
+        <property name="login" type="string" column="xuser" not-null="true" />
+        <property name="remoteAddr" type="string" column="addr" />
+        <property name="operation" type="integer" column="oper" not-null="true" />
+        <property name="value" type="string" column="value" />
     </class>
 
 </hibernate-mapping>
