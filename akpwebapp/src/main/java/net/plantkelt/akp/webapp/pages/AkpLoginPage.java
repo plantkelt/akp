@@ -1,5 +1,9 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
@@ -8,8 +12,11 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.panel.SignInPanel;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -22,6 +29,8 @@ public class AkpLoginPage extends AkpPageTemplate {
 	private AkpLoginService akpLoginService;
 	@Inject
 	private AkpTaxonService akpTaxonService;
+
+	private int fortuneCount = 999;
 
 	public AkpLoginPage() {
 		this(null);
@@ -68,6 +77,32 @@ public class AkpLoginPage extends AkpPageTemplate {
 			}
 		};
 		autologinForm.add(autologinUserButton);
+
+		// Misc info (last update)
+		Date lastUpdate = akpTaxonService.getLastUpdate();
+		Label lastUpdateLabel = new Label("lastUpdate",
+				getString("last.update")
+						+ " "
+						+ SimpleDateFormat.getDateInstance(DateFormat.LONG,
+								AkpWicketSession.get().getLocale()).format(
+								lastUpdate));
+		add(lastUpdateLabel);
+
+		// Fortune
+		IModel<String> fortuneModel = new LoadableDetachableModel<String>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected String load() {
+				fortuneCount++;
+				if (fortuneCount > 8)
+					fortuneCount = 0;
+				return getString("fortune." + fortuneCount);
+			}
+		};
+		Label fortuneLabel = new Label("fortune", fortuneModel);
+		fortuneLabel.setEscapeModelStrings(false);
+		add(fortuneLabel);
 	}
 
 }

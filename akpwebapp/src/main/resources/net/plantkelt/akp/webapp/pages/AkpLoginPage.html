@@ -3,6 +3,12 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
+		<div class="miscInfo">
+			<p wicket:id="lastUpdate"></p>
+		</div>
+		<div class="fortuneInfo">
+			<p wicket:id="fortune"></p>
+		</div>
 		<div class="loginSection">
 			<p class="motto">Diaz-titouroù war anvioù-plant skiantel &amp;
 				boutin</p>
@@ -21,6 +27,8 @@
 			</div>
 			<p class="subscribe">
 				<wicket:message key="no.account.yet" />
+			</p>
+			<p class="subscribe">
 				<a href="#"><wicket:message key="subscribe.link" /></a>
 			</p>
 		</div>

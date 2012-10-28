@@ -564,6 +564,25 @@ table.searchResults tr:hover {
 }
 
 /* === Login page === */
+div.miscInfo {
+	float: left;
+	margin: 0.5em;
+	padding: 0.5em;
+	background-color: #eeeeaa;
+	color: #335577;
+	border-radius: 8px;
+}
+
+div.fortuneInfo {
+	float: right;
+	width: 18em;
+	margin: 0.5em;
+	padding: 0.5em;
+	background-color: #eeeeaa;
+	color: #335577;
+	border-radius: 8px;
+}
+
 div.loginSection {
 	width: 30em;
 	padding-top: 180px;

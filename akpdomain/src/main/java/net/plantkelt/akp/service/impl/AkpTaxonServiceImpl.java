@@ -2,6 +2,7 @@ package net.plantkelt.akp.service.impl;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpSearchData;
@@ -837,6 +839,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			results.addRow(result);
 		}
 		return results;
+	}
+
+	@Override
+	@Transactional
+	public Date getLastUpdate() {
+		return (Date) getSession().createCriteria(AkpLogEntry.class)
+				.setProjection(Projections.max("date")).uniqueResult();
 	}
 
 	private Session getSession() {
