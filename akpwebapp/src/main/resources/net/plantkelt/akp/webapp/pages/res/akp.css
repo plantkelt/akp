@@ -324,6 +324,11 @@ div.formPanel {
 	display: inline-block;
 }
 
+div.formPanel h1,div.formPanel h2 {
+	border-bottom: 1px dotted #aaaaaa;
+	margin-bottom: 4px;
+}
+
 h3.langGroup {
 	clear: both;
 }
@@ -556,4 +561,32 @@ table.logs span.oldValue {
 
 table.searchResults tr:hover {
 	background-color: #ffffaa;
+}
+
+/* === Login page === */
+div.loginSection {
+	width: 30em;
+	padding-top: 180px;
+	background-image: url("plantkelt_logo.png");
+	background-repeat: no-repeat;
+	background-position: center top;
+	margin-left: auto;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+div.loginSection .formPanel {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+
+div.loginSection p.motto {
+	font-family: serif;
+	font-style: italic;
+	text-align: center;
+}
+
+div.loginSection p.subscribe {
+	text-align: center;
 }

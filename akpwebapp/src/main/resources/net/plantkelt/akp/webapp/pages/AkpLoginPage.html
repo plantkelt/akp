@@ -3,15 +3,26 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<div class="formPanel">
-			<h1>
-				<wicket:message key="please.login" />
-			</h1>
-			<span wicket:id="signInPanel" />
-			<form wicket:id="autologinForm">
-				<button wicket:id="autologinAdminButton">Autologin admin</button>
-				<button wicket:id="autologinUserButton">Autologin user</button>
-			</form>
+		<div class="loginSection">
+			<p class="motto">Diaz-titouroù war anvioù-plant skiantel &amp;
+				boutin</p>
+			<p class="motto">Scientific &amp; vernacular plant names database</p>
+			<p class="motto">Base de données de noms de plantes scientifiques
+				&amp; vernaculaires</p>
+			<div class="formPanel">
+				<h1>
+					<wicket:message key="please.login" />
+				</h1>
+				<span wicket:id="signInPanel" />
+				<form wicket:id="autologinForm">
+					<button wicket:id="autologinAdminButton">Autologin admin</button>
+					<button wicket:id="autologinUserButton">Autologin user</button>
+				</form>
+			</div>
+			<p class="subscribe">
+				<wicket:message key="no.account.yet" />
+				<a href="#"><wicket:message key="subscribe.link" /></a>
+			</p>
 		</div>
 	</wicket:extend>
 </body>
