@@ -31,6 +31,9 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	public AkpUser login(String login, String password) {
 		AkpUser user = (AkpUser) getSession().createCriteria(AkpUser.class)
 				.add(Restrictions.eq("login", login)).uniqueResult();
+		if (user == null) {
+			return null; // User not found
+		}
 		if (user.getExpire().compareTo(new Date()) < 0) {
 			return null; // User account expired
 		}
