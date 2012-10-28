@@ -8,6 +8,7 @@ import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -24,6 +25,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
+@AuthorizeInstantiation("USER")
 public class AkpBibHomePage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
@@ -66,9 +68,7 @@ public class AkpBibHomePage extends AkpPageTemplate {
 			@Override
 			protected List<AkpBib> load() {
 				if (somethingToSearchFor()) {
-					int limit = 10;
-					if (AkpWicketSession.get().isLoggedIn())
-						limit = 100;
+					int limit = 50;
 					if (AkpWicketSession.get().isAdmin())
 						limit = 500;
 					return akpTaxonService.searchBib(limit,
@@ -151,13 +151,27 @@ public class AkpBibHomePage extends AkpPageTemplate {
 
 		public SearchForm(String id) {
 			super(id);
+			boolean isAdmin = AkpWicketSession.get().isAdmin();
 			add(new TextField<String>("xid", xidModel));
 			add(new TextField<String>("title", titleModel));
 			add(new TextField<String>("author", authorModel));
-			add(new TextField<String>("date", dateModel));
-			add(new TextField<String>("isbn", isbnModel));
-			add(new TextField<String>("comments", commentsModel));
-			add(new TextField<String>("editor", editorModel));
+			WebMarkupContainer dateRow = new WebMarkupContainer("dateRow");
+			add(dateRow);
+			dateRow.setVisible(isAdmin);
+			dateRow.add(new TextField<String>("date", dateModel));
+			WebMarkupContainer isbnRow = new WebMarkupContainer("isbnRow");
+			add(isbnRow);
+			isbnRow.setVisible(isAdmin);
+			isbnRow.add(new TextField<String>("isbn", isbnModel));
+			WebMarkupContainer commentsRow = new WebMarkupContainer(
+					"commentsRow");
+			add(commentsRow);
+			commentsRow.setVisible(isAdmin);
+			commentsRow.add(new TextField<String>("comments", commentsModel));
+			WebMarkupContainer editorRow = new WebMarkupContainer("editorRow");
+			add(editorRow);
+			editorRow.setVisible(isAdmin);
+			editorRow.add(new TextField<String>("editor", editorModel));
 		}
 	}
 

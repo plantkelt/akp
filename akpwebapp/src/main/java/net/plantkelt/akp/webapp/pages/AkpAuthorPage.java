@@ -140,7 +140,9 @@ public class AkpAuthorPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpTaxon> load() {
-				int limit = 100;
+				int limit = 25;
+				if (AkpWicketSession.get().isLoggedIn())
+					limit = 200;
 				if (AkpWicketSession.get().isAdmin())
 					limit = 1000;
 				return akpTaxonService.getTaxonsForAuthor(limit,

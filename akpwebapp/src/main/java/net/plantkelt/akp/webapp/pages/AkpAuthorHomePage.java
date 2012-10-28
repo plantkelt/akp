@@ -141,10 +141,17 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 
 		public SearchForm(String id) {
 			super(id);
+			boolean isAdmin = AkpWicketSession.get().isAdmin();
 			add(new TextField<String>("xid", xidModel));
 			add(new TextField<String>("name", nameModel));
-			add(new TextField<String>("dates", datesModel));
-			add(new TextField<String>("source", sourceModel));
+			WebMarkupContainer datesRow = new WebMarkupContainer("datesRow");
+			add(datesRow);
+			datesRow.setVisible(isAdmin);
+			datesRow.add(new TextField<String>("dates", datesModel));
+			WebMarkupContainer sourceRow = new WebMarkupContainer("sourceRow");
+			add(sourceRow);
+			sourceRow.setVisible(isAdmin);
+			sourceRow.add(new TextField<String>("source", sourceModel));
 		}
 	}
 
