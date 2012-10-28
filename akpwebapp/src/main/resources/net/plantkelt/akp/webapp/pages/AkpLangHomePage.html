@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+
+		<h2>
+			<wicket:message key="lang.header" />
+		</h2>
+		<table class="listing">
+			<thead>
+				<tr>
+					<th><wicket:message key="lang.xid" /></th>
+					<th><wicket:message key="lang.name" /></th>
+					<th><wicket:message key="lang.grplng" /></th>
+					<th><wicket:message key="lang.level" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="langList">
+					<td><a wicket:id="langLink"><span wicket:id="xidLabel"></span></a></td>
+					<td><span wicket:id="nameLabel"></span></td>
+					<td><span wicket:id="grplngLabel"></span></td>
+					<td><span wicket:id="levelLabel"></span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="formPanel floating" wicket:id="addSection">
+			<h2>
+				<wicket:message key="lang.add.header" />
+			</h2>
+			<form wicket:id="addLangForm">
+				<div wicket:id="feedback" />
+				<table>
+					<tr>
+						<td><label for="xid"><wicket:message key="lang.xid" /></label></td>
+						<td><input type="text" wicket:id="xid" size="10" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="add.lang.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

@@ -53,6 +53,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				return akpTaxonService.getBib(bibId);
 			}
 		};
+		if (bibModel.getObject() == null)
+			throw new IllegalArgumentException("Invalid bib ID: " + bibId);
 
 		// Bib id
 		Label bibIdLabel = new Label("bibId", bibId);

@@ -53,6 +53,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				return akpTaxonService.getAuthor(authorId);
 			}
 		};
+		if (authorModel.getObject() == null)
+			throw new IllegalArgumentException("Invalid author ID: " + authorId);
 
 		// Author id
 		Label authorIdLabel = new Label("authorId", authorId);

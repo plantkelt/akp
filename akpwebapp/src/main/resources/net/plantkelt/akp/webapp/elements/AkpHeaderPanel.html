@@ -3,8 +3,11 @@
 	<div class="links">
 		<a wicket:id="searchLink"><wicket:message key="search.link" /></a> ∙
 		<a wicket:id="classesLink"><wicket:message key="classes.link" /></a>
-		∙ <a wicket:id="bibsLink"><wicket:message key="bibs.link" /></a> ∙ <a
-			wicket:id="authorsLink"><wicket:message key="authors.link" /></a>
+		∙ <a wicket:id="authorsLink"><wicket:message key="authors.link" /></a>
+		<span wicket:id="loggedInLinks"> ∙ <a wicket:id="bibsLink"><wicket:message
+					key="bibs.link" /></a></span><span wicket:id="adminLinks"> ∙ <a
+			wicket:id="langsLink"><wicket:message key="langs.link" /></a>
+		</span>
 	</div>
 	<div class="user" wicket:id="noUserSection">
 		<a href="#" wicket:id="loginLink"><wicket:message

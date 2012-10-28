@@ -30,7 +30,7 @@ public class AkpLoginPage extends AkpPageTemplate {
 	@Inject
 	private AkpTaxonService akpTaxonService;
 
-	private int fortuneCount = 999;
+	private int fortuneCount = (int) (System.currentTimeMillis() % 9L);
 
 	public AkpLoginPage() {
 		this(null);

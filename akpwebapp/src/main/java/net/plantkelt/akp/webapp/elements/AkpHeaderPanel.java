@@ -7,6 +7,7 @@ import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
+import net.plantkelt.akp.webapp.pages.AkpLangHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -39,11 +40,24 @@ public class AkpHeaderPanel extends Panel {
 		add(searchLink);
 		Link<AkpClassPage> classesLink = AkpClassPage.link("classesLink");
 		add(classesLink);
-		Link<AkpBibHomePage> bibsLink = AkpBibHomePage.link("bibsLink");
-		add(bibsLink);
 		Link<AkpAuthorHomePage> authorsLink = AkpAuthorHomePage
 				.link("authorsLink");
 		add(authorsLink);
+
+		// Logged-in links
+		WebMarkupContainer loggedInLinks = new WebMarkupContainer(
+				"loggedInLinks");
+		loggedInLinks.setVisible(AkpWicketSession.get().isLoggedIn());
+		add(loggedInLinks);
+		Link<AkpBibHomePage> bibsLink = AkpBibHomePage.link("bibsLink");
+		loggedInLinks.add(bibsLink);
+
+		// Admin links
+		WebMarkupContainer adminLinks = new WebMarkupContainer("adminLinks");
+		adminLinks.setVisible(AkpWicketSession.get().isAdmin());
+		add(adminLinks);
+		Link<AkpLangHomePage> langsLink = AkpLangHomePage.link("langsLink");
+		adminLinks.add(langsLink);
 
 		// No-User section
 		WebMarkupContainer noUserSection = new WebMarkupContainer(
