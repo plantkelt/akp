@@ -12,6 +12,7 @@ import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserLogEntry;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 
@@ -45,6 +46,9 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public static final int LOG_TYPE_TAG_CREATION = 20;
 	public static final int LOG_TYPE_PLANT_REF_CREATION = 22;
 	public static final int LOG_TYPE_PLANT_REF_DELETION = 23;
+
+	public static final int USERLOG_TYPE_LOGIN = 1;
+	public static final int USERLOG_TYPE_LOGOUT = 2;
 
 	@Inject
 	private Provider<Session> sessionProvider;
@@ -246,4 +250,27 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 				.getLexicalGroup().getXid(), vernacularName.getXid(), plant
 				.getMainName().getName(), null);
 	}
+
+	private void userLogNewEntry(int operation, String login, String value) {
+		AkpUserLogEntry userLogEntry = new AkpUserLogEntry();
+		userLogEntry.setOperation(operation);
+		userLogEntry.setDate(new Date());
+		userLogEntry.setValue(value);
+		userLogEntry.setLogin(login == null ? loginGetter.getCurrentLogin()
+				: login);
+		userLogEntry.setRemoteAddr(loginGetter.getCurrentRemoteAddr());
+		getSession().save(userLogEntry);
+	}
+
+	@Override
+	public void userLogLogin(String login) {
+		userLogNewEntry(USERLOG_TYPE_LOGIN, login, null);
+	}
+
+	@Override
+	public void userLogLogout() {
+		userLogNewEntry(USERLOG_TYPE_LOGOUT, null, null);
+
+	}
+
 }

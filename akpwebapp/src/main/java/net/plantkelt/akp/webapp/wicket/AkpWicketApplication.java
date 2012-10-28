@@ -25,6 +25,7 @@ import org.apache.wicket.core.request.handler.PageProvider;
 import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -55,6 +56,13 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 					@Override
 					public String getCurrentLogin() {
 						return AkpWicketSession.get().getAkpUser().getLogin();
+					}
+
+					@Override
+					public String getCurrentRemoteAddr() {
+						return ((ServletWebRequest) RequestCycle.get()
+								.getRequest()).getContainerRequest()
+								.getRemoteAddr();
 					}
 				});
 

@@ -14,7 +14,10 @@ import net.plantkelt.akp.domain.AkpVernacularName;
 public interface AkpLogService {
 
 	public interface LoginGetter extends Serializable {
+
 		public String getCurrentLogin();
+
+		public String getCurrentRemoteAddr();
 	}
 
 	public abstract void setLoginGetter(LoginGetter loginGetter);
@@ -71,4 +74,7 @@ public interface AkpLogService {
 	public abstract void logVernacularNamePlantRefRemoval(
 			AkpVernacularName vernacularName, AkpPlant plant);
 
+	public abstract void userLogLogin(String login);
+
+	public abstract void userLogLogout();
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLoginService;
 
 import org.hibernate.Session;
@@ -22,6 +23,9 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Inject
 	private Provider<Session> sessionProvider;
 
+	@Inject
+	private AkpLogService akpLogService;
+
 	@Transactional
 	@Override
 	public AkpUser login(String login, String password) {
@@ -33,7 +37,14 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		if (!md5Hash(password).equals(user.getMd5())) {
 			return null; // Invalid password
 		}
+		akpLogService.userLogLogin(login);
 		return user;
+	}
+
+	@Transactional
+	@Override
+	public void logout() {
+		akpLogService.userLogLogout();
 	}
 
 	@Transactional
