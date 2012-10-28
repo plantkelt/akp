@@ -2,9 +2,9 @@
 	<div class="logo"></div>
 	<div class="links">
 		<a wicket:id="searchLink"><wicket:message key="search.link" /></a> ∙
-		<a wicket:id="classesLink"><wicket:message key="classes.link" /></a> ∙
-		<a wicket:id="bibsLink"><wicket:message key="bibs.link" /></a> ∙
-		<a wicket:id="authorsLink"><wicket:message key="authors.link" /></a>
+		<a wicket:id="classesLink"><wicket:message key="classes.link" /></a>
+		∙ <a wicket:id="bibsLink"><wicket:message key="bibs.link" /></a> ∙ <a
+			wicket:id="authorsLink"><wicket:message key="authors.link" /></a>
 	</div>
 	<div class="user" wicket:id="noUserSection">
 		<a href="#" wicket:id="loginLink"><wicket:message
@@ -13,6 +13,11 @@
 	<div class="user" wicket:id="userSection">
 		<span wicket:id="currentUser"></span> ∙ <a href="#"
 			wicket:id="logoutLink"><wicket:message key="logout.label" /></a>
+	</div>
+	<div class="user" wicket:id="langSection">
+		<a href="#" wicket:id="brLink"><wicket:message key="lang.br" /></a> ∙
+		<a href="#" wicket:id="enLink"><wicket:message key="lang.en" /></a> ∙
+		<a href="#" wicket:id="frLink"><wicket:message key="lang.fr" /></a>
 	</div>
 	<div style="clear: both;"></div>
 </wicket:panel>

@@ -1,5 +1,7 @@
 package net.plantkelt.akp.webapp.elements;
 
+import java.util.Locale;
+
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
@@ -21,6 +23,8 @@ import org.apache.wicket.model.Model;
 public class AkpHeaderPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String[] LANGS = { "br", "en", "fr" };
 
 	public AkpHeaderPanel(String id) {
 		super(id);
@@ -66,6 +70,21 @@ public class AkpHeaderPanel extends Panel {
 		} else {
 			noUserSection.setVisible(true);
 			userSection.setVisible(false);
+		}
+
+		// Lang section
+		WebMarkupContainer langSection = new WebMarkupContainer("langSection");
+		add(langSection);
+		for (final String lang : LANGS) {
+			Link<Void> langLink = new Link<Void>(lang + "Link") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void onClick() {
+					AkpWicketSession.get().setLocale(new Locale(lang));
+				}
+			};
+			langSection.add(langLink);
 		}
 	}
 }

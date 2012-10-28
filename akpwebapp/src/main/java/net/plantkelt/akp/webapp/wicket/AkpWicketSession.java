@@ -1,5 +1,7 @@
 package net.plantkelt.akp.webapp.wicket;
 
+import java.util.Locale;
+
 import net.plantkelt.akp.domain.AkpUser;
 
 import org.apache.wicket.Session;
@@ -64,7 +66,22 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	public boolean authenticate(String username, String password) {
 		akpUser = getAkpApplication().getLoginService().login(username,
 				password);
-		return akpUser != null;
+		if (akpUser != null) {
+			switch (akpUser.getLang()) {
+			case 0:
+				setLocale(new Locale("en"));
+				break;
+			case 1:
+				setLocale(new Locale("fr"));
+				break;
+			case 2:
+				setLocale(new Locale("br"));
+				break;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public AkpWicketApplication getAkpApplication() {

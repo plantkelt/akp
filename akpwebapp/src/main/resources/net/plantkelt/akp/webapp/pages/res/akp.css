@@ -89,6 +89,22 @@ div.floating {
 	float: left;
 }
 
+/* === Feedback panel === */
+ul.feedbackPanel {
+	background-color: #ffffaa;
+	border-radius: 6px;
+	list-style-type: none;
+	margin: 0.5em;
+	padding: 0.5em;
+}
+
+ul.feedbackPanel li.feedbackPanelERROR {
+	background-image: url("16x16/error.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	height: 16px;
+}
+
 /* === Components === */
 span.inlineeditor h1 {
 	display: inline;
