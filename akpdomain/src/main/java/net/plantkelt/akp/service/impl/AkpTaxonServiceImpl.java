@@ -15,6 +15,7 @@ import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -495,6 +496,31 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		getSession().update(bib);
 	}
 
+	@Override
+	@Transactional
+	public List<AkpLangGroup> getLangGroupList() {
+		@SuppressWarnings("unchecked")
+		List<AkpLangGroup> groups = getSession().createCriteria(
+				AkpLangGroup.class).list();
+		Collections.sort(groups);
+		return groups;
+	}
+
+	@Transactional
+	@Override
+	public boolean createNewLang(String xid) {
+		if (getLang(xid) != null)
+			return false;
+		AkpLang lang = new AkpLang();
+		lang.setXid(xid);
+		lang.setLevel(3);
+		lang.setName(xid);
+		lang.setLangGroup(getLangGroupList().get(0));
+		lang.setOrder(-1);
+		getSession().save(lang);
+		return true;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
@@ -507,6 +533,28 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public AkpLang getLang(String xid) {
 		return (AkpLang) getSession().get(AkpLang.class, xid);
+	}
+
+	@Transactional
+	@Override
+	public void updateLang(AkpLang lang) {
+		getSession().update(lang);
+	}
+
+	@Transactional
+	@Override
+	public boolean canDeleteLang(AkpLang lang) {
+		Long count = ((Long) getSession()
+				.createCriteria(AkpLexicalGroup.class)
+				.add(Restrictions.eq("lang", lang))
+				.setProjection(Projections.rowCount()).uniqueResult());
+		return count.equals(0L);
+	}
+
+	@Transactional
+	@Override
+	public void deleteLang(AkpLang lang) {
+		getSession().delete(lang);
 	}
 
 	@Transactional

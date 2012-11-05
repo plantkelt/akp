@@ -65,7 +65,7 @@ public class InPlaceSelector<T> extends Border {
 
 					@Override
 					public String getIdValue(T object, int index) {
-						return "" + index;
+						return selectorModel.getIdValue(object);
 					}
 				});
 		editForm.add(valueSelect);

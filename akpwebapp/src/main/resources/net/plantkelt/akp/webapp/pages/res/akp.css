@@ -185,6 +185,13 @@ a.delete-small {
 	height: 12px;
 }
 
+a.contact {
+	background-image: url("16x16/mail.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	height: 16px;
+}
+
 /* === Tags icons === */
 span.tag_icon {
 	background-repeat: no-repeat;

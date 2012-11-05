@@ -44,7 +44,7 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	public Roles getRoles() {
 		if (isSignedIn()) {
 			// TODO make generic
-			if (akpUser.getProfile() == 3)
+			if (akpUser.getProfile() == AkpUser.PROFILE_ADMIN)
 				return new Roles(new String[] { "USER", "ADMIN" });
 			else
 				return new Roles("USER");

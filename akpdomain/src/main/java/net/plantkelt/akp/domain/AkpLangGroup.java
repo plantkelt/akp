@@ -1,8 +1,10 @@
 package net.plantkelt.akp.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AkpLangGroup {
+public class AkpLangGroup implements Serializable, Comparable<AkpLangGroup> {
+	private static final long serialVersionUID = 1L;
 
 	private int xid;
 	private int order;
@@ -53,6 +55,11 @@ public class AkpLangGroup {
 	@Override
 	public String toString() {
 		return String.format("[AkpLangGroup %d %s]", getXid(), getCode());
+	}
+
+	@Override
+	public int compareTo(AkpLangGroup o) {
+		return getOrder() - o.getOrder();
 	}
 
 }

@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
@@ -51,7 +52,8 @@ public class AkpLangHomePage extends AkpPageTemplate {
 			@Override
 			protected void populateItem(ListItem<AkpLang> item) {
 				AkpLang lang = item.getModelObject();
-				WebMarkupContainer langLink = new WebMarkupContainer("langLink");
+				Link<AkpLangPage> langLink = AkpLangPage.link("langLink",
+						lang.getXid());
 				item.add(langLink);
 				langLink.add(new Label("xidLabel", lang.getXid()));
 				item.add(new Label("nameLabel", lang.getName()));
@@ -77,10 +79,9 @@ public class AkpLangHomePage extends AkpPageTemplate {
 				if (lang != null) {
 					error(getString("lang.xid.already.exists"));
 				} else {
-					error("TODO");
-					// akpTaxonService.createNewLang(addXid);
-					// setResponsePage(AkpLangPage.class,
-					// new PageParameters().add("xid", addXid));
+					akpTaxonService.createNewLang(addXid);
+					setResponsePage(AkpLangPage.class,
+							new PageParameters().add("xid", addXid));
 				}
 			}
 		};

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<h1>
+			<span wicket:id="langId"></span>
+		</h1>
+
+		<table style="width: 100%">
+			<tr>
+				<td><wicket:message key="lang.name" /></td>
+				<td style="width: 80%">
+					<div wicket:id="nameEditor">
+						<span wicket:id="nameLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="lang.grplng" /></td>
+				<td>
+					<div wicket:id="groupSelector">
+						<span wicket:id="groupLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="lang.level" /></td>
+				<td>
+					<div wicket:id="levelSelector">
+						<span wicket:id="levelLabel"></span>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<form wicket:id="deleteForm">
+			<button wicket:id="deleteButton" type="submit">
+				<wicket:message key="delete.lang.button" />
+			</button>
+		</form>
+
+	</wicket:extend>
+</body>
+</html>

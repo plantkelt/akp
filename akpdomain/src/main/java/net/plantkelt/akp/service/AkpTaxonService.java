@@ -9,6 +9,7 @@ import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
@@ -106,10 +107,20 @@ public interface AkpTaxonService {
 
 	public abstract void updateBib(AkpBib bib);
 
-	public abstract AkpLang getLang(String xid);
+	public abstract List<AkpLangGroup> getLangGroupList();
+
+	public abstract boolean createNewLang(String xid);
 
 	public abstract List<AkpLang> getLangList();
 
+	public abstract AkpLang getLang(String xid);
+
+	public abstract void updateLang(AkpLang lang);
+
+	public abstract boolean canDeleteLang(AkpLang lang);
+
+	public abstract void deleteLang(AkpLang lang);
+	
 	public abstract boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
 			Integer correct);
 

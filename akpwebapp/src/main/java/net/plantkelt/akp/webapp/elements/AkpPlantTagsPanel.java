@@ -134,6 +134,11 @@ public class AkpPlantTagsPanel extends Panel {
 									retval.add(0, null);
 									return retval;
 								}
+
+								@Override
+								public String getIdValue(Integer t) {
+									return t.toString();
+								}
 							});
 					item.add(selector);
 					selector.setReadOnly(!isAdmin);
