@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<h1>First visit</h1>
+		<p>PlantKelt is a database of plant vernacular names in celtic
+			languages.</p>
+		<p>On this page, you can consult six example plant sheets. On each
+			sheet, you will find a taxon name, with its synonyms and refining
+			taxons, plus the vernacular names of this plant in various celtic
+			languages. Each vernacular name is clearly associated to its
+			bibliographical references.</p>
+		<p>You can also search yourself through the corpus of linnaean
+			names and botanical authors. The results are limited to 50 for each
+			search in the linaean names and 25 in the botanical authors. Should
+			your search be too wide, you will obtain too many results above the
+			limit and the list will be incomplete.</p>
+		<p>To obtain the whole of the data of PlantKelt, please subscribe,
+			it's free! The database is updated and grows continuously.</p>
+		<p style="font-size: 140%;">Don't hesitate to subscribe to
+			PlantKelt, it's free!</p>
+
+		<div class="column">
+			<h2 class=".examples">Six examples</h2>
+			<p>Click on the arrow ⇒ in front of the name to consult the plant
+				sheet in a new page.</p>
+			<p>To come back to the previous page from the plant sheet, click
+				on the arrow "return to previous page" of your browser.</p>
+		</div>
+
+		<div class="column">
+			<h2 class="register">Search</h2>
+			<ul>
+				<li>click on the link "Search for a linnaean name" / "Search
+					for an author's name" to open a new search form;</li>
+				<li>type in the <b>Linnaean name</b> / <b>Name</b> field the
+					complete name or a part of it;
+				</li>
+				<li>use the <b>%</b> character to replace any character of the
+					name you're looking for (Caution, the search engine makes the
+					difference between lower and upper case letters);
+				</li>
+				<li>click on the <b>Search</b> button to launch the search.
+				</li>
+				<li>The results are displayed in a list.</li>
+			</ul>
+			<p>To come back to this page from the results' page, click on the
+				"About" link.</p>
+			<p>
+				<a wicket:id="taxonSearch">Linnaean name search</a>
+			</p>
+			<p>
+				<a wicket:id="authorSearch">Author search</a>
+			</p>
+		</div>
+
+		<div class="column">
+			<h2 class="subscribe">Subscribe</h2>
+			<p>Once you have subscribed to PlantKelt, you will be able to:</p>
+			<ul>
+				<li>search through the whole of the database (did you check out
+					the statistics?);</li>
+				<li>run multi-criteria searches on linnaean names;</li>
+				<li>run searches on vernacular names;</li>
+				<li>run searches on the bibliographical references;</li>
+				<li>run searches on botanical authors.</li>
+			</ul>
+		</div>
+
+		<div class="column"></div>
+
+		<div class="column"></div>
+
+		<div class="column"></div>
+
+	</wicket:extend>
+</body>
+</html>

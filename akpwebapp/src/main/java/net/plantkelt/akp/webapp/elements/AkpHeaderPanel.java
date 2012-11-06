@@ -6,6 +6,7 @@ import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLangHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
@@ -66,6 +67,9 @@ public class AkpHeaderPanel extends Panel {
 		BookmarkablePageLink<WebPage> loginLink = new BookmarkablePageLink<WebPage>(
 				"loginLink", AkpLoginPage.class);
 		noUserSection.add(loginLink);
+		BookmarkablePageLink<WebPage> firstVisitLink = new BookmarkablePageLink<WebPage>(
+				"firstVisitLink", AkpFirstVisitMainPage.class);
+		noUserSection.add(firstVisitLink);
 
 		// User section
 		WebMarkupContainer userSection = new WebMarkupContainer("userSection");

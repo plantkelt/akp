@@ -222,6 +222,41 @@ span.tag_12 {
 	background-image: url("20x20/tag_12.png");
 }
 
+/* === About pages === */
+.corpus {
+	background-image: url("32x32/corpus.png");
+	background-repeat: no-repeat;
+	padding-left: 40px;
+}
+
+.examples {
+	background-image: url("32x32/examples.png");
+	background-repeat: no-repeat;
+	padding-left: 50px;
+}
+
+.search {
+	background-image: url("32x32/search.png");
+	background-repeat: no-repeat;
+	padding-left: 50px;
+}
+
+.register {
+	background-image: url("32x32/register.png");
+	background-repeat: no-repeat;
+	padding-left: 50px;
+}
+
+div.column {
+	vertical-align: top;
+	display: inline-block;
+	width: 30%;
+	border-radius: 8px;
+	background-color: #eeeeaa;
+	padding: 1em;
+	margin: 0.2em;
+}
+
 /* === Header === */
 div.header {
 	background-color: #eeeeee;
@@ -320,6 +355,57 @@ a.popup:hover div.popupContent {
 	z-index: 51;
 	border-radius: 8px;
 	box-shadow: 2px 2px 12px 0px #888888;
+}
+
+/* === Tabs === */
+div.tabs {
+	padding: 0;
+	margin: 0;
+	margin-bottom: 1em;
+}
+
+div.tabs ul {
+	-list-style-type: none;
+	border-bottom: 1px solid #888888;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 1.4em;
+}
+
+div.tabs ul li {
+	display: inline-block;
+	float: left;
+	height: 1.4em;
+	min-width: 8em;
+	text-align: center;
+	border: 1px solid #cccccc;
+	border-bottom: none;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	margin-left: 10px;
+}
+
+div.tabs ul li:hover {
+	background-color: #ffffaa;
+}
+
+div.tabs ul li.selected {
+	border-bottom: none;
+	background-color: white;
+	border: 1px solid #888888;
+	border-bottom: none;
+}
+
+div.tabs ul li a {
+	color: #777777;
+}
+
+div.tabs ul li a:hover {
+	text-decoration: none;
+}
+
+div.tabs ul li.selected a {
+	color: #000044;
 }
 
 /* === AKP === */
