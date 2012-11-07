@@ -22,15 +22,19 @@
 			PlantKelt, it's free!</p>
 
 		<div class="column">
-			<h2 class=".examples">Six examples</h2>
+			<h2 class="examples">Six examples</h2>
 			<p>Click on the arrow ⇒ in front of the name to consult the plant
 				sheet in a new page.</p>
 			<p>To come back to the previous page from the plant sheet, click
 				on the arrow "return to previous page" of your browser.</p>
+			<ul>
+				<li wicket:id="exampleRepeat"><a wicket:id="exampleLink">&nbsp;⇒&nbsp;</a><span
+					class="taxon" wicket:id="exampleLabel" /></li>
+			</ul>
 		</div>
 
 		<div class="column">
-			<h2 class="register">Search</h2>
+			<h2 class="search">Search</h2>
 			<ul>
 				<li>click on the link "Search for a linnaean name" / "Search
 					for an author's name" to open a new search form;</li>
@@ -56,7 +60,7 @@
 		</div>
 
 		<div class="column">
-			<h2 class="subscribe">Subscribe</h2>
+			<h2 class="register">Subscribe</h2>
 			<p>Once you have subscribed to PlantKelt, you will be able to:</p>
 			<ul>
 				<li>search through the whole of the database (did you check out
@@ -66,13 +70,28 @@
 				<li>run searches on the bibliographical references;</li>
 				<li>run searches on botanical authors.</li>
 			</ul>
+			<p>
+				<a wicket:id="subscribeLink">Subscribe to PlantKelt</a>
+			</p>
 		</div>
 
-		<div class="column"></div>
-
-		<div class="column"></div>
-
-		<div class="column"></div>
+		<h2>Donate</h2>
+		<p>If you appreciate the work done by PlantKelt, to help us
+			continue the work...</p>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick" /><input
+				type="hidden" name="hosted_button_id" value="8613490" /><input
+				type="image"
+				src="https://www.paypal.com/fr_FR/FR/i/btn/btn_donateCC_LG.gif"
+				style="border: none;" name="submit" alt="PayPal" /><img alt=""
+				border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif"
+				width="1" height="1" />
+		</form>
+		<h2>Reference us</h2>
+		<p>If you have a website, you can place a link to PlantKelt using
+			this code:</p>
+		<pre>&lt;a href=&quot;http://www.plantkelt.net/&quot;&gt;&lt;img src=&quot;http://www.plantkelt.net/akp/img/plantkelt_logo_hz24.png&quot;/&gt;&lt;/a&gt;
+					</pre>
 
 	</wicket:extend>
 </body>
