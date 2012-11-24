@@ -313,7 +313,7 @@ div.footer p#copyright {
 /* === Collapsible === */
 a.collapsible-opened {
 	background-repeat: no-repeat;
-	background-image: url('16x16/opened.png');
+	background-image: url("16x16/opened.png");
 	background-position: center;
 	padding-left: 16px;
 	height: 16px;
@@ -321,7 +321,7 @@ a.collapsible-opened {
 
 a.collapsible-closed {
 	background-repeat: no-repeat;
-	background-image: url('16x16/closed.png');
+	background-image: url("16x16/closed.png");
 	background-position: center;
 	padding-left: 16px;
 	height: 16px;
@@ -576,6 +576,10 @@ form.plantRefAdder input {
 	font-weight: normal;
 }
 
+.synonyms {
+	color: #808080;
+}
+
 .taxon span.epsilon {
 	color: #008800;
 }
@@ -654,6 +658,30 @@ table.logs span.oldValue {
 
 table.searchResults tr:hover {
 	background-color: #ffffaa;
+}
+
+/* === Tree === */
+ul.tree,ul.tree ul {
+	list-style-type: none;
+	background: url("tree/vline.png") repeat-y;
+	margin: 0;
+	padding: 0;
+}
+
+ul.tree ul {
+	margin-left: 10px;
+}
+
+ul.tree li {
+	margin: 0;
+	padding: 0 12px;
+	line-height: 20px;
+	background: url("tree/node.png") no-repeat;
+	font-weight: bold;
+}
+
+ul.tree li.last {
+	background: white url("tree/lastnode.png") no-repeat;
 }
 
 /* === Login page === */
