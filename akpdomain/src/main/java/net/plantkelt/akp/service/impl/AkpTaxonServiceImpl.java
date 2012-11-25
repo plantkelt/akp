@@ -544,8 +544,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public boolean canDeleteLang(AkpLang lang) {
-		Long count = ((Long) getSession()
-				.createCriteria(AkpLexicalGroup.class)
+		Long count = ((Long) getSession().createCriteria(AkpLexicalGroup.class)
 				.add(Restrictions.eq("lang", lang))
 				.setProjection(Projections.rowCount()).uniqueResult());
 		return count.equals(0L);
@@ -890,10 +889,47 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	}
 
 	@Override
-	@Transactional
 	public Date getLastUpdate() {
 		return (Date) getSession().createCriteria(AkpLogEntry.class)
 				.setProjection(Projections.max("date")).uniqueResult();
+	}
+
+	@Override
+	public Map<String, Long> getObjectCount() {
+		Map<String, Long> retval = new HashMap<String, Long>(12);
+		final Class<?> CLASSES[] = { AkpPlant.class, AkpTaxon.class,
+				AkpVernacularName.class, AkpBib.class, AkpAuthor.class };
+		for (Class<?> clazz : CLASSES) {
+			retval.put(clazz.getSimpleName(), (Long) getSession()
+					.createCriteria(clazz)
+					.setProjection(Projections.rowCount()).uniqueResult());
+		}
+		retval.put(
+				"AkpBibRef",
+				(Long) getSession().createCriteria(AkpVernacularName.class)
+						.createCriteria("bibs", "bib")
+						.setProjection(Projections.rowCount()).uniqueResult());
+		return retval;
+	}
+
+	@Override
+	public Map<AkpLang, Long> getVernacularNameCountPerLanguage() {
+		Map<AkpLang, Long> retval = new HashMap<AkpLang, Long>();
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = getSession()
+				.createCriteria(AkpVernacularName.class)
+				.createAlias("lexicalGroup", "lexicalGroup")
+				.setProjection(
+						Projections
+								.projectionList()
+								.add(Projections.rowCount())
+								.add(Projections
+										.groupProperty("lexicalGroup.lang")))
+				.list();
+		for (Object[] objs : list) {
+			retval.put((AkpLang) objs[1], (Long) objs[0]);
+		}
+		return retval;
 	}
 
 	private Session getSession() {

@@ -120,7 +120,7 @@ public interface AkpTaxonService {
 	public abstract boolean canDeleteLang(AkpLang lang);
 
 	public abstract void deleteLang(AkpLang lang);
-	
+
 	public abstract boolean createNewLexicalGroup(AkpPlant plant, AkpLang lang,
 			Integer correct);
 
@@ -155,5 +155,9 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult search(AkpSearchData searchData);
 
 	public abstract Date getLastUpdate();
+
+	public abstract Map<String, Long> getObjectCount();
+
+	public abstract Map<AkpLang, Long> getVernacularNameCountPerLanguage();
 
 }
