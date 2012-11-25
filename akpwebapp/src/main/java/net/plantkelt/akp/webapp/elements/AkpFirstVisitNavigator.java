@@ -5,6 +5,7 @@ import net.plantkelt.akp.webapp.pages.AkpFirstVisitCorpusPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitSourcesPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitStatisticsPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitToolsPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitWhoPage;
 
@@ -24,7 +25,7 @@ public class AkpFirstVisitNavigator extends Panel {
 			AkpFirstVisitCorpusPage.class,
 			AkpFirstVisitClassificationPage.class,
 			AkpFirstVisitSourcesPage.class, AkpFirstVisitWhoPage.class,
-			AkpFirstVisitToolsPage.class };
+			AkpFirstVisitToolsPage.class, AkpFirstVisitStatisticsPage.class };
 
 	public AkpFirstVisitNavigator(String id, AkpFirstVisitPage parent) {
 		super(id);
