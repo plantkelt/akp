@@ -4,6 +4,9 @@ import net.plantkelt.akp.webapp.pages.AkpFirstVisitClassificationPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitCorpusPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitSourcesPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitToolsPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitWhoPage;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -19,7 +22,9 @@ public class AkpFirstVisitNavigator extends Panel {
 
 	private static final Class<?>[] PAGES = { AkpFirstVisitMainPage.class,
 			AkpFirstVisitCorpusPage.class,
-			AkpFirstVisitClassificationPage.class };
+			AkpFirstVisitClassificationPage.class,
+			AkpFirstVisitSourcesPage.class, AkpFirstVisitWhoPage.class,
+			AkpFirstVisitToolsPage.class };
 
 	public AkpFirstVisitNavigator(String id, AkpFirstVisitPage parent) {
 		super(id);

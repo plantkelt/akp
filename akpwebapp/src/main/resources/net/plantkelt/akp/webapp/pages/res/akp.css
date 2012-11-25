@@ -247,6 +247,49 @@ span.tag_12 {
 	padding-left: 50px;
 }
 
+p.tooling {
+	background-repeat: no-repeat;
+	padding-left: 80px;
+	height: 40px;
+	padding-top: 30px;
+}
+
+.logo_java {
+	background-image: url("logos/logo_duke.png");
+}
+
+.logo_eclipse {
+	background-image: url("logos/logo_eclipse.png");
+}
+
+.logo_gnu {
+	background-image: url("logos/logo_gnu.png");
+}
+
+.logo_hibernate {
+	background-image: url("logos/logo_hibernate.png");
+}
+
+.logo_linux {
+	background-image: url("logos/logo_linux.png");
+}
+
+.logo_postgres {
+	background-image: url("logos/logo_postgres.png");
+}
+
+.logo_tomcat {
+	background-image: url("logos/logo_tomcat.png");
+}
+
+.logo_ubuntu {
+	background-image: url("logos/logo_ubuntu.png");
+}
+
+.logo_wicket {
+	background-image: url("logos/logo_wicket.png");
+}
+
 div.column {
 	vertical-align: top;
 	display: inline-block;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<h1>
+			<wicket:message key="sources.header" />
+		</h1>
+		<h2>
+			<wicket:message key="websites.header" />
+		</h2>
+		<div wicket:id="websiteList">
+			<h3 wicket:id="name"></h3>
+			<p>
+				<a wicket:id="url"><span wicket:id="urlName" /></a><br /> <span
+					class="comments" wicket:id="what"></span>
+			</p>
+		</div>
+		<h2>
+			<wicket:message key="books.header" />
+		</h2>
+		<div wicket:id="bookList">
+			<h3 wicket:id="title"></h3>
+			<p>
+				<span wicket:id="author"></span><br /> <span wicket:id="publisher"></span><br />
+				<span class="comments" wicket:id="comments"></span><br /> <span
+					class="bibISBN" wicket:id="isbn"></span>
+			</p>
+		</div>
+	</wicket:extend>
+</body>
+</html>
