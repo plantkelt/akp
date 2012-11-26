@@ -1,6 +1,11 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -21,11 +26,20 @@ public class AkpFirstVisitStatisticsPage extends AkpFirstVisitPage {
 
 	public AkpFirstVisitStatisticsPage() {
 		// Object count
-		Map<String, Long> countPerType = akpTaxonService.getObjectCount();
+		List<Map.Entry<String, Long>> countPerTypeList = new ArrayList<Map.Entry<String, Long>>(
+				akpTaxonService.getObjectCount().entrySet());
+		Collections.sort(countPerTypeList,
+				new Comparator<Map.Entry<String, Long>>() {
+					@Override
+					public int compare(Entry<String, Long> kv1,
+							Entry<String, Long> kv2) {
+						return kv2.getValue().compareTo(kv1.getValue());
+					}
+				});
 		RepeatingView countRepeat = new RepeatingView("countRepeat");
 		add(countRepeat);
 		boolean even = false;
-		for (Map.Entry<String, Long> kv : countPerType.entrySet()) {
+		for (Map.Entry<String, Long> kv : countPerTypeList) {
 			WebMarkupContainer item = new WebMarkupContainer(
 					countRepeat.newChildId());
 			countRepeat.add(item);
@@ -36,12 +50,21 @@ public class AkpFirstVisitStatisticsPage extends AkpFirstVisitPage {
 			even = !even;
 		}
 		// Lang count
-		Map<AkpLang, Long> countPerLang = akpTaxonService
-				.getVernacularNameCountPerLanguage();
+		List<Map.Entry<AkpLang, Long>> countPerLang = new ArrayList<Map.Entry<AkpLang, Long>>(
+				akpTaxonService.getVernacularNameCountPerLanguage().entrySet());
+		Collections.sort(countPerLang,
+				new Comparator<Map.Entry<AkpLang, Long>>() {
+					@Override
+					public int compare(Entry<AkpLang, Long> kv1,
+							Entry<AkpLang, Long> kv2) {
+						return kv2.getValue().compareTo(kv1.getValue());
+					}
+				});
 		RepeatingView langRepeat = new RepeatingView("langRepeat");
 		add(langRepeat);
+		// TODO Sort by count
 		even = false;
-		for (Map.Entry<AkpLang, Long> kv : countPerLang.entrySet()) {
+		for (Map.Entry<AkpLang, Long> kv : countPerLang) {
 			WebMarkupContainer item = new WebMarkupContainer(
 					langRepeat.newChildId());
 			langRepeat.add(item);
