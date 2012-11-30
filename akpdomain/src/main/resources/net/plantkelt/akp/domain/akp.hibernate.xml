@@ -178,4 +178,9 @@
         <property name="value" type="string" column="value" />
     </class>
 
+    <sql-query name="activityPerWeek">
+        SELECT DATE_TRUNC('week', ts) AS week, COUNT(xid) FROM hist WHERE ts >= :past GROUP BY
+        week ORDER BY week
+    </sql-query>
+
 </hibernate-mapping>

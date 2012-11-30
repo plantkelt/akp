@@ -77,4 +77,6 @@ public interface AkpLogService {
 	public abstract void userLogLogin(String login);
 
 	public abstract void userLogLogout();
+
+	public abstract byte[] getActivityGraph(int width, int height);
 }

@@ -12,6 +12,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jfreechart.version>1.0.13</jfreechart.version>
     </properties>
     <dependencies>
 
@@ -65,6 +66,13 @@
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql-jdbc.version}</version>
+        </dependency>
+
+        <!-- JFreeChart -->
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>${jfreechart.version}</version>
         </dependency>
 
     </dependencies>

@@ -1,7 +1,14 @@
 package net.plantkelt.akp.service.impl;
 
+import java.awt.Color;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,9 +23,20 @@ import net.plantkelt.akp.domain.AkpUserLogEntry;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
@@ -270,7 +288,46 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	@Override
 	public void userLogLogout() {
 		userLogNewEntry(USERLOG_TYPE_LOGOUT, null, null);
-
 	}
 
+	@Override
+	public byte[] getActivityGraph(int width, int height) {
+		Query query = getSession().getNamedQuery("activityPerWeek");
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.WEEK_OF_YEAR, -30);
+		query.setDate("past", cal.getTime());
+		@SuppressWarnings("unchecked")
+		List<Object[]> objects = query.list();
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+		for (Object[] obj : objects) {
+			Date date = (Date) obj[0];
+			Number count = (Number) obj[1];
+			dataset.setValue(count, "Modifications", df.format(date));
+		}
+		BarRenderer.setDefaultShadowsVisible(false);
+		JFreeChart chart = ChartFactory.createBarChart("", "Week",
+				"Modifications", dataset, PlotOrientation.VERTICAL, false,
+				true, false);
+		chart.setBackgroundPaint(Color.WHITE);
+		chart.getTitle().setPaint(Color.BLACK);
+		CategoryPlot p = chart.getCategoryPlot();
+		CategoryAxis xAxis = (CategoryAxis) p.getDomainAxis();
+		xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+		BarRenderer barRenderer = ((BarRenderer) p.getRenderer());
+		barRenderer.setShadowVisible(false);
+		barRenderer.setSeriesPaint(0, Color.BLUE);
+		barRenderer.setBarPainter(new StandardBarPainter());
+		p.setRangeGridlinePaint(Color.RED);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ChartUtilities.writeChartAsPNG(baos, chart, width, height);
+		} catch (IOException e) {
+			// Should not happen
+			throw new RuntimeException(e);
+		}
+		return baos.toByteArray();
+	}
 }
