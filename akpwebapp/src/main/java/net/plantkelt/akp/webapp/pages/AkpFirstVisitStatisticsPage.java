@@ -10,12 +10,15 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.request.resource.ByteArrayResource;
 
 public class AkpFirstVisitStatisticsPage extends AkpFirstVisitPage {
 
@@ -23,8 +26,21 @@ public class AkpFirstVisitStatisticsPage extends AkpFirstVisitPage {
 
 	@Inject
 	private AkpTaxonService akpTaxonService;
+	@Inject
+	private AkpLogService akpLogService;
 
 	public AkpFirstVisitStatisticsPage() {
+		// Activity graph
+		add(new Image("activityPerWeek", new ByteArrayResource("image/png") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected byte[] getData(final Attributes attributes) {
+				return akpLogService.getActivityGraph(600, 400);
+			}
+
+		}));
+
 		// Object count
 		List<Map.Entry<String, Long>> countPerTypeList = new ArrayList<Map.Entry<String, Long>>(
 				akpTaxonService.getObjectCount().entrySet());
