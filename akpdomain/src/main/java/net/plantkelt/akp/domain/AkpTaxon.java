@@ -123,7 +123,7 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 		this.type = type;
 	}
 
-	private synchronized String getSortKey() {
+	public synchronized String getSortKey() {
 		if (sortKey == null) {
 			sortKey = name;
 			sortKey = sortKey
@@ -131,13 +131,13 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 					.replace(", non ", "  ")
 					.replaceAll(
 							"^(<l><b>.*?</b>)(((?!\\s\\[=).)*?((<e>.*?</e>)|(cv\\.)).*)",
-							"\\1@\\2");
+							"$1@$2");
 			for (String epsilon : escapedEpsilonList) {
 				sortKey = sortKey.replaceAll("\\s(" + epsilon
-						+ ")\\s<e>([\\w-]+)</e>", " ~\\2 \\1");
+						+ ")\\s<e>([\\w-]+)</e>", " ~$2 $1");
 			}
 			sortKey = sortKey
-					.replaceAll("\\s(cv\\.)\\s'?([\\w-]+)'?", " ~\\2 \\1")
+					.replaceAll("\\s(cv\\.)\\s'?([\\w-]+)'?", " ~$2 $1")
 					.replace("<x> ", "").replace("<+> ", "").replace("<x>", "")
 					.replace("<+>", "").replaceAll("<.*?>", "")
 					.replace("'", "");

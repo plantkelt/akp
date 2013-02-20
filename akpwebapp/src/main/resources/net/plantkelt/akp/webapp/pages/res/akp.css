@@ -619,6 +619,13 @@ form.plantRefAdder input {
 	font-weight: normal;
 }
 
+.sortkey {
+	font-family: monospace;
+	font-size: 80%;
+	font-weight: bold;
+	color: #333333;
+}
+
 .synonyms {
 	color: #808080;
 }

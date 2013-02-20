@@ -292,6 +292,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 
 	@Override
 	public byte[] getActivityGraph(int width, int height) {
+		// TODO Cache the generated image in memory
 		Query query = getSession().getNamedQuery("activityPerWeek");
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date());

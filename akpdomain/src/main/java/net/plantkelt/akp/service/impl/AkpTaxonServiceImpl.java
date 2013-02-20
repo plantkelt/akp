@@ -1,6 +1,7 @@
 package net.plantkelt.akp.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -40,6 +42,8 @@ import com.google.inject.persist.Transactional;
 
 public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private static final boolean DEBUG_TAXON_SORT = true;
 
 	@Inject
 	private Provider<Session> sessionProvider;
@@ -297,6 +301,46 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		taxon.setName(newName);
 		getSession().update(taxon);
 		akpLogService.logTaxonUpdate(taxon, oldName);
+	}
+
+	private boolean checkOpCl(String str, String op, String cl) {
+		int nop = str.split(Pattern.quote(op), -1).length - 1;
+		int ncl = str.split(Pattern.quote(cl), -1).length - 1;
+		return nop == ncl;
+	}
+
+	@Override
+	public List<String> checkTaxon(AkpTaxon taxon) {
+		List<String> retval = new ArrayList<String>();
+		String taxonName = taxon.getName();
+		if (!checkOpCl(taxonName, "\\(", "\\)"))
+			retval.add("error.parenthesis.count.match");
+		if (!checkOpCl(taxonName, "\\[", "\\]"))
+			retval.add("error.square.brackets.count.match");
+		if (!checkOpCl(taxonName, "<l>", "</l>"))
+			retval.add("error.tag.l.count.match");
+		if (!checkOpCl(taxonName, "<b>", "</b>"))
+			retval.add("error.tag.b.count.match");
+		if (!checkOpCl(taxonName, "<i>", "</i>"))
+			retval.add("error.tag.i.count.match");
+		if (!checkOpCl(taxonName, "<e>", "</e>"))
+			retval.add("error.tag.e.count.match");
+		if (!checkOpCl(taxonName, "<a>", "</a>"))
+			retval.add("error.tag.a.count.match");
+		if (taxonName.contains("  "))
+			retval.add("error.double.space");
+		// TODO
+		// error.no.space.before.parenthesis
+		// error.no.space.after.parenthesis
+		// error.no.space.before.opening.tag
+		// error.no.space.after.closing.tag
+		// error.space.before.dot
+		// error.nec.without.non
+		// error.nec.non.missing.comma
+		// error.invalid.taxon.structure
+		// error.unknown.author
+		// error.missing.e.tag.after.epsilon
+		return retval;
 	}
 
 	@Transactional
@@ -755,6 +799,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		List<AkpTaxon> taxons = taxonCriteria.list();
 		Collections.sort(taxons);
 		// Build result
+		if (DEBUG_TAXON_SORT) {
+			results.addHeaderKey("result.column.sortkey");
+		}
 		if (searchData.isIncludeSynonyms() && searchData.getTaxonName() != null)
 			results.addHeaderKey("result.column.synonym");
 		results.addHeaderKey("result.column.plantname");
@@ -766,6 +813,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = taxon.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					null, null);
+			if (DEBUG_TAXON_SORT) {
+				result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+						.getSortKey().replace(" ", "_ "), "sortkey"));
+			}
 			if (searchData.isIncludeSynonyms()
 					&& searchData.getTaxonName() != null)
 				result.addColumn(new AkpSearchResultColumn(taxon.getHtmlName(),

@@ -1,5 +1,7 @@
 package net.plantkelt.akp.webapp.elements;
 
+import java.util.List;
+
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
@@ -43,6 +45,20 @@ public class AkpPlantHeaderPanel extends Panel {
 								.getMainName();
 						if (name != null && name.length() > 0) {
 							akpTaxonService.updateTaxonName(mainTaxon, name);
+							List<String> errorKeys = akpTaxonService
+									.checkTaxon(mainTaxon);
+							if (!errorKeys.isEmpty()) {
+								StringBuffer errorMsg = new StringBuffer();
+								errorMsg.append(
+										getString("taxon.name.error.dialog"))
+										.append("\\n");
+								for (String errorKey : errorKeys)
+									errorMsg.append(getString(errorKey))
+											.append("\\n");
+								target.appendJavaScript(String.format(
+										"alert('%s')", errorMsg.toString()
+												.replace("'", "\\'")));
+							}
 						}
 						target.add(AkpPlantHeaderPanel.this);
 					}
