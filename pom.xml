@@ -6,6 +6,7 @@
     <artifactId>akp</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>akp</name>
     <modules>
         <module>akpdomain</module>
         <module>akpwebapp</module>
