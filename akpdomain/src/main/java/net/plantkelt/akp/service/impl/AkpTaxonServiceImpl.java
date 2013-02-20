@@ -43,7 +43,7 @@ import com.google.inject.persist.Transactional;
 public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final boolean DEBUG_TAXON_SORT = true;
+	private static final boolean DEBUG_TAXON_SORT = false;
 
 	@Inject
 	private Provider<Session> sessionProvider;
