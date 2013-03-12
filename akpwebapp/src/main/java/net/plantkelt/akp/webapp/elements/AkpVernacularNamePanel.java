@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
@@ -57,6 +58,17 @@ public class AkpVernacularNamePanel extends Panel {
 						} else {
 							akpTaxonService.updateVernacularNameName(vernaName,
 									name);
+						}
+						target.add(refreshComponent);
+					}
+
+					@Override
+					public void cancelObject(AjaxRequestTarget target) {
+						AkpVernacularName vernaName = vernaNameModel
+								.getObject();
+						if (vernaName.getName() == null
+								|| vernaName.getName().length() == 0) {
+							akpTaxonService.deleteVernacularName(vernaName);
 						}
 						target.add(refreshComponent);
 					}
@@ -137,8 +149,10 @@ public class AkpVernacularNamePanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				akpTaxonService.addChildVernacularName(vernaNameModel
-						.getObject());
+				AkpUser user = AkpWicketSession.get().getAkpUser();
+				akpTaxonService.addChildVernacularName(
+						vernaNameModel.getObject(),
+						user == null ? null : user.getLastbib());
 				target.add(AkpVernacularNamePanel.this);
 			}
 		});

@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.elements;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
@@ -97,8 +98,9 @@ public class AkpLexicalGroupPanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				AkpUser user = AkpWicketSession.get().getAkpUser();
 				akpTaxonService.addRootVernacularName(lexicalGroupModel
-						.getObject());
+						.getObject(), user == null ? null : user.getLastbib());
 				target.add(AkpLexicalGroupPanel.this);
 			}
 		});

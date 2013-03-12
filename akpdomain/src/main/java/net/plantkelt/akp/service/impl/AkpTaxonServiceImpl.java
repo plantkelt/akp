@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -329,17 +330,38 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			retval.add("error.tag.a.count.match");
 		if (taxonName.contains("  "))
 			retval.add("error.double.space");
-		// TODO
-		// error.no.space.before.parenthesis
-		// error.no.space.after.parenthesis
-		// error.no.space.before.opening.tag
-		// error.no.space.after.closing.tag
-		// error.space.before.dot
-		// error.nec.without.non
-		// error.nec.non.missing.comma
-		// error.invalid.taxon.structure
-		// error.unknown.author
-		// error.missing.e.tag.after.epsilon
+		if (taxonName.matches("\\w(\\(|\\[)"))
+			retval.add("error.no.space.before.parenthesis");
+		if (taxonName.matches("(\\)|\\])\\w"))
+			retval.add("error.no.space.after.parenthesis");
+		if (taxonName.matches("/\\w>\\w"))
+			retval.add("error.no.space.before.opening.tag");
+		if (taxonName.matches("\\w<\\w"))
+			retval.add("error.no.space.after.closing.tag");
+		if (taxonName.contains(" ."))
+			retval.add("error.space.before.dot");
+		if (taxonName.contains(" nec ") && !taxonName.contains(" non "))
+			retval.add("error.nec.without.non");
+		if (taxonName.matches("([^\\s\\w]|[^,]\\s)(non|nec)\\s"))
+			retval.add("error.nec.non.missing.comma");
+		Matcher synMatcher = Pattern.compile("<l>.*?</l>").matcher(taxonName);
+		for (int i = 1; i <= synMatcher.groupCount(); i++) {
+			String syn = synMatcher.group(i);
+			if (!syn.matches("^<l><(i|b)>(<(x|\\+)>)??[A-Z][a-z,\\-]+? (<(x|\\+)> )??([a-z,\\-]+?)|(spp\\.)</(i|b)>")) {
+				retval.add("error.invalid.taxon.structure");
+				break;
+			}
+		}
+		Matcher authMatcher = Pattern.compile("<a>(.*?)</a>")
+				.matcher(taxonName);
+		System.out.println("auth group count=" + authMatcher.groupCount());
+		for (int i = 1; i <= authMatcher.groupCount(); i++) {
+			String auth = authMatcher.group(i);
+			System.out.println("auth='" + auth + "'");
+			// TODO
+			// error.unknown.author
+		}
+		// TODO error.missing.e.tag.after.epsilon
 		return retval;
 	}
 
@@ -355,29 +377,45 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
-	public void addRootVernacularName(AkpLexicalGroup lexicalGroup) {
+	public void addRootVernacularName(AkpLexicalGroup lexicalGroup,
+			String defaultBib) {
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
 		name.setName("");
 		name.setComments("");
 		name.setParentId(0);
+		name.setBibs(new ArrayList<AkpBib>(0));
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
+		if (defaultBib != null) {
+			AkpBib defBib = getBib(defaultBib);
+			if (defBib != null) {
+				addBibToVernacularName(defBib, name);
+			}
+		}
 	}
 
 	@Transactional
 	@Override
-	public void addChildVernacularName(AkpVernacularName parentName) {
+	public void addChildVernacularName(AkpVernacularName parentName,
+			String defaultBib) {
 		AkpLexicalGroup lexicalGroup = parentName.getLexicalGroup();
 		AkpVernacularName name = new AkpVernacularName();
 		name.setLexicalGroup(lexicalGroup);
 		name.setName("");
 		name.setComments("");
 		name.setParentId(parentName.getXid());
+		name.setBibs(new ArrayList<AkpBib>(0));
 		lexicalGroup.getVernacularNames().add(name);
 		lexicalGroup.refreshVernacularNamesTree();
 		getSession().save(name);
+		if (defaultBib != null) {
+			AkpBib defBib = getBib(defaultBib);
+			if (defBib != null) {
+				addBibToVernacularName(defBib, name);
+			}
+		}
 	}
 
 	@Transactional

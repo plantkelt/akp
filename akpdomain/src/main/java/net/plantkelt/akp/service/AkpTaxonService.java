@@ -68,9 +68,11 @@ public interface AkpTaxonService {
 
 	public abstract void deleteTaxon(AkpTaxon taxon);
 
-	public abstract void addRootVernacularName(AkpLexicalGroup lexicalGroup);
+	public abstract void addRootVernacularName(AkpLexicalGroup lexicalGroup,
+			String defaultBib);
 
-	public abstract void addChildVernacularName(AkpVernacularName parentName);
+	public abstract void addChildVernacularName(AkpVernacularName parentName,
+			String defaultBib);
 
 	public abstract void updateVernacularNameName(
 			AkpVernacularName vernacularName, String newName);
