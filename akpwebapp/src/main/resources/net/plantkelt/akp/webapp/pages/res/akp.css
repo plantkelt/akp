@@ -526,7 +526,7 @@ div.lexicalGroup div.vernaSection span.verna {
 div.lexicalGroup div.vernaSection div.childrenList {
 	margin-left: 1.5em;
 	padding-left: 4px;
-	border-left: 1px #888888 dotted;
+	border-left: 1px #888888 solid;
 }
 
 div.lexicalGroup div.vernaSection form.addForm {
