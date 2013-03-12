@@ -89,6 +89,10 @@ div.floating {
 	float: left;
 }
 
+pre {
+	font-weight: bold;	
+}
+
 /* === Feedback panel === */
 ul.feedbackPanel {
 	background-color: #ffffaa;
