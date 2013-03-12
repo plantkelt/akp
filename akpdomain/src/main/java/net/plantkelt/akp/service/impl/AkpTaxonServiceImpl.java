@@ -425,6 +425,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		String oldName = vernacularName.getName();
 		vernacularName.setName(newName);
 		vernacularName.getLexicalGroup().refreshVernacularNamesTree();
+		if (newName.equals("#"))
+			vernacularName.setBibs(new ArrayList<AkpBib>(0));
 		getSession().update(vernacularName);
 		if (oldName.length() == 0)
 			akpLogService.logVernacularNameCreation(vernacularName);
