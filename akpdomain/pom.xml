@@ -75,5 +75,12 @@
             <version>${jfreechart.version}</version>
         </dependency>
 
+        <!-- Java mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${javamail.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

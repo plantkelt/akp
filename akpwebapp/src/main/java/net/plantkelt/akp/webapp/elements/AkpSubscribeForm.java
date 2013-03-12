@@ -2,6 +2,8 @@ package net.plantkelt.akp.webapp.elements;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.plantkelt.akp.domain.AkpSubscriptionRequest;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.webapp.pages.AkpSubscribeOkPage;
@@ -13,6 +15,8 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebRequest;
 
 import com.google.inject.Inject;
 
@@ -59,6 +63,11 @@ public class AkpSubscribeForm extends Panel {
 						"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")) {
 					error(getString("subscribe.email.wrong.format"));
 				} else {
+					WebRequest req = (WebRequest) RequestCycle.get()
+							.getRequest();
+					HttpServletRequest httpReq = (HttpServletRequest) req
+							.getContainerRequest();
+					request.setClientIp(httpReq.getRemoteAddr());
 					akpLoginService.subscriptionRequested(request);
 					setResponsePage(new AkpSubscribeOkPage(request.getLogin(),
 							request.getEmail()));

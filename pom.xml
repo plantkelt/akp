@@ -16,6 +16,7 @@
         <javassist.version>3.12.1.GA</javassist.version>
         <guice.version>3.0</guice.version>
         <postgresql-jdbc.version>8.4-701.jdbc3</postgresql-jdbc.version>
+        <javamail.version>1.4.6</javamail.version>
     </properties>
     <build>
         <plugins>

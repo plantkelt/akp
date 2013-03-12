@@ -4,9 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import net.plantkelt.akp.domain.AkpSubscriptionRequest;
 import net.plantkelt.akp.domain.AkpUser;
@@ -70,7 +78,67 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 
 	@Override
 	public void subscriptionRequested(AkpSubscriptionRequest request) {
-		// TODO Send email
+
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT, DateFormat.MEDIUM);
+		String emailText = String
+				.format("Cher Roland,\n"
+						+ "\n"
+						+ "Je viens de recevoir à l'instant une nouvelle demande d'inscription a PLANTKELT V2!\n"
+						+ "\n"
+						+ "Date de la demande: %s\n"
+						+ "Nom: %s\n"
+						+ "Email: %s\n"
+						+ "Login souhaité: %s\n"
+						+ "Langue: %s\n"
+						+ "Organisation: %s\n"
+						+ "Activité: %s\n"
+						+ "Ville: %s\n"
+						+ "Pays: %s\n"
+						+ "Adresse IP: %s (http://www.geoiptool.com/fr/?IP=%s)\n"
+						+ "\n"
+						+ "Merci de créer le compte, et d'envoyer un mail de confirmation.\n"
+						+ "\n"
+						+ "Votre fidèle et dévoué,\n"
+						+ "\n"
+						+ "                 --R2D2\n"
+						+ "\n"
+						+ "PS: Merci de ne pas me répondre directement, je ne comprendrai pas.\n"
+						+ "Adressez-vous plutôt à mon mécanicien attitré (root@plantkelt.net).\n",
+						dateFormat.format(new Date()), request.getName(),
+						request.getEmail(), request.getLogin(),
+						request.getLang(), request.getOrganization(),
+						request.getOccupation(), request.getCity(),
+						request.getState(), request.getClientIp(),
+						request.getClientIp());
+		String to = "melestr@plantkelt.net";
+		// String to = "laurent.gregoire@gmail.com";
+		String from = "r2d2@plantkelt.net";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		javax.mail.Session session = javax.mail.Session.getInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication("r2d2@plantkelt.net",
+								"xxxxxx");
+					}
+				});
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					to));
+			message.setSubject(String.format(
+					"Demande d'inscription a PlantKelt V2! (%s)",
+					request.getName()));
+			message.setText(emailText);
+			Transport.send(message);
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private Session getSession() {

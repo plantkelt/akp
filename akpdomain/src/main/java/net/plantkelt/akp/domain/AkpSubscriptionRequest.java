@@ -14,6 +14,7 @@ public class AkpSubscriptionRequest implements Serializable {
 	private String occupation;
 	private String city;
 	private String state;
+	private String clientIp;
 
 	public String getLogin() {
 		return login;
@@ -77,6 +78,14 @@ public class AkpSubscriptionRequest implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getClientIp() {
+		return clientIp;
+	}
+
+	public void setClientIp(String clientIp) {
+		this.clientIp = clientIp;
 	}
 
 }
