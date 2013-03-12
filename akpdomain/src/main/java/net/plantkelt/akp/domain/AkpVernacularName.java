@@ -96,6 +96,16 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 
 	@Override
 	public int compareTo(AkpVernacularName o) {
+		if (getName().length() == 0) {
+			// Treat empty name special case: we want them at the end
+			if (o.getName().length() == 0)
+				return 0; // Two empty strings are equals
+			return 1;
+		}
+		if (o.getName().length() == 0) {
+			// Empty string is greater than anything else
+			return -1;
+		}
 		return defaultCollator.compare(getName(), o.getName());
 	}
 
