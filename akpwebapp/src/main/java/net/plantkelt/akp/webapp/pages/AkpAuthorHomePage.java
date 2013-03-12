@@ -114,6 +114,9 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 			@Override
 			public void onSubmit() {
 				String addXid = addXidModel.getObject();
+				if (addXid == null) {
+					return;
+				}
 				AkpAuthor author = akpTaxonService.getAuthor(addXid);
 				if (author != null) {
 					error(getString("author.xid.already.exists"));

@@ -121,6 +121,9 @@ public class AkpBibHomePage extends AkpPageTemplate {
 			@Override
 			public void onSubmit() {
 				String addXid = addXidModel.getObject();
+				if (addXid == null) {
+					return;
+				}
 				AkpBib bib = akpTaxonService.getBib(addXid);
 				if (bib != null) {
 					error(getString("bib.xid.already.exists"));

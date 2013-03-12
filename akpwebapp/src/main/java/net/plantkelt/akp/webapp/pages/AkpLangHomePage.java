@@ -75,6 +75,9 @@ public class AkpLangHomePage extends AkpPageTemplate {
 			@Override
 			public void onSubmit() {
 				String addXid = addXidModel.getObject();
+				if (addXid == null) {
+					return;
+				}
 				AkpLang lang = akpTaxonService.getLang(addXid);
 				if (lang != null) {
 					error(getString("lang.xid.already.exists"));
