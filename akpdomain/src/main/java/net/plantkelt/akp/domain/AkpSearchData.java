@@ -24,6 +24,7 @@ public class AkpSearchData implements Serializable {
 
 	public AkpSearchData() {
 		limit = 10;
+		includeSynonyms = true;
 	}
 
 	public AkpSearchType getSearchType() {
