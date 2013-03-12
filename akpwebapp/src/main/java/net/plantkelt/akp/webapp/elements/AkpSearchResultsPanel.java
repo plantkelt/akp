@@ -90,9 +90,12 @@ public class AkpSearchResultsPanel extends Panel {
 						};
 					} else {
 						cellLink = new WebMarkupContainer("cellLink");
+						cellLink.setVisible(false);
 					}
 					cell.add(cellLink);
 					Label cellValue = new Label("cellValue",
+							col.getDisplayValue());
+					Label cellValue2 = new Label("cellValue2",
 							col.getDisplayValue());
 					String className = col.getClassName();
 					if (className != null) {
@@ -105,9 +108,13 @@ public class AkpSearchResultsPanel extends Panel {
 									classAttributeAppender);
 						}
 						cellValue.add(classAttributeAppender);
+						cellValue2.add(classAttributeAppender);
 					}
 					cellLink.add(cellValue);
+					cell.add(cellValue2);
 					cellValue.setEscapeModelStrings(false);
+					cellValue2.setEscapeModelStrings(false);
+					cellValue2.setVisible(!AkpWicketSession.get().isLoggedIn());
 				}
 				item.add(colRepeat);
 				item.add(new AttributeModifier("class",
