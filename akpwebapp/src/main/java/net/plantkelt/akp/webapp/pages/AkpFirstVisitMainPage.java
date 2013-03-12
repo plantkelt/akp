@@ -19,8 +19,7 @@ public class AkpFirstVisitMainPage extends AkpFirstVisitPage {
 	public AkpFirstVisitMainPage() {
 		add(AkpHomePage.link("taxonSearch"));
 		add(AkpAuthorHomePage.link("authorSearch"));
-		// TODO
-		add(AkpHomePage.link("subscribeLink"));
+		add(AkpSubscribePage.link("subscribeLink"));
 
 		RepeatingView exampleRepeat = new RepeatingView("exampleRepeat");
 		add(exampleRepeat);

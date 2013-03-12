@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpSubscriptionRequest;
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLoginService;
@@ -60,6 +61,16 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Override
 	public void updateUser(AkpUser user) {
 		getSession().update(user);
+	}
+
+	@Override
+	public boolean checkLogin(String login) {
+		return login.matches("[0-9a-zA-Z_]{4,16}");
+	}
+
+	@Override
+	public void subscriptionRequested(AkpSubscriptionRequest request) {
+		// TODO Send email
 	}
 
 	private Session getSession() {

@@ -38,7 +38,7 @@ public class AkpLoginPage extends AkpPageTemplate {
 
 	public AkpLoginPage(final PageParameters parameters) {
 		boolean developmentMode = false;
-		
+
 		SignInPanel signInPanel = new SignInPanel("signInPanel", false);
 		signInPanel.setRememberMe(false);
 		add(signInPanel);
@@ -107,6 +107,9 @@ public class AkpLoginPage extends AkpPageTemplate {
 		Label fortuneLabel = new Label("fortune", fortuneModel);
 		fortuneLabel.setEscapeModelStrings(false);
 		add(fortuneLabel);
+
+		// Subscribe link
+		add(AkpSubscribePage.link("subscribeLink"));
 	}
 
 }

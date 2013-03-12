@@ -1,0 +1,55 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div wicket:id="feedback"></div>
+	<form wicket:id="form">
+		<table>
+			<tr>
+				<td><label for="login"><wicket:message
+							key="subscribe.login" /></label></td>
+				<td><input wicket:id="login" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="lang"><wicket:message
+							key="subscribe.lang" /></label></td>
+				<td><select wicket:id="lang"></select></td>
+			</tr>
+			<tr>
+				<td><label for="name"><wicket:message
+							key="subscribe.name" /></label></td>
+				<td><input wicket:id="name" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="email"><wicket:message
+							key="subscribe.email" /></label></td>
+				<td><input wicket:id="email" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="organization"><wicket:message
+							key="subscribe.organization" /></label></td>
+				<td><input wicket:id="organization" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="occupation"><wicket:message
+							key="subscribe.occupation" /></label></td>
+				<td><input wicket:id="occupation" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="city"><wicket:message
+							key="subscribe.city" /></label></td>
+				<td><input wicket:id="city" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label for="state"><wicket:message
+							key="subscribe.state" /></label></td>
+				<td><input wicket:id="state" type="text" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button wicket:id="continueButton" type="submit">
+						<wicket:message key="subscribe.continue" />
+					</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</wicket:panel>

@@ -26,6 +26,8 @@ import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import net.plantkelt.akp.webapp.pages.AkpPlantLogsPage;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
+import net.plantkelt.akp.webapp.pages.AkpSubscribeOkPage;
+import net.plantkelt.akp.webapp.pages.AkpSubscribePage;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -99,6 +101,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/about/who", AkpFirstVisitWhoPage.class);
 		mountPage("/about/tools", AkpFirstVisitToolsPage.class);
 		mountPage("/about/statistics", AkpFirstVisitStatisticsPage.class);
+		mountPage("/subscribe", AkpSubscribePage.class);
+		mountPage("/subscribe/ok", AkpSubscribeOkPage.class);
 
 		// Look for extended browser info from client. Needed as server is in
 		// UTC.
