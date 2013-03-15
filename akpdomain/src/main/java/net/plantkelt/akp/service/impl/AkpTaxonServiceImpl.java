@@ -34,6 +34,7 @@ import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -1019,6 +1020,33 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				.list();
 		for (Object[] objs : list) {
 			retval.put((AkpLang) objs[1], (Long) objs[0]);
+		}
+		return retval;
+	}
+
+	@Override
+	public AkpSearchResult getDuplicatedVernacularNames() {
+		Query query = getSession().getNamedQuery("duplicatedVernacularName");
+		@SuppressWarnings("unchecked")
+		List<AkpVernacularName> duplicatedNames = query.list();
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.vernaname");
+		retval.addHeaderKey("result.column.lang");
+		retval.addHeaderKey("result.column.plantname");
+		for (AkpVernacularName vernacularName : duplicatedNames) {
+			AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
+			AkpPlant plant = lexicalGroup.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
+			result.addColumn(new AkpSearchResultColumn(
+					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != 0 ? " "
+							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			retval.addRow(result);
 		}
 		return retval;
 	}

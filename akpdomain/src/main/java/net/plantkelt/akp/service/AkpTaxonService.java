@@ -164,4 +164,6 @@ public interface AkpTaxonService {
 
 	public abstract Map<AkpLang, Long> getVernacularNameCountPerLanguage();
 
+	public abstract AkpSearchResult getDuplicatedVernacularNames();
+
 }

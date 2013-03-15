@@ -179,8 +179,21 @@
     </class>
 
     <sql-query name="activityPerWeek">
-        SELECT DATE_TRUNC('week', ts) AS week, COUNT(xid) FROM hist WHERE ts >= :past GROUP BY
-        week ORDER BY week
+    <![CDATA[
+        SELECT DATE_TRUNC('week', ts) AS week, COUNT(xid) FROM hist WHERE ts >= :past
+        GROUP BY week ORDER BY week
+    ]]>
+    </sql-query>
+
+    <sql-query name="duplicatedVernacularName">
+        <return alias="v2" class="AkpVernacularName" />
+    <![CDATA[
+        SELECT * FROM verna2 AS v2 JOIN (
+            SELECT nom, grplex2, count(*) AS num
+            FROM verna2 GROUP BY grplex2, nom
+            HAVING (COUNT(*) > 1) AND nom<>'#') AS duplicates
+        ON v2.nom = duplicates.nom AND v2.grplex2 = duplicates.grplex2;
+    ]]>
     </sql-query>
 
 </hibernate-mapping>

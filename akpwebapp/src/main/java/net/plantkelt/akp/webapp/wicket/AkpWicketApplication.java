@@ -9,6 +9,7 @@ import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpAuthorPage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibPage;
+import net.plantkelt.akp.webapp.pages.AkpCheckDbPage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpExceptionPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitClassificationPage;
@@ -103,6 +104,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/about/statistics", AkpFirstVisitStatisticsPage.class);
 		mountPage("/subscribe", AkpSubscribePage.class);
 		mountPage("/subscribe/ok", AkpSubscribeOkPage.class);
+		mountPage("/checkdb", AkpCheckDbPage.class);
 
 		// Look for extended browser info from client. Needed as server is in
 		// UTC.
