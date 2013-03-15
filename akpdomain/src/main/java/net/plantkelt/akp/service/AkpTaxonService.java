@@ -166,4 +166,6 @@ public interface AkpTaxonService {
 
 	public abstract AkpSearchResult getDuplicatedVernacularNames();
 
+	public abstract AkpSearchResult getDuplicatedTaxonNames();
+
 }

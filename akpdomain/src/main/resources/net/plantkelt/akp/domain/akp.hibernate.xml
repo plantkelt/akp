@@ -192,7 +192,19 @@
             SELECT nom, grplex2, count(*) AS num
             FROM verna2 GROUP BY grplex2, nom
             HAVING (COUNT(*) > 1) AND nom<>'#') AS duplicates
-        ON v2.nom = duplicates.nom AND v2.grplex2 = duplicates.grplex2;
+        ON v2.nom = duplicates.nom AND v2.grplex2 = duplicates.grplex2
+        ORDER BY v2.nom
+    ]]>
+    </sql-query>
+
+    <sql-query name="duplicatedTaxonName">
+        <return alias="tx" class="AkpTaxon" />
+    <![CDATA[
+        SELECT * FROM taxon AS tx JOIN (
+            SELECT nom, count(*) AS num
+            FROM taxon GROUP BY nom
+            HAVING (COUNT(*) > 1)) AS duplicates
+        ON tx.nom = duplicates.nom ORDER BY tx.nom
     ]]>
     </sql-query>
 

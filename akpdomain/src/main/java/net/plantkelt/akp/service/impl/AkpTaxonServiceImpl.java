@@ -1051,6 +1051,27 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return retval;
 	}
 
+	@Override
+	public AkpSearchResult getDuplicatedTaxonNames() {
+		Query query = getSession().getNamedQuery("duplicatedTaxonName");
+		@SuppressWarnings("unchecked")
+		List<AkpTaxon> duplicatedTaxons = query.list();
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.synonym");
+		retval.addHeaderKey("result.column.plantname");
+		for (AkpTaxon taxon : duplicatedTaxons) {
+			AkpPlant plant = taxon.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					null, null);
+			result.addColumn(new AkpSearchResultColumn(taxon.getHtmlName(),
+					"taxon"));
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			retval.addRow(result);
+		}
+		return retval;
+	}
+
 	private Session getSession() {
 		return sessionProvider.get();
 	}

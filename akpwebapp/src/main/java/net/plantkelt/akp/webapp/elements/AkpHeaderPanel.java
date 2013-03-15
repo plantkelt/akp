@@ -5,6 +5,7 @@ import java.util.Locale;
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
+import net.plantkelt.akp.webapp.pages.AkpCheckDbPage;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
@@ -59,6 +60,8 @@ public class AkpHeaderPanel extends Panel {
 		add(adminLinks);
 		Link<AkpLangHomePage> langsLink = AkpLangHomePage.link("langsLink");
 		adminLinks.add(langsLink);
+		Link<AkpCheckDbPage> checkDbLink = AkpCheckDbPage.link("checkdbLink");
+		adminLinks.add(checkDbLink);
 
 		// No-User section
 		WebMarkupContainer noUserSection = new WebMarkupContainer(
