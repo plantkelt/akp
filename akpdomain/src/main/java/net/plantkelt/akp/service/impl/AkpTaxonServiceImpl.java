@@ -353,15 +353,15 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				break;
 			}
 		}
-		Matcher authMatcher = Pattern.compile("<a>(.*?)</a>")
-				.matcher(taxonName);
-		System.out.println("auth group count=" + authMatcher.groupCount());
-		for (int i = 1; i <= authMatcher.groupCount(); i++) {
-			String auth = authMatcher.group(i);
-			System.out.println("auth='" + auth + "'");
-			// TODO
-			// error.unknown.author
-		}
+		// Matcher authMatcher = Pattern.compile("<a>(.*?)</a>")
+		// .matcher(taxonName);
+		// System.out.println("auth group count=" + authMatcher.groupCount());
+		// for (int i = 1; i <= authMatcher.groupCount(); i++) {
+		// String auth = authMatcher.group(i);
+		// System.out.println("auth='" + auth + "'");
+		// // TODO
+		// // error.unknown.author
+		// }
 		// TODO error.missing.e.tag.after.epsilon
 		return retval;
 	}
@@ -1068,6 +1068,43 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
 			retval.addRow(result);
+		}
+		return retval;
+	}
+
+	@Override
+	@Transactional
+	public AkpSearchResult getTaxonSyntaxErrors() {
+		int offset = 0;
+		int batchSize = 1000;
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.synonym");
+		retval.addHeaderKey("result.column.plantname");
+		retval.addHeaderKey("result.column.syntaxerror");
+		while (true) {
+			@SuppressWarnings("unchecked")
+			List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
+					.setFirstResult(offset).setMaxResults(batchSize).list();
+			if (taxons.isEmpty())
+				break;
+			for (AkpTaxon taxon : taxons) {
+				List<String> errors = checkTaxon(taxon);
+				if (!errors.isEmpty()) {
+					AkpPlant plant = taxon.getPlant();
+					for (String error : errors) {
+						AkpSearchResultRow result = new AkpSearchResultRow(
+								plant.getXid(), null, null);
+						result.addColumn(new AkpSearchResultColumn(taxon
+								.getHtmlName(), "taxon"));
+						result.addColumn(new AkpSearchResultColumn(plant
+								.getMainName().getHtmlName(), "taxon"));
+						result.addColumn(new AkpSearchResultColumn(error,
+								"comment", true));
+						retval.addRow(result);
+					}
+				}
+			}
+			offset += batchSize;
 		}
 		return retval;
 	}

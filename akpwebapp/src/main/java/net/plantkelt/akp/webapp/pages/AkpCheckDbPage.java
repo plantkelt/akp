@@ -43,6 +43,7 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 	public AkpCheckDbPage() {
 		add(new CheckLink("vernaDuplicatesLink", "duplicatedVernacularNames"));
 		add(new CheckLink("taxonDuplicatesLink", "duplicatedTaxonNames"));
+		add(new CheckLink("taxonSyntaxLink", "taxonSyntax"));
 
 		checkResultModel = new LoadableDetachableModel<AkpSearchResult>() {
 			private static final long serialVersionUID = 1L;
@@ -53,6 +54,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 					return akpTaxonService.getDuplicatedVernacularNames();
 				} else if (checkType.equals("duplicatedTaxonNames")) {
 					return akpTaxonService.getDuplicatedTaxonNames();
+				} else if (checkType.equals("taxonSyntax")) {
+					return akpTaxonService.getTaxonSyntaxErrors();
 				}
 				return null;
 			}
