@@ -93,10 +93,10 @@ public class AkpSearchResultsPanel extends Panel {
 						cellLink.setVisible(false);
 					}
 					cell.add(cellLink);
-					Label cellValue = new Label("cellValue",
-							col.getDisplayValue());
-					Label cellValue2 = new Label("cellValue2",
-							col.getDisplayValue());
+					String colValue = col.isValueKey() ? getString(col
+							.getDisplayValue()) : col.getDisplayValue();
+					Label cellValue = new Label("cellValue", colValue);
+					Label cellValue2 = new Label("cellValue2", colValue);
 					String className = col.getClassName();
 					if (className != null) {
 						AttributeAppender classAttributeAppender = classAppenders

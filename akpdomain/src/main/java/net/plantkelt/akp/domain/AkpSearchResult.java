@@ -9,10 +9,17 @@ public class AkpSearchResult {
 
 		private String displayValue;
 		private String className;
+		private boolean isValueKey;
 
 		public AkpSearchResultColumn(String displayValue, String className) {
+			this(displayValue, className, false);
+		}
+
+		public AkpSearchResultColumn(String displayValue, String className,
+				boolean isValueKey) {
 			this.className = className;
 			this.displayValue = displayValue;
+			this.isValueKey = isValueKey;
 		}
 
 		public String getDisplayValue() {
@@ -22,6 +29,10 @@ public class AkpSearchResult {
 		public String getClassName() {
 			return className;
 		}
+
+		public boolean isValueKey() {
+			return isValueKey;
+		}
 	}
 
 	public static class AkpSearchResultRow {
@@ -30,7 +41,8 @@ public class AkpSearchResult {
 		private Integer correct;
 		private List<AkpSearchResultColumn> columns;
 
-		public AkpSearchResultRow(Integer plantXid, String langXid, Integer correct) {
+		public AkpSearchResultRow(Integer plantXid, String langXid,
+				Integer correct) {
 			this.plantXid = plantXid;
 			this.langXid = langXid;
 			this.correct = correct;
@@ -40,7 +52,7 @@ public class AkpSearchResult {
 		public Integer getPlantXid() {
 			return plantXid;
 		}
-		
+
 		public String getLangXid() {
 			return langXid;
 		}
@@ -48,7 +60,7 @@ public class AkpSearchResult {
 		public Integer getCorrect() {
 			return correct;
 		}
-		
+
 		public List<AkpSearchResultColumn> getColumns() {
 			return columns;
 		}
