@@ -3,16 +3,17 @@
 	xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:extend>
-		<h1>Vérification base de donnée</h1>
+		<h1>
+			<wicket:message key="check.db.header" />
+		</h1>
 		<ul>
-			<li><a wicket:id="vernaDuplicatesLink">Vérifier les noms
-					vernaculaires doublons</a></li>
-			<li><a wicket:id="taxonDuplicatesLink">Vérifier les noms
-					Linnéens doublons</a></li>
-			<li><a wicket:id="taxonSyntaxLink">Vérifier la syntaxe des
-					noms Linnéens</a></li>
+			<li wicket:id="checkLinkRepeat"><a wicket:id="checkLink"><span
+					wicket:id="checkLabel" /></a></li>
 		</ul>
-		<div wicket:id="checkResults"></div>
+		<div wicket:id="checkResults">
+			<h2 wicket:id="checkResultsHeader"></h2>
+			<div wicket:id="checkResultsPanel"></div>
+		</div>
 	</wicket:extend>
 </body>
 </html>
