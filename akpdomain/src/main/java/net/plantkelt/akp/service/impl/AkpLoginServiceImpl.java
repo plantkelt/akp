@@ -5,7 +5,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -21,6 +23,7 @@ import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLoginService;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -69,6 +72,26 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Override
 	public void updateUser(AkpUser user) {
 		getSession().update(user);
+	}
+
+	@Transactional
+	@Override
+	public List<AkpUser> searchUser(int limit, String loginPattern,
+			String namePattern, String emailPattern, Integer profile) {
+		Criteria criteria = getSession().createCriteria(AkpUser.class);
+		criteria.setMaxResults(limit);
+		if (loginPattern != null)
+			criteria.add(Restrictions.like("login", "%" + loginPattern + "%"));
+		if (namePattern != null)
+			criteria.add(Restrictions.like("name", "%" + namePattern + "%"));
+		if (emailPattern != null)
+			criteria.add(Restrictions.like("email", "%" + emailPattern + "%"));
+		if (profile != null)
+			criteria.add(Restrictions.eq("profile", profile));
+		@SuppressWarnings("unchecked")
+		List<AkpUser> retval = criteria.list();
+		Collections.sort(retval);
+		return retval;
 	}
 
 	@Override
