@@ -12,6 +12,7 @@ import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLangHomePage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
+import net.plantkelt.akp.webapp.pages.AkpUserManagementPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.behavior.AttributeAppender;
@@ -60,6 +61,9 @@ public class AkpHeaderPanel extends Panel {
 		add(adminLinks);
 		Link<AkpLangHomePage> langsLink = AkpLangHomePage.link("langsLink");
 		adminLinks.add(langsLink);
+		Link<AkpUserManagementPage> usersLink = AkpUserManagementPage
+				.link("usersLink");
+		adminLinks.add(usersLink);
 		Link<AkpCheckDbPage> checkDbLink = AkpCheckDbPage.link("checkdbLink");
 		adminLinks.add(checkDbLink);
 

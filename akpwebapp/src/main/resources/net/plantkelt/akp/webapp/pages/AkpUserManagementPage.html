@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<div class="formPanel floating">
+			<h2>
+				<wicket:message key="user.search.header" />
+			</h2>
+			<form wicket:id="searchForm">
+				<table style="width: 100%">
+					<tr>
+						<td><label for="login"><wicket:message
+									key="user.login" /></label></td>
+						<td><input type="text" wicket:id="login" size="10" /></td>
+					</tr>
+					<tr>
+						<td><label for="name"><wicket:message key="user.name" /></label></td>
+						<td><input type="text" wicket:id="name" size="40" /></td>
+					</tr>
+					<tr>
+						<td><label for="email"><wicket:message
+									key="user.email" /></label></td>
+						<td><input type="text" wicket:id="email" size="40" /></td>
+					</tr>
+					<tr>
+						<td><label for="profile"><wicket:message
+									key="user.profile" /></label></td>
+						<td><select wicket:id="profile"></select></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="user.search.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="formPanel floating" wicket:id="addSection">
+			<h2>
+				<wicket:message key="user.add.header" />
+			</h2>
+			<form wicket:id="addUserForm">
+				<div wicket:id="feedback" />
+				<table>
+					<tr>
+						<td><label for="login"><wicket:message
+									key="user.login" /></label></td>
+						<td><input type="text" wicket:id="login" size="10" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="add.user.button" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="clear" wicket:id="searchResultsSection">
+			<h2>
+				<wicket:message key="user.search.results" />
+			</h2>
+			<table class="listing">
+				<thead>
+					<tr>
+						<th><wicket:message key="result.column.user.login" /></th>
+						<th><wicket:message key="result.column.user.name" /></th>
+						<th><wicket:message key="result.column.user.email" /></th>
+						<th><wicket:message key="result.column.user.profile" /></th>
+						<th><wicket:message key="result.column.user.expire" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="userList">
+						<td><a wicket:id="userLink"><span wicket:id="loginLabel"></span></a></td>
+						<td><span wicket:id="nameLabel"></span></td>
+						<td><span wicket:id="emailLabel"></span></td>
+						<td><span wicket:id="profileLabel"></span></td>
+						<td><span wicket:id="expireLabel"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

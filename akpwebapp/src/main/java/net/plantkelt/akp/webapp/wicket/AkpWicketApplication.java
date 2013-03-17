@@ -29,6 +29,7 @@ import net.plantkelt.akp.webapp.pages.AkpPlantLogsPage;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
 import net.plantkelt.akp.webapp.pages.AkpSubscribeOkPage;
 import net.plantkelt.akp.webapp.pages.AkpSubscribePage;
+import net.plantkelt.akp.webapp.pages.AkpUserManagementPage;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -94,6 +95,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/author/${xid}", AkpAuthorPage.class);
 		mountPage("/langs", AkpLangHomePage.class);
 		mountPage("/lang/${xid}", AkpLangPage.class);
+		mountPage("/users", AkpUserManagementPage.class);
 		mountPage("/about", AkpFirstVisitMainPage.class);
 		mountPage("/about/corpus", AkpFirstVisitCorpusPage.class);
 		mountPage("/about/classification",
