@@ -3,12 +3,12 @@ package net.plantkelt.akp.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AkpUser implements Serializable {
+public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private static final long serialVersionUID = 1L;
 
 	public static final int PROFILE_USER = 1;
 	public static final int PROFILE_ADMIN = 3;
-	
+
 	private String login;
 	private String md5;
 	private String lastbib;
@@ -89,6 +89,11 @@ public class AkpUser implements Serializable {
 	@Override
 	public String toString() {
 		return String.format("[AkpUser %s]", getLogin());
+	}
+
+	@Override
+	public int compareTo(AkpUser o) {
+		return getLogin().compareToIgnoreCase(o.getLogin());
 	}
 
 }
