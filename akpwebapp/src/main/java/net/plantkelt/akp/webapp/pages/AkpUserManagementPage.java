@@ -123,6 +123,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				if (user != null) {
 					error(getString("user.login.already.exists"));
 				} else {
+					error("TODO");
 					// TODO
 					// akpLoginService.createUser(addLogin);
 					// setResponsePage(AkpBibPage.class,
