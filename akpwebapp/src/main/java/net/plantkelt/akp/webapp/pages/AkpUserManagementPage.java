@@ -24,6 +24,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
@@ -88,10 +89,8 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 			@Override
 			protected void populateItem(ListItem<AkpUser> item) {
 				AkpUser user = item.getModelObject();
-				// TODO
-				// Link<?> userLink = AkpUserPage.link("userLink",
-				// user.getLogin());
-				Link<?> userLink = AkpBibPage.link("userLink", user.getLogin());
+				Link<?> userLink = AkpUserPage
+						.link("userLink", user.getLogin());
 				item.add(userLink);
 				userLink.add(new Label("loginLabel", user.getLogin()));
 				item.add(new Label("nameLabel", user.getName()));
@@ -123,11 +122,9 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				if (user != null) {
 					error(getString("user.login.already.exists"));
 				} else {
-					error("TODO");
-					// TODO
-					// akpLoginService.createUser(addLogin);
-					// setResponsePage(AkpBibPage.class,
-					// new PageParameters().add("xid", addLogin));
+					akpLoginService.createUser(addLogin);
+					setResponsePage(AkpUserPage.class,
+							new PageParameters().add("login", addLogin));
 				}
 			}
 		};
