@@ -68,13 +68,13 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 				password);
 		if (akpUser != null) {
 			switch (akpUser.getLang()) {
-			case 0:
+			case AkpUser.LANG_EN:
 				setLocale(new Locale("en"));
 				break;
-			case 1:
+			case AkpUser.LANG_FR:
 				setLocale(new Locale("fr"));
 				break;
-			case 2:
+			case AkpUser.LANG_BR:
 				setLocale(new Locale("br"));
 				break;
 			}
