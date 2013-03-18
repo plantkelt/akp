@@ -77,6 +77,8 @@ public class AkpUserPage extends AkpPageTemplate {
 			super(id, new CompoundPropertyModel<AkpUser>(userModel));
 			// Feedback
 			add(new FeedbackPanel("feedback"));
+			if (userModel.getObject().getMd5() == null)
+				warn(getString("no.password.defined.yet"));
 			// Fields
 			add(new RequiredTextField<String>("name"));
 			add(new RequiredTextField<String>("email"));
@@ -142,7 +144,7 @@ public class AkpUserPage extends AkpPageTemplate {
 				public void onSubmit() {
 					AkpUser user = AkpUserForm.this.getModelObject();
 					if (user.equals(AkpWicketSession.get().getAkpUser())) {
-						error("cant.delete.self");
+						error(getString("cant.delete.self"));
 					} else {
 						akpLoginService.deleteUser(user);
 						setResponsePage(AkpUserManagementPage.class);

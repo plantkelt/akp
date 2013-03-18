@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.pages;
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpUser;
@@ -12,6 +13,7 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -40,6 +42,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 	private IModel<String> nameModel;
 	private IModel<String> emailModel;
 	private IModel<Integer> profileModel;
+	private IModel<Boolean> onlyExpiredModel;
 
 	private DateFormat expireFormat;
 
@@ -53,6 +56,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 		nameModel = new Model<String>();
 		emailModel = new Model<String>();
 		profileModel = new Model<Integer>();
+		onlyExpiredModel = new Model<Boolean>();
 		SearchForm searchForm = new SearchForm("searchForm");
 		add(searchForm);
 
@@ -66,7 +70,8 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 					int limit = 1000;
 					return akpLoginService.searchUser(limit,
 							loginModel.getObject(), nameModel.getObject(),
-							emailModel.getObject(), profileModel.getObject());
+							emailModel.getObject(), profileModel.getObject(),
+							onlyExpiredModel.getObject());
 				} else {
 					return Collections.emptyList();
 				}
@@ -97,8 +102,11 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				item.add(new Label("emailLabel", user.getEmail()));
 				item.add(new Label("profileLabel", getString("profile."
 						+ user.getProfile())));
+				boolean expired = user.getExpire().compareTo(new Date()) < 0;
 				item.add(new Label("expireLabel", expireFormat.format(user
-						.getExpire())));
+						.getExpire())
+						+ (expired ? " (" + getString("user.expired") + ")"
+								: "")));
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
@@ -136,7 +144,9 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 	private boolean somethingToSearchFor() {
 		return loginModel.getObject() != null || nameModel.getObject() != null
 				|| emailModel.getObject() != null
-				|| profileModel.getObject() != null;
+				|| profileModel.getObject() != null
+				|| onlyExpiredModel.getObject() != null
+				&& onlyExpiredModel.getObject();
 	}
 
 	private class SearchForm extends Form<Void> {
@@ -163,6 +173,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 							return "" + object;
 						}
 					});
+			add(new CheckBox("onlyExpired", onlyExpiredModel));
 			profileChoice.setNullValid(true);
 			add(profileChoice);
 		}

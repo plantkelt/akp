@@ -107,7 +107,8 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Transactional
 	@Override
 	public List<AkpUser> searchUser(int limit, String loginPattern,
-			String namePattern, String emailPattern, Integer profile) {
+			String namePattern, String emailPattern, Integer profile,
+			Boolean onlyExpired) {
 		Criteria criteria = getSession().createCriteria(AkpUser.class);
 		criteria.setMaxResults(limit);
 		if (loginPattern != null)
@@ -118,6 +119,8 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 			criteria.add(Restrictions.like("email", "%" + emailPattern + "%"));
 		if (profile != null)
 			criteria.add(Restrictions.eq("profile", profile));
+		if (onlyExpired != null && onlyExpired)
+			criteria.add(Restrictions.lt("expire", new Date()));
 		@SuppressWarnings("unchecked")
 		List<AkpUser> retval = criteria.list();
 		Collections.sort(retval);

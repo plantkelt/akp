@@ -16,7 +16,7 @@ public interface AkpLoginService {
 	public abstract AkpUser getUser(String login);
 
 	public abstract void updateUser(AkpUser user);
-	
+
 	public abstract void deleteUser(AkpUser user);
 
 	public abstract void updatePassword(AkpUser user, String newPassword);
@@ -24,7 +24,8 @@ public interface AkpLoginService {
 	public abstract boolean checkLogin(String login);
 
 	public abstract List<AkpUser> searchUser(int limit, String loginPattern,
-			String namePattern, String emailPattern, Integer profile);
+			String namePattern, String emailPattern, Integer profile,
+			Boolean onlyExpired);
 
 	public abstract void subscriptionRequested(AkpSubscriptionRequest request);
 
