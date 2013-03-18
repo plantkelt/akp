@@ -11,9 +11,15 @@ public interface AkpLoginService {
 
 	public abstract void logout();
 
+	public AkpUser createUser(String login);
+
 	public abstract AkpUser getUser(String login);
 
 	public abstract void updateUser(AkpUser user);
+	
+	public abstract void deleteUser(AkpUser user);
+
+	public abstract void updatePassword(AkpUser user, String newPassword);
 
 	public abstract boolean checkLogin(String login);
 

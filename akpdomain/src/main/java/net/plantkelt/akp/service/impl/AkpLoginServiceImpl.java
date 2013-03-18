@@ -64,6 +64,23 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 
 	@Transactional
 	@Override
+	public AkpUser createUser(String login) {
+		if (getUser(login) != null) {
+			throw new IllegalArgumentException("User with login '" + login
+					+ "' already exist!");
+		}
+		AkpUser newUser = new AkpUser();
+		newUser.setLogin(login);
+		newUser.setLang(AkpUser.LANG_EN);
+		newUser.setName(login);
+		newUser.setProfile(AkpUser.PROFILE_USER);
+		newUser.setExpire(new Date());
+		getSession().save(newUser);
+		return newUser;
+	}
+
+	@Transactional
+	@Override
 	public AkpUser getUser(String login) {
 		return (AkpUser) getSession().get(AkpUser.class, login);
 	}
@@ -72,6 +89,19 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Override
 	public void updateUser(AkpUser user) {
 		getSession().update(user);
+	}
+
+	@Transactional
+	@Override
+	public void deleteUser(AkpUser user) {
+		getSession().delete(user);
+	}
+
+	@Transactional
+	@Override
+	public void updatePassword(AkpUser user, String newPassword) {
+		user.setMd5(md5Hash(newPassword));
+		updateUser(user);
 	}
 
 	@Transactional
