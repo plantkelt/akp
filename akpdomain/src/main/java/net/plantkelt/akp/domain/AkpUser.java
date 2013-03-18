@@ -9,6 +9,11 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	public static final int PROFILE_USER = 1;
 	public static final int PROFILE_ADMIN = 3;
 
+	/* TODO Use ISO 2 letters code for user language */
+	public static final int LANG_EN = 0;
+	public static final int LANG_FR = 1;
+	public static final int LANG_BR = 2;
+
 	private String login;
 	private String md5;
 	private String lastbib;
@@ -84,6 +89,14 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 
 	public boolean isAdmin() {
 		return profile == 3;
+	}
+
+	@Override
+	public boolean equals(Object another) {
+		if (another instanceof AkpUser) {
+			return getLogin().equals(((AkpUser) another).getLogin());
+		}
+		return false;
 	}
 
 	@Override
