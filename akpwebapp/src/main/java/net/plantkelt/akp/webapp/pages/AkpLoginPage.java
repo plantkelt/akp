@@ -37,7 +37,6 @@ public class AkpLoginPage extends AkpPageTemplate {
 	}
 
 	public AkpLoginPage(final PageParameters parameters) {
-		boolean developmentMode = false;
 
 		SignInPanel signInPanel = new SignInPanel("signInPanel", false);
 		signInPanel.setRememberMe(false);
@@ -79,8 +78,6 @@ public class AkpLoginPage extends AkpPageTemplate {
 			}
 		};
 		autologinForm.add(autologinUserButton);
-		autologinAdminButton.setVisible(developmentMode);
-		autologinUserButton.setVisible(developmentMode);
 
 		// Misc info (last update)
 		Date lastUpdate = akpTaxonService.getLastUpdate();
