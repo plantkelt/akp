@@ -68,6 +68,14 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 				return akpTaxonService.getTaxonSyntaxErrors();
 			}
 		});
+		CHECKERS.add(new Checker("authorWithoutTags") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
+				return akpTaxonService.getAuthorWithoutTags();
+			}
+		});
 	}
 
 	@Inject

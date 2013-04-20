@@ -749,6 +749,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
+	public List<AkpAuthor> getAuthors() {
+		return getSession().createCriteria(AkpAuthor.class).list();
+	}
+
+	@Transactional
+	@Override
 	public List<AkpAuthor> searchAuthor(int limit, String xid, String name,
 			String dates, String source) {
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
@@ -1100,6 +1106,48 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 								.getMainName().getHtmlName(), "taxon"));
 						result.addColumn(new AkpSearchResultColumn(error,
 								"comment", true));
+						retval.addRow(result);
+					}
+				}
+			}
+			offset += batchSize;
+		}
+		return retval;
+	}
+
+	@Override
+	@Transactional
+	public AkpSearchResult getAuthorWithoutTags() {
+		int offset = 0;
+		int batchSize = 1000;
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.synonym");
+		retval.addHeaderKey("result.column.author");
+		List<AkpAuthor> authors = getAuthors();
+		Set<String> authorXids = new HashSet<String>();
+		for (AkpAuthor author : authors) {
+			authorXids.add(author.getXid());
+		}
+		while (true) {
+			@SuppressWarnings("unchecked")
+			List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
+					.setFirstResult(offset).setMaxResults(batchSize).list();
+			if (taxons.isEmpty())
+				break;
+			for (AkpTaxon taxon : taxons) {
+				String taxonName = taxon.getName();
+				taxonName = taxonName.replaceAll("<b>.*?</b>", "");
+				taxonName = taxonName.replaceAll("<i>.*?</i>", "");
+				taxonName = taxonName.replaceAll("\\[.*?\\]", "");
+				String[] elements = taxonName.split("[\\s]");
+				for (String elem : elements) {
+					if (authorXids.contains(elem)) {
+						AkpSearchResultRow result = new AkpSearchResultRow(
+								taxon.getPlant().getXid(), null, null);
+						result.addColumn(new AkpSearchResultColumn(taxon
+								.getHtmlName(), "taxon"));
+						result.addColumn(new AkpSearchResultColumn(elem,
+								"comment"));
 						retval.addRow(result);
 					}
 				}
