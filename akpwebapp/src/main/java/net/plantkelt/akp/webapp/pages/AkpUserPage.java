@@ -82,7 +82,8 @@ public class AkpUserPage extends AkpPageTemplate {
 			// Fields
 			add(new RequiredTextField<String>("name"));
 			add(new RequiredTextField<String>("email"));
-			DateTextField expireField = new DateTextField("expire");
+			DateTextField expireField = new DateTextField("expire",
+					"dd/MM/yyyy");
 			expireField.setRequired(true);
 			add(expireField);
 			DropDownChoice<Integer> langSelect = new DropDownChoice<Integer>(
@@ -155,6 +156,17 @@ public class AkpUserPage extends AkpPageTemplate {
 					getString("confirm.action.message")));
 			deleteButton.setDefaultFormProcessing(false);
 			add(deleteButton);
+			// Cancel button
+			Button cancelButton = new Button("cancelButton") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void onSubmit() {
+					setResponsePage(AkpUserManagementPage.class);
+				}
+			};
+			cancelButton.setDefaultFormProcessing(false);
+			add(cancelButton);
 		}
 
 		@Override
