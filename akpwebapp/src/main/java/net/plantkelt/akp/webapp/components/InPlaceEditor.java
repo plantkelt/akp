@@ -1,5 +1,7 @@
 package net.plantkelt.akp.webapp.components;
 
+import net.plantkelt.akp.webapp.behaviors.InputMacros;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -54,6 +56,7 @@ public class InPlaceEditor extends Border {
 		editForm.setOutputMarkupPlaceholderTag(true);
 		editForm.setOutputMarkupId(true);
 		textField = new TextField<String>("textInput", stringModel);
+		textField.add(new InputMacros());
 		editForm.add(textField);
 		editForm.add(new AjaxSubmitLink("saveButton") {
 			private static final long serialVersionUID = 1L;
