@@ -74,6 +74,22 @@ public class AkpBib implements Comparable<AkpBib> {
 	}
 
 	@Override
+	public boolean equals(Object another) {
+		if (another == null)
+			return false;
+		if (another instanceof AkpBib) {
+			AkpBib anotherBib = (AkpBib) another;
+			return anotherBib.getXid().equals(getXid());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getXid().hashCode();
+	}
+
+	@Override
 	public int compareTo(AkpBib o) {
 		try {
 			if (getXid().length() < 4 || o.getXid().length() < 4)
