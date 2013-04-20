@@ -174,4 +174,5 @@ public interface AkpTaxonService {
 	
 	public abstract AkpSearchResult getAuthorWithoutTags();
 
+	public abstract void mergeLang(String lang1, String lang2);
 }

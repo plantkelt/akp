@@ -34,8 +34,11 @@ import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -1081,36 +1084,30 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getTaxonSyntaxErrors() {
-		int offset = 0;
-		int batchSize = 1000;
 		AkpSearchResult retval = new AkpSearchResult();
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.plantname");
 		retval.addHeaderKey("result.column.syntaxerror");
-		while (true) {
-			@SuppressWarnings("unchecked")
-			List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
-					.setFirstResult(offset).setMaxResults(batchSize).list();
-			if (taxons.isEmpty())
-				break;
-			for (AkpTaxon taxon : taxons) {
-				List<String> errors = checkTaxon(taxon);
-				if (!errors.isEmpty()) {
-					AkpPlant plant = taxon.getPlant();
-					for (String error : errors) {
-						AkpSearchResultRow result = new AkpSearchResultRow(
-								plant.getXid(), null, null);
-						result.addColumn(new AkpSearchResultColumn(taxon
-								.getHtmlName(), "taxon"));
-						result.addColumn(new AkpSearchResultColumn(plant
-								.getMainName().getHtmlName(), "taxon"));
-						result.addColumn(new AkpSearchResultColumn(error,
-								"comment", true));
-						retval.addRow(result);
-					}
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			List<String> errors = checkTaxon(taxon);
+			if (!errors.isEmpty()) {
+				AkpPlant plant = taxon.getPlant();
+				for (String error : errors) {
+					AkpSearchResultRow result = new AkpSearchResultRow(
+							plant.getXid(), null, null);
+					result.addColumn(new AkpSearchResultColumn(taxon
+							.getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(plant
+							.getMainName().getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(error,
+							"comment", true));
+					retval.addRow(result);
 				}
 			}
-			offset += batchSize;
 		}
 		return retval;
 	}
@@ -1118,8 +1115,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getAuthorWithoutTags() {
-		int offset = 0;
-		int batchSize = 1000;
 		AkpSearchResult retval = new AkpSearchResult();
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.author");
@@ -1128,33 +1123,94 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		for (AkpAuthor author : authors) {
 			authorXids.add(author.getXid());
 		}
-		while (true) {
-			@SuppressWarnings("unchecked")
-			List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
-					.setFirstResult(offset).setMaxResults(batchSize).list();
-			if (taxons.isEmpty())
-				break;
-			for (AkpTaxon taxon : taxons) {
-				String taxonName = taxon.getName();
-				taxonName = taxonName.replaceAll("<b>.*?</b>", "");
-				taxonName = taxonName.replaceAll("<i>.*?</i>", "");
-				taxonName = taxonName.replaceAll("\\[.*?\\]", "");
-				String[] elements = taxonName.split("[\\s]");
-				for (String elem : elements) {
-					if (authorXids.contains(elem)) {
-						AkpSearchResultRow result = new AkpSearchResultRow(
-								taxon.getPlant().getXid(), null, null);
-						result.addColumn(new AkpSearchResultColumn(taxon
-								.getHtmlName(), "taxon"));
-						result.addColumn(new AkpSearchResultColumn(elem,
-								"comment"));
-						retval.addRow(result);
-					}
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			String taxonName = taxon.getName();
+			taxonName = taxonName.replaceAll("<b>.*?</b>", "");
+			taxonName = taxonName.replaceAll("<i>.*?</i>", "");
+			taxonName = taxonName.replaceAll("\\[.*?\\]", "");
+			String[] elements = taxonName.split("[\\s]");
+			for (String elem : elements) {
+				if (authorXids.contains(elem)) {
+					AkpSearchResultRow result = new AkpSearchResultRow(taxon
+							.getPlant().getXid(), null, null);
+					result.addColumn(new AkpSearchResultColumn(taxon
+							.getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(elem, "comment"));
+					retval.addRow(result);
 				}
 			}
-			offset += batchSize;
 		}
 		return retval;
+	}
+
+	@Override
+	@Transactional
+	public void mergeLang(String langId1, String langId2) {
+		AkpLang lang1 = getLang(langId1);
+		AkpLang lang2 = getLang(langId2);
+		Session session = getSession();
+		ScrollableResults plants = session
+				.createCriteria(AkpLexicalGroup.class)
+				.addOrder(Order.asc("xid")).add(Restrictions.eq("lang", lang2))
+				.setFetchSize(100).setReadOnly(false)
+				.setLockMode(LockMode.NONE).scroll();
+		while (plants.next()) {
+			AkpLexicalGroup lex2 = (AkpLexicalGroup) plants.get(0);
+			AkpPlant plant = lex2.getPlant();
+			AkpLexicalGroup lex1 = null;
+			for (AkpLexicalGroup lex : plant.getLexicalGroups()) {
+				if (lex.getLang().equals(lang1)) {
+					lex1 = lex;
+					break;
+				}
+			}
+			if (lex1 == null) {
+				System.out.println("Updating " + plant + " [" + lex2 + "]");
+				// No target lang, simply transform lex2 to use lex1.lang
+				lex2.setLang(lang1);
+				session.update(lex2);
+			} else {
+				System.out.println("Merging " + plant);
+				// Merge lex2 into lex1
+				// Get existing lex2 names to merge names
+				Map<String, AkpVernacularName> names1 = new HashMap<String, AkpVernacularName>();
+				for (AkpVernacularName name1 : lex1.getVernacularNames()) {
+					if (name1.getName().equals("#"))
+						throw new RuntimeException(
+								"Can't merge non flat languages!");
+					names1.put(name1.getName(), name1);
+				}
+				for (AkpVernacularName name2 : lex2.getVernacularNames()) {
+					AkpVernacularName name1 = names1.get(name2.getName());
+					if (name1 != null) {
+						// Name exists, merge bib ref
+						System.out.println("Merging name: " + name2.getName());
+						Set<AkpBib> allBibs = new HashSet<AkpBib>();
+						allBibs.addAll(name1.getBibs());
+						allBibs.addAll(name2.getBibs());
+						name1.setBibs(new ArrayList<AkpBib>(allBibs));
+						session.update(name1);
+						if (name2.getComments() != null
+								&& !name2.getComments().equals(
+										name1.getComments()))
+							System.out
+									.println("Warning: comment will be removed!"
+											+ name2.getComments());
+						session.delete(name2);
+					} else {
+						// Name does not exists, move it
+						System.out.println("Moving name: " + name2.getName());
+						name2.setLexicalGroup(lex1);
+						session.save(name2);
+					}
+				}
+				session.delete(lex2);
+			}
+		}
 	}
 
 	private Session getSession() {
