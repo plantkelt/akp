@@ -66,12 +66,13 @@ public class AkpSearchResultsPanel extends Panel {
 				final Integer plantXid = row.getPlantXid();
 				final String langXid = row.getLangXid();
 				final Integer correct = row.getCorrect();
+				boolean hasPlantLink = AkpWicketSession.get().isLoggedIn() && plantXid != null; 
 				for (AkpSearchResultColumn col : row.getColumns()) {
 					WebMarkupContainer cell = new WebMarkupContainer(
 							colRepeat.newChildId());
 					colRepeat.add(cell);
 					WebMarkupContainer cellLink;
-					if (AkpWicketSession.get().isLoggedIn()) {
+					if (hasPlantLink) {
 						cellLink = new Link<AkpPlantPage>("cellLink") {
 							private static final long serialVersionUID = 1L;
 
@@ -114,7 +115,7 @@ public class AkpSearchResultsPanel extends Panel {
 					cell.add(cellValue2);
 					cellValue.setEscapeModelStrings(false);
 					cellValue2.setEscapeModelStrings(false);
-					cellValue2.setVisible(!AkpWicketSession.get().isLoggedIn());
+					cellValue2.setVisible(!hasPlantLink);
 				}
 				item.add(colRepeat);
 				item.add(new AttributeModifier("class",
