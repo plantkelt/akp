@@ -31,6 +31,7 @@ import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.utils.MapUtils;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -1175,6 +1176,41 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
+			retval.addRow(result);
+		}
+		return retval;
+	}
+
+	@Override
+	@Transactional
+	public AkpSearchResult getAuthorRefCount() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.author");
+		retval.addHeaderKey("result.column.count");
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		Map<String, Integer> usageCount = new HashMap<String, Integer>();
+		for (AkpAuthor author : getAuthors())
+			usageCount.put(author.getXid(), 0);
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			String taxonName = taxon.getName();
+			Matcher m = Pattern.compile("<a>(.*?)</a>").matcher(taxonName);
+			while (m.find()) {
+				String authXid = m.group(1);
+				Integer count = usageCount.get(authXid);
+				if (count != null)
+					usageCount.put(authXid, count + 1);
+			}
+		}
+		Map<String, Integer> sortedUsageCount = MapUtils.sortByValue(
+				usageCount, true);
+		for (Map.Entry<String, Integer> kv : sortedUsageCount.entrySet()) {
+			AkpSearchResultRow result = new AkpSearchResultRow(null, null, null);
+			result.addColumn(new AkpSearchResultColumn(kv.getKey(), "author"));
+			result.addColumn(new AkpSearchResultColumn("" + kv.getValue(),
+					"comment"));
 			retval.addRow(result);
 		}
 		return retval;

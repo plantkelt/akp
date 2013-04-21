@@ -176,5 +176,7 @@ public interface AkpTaxonService {
 	
 	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();
 
+	public abstract AkpSearchResult getAuthorRefCount();
+
 	public abstract void mergeLang(String lang1, String lang2);
 }
