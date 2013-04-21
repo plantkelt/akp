@@ -173,6 +173,8 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getTaxonSyntaxErrors();
 	
 	public abstract AkpSearchResult getAuthorWithoutTags();
+	
+	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();
 
 	public abstract void mergeLang(String lang1, String lang2);
 }

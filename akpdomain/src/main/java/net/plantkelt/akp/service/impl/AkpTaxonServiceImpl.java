@@ -1149,6 +1149,39 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	@Transactional
+	public AkpSearchResult getImpreciseVernaWithoutPlantRef() {
+		@SuppressWarnings("unchecked")
+		List<AkpVernacularName> wrongNames = getSession()
+				.createCriteria(AkpVernacularName.class)
+				.add(Restrictions.or(Restrictions.eq("parentId", 0),
+						Restrictions.isNull("parentId")))
+				.add(Restrictions.isEmpty("plantRefs"))
+				.createAlias("lexicalGroup", "lexGrp")
+				.add(Restrictions.ne("lexGrp.correct", 0)).list();
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.vernaname");
+		retval.addHeaderKey("result.column.lang");
+		retval.addHeaderKey("result.column.plantname");
+		for (AkpVernacularName vernacularName : wrongNames) {
+			AkpLexicalGroup lexicalGroup = vernacularName.getLexicalGroup();
+			AkpPlant plant = lexicalGroup.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
+			result.addColumn(new AkpSearchResultColumn(
+					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != 0 ? " "
+							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			retval.addRow(result);
+		}
+		return retval;
+	}
+
+	@Override
+	@Transactional
 	public void mergeLang(String langId1, String langId2) {
 		AkpLang lang1 = getLang(langId1);
 		AkpLang lang2 = getLang(langId2);
