@@ -40,6 +40,22 @@ public class AkpAuthor implements Comparable<AkpAuthor> {
 	}
 
 	@Override
+	public boolean equals(Object another) {
+		if (another == null)
+			return false;
+		if (another instanceof AkpAuthor) {
+			AkpAuthor anotherAuthor = (AkpAuthor) another;
+			return anotherAuthor.getXid().equals(getXid());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getXid().hashCode();
+	}
+	
+	@Override
 	public int compareTo(AkpAuthor o) {
 		return getXid().compareTo(o.getXid());
 	}
