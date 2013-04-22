@@ -1,6 +1,6 @@
 <Context path="akpwebapp" docBase="/opt/akp/akpwebapp.war">
     <Parameter name="net.plantkelt.akp.configuration" value="deployment" override="false" />
-    <Parameter name="net.plantkelt.akp.logfile" value="/opt/akp/log4j.properties" override="false" />
+    <Parameter name="net.plantkelt.akp.logfile" value="/opt/akp/log4j-prod.properties" override="false" />
     <Parameter name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/akp" override="false" />
     <Parameter name="javax.persistence.jdbc.user" value="akp" override="false" />
     <Parameter name="javax.persistence.jdbc.password" value="" override="false" />
