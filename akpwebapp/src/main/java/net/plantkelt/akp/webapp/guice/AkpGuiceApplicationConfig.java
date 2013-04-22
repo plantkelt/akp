@@ -1,11 +1,17 @@
 package net.plantkelt.akp.webapp.guice;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import net.plantkelt.akp.service.guice.AkpServiceGuiceModule;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -34,6 +40,24 @@ public class AkpGuiceApplicationConfig extends GuiceServletContextListener {
 				.getInitParameter("net.plantkelt.akp.configuration");
 		System.setProperty("wicket.configuration", releaseConfiguration);
 		boolean dev = "development".equals(releaseConfiguration);
+
+		// Logging configuration
+		Logger logger = null;
+		String log4jFile = servletContext
+				.getInitParameter("net.plantkelt.akp.logfile");
+		if (log4jFile != null) {
+			Properties properties = new Properties();
+			try {
+				properties.load(new FileInputStream(log4jFile));
+				PropertyConfigurator.configure(log4jFile);
+				logger = LogManager.getLogger(this.getClass().getName());
+				logger.info("Configured logging using: " + log4jFile);
+			} catch (IOException e) {
+				System.out
+						.println("Cannot configure log4j using provided file: "
+								+ log4jFile + ":" + e.getLocalizedMessage());
+			}
+		}
 
 		// JPA configuration
 		Properties jpaProperties = new Properties();
