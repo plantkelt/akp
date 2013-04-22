@@ -514,7 +514,7 @@ div.lexicalGroup div.langSection {
 
 div.lexicalGroup div.vernaSection {
 	margin-left: 80px;
-	overflow: hidden;
+	overflow: visible;
 	background-color: #eeeeee;
 	border-left: 1px solid gray;
 	padding: 4px;
