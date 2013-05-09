@@ -5,8 +5,12 @@
 	<wicket:extend>
 		<h1>Warning! This page is for internal use only.</h1>
 		<div wicket:id="feedback"></div>
-		<a wicket:id="mergeLang">Merge <b>alzasi</b> with <b>deu</b>.
-		</a>
+		<form wicket:id="form">
+			<h2>Merge lang</h2>
+			Merge <select wicket:id="lang2"></select> into <select
+				wicket:id="lang1"></select>...
+			<button wicket:id="mergeLang">Merge</button>
+		</form>
 	</wicket:extend>
 </body>
 </html>
