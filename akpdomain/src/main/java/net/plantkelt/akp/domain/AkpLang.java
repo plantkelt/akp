@@ -5,7 +5,9 @@ public class AkpLang implements Comparable<AkpLang> {
 	private String xid;
 	private int order;
 	private int level;
+	private String code;
 	private String name;
+	private String desc;
 	private AkpLangGroup langGroup;
 
 	public String getXid() {
@@ -32,12 +34,32 @@ public class AkpLang implements Comparable<AkpLang> {
 		this.level = level;
 	}
 
+	public String getCode() {
+		if (code == null)
+			code = xid;
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDesc() {
+		if (desc == null)
+			desc = "";
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public AkpLangGroup getLangGroup() {
@@ -55,6 +77,6 @@ public class AkpLang implements Comparable<AkpLang> {
 
 	@Override
 	public int compareTo(AkpLang o) {
-		return getXid().compareTo(o.getXid());
+		return getCode().compareToIgnoreCase(o.getCode());
 	}
 }

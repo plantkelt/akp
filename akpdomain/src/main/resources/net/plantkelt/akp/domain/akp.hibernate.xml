@@ -94,10 +94,12 @@
     <class name="AkpLang" table="langue">
         <id name="xid" type="string" />
         <property name="order" type="integer" column="ordre" />
+        <property name="code" type="string" column="code" />
         <property name="name" type="string" column="nom" />
         <property name="level" type="integer" column="niveau" />
         <many-to-one name="langGroup" class="AkpLangGroup" column="grplng" not-null="true" lazy="false"
             fetch="join" />
+        <property name="desc" type="string" column="description" />
     </class>
 
     <class name="AkpLexicalGroup" table="grplex2">
