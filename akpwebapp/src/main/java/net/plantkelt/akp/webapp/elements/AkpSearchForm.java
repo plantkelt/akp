@@ -11,6 +11,7 @@ import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AdminMarkupContainer;
 import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
+import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -142,8 +143,19 @@ public class AkpSearchForm extends Panel {
 			WebMarkupContainer item = new WebMarkupContainer(
 					langListRepeat.newChildId());
 			langListRepeat.add(item);
-			Label langName = new Label("langName", lang.getXid());
-			item.add(langName);
+
+			WebMarkupContainer langLink = new WebMarkupContainer("langNameLink");
+			item.add(langLink);
+			Label langCodeLabel = new Label("langCode", lang.getCode());
+			langLink.add(langCodeLabel);
+			Label langTitleLabel = new Label("langTitle",
+					new BrEnFrStringModel(lang.getName()));
+			langLink.add(langTitleLabel);
+			Label langDescLabel = new Label("langDesc", new BrEnFrStringModel(
+					lang.getDesc()));
+			langDescLabel.setEscapeModelStrings(false);
+			langLink.add(langDescLabel);
+
 			final String langXid = lang.getXid();
 			IModel<Boolean> langSelectModel = new IModel<Boolean>() {
 				private static final long serialVersionUID = 1L;

@@ -15,6 +15,7 @@ import net.plantkelt.akp.webapp.elements.AkpPlantHeaderPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantRefsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantSynonymsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantTagsPanel;
+import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.authorization.UnauthorizedInstantiationException;
@@ -115,7 +116,7 @@ public class AkpPlantPage extends AkpPageTemplate {
 				AkpLangGroup langGroup = lexicalGroup.getLang().getLangGroup();
 				// If needed lang group header
 				Label langGroupLabel = new Label("langGroupName",
-						langGroup.getName());
+						new BrEnFrStringModel(langGroup.getName()));
 				item.add(langGroupLabel);
 				langGroupLabel.setVisible(lastLangGroupXid != langGroup
 						.getXid());

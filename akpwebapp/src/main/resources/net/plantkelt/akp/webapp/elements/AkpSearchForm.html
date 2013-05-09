@@ -37,7 +37,12 @@
 			<tr wicket:id="langSelectRow">
 				<td><wicket:message key="search.vernacular.lang.label" /></td>
 				<td><span wicket:id="langList"><input type="checkbox"
-						wicket:id="langCheckbox"></input><span wicket:id="langName"></span></span></td>
+						wicket:id="langCheckbox"></input> <a class="popup"
+						wicket:id="langNameLink"><span wicket:id="langCode"></span>
+							<div class="popupContent">
+								<h3 wicket:id="langTitle"></h3>
+								<p class="comments" wicket:id="langDesc"></p>
+							</div></a></span></td>
 			</tr>
 			<tr wicket:id="vernacularNameBibRow">
 				<td><label for="vernacularNameBib"> <wicket:message
