@@ -751,6 +751,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return retval;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<AkpAuthor> getAuthors() {
