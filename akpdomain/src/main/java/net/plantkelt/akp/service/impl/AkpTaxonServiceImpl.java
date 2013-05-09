@@ -613,8 +613,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<AkpLang> getLangList() {
-		List<AkpLang> langs = getSession().createCriteria(AkpLang.class).list();
+	public List<AkpLang> getLangList(int level) {
+		// Only return lang for the correct profile.
+		List<AkpLang> langs = getSession().createCriteria(AkpLang.class)
+				.add(Restrictions.le("level", level)).list();
 		Collections.sort(langs);
 		return langs;
 	}

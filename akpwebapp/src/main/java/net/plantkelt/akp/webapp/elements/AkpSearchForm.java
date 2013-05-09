@@ -12,6 +12,7 @@ import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AdminMarkupContainer;
 import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
 import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -138,7 +139,10 @@ public class AkpSearchForm extends Panel {
 
 		// Vernacular languages
 		RepeatingView langListRepeat = new RepeatingView("langList");
-		List<AkpLang> langs = akpTaxonService.getLangList();
+		int profile = 0;
+		if (AkpWicketSession.get().isLoggedIn())
+			profile = AkpWicketSession.get().getAkpUser().getProfile();
+		List<AkpLang> langs = akpTaxonService.getLangList(profile);
 		for (AkpLang lang : langs) {
 			WebMarkupContainer item = new WebMarkupContainer(
 					langListRepeat.newChildId());

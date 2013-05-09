@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
@@ -62,7 +63,7 @@ public class AkpAdminDbPage extends AkpPageTemplate {
 
 		public LangDropDown(String id, final IModel<String> langXidModel) {
 			super(id, langXidModel, convertLangList(akpTaxonService
-					.getLangList()), new IChoiceRenderer<String>() {
+					.getLangList(AkpUser.PROFILE_ADMIN)), new IChoiceRenderer<String>() {
 				private static final long serialVersionUID = 1L;
 
 				@Override

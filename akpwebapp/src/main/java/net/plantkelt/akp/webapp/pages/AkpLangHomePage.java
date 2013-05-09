@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.apache.wicket.AttributeModifier;
@@ -42,7 +43,7 @@ public class AkpLangHomePage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpLang> load() {
-				return akpTaxonService.getLangList();
+				return akpTaxonService.getLangList(AkpUser.PROFILE_ADMIN);
 			}
 		};
 		ListView<AkpLang> langList = new ListView<AkpLang>("langList",

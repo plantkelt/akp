@@ -115,7 +115,7 @@ public interface AkpTaxonService {
 
 	public abstract boolean createNewLang(String xid);
 
-	public abstract List<AkpLang> getLangList();
+	public abstract List<AkpLang> getLangList(int level);
 
 	public abstract AkpLang getLang(String xid);
 
@@ -147,7 +147,7 @@ public interface AkpTaxonService {
 	public abstract Map<String, AkpAuthor> getAuthors(Set<String> xids);
 
 	public abstract List<AkpAuthor> getAuthors();
-	
+
 	public abstract List<AkpAuthor> searchAuthor(int limit, String xid,
 			String name, String dates, String source);
 
@@ -169,11 +169,11 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getDuplicatedVernacularNames();
 
 	public abstract AkpSearchResult getDuplicatedTaxonNames();
-	
+
 	public abstract AkpSearchResult getTaxonSyntaxErrors();
-	
+
 	public abstract AkpSearchResult getAuthorWithoutTags();
-	
+
 	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();
 
 	public abstract AkpSearchResult getAuthorRefCount();

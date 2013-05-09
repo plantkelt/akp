@@ -1,11 +1,14 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
@@ -101,7 +104,19 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpLexicalGroup> load() {
-				return plantModel.getObject().getSortedLexicalGroups();
+				List<AkpLexicalGroup> retval = new ArrayList<AkpLexicalGroup>(
+						plantModel.getObject().getSortedLexicalGroups());
+				// Only return lang with correct profile
+				int profile = AkpUser.PROFILE_USER;
+				if (AkpWicketSession.get().isLoggedIn())
+					profile = AkpWicketSession.get().getAkpUser().getProfile();
+				for (Iterator<AkpLexicalGroup> i = retval.iterator(); i
+						.hasNext();) {
+					AkpLexicalGroup lexicalGroup = i.next();
+					if (lexicalGroup.getLang().getLevel() > profile)
+						i.remove();
+				}
+				return retval;
 			}
 		};
 		ListView<AkpLexicalGroup> lexicalGroupsListView = new ListView<AkpLexicalGroup>(

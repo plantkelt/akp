@@ -8,6 +8,7 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.pages.AkpClassPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -48,7 +49,8 @@ public class AkpPlantControlPanel extends Panel {
 		form.add(new FeedbackPanel("feedbackPanel"));
 
 		// Lang select
-		List<AkpLang> langs = akpTaxonService.getLangList();
+		List<AkpLang> langs = akpTaxonService
+				.getLangList(AkpUser.PROFILE_ADMIN);
 		List<String> langXids = new ArrayList<String>();
 		for (AkpLang lang : langs)
 			langXids.add(lang.getXid());
