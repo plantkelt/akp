@@ -56,6 +56,7 @@ public class AkpLangHomePage extends AkpPageTemplate {
 						lang.getXid());
 				item.add(langLink);
 				langLink.add(new Label("xidLabel", lang.getXid()));
+				item.add(new Label("codeLabel", lang.getCode()));
 				item.add(new Label("nameLabel", lang.getName()));
 				item.add(new Label("grplngLabel", lang.getLangGroup().getCode()));
 				item.add(new Label("levelLabel", "" + lang.getLevel()));

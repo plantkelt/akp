@@ -59,6 +59,30 @@ public class AkpLangPage extends AkpPageTemplate {
 		Label langIdLabel = new Label("langId", langId);
 		add(langIdLabel);
 
+		// Code
+		final InPlaceEditor codeEditor = new InPlaceEditor("codeEditor",
+				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject() {
+						return langModel.getObject().getCode();
+					}
+
+					@Override
+					public void saveObject(AjaxRequestTarget target,
+							String value) {
+						AkpLang lang = langModel.getObject();
+						lang.setCode(value == null ? lang.getXid() : value);
+						akpTaxonService.updateLang(lang);
+						target.add(AkpLangPage.this);
+					}
+				});
+		add(codeEditor);
+		Label codeLabel = new Label("codeLabel", new PropertyModel<String>(
+				langModel, "code"));
+		codeEditor.add(codeLabel);
+
 		// Name
 		final InPlaceEditor nameEditor = new InPlaceEditor("nameEditor",
 				new EditorModel<String>() {
@@ -161,6 +185,31 @@ public class AkpLangPage extends AkpPageTemplate {
 		Label levelLabel = new Label("levelLabel", new StringResourceModel(
 				"profile.${level}", this, langModel));
 		levelSelector.add(levelLabel);
+
+		// Description
+		final InPlaceEditor descEditor = new InPlaceEditor("descEditor",
+				new EditorModel<String>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject() {
+						return langModel.getObject().getDesc();
+					}
+
+					@Override
+					public void saveObject(AjaxRequestTarget target,
+							String value) {
+						AkpLang lang = langModel.getObject();
+						lang.setDesc(value == null ? "" : value);
+						akpTaxonService.updateLang(lang);
+						target.add(AkpLangPage.this);
+					}
+				}, 6, 80);
+		add(descEditor);
+		Label descLabel = new Label("descLabel", new PropertyModel<String>(
+				langModel, "desc"));
+		descLabel.setEscapeModelStrings(false);
+		descEditor.add(descLabel);
 
 		// Delete lang
 		Form<Void> deleteForm = new Form<Void>("deleteForm");

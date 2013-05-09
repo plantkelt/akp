@@ -9,6 +9,14 @@
 
 		<table style="width: 100%">
 			<tr>
+				<td><wicket:message key="lang.code" /></td>
+				<td style="width: 40%">
+					<div wicket:id="codeEditor">
+						<span wicket:id="codeLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<td><wicket:message key="lang.name" /></td>
 				<td style="width: 80%">
 					<div wicket:id="nameEditor">
@@ -29,6 +37,14 @@
 				<td>
 					<div wicket:id="levelSelector">
 						<span wicket:id="levelLabel"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="lang.desc" /></td>
+				<td style="width: 80%">
+					<div wicket:id="descEditor">
+						<span class="comments" wicket:id="descLabel"></span>
 					</div>
 				</td>
 			</tr>
