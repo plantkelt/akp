@@ -5,12 +5,15 @@ import net.plantkelt.akp.webapp.behaviors.InputMacros;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 public class InPlaceEditor extends Border {
 
@@ -19,10 +22,16 @@ public class InPlaceEditor extends Border {
 	private WebMarkupContainer viewPanel;
 	private Form<Void> editForm;
 	private TextField<String> textField;
+	private TextArea<String> textArea;
 	private AjaxLink<Void> editLink;
 	private EditorModel<String> editorModel;
 
 	public InPlaceEditor(String id, EditorModel<String> model) {
+		this(id, model, 1, 0);
+	}
+
+	public InPlaceEditor(String id, EditorModel<String> model, final int nRows,
+			final int nCols) {
 		super(id);
 		editorModel = model;
 		viewPanel = new WebMarkupContainer("viewPanel");
@@ -57,13 +66,22 @@ public class InPlaceEditor extends Border {
 		editForm.setOutputMarkupId(true);
 		textField = new TextField<String>("textInput", stringModel);
 		textField.add(new InputMacros());
+		textField.setVisible(nRows == 1);
+		textArea = new TextArea<String>("textArea", stringModel);
+		textArea.setVisible(nRows > 1);
+		textArea.add(new AttributeAppender("rows",
+				new Model<String>("" + nRows)));
+		textArea.add(new AttributeAppender("cols",
+				new Model<String>("" + nCols)));
 		editForm.add(textField);
+		editForm.add(textArea);
 		editForm.add(new AjaxSubmitLink("saveButton") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				String value = textField.getModelObject();
+				String value = nRows > 1 ? textArea.getModelObject()
+						: textField.getModelObject();
 				editorModel.saveObject(target, value);
 				viewPanel.setVisible(true);
 				editForm.setVisible(false);
