@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -117,6 +118,19 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 	}
 
 	public AkpCheckDbPage() {
+
+		add(new FeedbackPanel("feedback"));
+
+		Link<Void> updateStaticListLink = new Link<Void>("updateStaticListLink") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				akpTaxonService.updateStaticIndexes();
+				info(getString("check.db.updatelist") + " : OK");
+			}
+		};
+		add(updateStaticListLink);
 
 		RepeatingView checkLinkRepeat = new RepeatingView("checkLinkRepeat");
 		add(checkLinkRepeat);
