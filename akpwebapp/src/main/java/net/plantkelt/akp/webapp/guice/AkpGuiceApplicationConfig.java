@@ -71,9 +71,13 @@ public class AkpGuiceApplicationConfig extends GuiceServletContextListener {
 		JpaPersistModule jpaPersistModule = new JpaPersistModule("akpJpaUnit");
 		jpaPersistModule.properties(jpaProperties);
 
+		AkpServiceGuiceModule akpServiceGuiceModule = new AkpServiceGuiceModule(
+				null, dev);
+		akpServiceGuiceModule.setStaticIndexLocation(servletContext
+				.getInitParameter("net.plantkelt.akp.static-index-location"));
+
 		return Guice.createInjector(new AkpGuiceHibernateModule(),
-				new AkpWebappGuiceServletModule(), new AkpServiceGuiceModule(
-						null, dev), new ProvideHibernateSessionModule(),
-				jpaPersistModule);
+				new AkpWebappGuiceServletModule(), akpServiceGuiceModule,
+				new ProvideHibernateSessionModule(), jpaPersistModule);
 	}
 }
