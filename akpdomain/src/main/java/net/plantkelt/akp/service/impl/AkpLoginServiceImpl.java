@@ -197,6 +197,11 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		}
 	}
 
+	@Override
+	public String getGoogleAnalyticsTrackerAccount() {
+		return "UA-6000713-1";
+	}
+
 	private Session getSession() {
 		return sessionProvider.get();
 	}

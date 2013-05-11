@@ -29,4 +29,6 @@ public interface AkpLoginService {
 
 	public abstract void subscriptionRequested(AkpSubscriptionRequest request);
 
+	public abstract String getGoogleAnalyticsTrackerAccount();
+
 }
