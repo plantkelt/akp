@@ -18,6 +18,7 @@ public class AkpServiceGuiceModule extends AbstractModule {
 	@SuppressWarnings("unused")
 	private Properties properties;
 	private boolean dev;
+	private String staticIndexLocation = "";
 
 	public AkpServiceGuiceModule(Properties properties, boolean dev) {
 		this.properties = properties;
@@ -32,7 +33,12 @@ public class AkpServiceGuiceModule extends AbstractModule {
 				Scopes.SINGLETON);
 		bind(AkpLogService.class).to(AkpLogServiceImpl.class).in(
 				Scopes.SINGLETON);
-		bind(AkpTaxonService.class).to(AkpTaxonServiceImpl.class).in(
-				Scopes.SINGLETON);
+		AkpTaxonServiceImpl akpTaxonServiceImpl = new AkpTaxonServiceImpl();
+		akpTaxonServiceImpl.setStaticIndexLocation(staticIndexLocation);
+		bind(AkpTaxonService.class).toInstance(akpTaxonServiceImpl);
+	}
+
+	public void setStaticIndexLocation(String staticIndexLocation) {
+		this.staticIndexLocation = staticIndexLocation;
 	}
 }
