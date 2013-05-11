@@ -44,7 +44,14 @@ public class AkpHomePage extends AkpPageTemplate {
 		};
 
 		// Search form
-		AkpSearchForm form = new AkpSearchForm("searchForm", searchDataModel);
+		AkpSearchForm form = new AkpSearchForm("searchForm", searchDataModel) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isVisible() {
+				return searchDataModel.getObject().getSearchType() == null;
+			}
+		};
 		add(form);
 
 		// Results table
