@@ -1,5 +1,7 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpSearchData;
@@ -11,6 +13,7 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -27,6 +30,9 @@ public class AkpHomePage extends AkpPageTemplate {
 
 	public AkpHomePage() {
 
+		// Feedback
+		add(new FeedbackPanel("feedback"));
+
 		// Load data
 		AkpSearchData akpSearchData = new AkpSearchData();
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
@@ -39,7 +45,23 @@ public class AkpHomePage extends AkpPageTemplate {
 
 			@Override
 			protected AkpSearchResult load() {
-				return akpTaxonService.search(searchDataModel.getObject());
+				AkpSearchData akpSearchData = searchDataModel.getObject();
+				AkpSearchResult akpSearchResult = akpTaxonService
+						.search(akpSearchData);
+				Map<String, String> renameMap = akpSearchResult
+						.getAuthorRenameMap();
+				if (renameMap != null) {
+					StringBuffer sb = new StringBuffer(
+							getString("search.warn.author.rename"));
+					sb.append(" ");
+					for (Map.Entry<String, String> kv : renameMap.entrySet()) {
+						sb.append(kv.getKey() + " → " + kv.getValue() + ", ");
+					}
+					if (sb.length() > 2)
+						sb.setLength(sb.length() - 2);
+					warn(sb.toString());
+				}
+				return akpSearchResult;
 			}
 		};
 
@@ -49,7 +71,8 @@ public class AkpHomePage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return searchDataModel.getObject().getSearchType() == null;
+				return searchDataModel.getObject().getSearchType() == null
+						|| searchResultModel.getObject().isEmpty();
 			}
 		};
 		add(form);
@@ -61,7 +84,8 @@ public class AkpHomePage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return searchDataModel.getObject().getSearchType() != null;
+				return !(searchDataModel.getObject().getSearchType() == null || searchResultModel
+						.getObject().isEmpty());
 			}
 		};
 		add(resultsPanel);

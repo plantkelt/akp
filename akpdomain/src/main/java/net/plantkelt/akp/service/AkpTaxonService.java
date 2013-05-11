@@ -1,6 +1,5 @@
 package net.plantkelt.akp.service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -146,6 +145,9 @@ public interface AkpTaxonService {
 	public abstract AkpAuthor getAuthor(String xid);
 
 	public abstract Map<String, AkpAuthor> getAuthors(Set<String> xids);
+
+	public abstract Map<String, AkpAuthor> getAuthorFromSources(
+			Set<String> oldXids);
 
 	public abstract List<AkpAuthor> getAuthors();
 

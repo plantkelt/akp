@@ -2,6 +2,7 @@ package net.plantkelt.akp.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AkpSearchResult {
 
@@ -72,6 +73,7 @@ public class AkpSearchResult {
 
 	private List<String> headerKeys;
 	private List<AkpSearchResultRow> rows;
+	private Map<String, String> authorRenameMap;
 
 	public AkpSearchResult(int estimatedRows) {
 		rows = new ArrayList<AkpSearchResultRow>(estimatedRows);
@@ -86,6 +88,10 @@ public class AkpSearchResult {
 		return rows;
 	}
 
+	public boolean isEmpty() {
+		return rows.isEmpty();
+	}
+
 	public List<String> getHeaderKeys() {
 		return headerKeys;
 	}
@@ -96,6 +102,14 @@ public class AkpSearchResult {
 
 	public void addRow(AkpSearchResultRow row) {
 		rows.add(row);
+	}
+
+	public Map<String, String> getAuthorRenameMap() {
+		return authorRenameMap;
+	}
+
+	public void setAuthorRenameMap(Map<String, String> authorRenameMap) {
+		this.authorRenameMap = authorRenameMap;
 	}
 
 }

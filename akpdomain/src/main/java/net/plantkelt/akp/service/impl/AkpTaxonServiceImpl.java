@@ -44,6 +44,8 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -763,6 +765,33 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
+	public Map<String, AkpAuthor> getAuthorFromSources(Set<String> oldXids) {
+		if (oldXids.size() == 0)
+			return Collections.emptyMap();
+		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
+		List<Criterion> likes = new ArrayList<Criterion>(oldXids.size());
+		for (String oldXid : oldXids) {
+			likes.add(Restrictions.like("source", oldXid, MatchMode.ANYWHERE));
+		}
+		criteria.add(Restrictions.or(likes.toArray(new Criterion[likes.size()])));
+		List<AkpAuthor> authors = criteria.list();
+		Map<String, AkpAuthor> retval = new HashMap<String, AkpAuthor>(
+				authors.size());
+		for (AkpAuthor author : authors) {
+			String[] oldXids2 = author.getSource().split(";");
+			for (String oldXid2 : oldXids2) {
+				oldXid2 = oldXid2.trim();
+				if (oldXids.contains(oldXid2)) {
+					retval.put(oldXid2, author);
+				}
+			}
+		}
+		return retval;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
 	public List<AkpAuthor> getAuthors() {
 		return getSession().createCriteria(AkpAuthor.class).list();
 	}
@@ -816,14 +845,44 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public AkpSearchResult search(AkpSearchData searchData) {
+		Map<String, String> authorRenameMap = renameAuthors(searchData);
+		AkpSearchResult result;
 		switch (searchData.getSearchType()) {
 		case TAXON:
-			return searchTaxon(searchData);
+			result = searchTaxon(searchData);
+			break;
 		case VERNA:
-			return searchVerna(searchData);
+			result = searchVerna(searchData);
+			break;
 		default:
-			return new AkpSearchResult();
+			result = new AkpSearchResult();
+			break;
 		}
+		result.setAuthorRenameMap(authorRenameMap);
+		return result;
+	}
+
+	private Map<String, String> renameAuthors(AkpSearchData searchData) {
+		String taxonSearch = searchData.getTaxonName();
+		Map<String, String> retval = new HashMap<String, String>();
+		// Scan input taxon search for potential authors
+		String[] elements = taxonSearch.split("</?a>");
+		Set<String> authors = new HashSet<String>(elements.length / 2 + 1);
+		for (int i = 1; i < elements.length; i += 2) {
+			authors.add(elements[i]);
+		}
+		Map<String, AkpAuthor> renameSet = getAuthorFromSources(authors);
+		for (Map.Entry<String, AkpAuthor> kv : renameSet.entrySet()) {
+			if (taxonSearch.contains("<a>" + kv.getKey() + "</a>")) {
+				taxonSearch = taxonSearch.replace("<a>" + kv.getKey() + "</a>",
+						"<a>" + kv.getValue().getXid() + "</a>");
+				retval.put(kv.getKey(), kv.getValue().getXid());
+			}
+		}
+		searchData.setTaxonName(taxonSearch);
+		if (retval.isEmpty())
+			return null;
+		return retval;
 	}
 
 	private AkpSearchResult searchTaxon(AkpSearchData searchData) {
