@@ -1,8 +1,12 @@
 package net.plantkelt.akp.service.impl;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +36,7 @@ import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.utils.MapUtils;
+import net.plantkelt.akp.utils.Pair;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -57,6 +62,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private AkpLogService akpLogService;
 
 	private static Set<Integer> PUBLIC_PLANT_XIDS;
+
+	private String staticIndexLocation = "";
 
 	static {
 		PUBLIC_PLANT_XIDS = new HashSet<Integer>();
@@ -1283,6 +1290,98 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				session.delete(lex2);
 			}
 		}
+	}
+
+	@Override
+	@Transactional
+	public void updateStaticIndexes() {
+		try {
+			ScrollableResults taxons = getSession()
+					.createCriteria(AkpTaxon.class).setFetchSize(1000)
+					.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+			Set<Pair<String, String>> taxonSet = new HashSet<Pair<String, String>>();
+			while (taxons.next()) {
+				AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+				taxonSet.add(new Pair<String, String>(taxon.getSortKey(), taxon
+						.getHtmlName()));
+			}
+			outputStaticFileIndex("taxon", "PlantKelt Linnean Names Index",
+					taxonSet, staticIndexLocation);
+			ScrollableResults vernas = getSession()
+					.createCriteria(AkpVernacularName.class).setFetchSize(1000)
+					.setFetchMode("bibs", FetchMode.JOIN)
+					.setFetchMode("lexicalGroup", FetchMode.JOIN)
+					.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+			Set<Pair<String, String>> vernaSet = new HashSet<Pair<String, String>>();
+			while (vernas.next()) {
+				AkpVernacularName verna = (AkpVernacularName) vernas.get(0);
+				vernaSet.add(new Pair<String, String>(verna.getName(), verna
+						.getName()
+						+ " ("
+						+ verna.getLexicalGroup().getLang().getCode() + ")"));
+			}
+			outputStaticFileIndex("verna", "PlantKelt Vernacular Names Index",
+					vernaSet, staticIndexLocation);
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"Error generating static search engine indexes", e);
+		}
+	}
+
+	private void outputStaticFileIndex(String elementBase, String title,
+			Set<Pair<String, String>> elementsSet, String location)
+			throws IOException {
+		final int MAX_PAGE = 100;
+		List<Pair<String, String>> elementsList = new ArrayList<Pair<String, String>>(
+				elementsSet);
+		elementsSet.clear();
+		Collections.sort(elementsList, new Comparator<Pair<String, String>>() {
+			@Override
+			public int compare(Pair<String, String> o1, Pair<String, String> o2) {
+				return o1.getFirst().compareToIgnoreCase(o2.getSecond());
+			}
+		});
+		int n = elementsList.size() / MAX_PAGE + 1;
+		PrintStream indexOut = new PrintStream(new FileOutputStream(
+				String.format("%s/%s.html", location, elementBase)));
+		indexOut.println("<html><body>");
+		indexOut.println(String.format("<h1>%s</h1>", title));
+		indexOut.println("<ul>");
+		for (int page = 0; page < MAX_PAGE; page++) {
+			int ia = page * n;
+			int ib = (page + 1) * n;
+			if (ib > elementsList.size())
+				ib = elementsList.size();
+			indexOut.println(String
+					.format("<li><a href='%s_%02d.html'><b>Page %02d<b/></a> <small>[ %s ... %s ]</small></li>",
+							elementBase, page, page, elementsList.get(ia)
+									.getSecond(), elementsList.get(ib - 1)
+									.getSecond()));
+			PrintStream pageOut = new PrintStream(new FileOutputStream(
+					String.format("%s/%s_%02d.html", location, elementBase,
+							page)));
+			pageOut.println("<html><body>");
+			pageOut.println(String.format("<h1>Plantkelt - page %d</h1>", page));
+			pageOut.println("<ul>");
+			for (int i = ia; i < ib; i++) {
+				pageOut.println(String
+						.format("<li>%s (<a href='http://www.plantkelt.net/'>→ PlantKelt</a>)</li>",
+								elementsList.get(i).getSecond()));
+			}
+			pageOut.println("</ul>");
+			pageOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.net/'>www.plantkelt.net</a></p>");
+			pageOut.println("</body></html>");
+			pageOut.close();
+		}
+		indexOut.println("</ul>");
+		indexOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.net/'>www.plantkelt.net</a></p>");
+		indexOut.println("</body></html>");
+		indexOut.close();
+		elementsList.clear();
+	}
+
+	public void setStaticIndexLocation(String staticIndexLocation) {
+		this.staticIndexLocation = staticIndexLocation;
 	}
 
 	private Session getSession() {

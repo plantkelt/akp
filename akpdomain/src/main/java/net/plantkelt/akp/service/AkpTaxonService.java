@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -179,4 +180,6 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getAuthorRefCount();
 
 	public abstract void mergeLang(String lang1, String lang2);
+
+	public abstract void updateStaticIndexes();
 }
