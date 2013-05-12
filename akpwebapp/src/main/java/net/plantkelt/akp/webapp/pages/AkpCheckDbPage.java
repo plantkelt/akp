@@ -126,8 +126,9 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 			@Override
 			public void onClick() {
-				akpTaxonService.updateStaticIndexes();
-				info(getString("check.db.updatelist") + " : OK");
+//				akpTaxonService.updateStaticIndexes();
+//				info(getString("check.db.updatelist") + " : OK");
+				warn("Cette fonction a été désactivée temporairement.");
 			}
 		};
 		add(updateStaticListLink);
