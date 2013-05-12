@@ -1,5 +1,6 @@
 package net.plantkelt.akp.service.impl;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -37,6 +38,32 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 
 	@Inject
 	private AkpLogService akpLogService;
+
+	private String akpVersion = null;
+
+	@Override
+	public synchronized String getAkpVersion() {
+		if (akpVersion == null) {
+			// Load once, as the version won't change!
+			try {
+				InputStream inputStream = getClass().getClassLoader()
+						.getResourceAsStream("akp.properties");
+				if (inputStream != null) {
+					Properties props = new Properties();
+					props.load(inputStream);
+					akpVersion = props.getProperty("build.time");
+					if (akpVersion == null) {
+						akpVersion = "[build.time property not found]";
+					}
+				} else {
+					akpVersion = "[akp.properties file not found]";
+				}
+			} catch (Exception e) {
+				akpVersion = "[" + e.getMessage() + "]";
+			}
+		}
+		return akpVersion;
+	}
 
 	@Transactional
 	@Override
