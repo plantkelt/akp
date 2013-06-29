@@ -77,6 +77,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		return sessionProvider.get();
 	}
 
+	@Transactional
 	private void logNewEntry(int type, Integer plantId, Integer taxonId,
 			Integer lexicalGroupId, Integer vernacularNameId, String oldValue,
 			String newValue) {
@@ -93,6 +94,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		logEntry.setOldValue(oldValue);
 		logEntry.setNewValue(newValue);
 		getSession().save(logEntry);
+		getSession().flush();
 	}
 
 	@Override
@@ -120,77 +122,66 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	}
 
 	@Override
-	@Transactional
 	public void logPlantDeletion(AkpPlant plant) {
 		logNewEntry(LOG_TYPE_PLANT_DELETION, plant.getXid(), null, null, null,
 				plant.getAkpClass().getName(), null);
 	}
 
 	@Override
-	@Transactional
 	public void logPlantCommentsUpdate(AkpPlant plant, String oldValue) {
 		logNewEntry(LOG_TYPE_PLANT_COMMENT_UPDATE, plant.getXid(), null, null,
 				null, oldValue, plant.getComments());
 	}
 
 	@Override
-	@Transactional
 	public void logPlantRefCreation(AkpPlant plant, AkpPlant targetPlant) {
 		logNewEntry(LOG_TYPE_PLANT_REF_CREATION, plant.getXid(), null, null,
 				null, null, targetPlant.getMainName().getName());
 	}
 
 	@Override
-	@Transactional
 	public void logPlantRefDeletion(AkpPlant plant, AkpPlant targetPlant) {
 		logNewEntry(LOG_TYPE_PLANT_REF_DELETION, plant.getXid(), null, null,
 				null, targetPlant.getMainName().getName(), null);
 	}
 
 	@Override
-	@Transactional
 	public void logPlantTagCreation(AkpPlantTag tag) {
 		logNewEntry(LOG_TYPE_TAG_CREATION, tag.getPlant().getXid(), null, null,
 				null, null, tag.getType() + "/");
 	}
 
 	@Override
-	@Transactional
 	public void logPlantTagUpdate(AkpPlantTag tag) {
 		logNewEntry(LOG_TYPE_TAG_UPDATE, tag.getPlant().getXid(), null, null,
 				null, null, tag.getType() + "/" + tag.getValue());
 	}
 
 	@Override
-	@Transactional
 	public void logPlantTagDeletion(AkpPlantTag tag) {
 		logNewEntry(LOG_TYPE_TAG_DELETION, tag.getPlant().getXid(), null, null,
 				null, tag.getType() + "/" + tag.getValue(), null);
 	}
 
 	@Override
-	@Transactional
 	public void logTaxonCreation(AkpTaxon taxon) {
 		logNewEntry(LOG_TYPE_TAXON_CREATION, taxon.getPlant().getXid(),
 				taxon.getXid(), null, null, null, taxon.getName());
 	}
 
 	@Override
-	@Transactional
 	public void logTaxonUpdate(AkpTaxon taxon, String oldName) {
 		logNewEntry(LOG_TYPE_TAXON_UPDATE, taxon.getPlant().getXid(),
 				taxon.getXid(), null, null, oldName, taxon.getName());
 	}
 
 	@Override
-	@Transactional
 	public void logTaxonDeletion(AkpTaxon taxon) {
 		logNewEntry(LOG_TYPE_TAXON_DELETION, taxon.getPlant().getXid(),
 				taxon.getXid(), null, null, taxon.getName(), null);
 	}
 
 	@Override
-	@Transactional
 	public void logLexicalGroupCreation(AkpLexicalGroup lexicalGroup) {
 		logNewEntry(LOG_TYPE_LEXGRP_CREATION, lexicalGroup.getPlant().getXid(),
 				null, lexicalGroup.getXid(), null, null, lexicalGroup.getLang()
@@ -198,7 +189,6 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	}
 
 	@Override
-	@Transactional
 	public void logVernacularNameCreation(AkpVernacularName vernacularName) {
 		logNewEntry(LOG_TYPE_VERNA_CREATION, vernacularName.getLexicalGroup()
 				.getPlant().getXid(), null, vernacularName.getLexicalGroup()
@@ -207,7 +197,6 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	}
 
 	@Override
-	@Transactional
 	public void logVernacularNameDeletion(AkpVernacularName vernacularName) {
 		logNewEntry(LOG_TYPE_VERNA_DELETION, vernacularName.getLexicalGroup()
 				.getPlant().getXid(), null, vernacularName.getLexicalGroup()
@@ -269,6 +258,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 				.getMainName().getName(), null);
 	}
 
+	@Transactional
 	private void userLogNewEntry(int operation, String login, String value) {
 		AkpUserLogEntry userLogEntry = new AkpUserLogEntry();
 		userLogEntry.setOperation(operation);

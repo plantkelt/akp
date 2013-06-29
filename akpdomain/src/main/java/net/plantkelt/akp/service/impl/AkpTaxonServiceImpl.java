@@ -123,6 +123,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		child2.setOrder(order1);
 		getSession().update(child1);
 		getSession().update(child2);
+		getSession().flush();
 	}
 
 	@Transactional
@@ -143,12 +144,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		parentClass.getChildren().add(newClass);
 		getSession().save(newClass);
 		getSession().update(parentClass);
+		getSession().flush();
 	}
 
 	@Transactional
 	@Override
 	public void updateClass(AkpClass akpClass) {
 		getSession().update(akpClass);
+		getSession().flush();
 	}
 
 	@Override
@@ -176,6 +179,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			}
 		}
 		getSession().delete(akpClass);
+		getSession().flush();
 		return true;
 	}
 
@@ -265,6 +269,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		akpLogService.logPlantDeletion(plant);
 		getSession().delete(plant.getMainName());
 		getSession().delete(plant);
+		getSession().flush();
 		return true;
 	}
 
@@ -295,6 +300,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		AkpPlant plant = tag.getPlant();
 		plant.getTags().remove(tag);
 		getSession().delete(tag);
+		getSession().flush();
 	}
 
 	@Transactional
@@ -512,6 +518,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (vernacularName.getName().length() > 0)
 			akpLogService.logVernacularNameDeletion(vernacularName);
 		getSession().delete(vernacularName);
+		getSession().flush();
 		return true;
 	}
 
@@ -687,6 +694,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (lexicalGroup.getVernacularNames().size() > 0)
 			return false;
 		getSession().delete(lexicalGroup);
+		getSession().flush();
 		return true;
 	}
 
