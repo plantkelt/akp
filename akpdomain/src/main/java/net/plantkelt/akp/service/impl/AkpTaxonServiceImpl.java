@@ -1286,6 +1286,46 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	}
 
 	@Override
+	public AkpSearchResult getPlantsWithoutVerna() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.plantname");
+		retval.addHeaderKey("result.column.lang");
+		// 1. Get plants with no lexical groups
+		ScrollableResults plants = getSession().createCriteria(AkpPlant.class)
+				.add(Restrictions.isEmpty("lexicalGroups")).setFetchSize(100)
+				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+		while (plants.next()) {
+			AkpPlant plant = (AkpPlant) plants.get(0);
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					null, null);
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn("", null));
+			retval.addRow(result);
+		}
+		// 2. Get lexical groups with no vernacular names
+		ScrollableResults lexicalGroups = getSession()
+				.createCriteria(AkpLexicalGroup.class)
+				.add(Restrictions.isEmpty("vernacularNames")).setFetchSize(100)
+				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+		while (lexicalGroups.next()) {
+			AkpLexicalGroup lexicalGroup = (AkpLexicalGroup) lexicalGroups
+					.get(0);
+			AkpPlant plant = lexicalGroup.getPlant();
+			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
+					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
+			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
+					.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != 0 ? " "
+							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+			retval.addRow(result);
+		}
+		return retval;
+	}
+
+	@Override
 	@Transactional
 	public void mergeLang(String langId1, String langId2) {
 		AkpLang lang1 = getLang(langId1);
