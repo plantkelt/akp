@@ -183,6 +183,8 @@ public interface AkpTaxonService {
 	
 	public abstract AkpSearchResult getPlantsWithoutVerna();
 
+	public abstract AkpSearchResult getPlantsXRefs();
+
 	public abstract void mergeLang(String lang1, String lang2);
 
 	public abstract void updateStaticIndexes();

@@ -1292,8 +1292,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		retval.addHeaderKey("result.column.lang");
 		// 1. Get plants with no lexical groups
 		ScrollableResults plants = getSession().createCriteria(AkpPlant.class)
-				.add(Restrictions.isEmpty("lexicalGroups")).setFetchSize(100)
-				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+				.add(Restrictions.isEmpty("lexicalGroups"))
+				.addOrder(Order.asc("xid")).setFetchSize(100).setReadOnly(true)
+				.setLockMode(LockMode.NONE).scroll();
 		while (plants.next()) {
 			AkpPlant plant = (AkpPlant) plants.get(0);
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
@@ -1306,8 +1307,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		// 2. Get lexical groups with no vernacular names
 		ScrollableResults lexicalGroups = getSession()
 				.createCriteria(AkpLexicalGroup.class)
-				.add(Restrictions.isEmpty("vernacularNames")).setFetchSize(100)
-				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+				.add(Restrictions.isEmpty("vernacularNames"))
+				.addOrder(Order.asc("xid")).setFetchSize(100).setReadOnly(true)
+				.setLockMode(LockMode.NONE).scroll();
 		while (lexicalGroups.next()) {
 			AkpLexicalGroup lexicalGroup = (AkpLexicalGroup) lexicalGroups
 					.get(0);
@@ -1321,6 +1323,31 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					+ (lexicalGroup.getCorrect() != 0 ? " "
 							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
 			retval.addRow(result);
+		}
+		return retval;
+	}
+
+	@Override
+	public AkpSearchResult getPlantsXRefs() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.plantname");
+		retval.addHeaderKey("result.column.plantname");
+		// 1. Get plants with no lexical groups
+		ScrollableResults plants = getSession().createCriteria(AkpPlant.class)
+				.add(Restrictions.isNotEmpty("plantRefs")).setFetchSize(100)
+				.addOrder(Order.asc("xid")).setReadOnly(true)
+				.setLockMode(LockMode.NONE).scroll();
+		while (plants.next()) {
+			AkpPlant plant1 = (AkpPlant) plants.get(0);
+			for (AkpPlant plant2 : plant1.getPlantRefs()) {
+				AkpSearchResultRow result = new AkpSearchResultRow(
+						plant1.getXid(), null, null);
+				result.addColumn(new AkpSearchResultColumn(plant1.getMainName()
+						.getHtmlName(), "taxon"));
+				result.addColumn(new AkpSearchResultColumn("⇒ "
+						+ plant2.getMainName().getHtmlName(), "taxon"));
+				retval.addRow(result);
+			}
 		}
 		return retval;
 	}

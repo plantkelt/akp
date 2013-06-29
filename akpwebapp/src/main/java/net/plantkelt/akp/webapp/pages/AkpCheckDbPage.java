@@ -101,6 +101,14 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 				return akpTaxonService.getPlantsWithoutVerna();
 			}
 		});
+		CHECKERS.add(new Checker("plantsXRefs") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
+				return akpTaxonService.getPlantsXRefs();
+			}
+		});
 	}
 
 	@Inject
