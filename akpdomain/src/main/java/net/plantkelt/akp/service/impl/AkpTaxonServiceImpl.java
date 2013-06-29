@@ -811,7 +811,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
 		criteria.setMaxResults(limit);
 		if (xid != null)
-			criteria.add(Restrictions.like("xid", "%" + xid + "%"));
+			criteria.add(Restrictions.or(
+					Restrictions.like("xid", "%" + xid + "%"),
+					Restrictions.like("source", "%" + xid + "%")));
 		if (name != null)
 			criteria.add(Restrictions.like("name", "%" + name + "%"));
 		if (dates != null)
