@@ -38,6 +38,7 @@ import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.utils.MapUtils;
 import net.plantkelt.akp.utils.Pair;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.LockMode;
@@ -57,6 +58,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final boolean DEBUG_TAXON_SORT = false;
+
+	private Logger log = Logger.getLogger(AkpTaxonServiceImpl.class);
 
 	@Inject
 	private Provider<Session> sessionProvider;
@@ -1426,6 +1429,44 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				session.delete(lex2);
 			}
 		}
+	}
+
+	@Override
+	@Transactional
+	public void addAuthNameAsSource() {
+		ScrollableResults authors = getSession()
+				.createCriteria(AkpAuthor.class).setFetchSize(1000)
+				.setReadOnly(false).setLockMode(LockMode.NONE).scroll();
+		while (authors.next()) {
+			AkpAuthor author = (AkpAuthor) authors.get(0);
+			String name = author.getName();
+			// Remove <?>, [] and ()
+			name = name.replaceAll("\\(.*?\\)", "");
+			name = name.replaceAll("\\[.*?\\]", "");
+			name = name.replaceAll("<.*?>", "");
+			String[] elements = name.split("\\s+");
+			String lastName = elements[elements.length - 1].trim();
+			String sources[] = author.getSource().split(";");
+			boolean ok = !lastName.equalsIgnoreCase(author.getXid());
+			for (String source : sources) {
+				if (source.trim().equalsIgnoreCase(lastName)) {
+					ok = false;
+				}
+			}
+			String firstLetter = author.getXid().substring(0, 1);
+			if (firstLetter.toLowerCase().equals(firstLetter))
+				ok = false;
+			if (ok) {
+				author.setSource(author.getSource()
+						+ (author.getSource().length() > 0 ? " ; " : "")
+						+ lastName);
+				log.warn("Author [" + author.getXid() + "] [" + name
+						+ "] Add src: [" + lastName + "] => ["
+						+ author.getSource() + "]");
+				getSession().update(author);
+			}
+		}
+		getSession().flush();
 	}
 
 	@Override

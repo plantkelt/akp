@@ -187,5 +187,7 @@ public interface AkpTaxonService {
 
 	public abstract void mergeLang(String lang1, String lang2);
 
+	public abstract void addAuthNameAsSource();
+	
 	public abstract void updateStaticIndexes();
 }

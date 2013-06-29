@@ -56,6 +56,15 @@ public class AkpAdminDbPage extends AkpPageTemplate {
 				}
 			}
 		});
+		
+		form.add(new Button("addAuthNameAsSource") {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void onSubmit() {
+				akpTaxonService.addAuthNameAsSource();
+			}
+		});
 	}
 
 	private class LangDropDown extends DropDownChoice<String> {
