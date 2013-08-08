@@ -697,6 +697,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (lexicalGroup.getVernacularNames().size() > 0)
 			return false;
 		getSession().delete(lexicalGroup);
+		akpLogService.logLexicalGroupDeletion(lexicalGroup);
 		getSession().flush();
 		return true;
 	}

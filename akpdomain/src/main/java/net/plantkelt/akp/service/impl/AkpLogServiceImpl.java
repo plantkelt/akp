@@ -57,6 +57,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public static final int LOG_TYPE_PLANT_COMMENT_UPDATE = 12;
 	public static final int LOG_TYPE_VERNA_COMMENT_UPDATE = 13;
 	public static final int LOG_TYPE_LEXGRP_CREATION = 14;
+	public static final int LOG_TYPE_LEXGRP_DELETION = 15;
 	public static final int LOG_TYPE_VERNA_PLANT_REF_DELETION = 16;
 	public static final int LOG_TYPE_VERNA_PLANT_REF_CREATION = 17;
 	public static final int LOG_TYPE_TAG_UPDATE = 18;
@@ -186,6 +187,13 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		logNewEntry(LOG_TYPE_LEXGRP_CREATION, lexicalGroup.getPlant().getXid(),
 				null, lexicalGroup.getXid(), null, null, lexicalGroup.getLang()
 						.getXid() + "/" + lexicalGroup.getCorrect());
+	}
+
+	@Override
+	public void logLexicalGroupDeletion(AkpLexicalGroup lexicalGroup) {
+		logNewEntry(LOG_TYPE_LEXGRP_DELETION, lexicalGroup.getPlant().getXid(),
+				null, lexicalGroup.getXid(), null, lexicalGroup.getLang()
+						.getXid() + "/" + lexicalGroup.getCorrect(), null);
 	}
 
 	@Override

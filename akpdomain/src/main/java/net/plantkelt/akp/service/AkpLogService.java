@@ -50,6 +50,8 @@ public interface AkpLogService {
 
 	public abstract void logLexicalGroupCreation(AkpLexicalGroup lexicalGroup);
 
+	public abstract void logLexicalGroupDeletion(AkpLexicalGroup lexicalGroup);
+
 	public abstract void logVernacularNameCreation(
 			AkpVernacularName vernacularName);
 
