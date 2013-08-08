@@ -19,6 +19,7 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
 
@@ -124,8 +125,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 		public CheckLink(String id, Checker checker) {
 			super(id, new Model<Checker>(checker));
-			add(new Label("checkLabel", getString("check.type."
-					+ checker.getCheckTypeId())));
+			add(new Label("checkLabel", new StringResourceModel("check.type."
+					+ checker.getCheckTypeId(), null)));
 		}
 
 		@Override
