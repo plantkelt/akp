@@ -1,6 +1,8 @@
 package net.plantkelt.akp.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +42,7 @@ public class AkpSearchResult {
 		private Integer plantXid;
 		private String langXid;
 		private Integer correct;
+		private String sortKey;
 		private List<AkpSearchResultColumn> columns;
 
 		public AkpSearchResultRow(Integer plantXid, String langXid,
@@ -62,6 +65,14 @@ public class AkpSearchResult {
 			return correct;
 		}
 
+		public void setSortKey(String sortKey) {
+			this.sortKey = sortKey;
+		}
+
+		public String getSortKey() {
+			return sortKey;
+		}
+
 		public List<AkpSearchResultColumn> getColumns() {
 			return columns;
 		}
@@ -74,6 +85,7 @@ public class AkpSearchResult {
 	private List<String> headerKeys;
 	private List<AkpSearchResultRow> rows;
 	private Map<String, String> authorRenameMap;
+	private boolean sorted = false;
 
 	public AkpSearchResult(int estimatedRows) {
 		rows = new ArrayList<AkpSearchResultRow>(estimatedRows);
@@ -85,6 +97,19 @@ public class AkpSearchResult {
 	}
 
 	public List<AkpSearchResultRow> getRows() {
+		if (!sorted) {
+			Collections.sort(rows, new Comparator<AkpSearchResultRow>() {
+				@Override
+				public int compare(AkpSearchResultRow o1, AkpSearchResultRow o2) {
+					String k1 = o1.getSortKey();
+					String k2 = o2.getSortKey();
+					if (k1 == null || k2 == null)
+						return 0;
+					return k1.compareTo(k2);
+				}
+			});
+			sorted = true;
+		}
 		return rows;
 	}
 
@@ -101,6 +126,7 @@ public class AkpSearchResult {
 	}
 
 	public void addRow(AkpSearchResultRow row) {
+		sorted = false;
 		rows.add(row);
 	}
 

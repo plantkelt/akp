@@ -1139,6 +1139,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
+			result.setSortKey(vernacularName.getName());
 			retval.addRow(result);
 		}
 		return retval;
@@ -1160,6 +1161,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					"taxon"));
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
+			result.setSortKey(taxon.getSortKey());
 			retval.addRow(result);
 		}
 		return retval;
@@ -1189,6 +1191,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 							.getMainName().getHtmlName(), "taxon"));
 					result.addColumn(new AkpSearchResultColumn(error,
 							"comment", true));
+					result.setSortKey(taxon.getSortKey());
 					retval.addRow(result);
 				}
 			}
@@ -1224,6 +1227,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					result.addColumn(new AkpSearchResultColumn(taxon
 							.getHtmlName(), "taxon"));
 					result.addColumn(new AkpSearchResultColumn(elem, "comment"));
+					result.setSortKey(taxon.getSortKey());
 					retval.addRow(result);
 				}
 			}
@@ -1259,6 +1263,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
+			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
 		return retval;
@@ -1316,6 +1321,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
 					.getHtmlName(), "taxon"));
 			result.addColumn(new AkpSearchResultColumn("", null));
+			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
 		// 2. Get lexical groups with no vernacular names
@@ -1336,6 +1342,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					.getXid()
 					+ (lexicalGroup.getCorrect() != 0 ? " "
 							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
 		return retval;
@@ -1360,6 +1367,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 						.getHtmlName(), "taxon"));
 				result.addColumn(new AkpSearchResultColumn("⇒ "
 						+ plant2.getMainName().getHtmlName(), "taxon"));
+				result.setSortKey(plant1.getMainName().getSortKey());
 				retval.addRow(result);
 			}
 		}
