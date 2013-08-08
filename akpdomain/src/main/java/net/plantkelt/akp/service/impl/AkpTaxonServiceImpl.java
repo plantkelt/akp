@@ -1493,6 +1493,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			}
 			outputStaticFileIndex("taxon", "PlantKelt Linnean Names Index",
 					taxonSet, staticIndexLocation);
+			taxonSet.clear();
 			ScrollableResults vernas = getSession()
 					.createCriteria(AkpVernacularName.class).setFetchSize(1000)
 					.setFetchMode("bibs", FetchMode.JOIN)
