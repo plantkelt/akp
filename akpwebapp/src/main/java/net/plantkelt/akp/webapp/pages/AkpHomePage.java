@@ -71,8 +71,7 @@ public class AkpHomePage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return searchDataModel.getObject().getSearchType() == null
-						|| searchResultModel.getObject().isEmpty();
+				return true;
 			}
 		};
 		add(form);
