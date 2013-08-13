@@ -28,6 +28,7 @@ import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchData.AkpSearchType;
 import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
@@ -106,7 +107,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		@SuppressWarnings("unchecked")
 		List<AkpClass> families = getSession().createCriteria(AkpClass.class)
 				.add(Restrictions.eq("level", AkpClass.LEVEL_FAMILY)).list();
-		Collections.sort(families);
+		Collections.sort(families, new Comparator<AkpClass>() {
+			@Override
+			public int compare(AkpClass o1, AkpClass o2) {
+				return o1.getTextName().compareTo(o2.getTextName());
+			}});
 		return families;
 	}
 
@@ -861,16 +866,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	public AkpSearchResult search(AkpSearchData searchData) {
 		Map<String, String> authorRenameMap = renameAuthors(searchData);
 		AkpSearchResult result;
-		switch (searchData.getSearchType()) {
-		case TAXON:
+		AkpSearchType searchType = searchData.getSearchType();
+		if (searchType == AkpSearchType.TAXON) {
 			result = searchTaxon(searchData);
-			break;
-		case VERNA:
+		} else if (searchType == AkpSearchType.VERNA) {
 			result = searchVerna(searchData);
-			break;
-		default:
+		} else {
 			result = new AkpSearchResult();
-			break;
 		}
 		result.setAuthorRenameMap(authorRenameMap);
 		return result;
@@ -878,6 +880,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private Map<String, String> renameAuthors(AkpSearchData searchData) {
 		String taxonSearch = searchData.getTaxonName();
+		if (taxonSearch == null)
+			return null;
 		Map<String, String> retval = new HashMap<String, String>();
 		// Scan input taxon search for potential authors
 		String[] elements = taxonSearch.split("</?a>");
