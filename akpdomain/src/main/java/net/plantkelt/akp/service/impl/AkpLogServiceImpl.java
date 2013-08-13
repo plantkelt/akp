@@ -94,10 +94,10 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		logEntry.setTaxonId(taxonId);
 		logEntry.setLexicalGroupId(lexicalGroupId);
 		logEntry.setVernacularNameId(vernacularNameId);
-		if (oldValue.length() > OLD_NEW_VALUE_LEN)
+		if (oldValue != null && oldValue.length() > OLD_NEW_VALUE_LEN)
 			oldValue = oldValue.substring(0, OLD_NEW_VALUE_LEN);
 		logEntry.setOldValue(oldValue);
-		if (newValue.length() > OLD_NEW_VALUE_LEN)
+		if (newValue != null && newValue.length() > OLD_NEW_VALUE_LEN)
 			newValue = newValue.substring(0, OLD_NEW_VALUE_LEN);
 		logEntry.setNewValue(newValue);
 		getSession().save(logEntry);
