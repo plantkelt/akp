@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
-import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -30,9 +27,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class AkpSearchResultsPanel extends Panel {
 	private static final long serialVersionUID = 1L;
-
-	@Inject
-	private AkpTaxonService akpTaxonService;
 
 	public AkpSearchResultsPanel(String id,
 			IModel<AkpSearchResult> searchResultModel) {
@@ -66,7 +60,8 @@ public class AkpSearchResultsPanel extends Panel {
 				final Integer plantXid = row.getPlantXid();
 				final String langXid = row.getLangXid();
 				final Integer correct = row.getCorrect();
-				boolean hasPlantLink = AkpWicketSession.get().isLoggedIn() && plantXid != null; 
+				boolean hasPlantLink = AkpWicketSession.get().isLoggedIn()
+						&& plantXid != null;
 				for (AkpSearchResultColumn col : row.getColumns()) {
 					WebMarkupContainer cell = new WebMarkupContainer(
 							colRepeat.newChildId());
