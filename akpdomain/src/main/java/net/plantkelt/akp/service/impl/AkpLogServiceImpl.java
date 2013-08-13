@@ -69,6 +69,8 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public static final int USERLOG_TYPE_LOGIN = 1;
 	public static final int USERLOG_TYPE_LOGOUT = 2;
 
+	private static final int OLD_NEW_VALUE_LEN = 2048;
+
 	@Inject
 	private Provider<Session> sessionProvider;
 
@@ -92,7 +94,11 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		logEntry.setTaxonId(taxonId);
 		logEntry.setLexicalGroupId(lexicalGroupId);
 		logEntry.setVernacularNameId(vernacularNameId);
+		if (oldValue.length() > OLD_NEW_VALUE_LEN)
+			oldValue = oldValue.substring(0, OLD_NEW_VALUE_LEN);
 		logEntry.setOldValue(oldValue);
+		if (newValue.length() > OLD_NEW_VALUE_LEN)
+			newValue = newValue.substring(0, OLD_NEW_VALUE_LEN);
 		logEntry.setNewValue(newValue);
 		getSession().save(logEntry);
 		getSession().flush();
