@@ -16,6 +16,8 @@ public interface AkpLoginService {
 	public AkpUser createUser(String login);
 
 	public abstract AkpUser getUser(String login);
+	
+	public abstract void incUserRequestCount(AkpUser user);
 
 	public abstract void updateUser(AkpUser user);
 

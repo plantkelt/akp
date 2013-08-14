@@ -114,6 +114,15 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 
 	@Transactional
 	@Override
+	public void incUserRequestCount(AkpUser user) {
+		AkpUser user2 = getUser(user.getLogin());
+		user2.incRequestCount();
+		updateUser(user2);
+	}
+
+
+	@Transactional
+	@Override
 	public void updateUser(AkpUser user) {
 		getSession().update(user);
 	}

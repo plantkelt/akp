@@ -33,8 +33,10 @@ import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
 import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
+import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.utils.MapUtils;
 import net.plantkelt.akp.utils.Pair;
@@ -66,6 +68,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private Provider<Session> sessionProvider;
 	@Inject
 	private AkpLogService akpLogService;
+	@Inject
+	private AkpLoginService akpLoginService;
 
 	private static Set<Integer> PUBLIC_PLANT_XIDS;
 
@@ -885,18 +889,23 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
-	public AkpSearchResult search(AkpSearchData searchData) {
+	public AkpSearchResult search(AkpUser user, AkpSearchData searchData) {
 		Map<String, Set<String>> authorRenameMap = renameAuthors(searchData);
 		AkpSearchResult result;
 		AkpSearchType searchType = searchData.getSearchType();
+		boolean incRequestCount = true;
 		if (searchType == AkpSearchType.TAXON) {
 			result = searchTaxon(searchData);
 		} else if (searchType == AkpSearchType.VERNA) {
 			result = searchVerna(searchData);
 		} else {
 			result = new AkpSearchResult();
+			incRequestCount = false;
 		}
 		result.setAuthorRenameMap(authorRenameMap);
+		if (incRequestCount) {
+			akpLoginService.incUserRequestCount(user);
+		}
 		return result;
 	}
 

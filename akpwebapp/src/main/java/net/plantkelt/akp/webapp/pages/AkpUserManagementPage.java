@@ -107,6 +107,9 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 						.getExpire())
 						+ (expired ? " (" + getString("user.expired") + ")"
 								: "")));
+				item.add(new Label("requestCountLabel",
+						user.getRequestCount() == null ? "-" : ""
+								+ user.getRequestCount()));
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}

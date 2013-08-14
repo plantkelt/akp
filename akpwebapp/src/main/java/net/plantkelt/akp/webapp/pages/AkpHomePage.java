@@ -48,8 +48,8 @@ public class AkpHomePage extends AkpPageTemplate {
 			@Override
 			protected AkpSearchResult load() {
 				AkpSearchData akpSearchData = searchDataModel.getObject();
-				AkpSearchResult akpSearchResult = akpTaxonService
-						.search(akpSearchData);
+				AkpSearchResult akpSearchResult = akpTaxonService.search(
+						AkpWicketSession.get().getAkpUser(), akpSearchData);
 				Map<String, Set<String>> renameMap = akpSearchResult
 						.getAuthorRenameMap();
 				if (renameMap != null) {

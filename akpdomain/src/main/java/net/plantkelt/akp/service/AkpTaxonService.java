@@ -16,6 +16,7 @@ import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpVernacularName;
 
 public interface AkpTaxonService {
@@ -161,7 +162,8 @@ public interface AkpTaxonService {
 
 	public abstract boolean deleteAuthor(AkpAuthor author);
 
-	public abstract AkpSearchResult search(AkpSearchData searchData);
+	public abstract AkpSearchResult search(AkpUser user,
+			AkpSearchData searchData);
 
 	public abstract Date getLastUpdate();
 
@@ -184,9 +186,9 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getPlantsWithoutVerna();
 
 	public abstract AkpSearchResult getPlantsXRefs();
-	
+
 	public abstract AkpSearchResult getHybridParents();
-	
+
 	public abstract AkpSearchResult getEqualsSynonyms();
 
 	public abstract void mergeLang(String lang1, String lang2);

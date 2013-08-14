@@ -22,6 +22,7 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private Date expire;
 	private String name;
 	private String email;
+	private Integer requestCount;
 
 	public String getLogin() {
 		return login;
@@ -85,6 +86,20 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Integer getRequestCount() {
+		return requestCount;
+	}
+
+	public void setRequestCount(Integer requestCount) {
+		this.requestCount = requestCount;
+	}
+
+	public synchronized void incRequestCount() {
+		if (requestCount == null)
+			requestCount = 0;
+		requestCount++;
 	}
 
 	public boolean isAdmin() {
