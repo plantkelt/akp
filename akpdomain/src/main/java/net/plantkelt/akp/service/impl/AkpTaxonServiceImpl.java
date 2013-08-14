@@ -1447,6 +1447,46 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	}
 
 	@Override
+	public AkpSearchResult getEqualsSynonyms() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.taxon");
+		retval.addHeaderKey("result.column.taxon");
+		// Scroll first time to extract all "[= ... ]" names
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		Pattern pattern = Pattern.compile("\\[=\\s*(.*?)\\]");
+		Map<String, AkpTaxon> equalsMap = new HashMap<String, AkpTaxon>();
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			Matcher matcher = pattern.matcher(taxon.getName());
+			while (matcher.find()) {
+				String equals = AkpTaxon.getTextName(matcher.group(1));
+				equalsMap.put(equals, taxon);
+			}
+		}
+		// Scroll again for all synonyms and check if they are in "=" list
+		taxons = getSession().createCriteria(AkpTaxon.class).setFetchSize(100)
+				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+		while (taxons.next()) {
+			AkpTaxon taxon1 = (AkpTaxon) taxons.get(0);
+			if (taxon1.getType() != AkpTaxon.TYPE_SYNONYM)
+				continue;
+			AkpTaxon taxon2 = equalsMap.get(taxon1.getTextName());
+			if (taxon2 != null) {
+				AkpSearchResultRow result = new AkpSearchResultRow(taxon1
+						.getPlant().getXid(), null, null);
+				result.addColumn(new AkpSearchResultColumn(
+						taxon1.getHtmlName(), "taxon"));
+				result.addColumn(new AkpSearchResultColumn(
+						taxon2.getHtmlName(), "taxon"));
+				retval.addRow(result);
+			}
+		}
+		return retval;
+	}
+
+	@Override
 	@Transactional
 	public void mergeLang(String langId1, String langId2) {
 		AkpLang lang1 = getLang(langId1);

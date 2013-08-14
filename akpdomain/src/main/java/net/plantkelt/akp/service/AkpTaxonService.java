@@ -186,6 +186,8 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getPlantsXRefs();
 	
 	public abstract AkpSearchResult getHybridParents();
+	
+	public abstract AkpSearchResult getEqualsSynonyms();
 
 	public abstract void mergeLang(String lang1, String lang2);
 

@@ -94,8 +94,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 						" <span class='epsilon'>" + eps + "</span> ");
 			}
 			for (String eps : EPSILON2_LIST) {
-				xName = xName.replace(eps,
-						"<span class='epsilon'>" + eps + "</span>");
+				xName = xName.replace(eps, "<span class='epsilon'>" + eps
+						+ "</span>");
 			}
 			for (String eps : EPSILON3_LIST) {
 				xName = xName.replace(" " + eps + " ",
@@ -106,6 +106,10 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	}
 
 	public String getTextName() {
+		return getTextName(name);
+	}
+
+	public static String getTextName(String name) {
 		return name.replace("<x>", "×").replace("<+>", "+")
 				.replaceAll("<.*?>", "");
 	}

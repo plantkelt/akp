@@ -119,6 +119,15 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 			}
 			
 		});
+		CHECKERS.add(new Checker("equalsSynonyms") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
+				return akpTaxonService.getEqualsSynonyms();
+			}
+			
+		});
 	}
 
 	@SuppressWarnings("unused")
