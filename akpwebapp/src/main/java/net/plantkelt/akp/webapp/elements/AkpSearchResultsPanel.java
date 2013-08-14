@@ -57,12 +57,15 @@ public class AkpSearchResultsPanel extends Panel {
 			protected void populateItem(ListItem<AkpSearchResultRow> item) {
 				RepeatingView colRepeat = new RepeatingView("colRepeat");
 				AkpSearchResultRow row = item.getModelObject();
-				final Integer plantXid = row.getPlantXid();
-				final String langXid = row.getLangXid();
-				final Integer correct = row.getCorrect();
-				boolean hasPlantLink = AkpWicketSession.get().isLoggedIn()
-						&& plantXid != null;
 				for (AkpSearchResultColumn col : row.getColumns()) {
+					final Integer plantXid = col.getPlantXid() != null ? col
+							.getPlantXid() : row.getPlantXid();
+					boolean hasPlantLink = AkpWicketSession.get().isLoggedIn()
+							&& plantXid != null;
+					final String langXid = col.getPlantXid() != null ? null
+							: row.getLangXid();
+					final Integer correct = col.getPlantXid() != null ? null
+							: row.getCorrect();
 					WebMarkupContainer cell = new WebMarkupContainer(
 							colRepeat.newChildId());
 					colRepeat.add(cell);
@@ -108,8 +111,8 @@ public class AkpSearchResultsPanel extends Panel {
 					}
 					cellLink.add(cellValue);
 					cell.add(cellValue2);
-					cellValue.setEscapeModelStrings(false);
-					cellValue2.setEscapeModelStrings(false);
+					cellValue.setEscapeModelStrings(col.isEscape());
+					cellValue2.setEscapeModelStrings(col.isEscape());
 					cellValue2.setVisible(!hasPlantLink);
 				}
 				item.add(colRepeat);

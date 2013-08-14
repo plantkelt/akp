@@ -13,7 +13,9 @@ public class AkpSearchResult {
 
 		private String displayValue;
 		private String className;
+		private Integer plantXid;
 		private boolean isValueKey;
+		private boolean isEscape = false;
 
 		public AkpSearchResultColumn(String displayValue, String className) {
 			this(displayValue, className, false);
@@ -36,6 +38,22 @@ public class AkpSearchResult {
 
 		public boolean isValueKey() {
 			return isValueKey;
+		}
+		
+		public void setEscape(boolean escape) {
+			isEscape = escape;
+		}
+		
+		public boolean isEscape() {
+			return isEscape;
+		}
+
+		public Integer getPlantXid() {
+			return plantXid;
+		}
+
+		public void setPlantXid(Integer plantXid) {
+			this.plantXid = plantXid;
 		}
 	}
 

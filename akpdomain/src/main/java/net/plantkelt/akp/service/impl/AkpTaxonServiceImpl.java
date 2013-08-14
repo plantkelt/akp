@@ -359,20 +359,24 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			retval.add("error.tag.a.count.match");
 		if (taxonName.contains("  "))
 			retval.add("error.double.space");
-		if (taxonName.matches("\\w(\\(|\\[)"))
+		if (taxonName.matches(".*\\w(\\(|\\[).*"))
 			retval.add("error.no.space.before.parenthesis");
-		if (taxonName.matches("(\\)|\\])\\w"))
+		if (taxonName.matches(".*(\\)|\\])\\w.*"))
 			retval.add("error.no.space.after.parenthesis");
-		if (taxonName.matches("/\\w>\\w"))
+		if (taxonName.matches(".*/\\w>\\w.*"))
 			retval.add("error.no.space.before.opening.tag");
-		if (taxonName.matches("\\w<\\w"))
+		if (taxonName.matches(".*\\w<\\w.*"))
 			retval.add("error.no.space.after.closing.tag");
 		if (taxonName.contains(" ."))
 			retval.add("error.space.before.dot");
 		if (taxonName.contains(" nec ") && !taxonName.contains(" non "))
 			retval.add("error.nec.without.non");
-		if (taxonName.matches("([^\\s\\w]|[^,]\\s)(non|nec)\\s"))
+		if (taxonName.matches(".*([^\\s\\w]|[^,]\\s)(non|nec)\\s.*"))
 			retval.add("error.nec.non.missing.comma");
+		if (taxonName.matches(".*\\[\\s+=.*"))
+			retval.add("error.space.between.brackets.and.equals");
+		if (taxonName.matches(".*=[^\\s].*"))
+			retval.add("error.no.space.after.equals");
 		Matcher synMatcher = Pattern.compile("<l>.*?</l>").matcher(taxonName);
 		for (int i = 1; i <= synMatcher.groupCount(); i++) {
 			String syn = synMatcher.group(i);
@@ -381,6 +385,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				break;
 			}
 		}
+		// Unknown author: no need to do since they will be printed in red.
 		// Matcher authMatcher = Pattern.compile("<a>(.*?)</a>")
 		// .matcher(taxonName);
 		// System.out.println("auth group count=" + authMatcher.groupCount());
@@ -1218,8 +1223,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 							.getHtmlName(), "taxon"));
 					result.addColumn(new AkpSearchResultColumn(plant
 							.getMainName().getHtmlName(), "taxon"));
-					result.addColumn(new AkpSearchResultColumn(error,
-							"comment", true));
+					AkpSearchResultColumn col3 = new AkpSearchResultColumn(
+							error, "comment", true);
+					col3.setEscape(true);
+					result.addColumn(col3);
 					result.setSortKey(taxon.getSortKey());
 					retval.addRow(result);
 				}
@@ -1394,8 +1401,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 						plant1.getXid(), null, null);
 				result.addColumn(new AkpSearchResultColumn(plant1.getMainName()
 						.getHtmlName(), "taxon"));
-				result.addColumn(new AkpSearchResultColumn("⇒ "
-						+ plant2.getMainName().getHtmlName(), "taxon"));
+				AkpSearchResultColumn col2 = new AkpSearchResultColumn("⇒ "
+						+ plant2.getMainName().getHtmlName(), "taxon");
+				col2.setPlantXid(plant2.getXid());
+				result.addColumn(col2);
 				result.setSortKey(plant1.getMainName().getSortKey());
 				retval.addRow(result);
 			}
@@ -1438,8 +1447,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 						.getPlant().getXid(), null, null);
 				result.addColumn(new AkpSearchResultColumn(
 						taxon1.getHtmlName(), "taxon"));
-				result.addColumn(new AkpSearchResultColumn(
-						taxon2.getHtmlName(), "taxon"));
+				AkpSearchResultColumn col2 = new AkpSearchResultColumn(
+						taxon2.getHtmlName(), "taxon");
+				col2.setPlantXid(taxon2.getPlant().getXid());
+				result.addColumn(col2);
 				retval.addRow(result);
 			}
 		}
@@ -1478,8 +1489,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 						.getPlant().getXid(), null, null);
 				result.addColumn(new AkpSearchResultColumn(
 						taxon1.getHtmlName(), "taxon"));
-				result.addColumn(new AkpSearchResultColumn(
-						taxon2.getHtmlName(), "taxon"));
+				AkpSearchResultColumn col2 = new AkpSearchResultColumn(
+						taxon2.getHtmlName(), "taxon");
+				col2.setPlantXid(taxon2.getPlant().getXid());
+				result.addColumn(col2);
 				retval.addRow(result);
 			}
 		}
