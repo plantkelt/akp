@@ -111,7 +111,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			@Override
 			public int compare(AkpClass o1, AkpClass o2) {
 				return o1.getTextName().compareTo(o2.getTextName());
-			}});
+			}
+		});
 		return families;
 	}
 
@@ -782,25 +783,41 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public Map<String, AkpAuthor> getAuthorFromSources(Set<String> oldXids) {
+	public Map<String, Set<AkpAuthor>> getAuthorFromSources(Set<String> oldXids) {
 		if (oldXids.size() == 0)
 			return Collections.emptyMap();
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
 		List<Criterion> likes = new ArrayList<Criterion>(oldXids.size());
 		for (String oldXid : oldXids) {
 			likes.add(Restrictions.like("source", oldXid, MatchMode.ANYWHERE));
+			likes.add(Restrictions.eq("xid", oldXid));
 		}
 		criteria.add(Restrictions.or(likes.toArray(new Criterion[likes.size()])));
 		List<AkpAuthor> authors = criteria.list();
-		Map<String, AkpAuthor> retval = new HashMap<String, AkpAuthor>(
+		Map<String, Set<AkpAuthor>> retval = new HashMap<String, Set<AkpAuthor>>(
 				authors.size());
 		for (AkpAuthor author : authors) {
 			String[] oldXids2 = author.getSource().split(";");
+			// Add source
 			for (String oldXid2 : oldXids2) {
 				oldXid2 = oldXid2.trim();
 				if (oldXids.contains(oldXid2)) {
-					retval.put(oldXid2, author);
+					Set<AkpAuthor> authList = retval.get(oldXid2);
+					if (authList == null) {
+						authList = new HashSet<AkpAuthor>();
+						retval.put(oldXid2, authList);
+					}
+					authList.add(author);
 				}
+			}
+			// Add XID
+			if (oldXids.contains(author.getXid())) {
+				Set<AkpAuthor> authList = retval.get(author.getXid());
+				if (authList == null) {
+					authList = new HashSet<AkpAuthor>();
+					retval.put(author.getXid(), authList);
+				}
+				authList.add(author);
 			}
 		}
 		return retval;
@@ -864,7 +881,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public AkpSearchResult search(AkpSearchData searchData) {
-		Map<String, String> authorRenameMap = renameAuthors(searchData);
+		Map<String, Set<String>> authorRenameMap = renameAuthors(searchData);
 		AkpSearchResult result;
 		AkpSearchType searchType = searchData.getSearchType();
 		if (searchType == AkpSearchType.TAXON) {
@@ -878,24 +895,32 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		return result;
 	}
 
-	private Map<String, String> renameAuthors(AkpSearchData searchData) {
+	private Map<String, Set<String>> renameAuthors(AkpSearchData searchData) {
 		String taxonSearch = searchData.getTaxonName();
 		if (taxonSearch == null)
 			return null;
-		Map<String, String> retval = new HashMap<String, String>();
+		Map<String, Set<String>> retval = new HashMap<String, Set<String>>();
 		// Scan input taxon search for potential authors
 		String[] elements = taxonSearch.split("</?a>");
 		Set<String> authors = new HashSet<String>(elements.length / 2 + 1);
 		for (int i = 1; i < elements.length; i += 2) {
 			authors.add(elements[i]);
 		}
-		Map<String, AkpAuthor> renameSet = getAuthorFromSources(authors);
-		for (Map.Entry<String, AkpAuthor> kv : renameSet.entrySet()) {
+		Map<String, Set<AkpAuthor>> renameSet = getAuthorFromSources(authors);
+		for (Map.Entry<String, Set<AkpAuthor>> kv : renameSet.entrySet()) {
 			if (taxonSearch.contains("<a>" + kv.getKey() + "</a>")) {
-				taxonSearch = taxonSearch.replace("<a>" + kv.getKey() + "</a>",
-						"<a>" + kv.getValue().getXid() + "</a>");
-				retval.put(kv.getKey(), kv.getValue().getXid());
+				if (kv.getValue().size() == 1) {
+					// Auto-replace only if ONE match.
+					taxonSearch = taxonSearch
+							.replace("<a>" + kv.getKey() + "</a>", "<a>"
+									+ kv.getValue().iterator().next().getXid()
+									+ "</a>");
+				}
 			}
+			Set<String> xids = new HashSet<String>();
+			for (AkpAuthor auth : kv.getValue())
+				xids.add(auth.getXid());
+			retval.put(kv.getKey(), xids);
 		}
 		searchData.setTaxonName(taxonSearch);
 		if (retval.isEmpty())

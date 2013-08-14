@@ -1,6 +1,8 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -48,14 +50,17 @@ public class AkpHomePage extends AkpPageTemplate {
 				AkpSearchData akpSearchData = searchDataModel.getObject();
 				AkpSearchResult akpSearchResult = akpTaxonService
 						.search(akpSearchData);
-				Map<String, String> renameMap = akpSearchResult
+				Map<String, Set<String>> renameMap = akpSearchResult
 						.getAuthorRenameMap();
 				if (renameMap != null) {
 					StringBuffer sb = new StringBuffer(
 							getString("search.warn.author.rename"));
 					sb.append(" ");
-					for (Map.Entry<String, String> kv : renameMap.entrySet()) {
-						sb.append(kv.getKey() + " → " + kv.getValue() + ", ");
+					for (Map.Entry<String, Set<String>> kv : renameMap
+							.entrySet()) {
+						sb.append(kv.getKey() + " → "
+								+ Arrays.toString(kv.getValue().toArray())
+								+ ", ");
 					}
 					if (sb.length() > 2)
 						sb.setLength(sb.length() - 2);
@@ -83,8 +88,7 @@ public class AkpHomePage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return !(searchDataModel.getObject().getSearchType() == null || searchResultModel
-						.getObject().isEmpty());
+				return searchDataModel.getObject().getSearchType() != null;
 			}
 		};
 		add(resultsPanel);

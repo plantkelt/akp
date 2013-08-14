@@ -146,7 +146,7 @@ public interface AkpTaxonService {
 
 	public abstract Map<String, AkpAuthor> getAuthors(Set<String> xids);
 
-	public abstract Map<String, AkpAuthor> getAuthorFromSources(
+	public abstract Map<String, Set<AkpAuthor>> getAuthorFromSources(
 			Set<String> oldXids);
 
 	public abstract List<AkpAuthor> getAuthors();
@@ -180,7 +180,7 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();
 
 	public abstract AkpSearchResult getAuthorRefCount();
-	
+
 	public abstract AkpSearchResult getPlantsWithoutVerna();
 
 	public abstract AkpSearchResult getPlantsXRefs();
@@ -188,6 +188,6 @@ public interface AkpTaxonService {
 	public abstract void mergeLang(String lang1, String lang2);
 
 	public abstract void addAuthNameAsSource();
-	
+
 	public abstract void updateStaticIndexes();
 }

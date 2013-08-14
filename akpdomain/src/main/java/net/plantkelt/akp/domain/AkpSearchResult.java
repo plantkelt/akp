@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AkpSearchResult {
 
@@ -84,7 +85,7 @@ public class AkpSearchResult {
 
 	private List<String> headerKeys;
 	private List<AkpSearchResultRow> rows;
-	private Map<String, String> authorRenameMap;
+	private Map<String, Set<String>> authorRenameMap;
 	private boolean sorted = false;
 
 	public AkpSearchResult(int estimatedRows) {
@@ -130,11 +131,11 @@ public class AkpSearchResult {
 		rows.add(row);
 	}
 
-	public Map<String, String> getAuthorRenameMap() {
+	public Map<String, Set<String>> getAuthorRenameMap() {
 		return authorRenameMap;
 	}
 
-	public void setAuthorRenameMap(Map<String, String> authorRenameMap) {
+	public void setAuthorRenameMap(Map<String, Set<String>> authorRenameMap) {
 		this.authorRenameMap = authorRenameMap;
 	}
 
