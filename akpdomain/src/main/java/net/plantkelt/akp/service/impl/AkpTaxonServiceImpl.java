@@ -1404,6 +1404,49 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	}
 
 	@Override
+	public AkpSearchResult getHybridParents() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.taxon");
+		retval.addHeaderKey("result.column.taxon");
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		Pattern pattern1 = Pattern.compile("(<l>.*?</l>).*?(\\[.*\\]).*");
+		Pattern pattern2 = Pattern.compile("<l>.*?</l>");
+		Map<String, AkpTaxon> hybridMap = new HashMap<String, AkpTaxon>();
+		Map<String, AkpTaxon> parentMap = new HashMap<String, AkpTaxon>();
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			Matcher matcher1 = pattern1.matcher(taxon.getName());
+			if (matcher1.matches()) {
+				String hybrid = matcher1.group(1);
+				String parents = matcher1.group(2);
+				hybridMap.put(hybrid, taxon);
+				Matcher matcher2 = pattern2.matcher(parents);
+				while (matcher2.find()) {
+					String parent = matcher2.group();
+					parentMap.put(parent, taxon);
+				}
+			}
+		}
+		for (Map.Entry<String, AkpTaxon> kv : parentMap.entrySet()) {
+			String parent = kv.getKey();
+			AkpTaxon taxon1 = kv.getValue();
+			AkpTaxon taxon2 = hybridMap.get(parent);
+			if (taxon2 != null) {
+				AkpSearchResultRow result = new AkpSearchResultRow(taxon1
+						.getPlant().getXid(), null, null);
+				result.addColumn(new AkpSearchResultColumn(
+						taxon1.getHtmlName(), "taxon"));
+				result.addColumn(new AkpSearchResultColumn(
+						taxon2.getHtmlName(), "taxon"));
+				retval.addRow(result);
+			}
+		}
+		return retval;
+	}
+
+	@Override
 	@Transactional
 	public void mergeLang(String langId1, String langId2) {
 		AkpLang lang1 = getLang(langId1);

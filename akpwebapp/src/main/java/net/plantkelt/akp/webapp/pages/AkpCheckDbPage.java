@@ -110,6 +110,15 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 				return akpTaxonService.getPlantsXRefs();
 			}
 		});
+		CHECKERS.add(new Checker("hybridParents") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
+				return akpTaxonService.getHybridParents();
+			}
+			
+		});
 	}
 
 	@SuppressWarnings("unused")

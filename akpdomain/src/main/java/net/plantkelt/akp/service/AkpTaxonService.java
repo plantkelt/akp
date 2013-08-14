@@ -184,6 +184,8 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getPlantsWithoutVerna();
 
 	public abstract AkpSearchResult getPlantsXRefs();
+	
+	public abstract AkpSearchResult getHybridParents();
 
 	public abstract void mergeLang(String lang1, String lang2);
 
