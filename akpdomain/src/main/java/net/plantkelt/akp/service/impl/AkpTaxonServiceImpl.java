@@ -565,6 +565,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public AkpBib getBib(String xid) {
+		if (xid == null)
+			return null;
 		return (AkpBib) getSession().get(AkpBib.class, xid);
 	}
 
