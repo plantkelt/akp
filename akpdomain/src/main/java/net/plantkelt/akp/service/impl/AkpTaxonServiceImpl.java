@@ -552,6 +552,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		bib.setComments("");
 		bib.setEditor("");
 		getSession().save(bib);
+		getSession().flush();
 		return bib;
 	}
 
@@ -559,6 +560,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public boolean deleteBib(AkpBib bib) {
 		getSession().delete(bib);
+		getSession().flush();
 		return true;
 	}
 
@@ -618,7 +620,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public void updateBib(AkpBib bib) {
-		getSession().update(bib);
+		getSession().update(getSession().merge(bib));
+		getSession().flush();
 	}
 
 	@Override
