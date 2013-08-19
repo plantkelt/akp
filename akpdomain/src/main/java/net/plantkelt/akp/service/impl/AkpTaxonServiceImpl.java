@@ -766,6 +766,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		author.setSource("");
 		author.setDates("");
 		getSession().save(author);
+		getSession().flush();
 		return author;
 	}
 
@@ -880,12 +881,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public void updateAuthor(AkpAuthor author) {
 		getSession().update(author);
+		getSession().flush();
 	}
 
 	@Transactional
 	@Override
 	public boolean deleteAuthor(AkpAuthor author) {
 		getSession().delete(author);
+		getSession().flush();
 		return true;
 	}
 
