@@ -160,6 +160,8 @@ public interface AkpTaxonService {
 
 	public abstract void updateAuthor(AkpAuthor author);
 
+	public abstract int renameAuthorXid(AkpAuthor author, String newXid);
+	
 	public abstract boolean deleteAuthor(AkpAuthor author);
 
 	public abstract AkpSearchResult search(AkpUser user,

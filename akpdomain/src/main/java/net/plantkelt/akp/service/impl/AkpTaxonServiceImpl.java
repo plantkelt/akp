@@ -889,6 +889,42 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
+	public int renameAuthorXid(AkpAuthor author, String newXid) {
+		if (author.getXid().equals(newXid))
+			return 0;
+		if (getAuthor(newXid) != null)
+			throw new IllegalArgumentException("Author with XID=" + newXid
+					+ " already exists!");
+		AkpAuthor newAuthor = new AkpAuthor();
+		newAuthor.setXid(newXid);
+		newAuthor.setName(author.getName());
+		newAuthor.setDates(author.getDates());
+		newAuthor.setSource(author.getSource());
+		String oldXid = author.getXid();
+		getSession().delete(author);
+		getSession().save(newAuthor);
+		@SuppressWarnings("unchecked")
+		List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
+				.add(Restrictions.like("name", "%<a>" + oldXid + "</a>%"))
+				.list();
+		int retval = 0;
+		for (AkpTaxon taxon : taxons) {
+			String oldName = taxon.getName();
+			String newName = oldName.replace("<a>" + oldXid + "</a>", "<a>"
+					+ newXid + "</a>");
+			if (!oldName.equals(newName)) {
+				taxon.setName(newName);
+				retval++;
+				getSession().update(taxon);
+				akpLogService.logTaxonUpdate(taxon, oldName);
+			}
+		}
+		getSession().flush();
+		return retval;
+	}
+
+	@Transactional
+	@Override
 	public boolean deleteAuthor(AkpAuthor author) {
 		getSession().delete(author);
 		getSession().flush();

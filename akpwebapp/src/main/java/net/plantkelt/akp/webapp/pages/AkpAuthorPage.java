@@ -1,5 +1,6 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpAuthor;
@@ -17,12 +18,15 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -135,6 +139,34 @@ public class AkpAuthorPage extends AkpPageTemplate {
 		Label datesLabel = new Label("datesLabel", new PropertyModel<String>(
 				authorModel, "dates"));
 		datesEditor.add(datesLabel);
+
+		// Rename XID section
+		WebMarkupContainer renameXidSection = new WebMarkupContainer(
+				"renameXidSection");
+		renameXidSection.setVisible(isAdmin);
+		add(renameXidSection);
+		renameXidSection.add(new FeedbackPanel("renameFeedback"));
+		WebMarkupContainer collapseDiv2 = new WebMarkupContainer("collapseDiv");
+		renameXidSection.add(collapseDiv2);
+		CollapsibleButton collapseButton2 = new CollapsibleButton(
+				"collapseButton", collapseDiv2, false);
+		renameXidSection.add(collapseButton2);
+		final IModel<String> newXidModel = new Model<String>(authorId);
+		Form<String> renameForm = new Form<String>("renameXidForm") {
+			private static final long serialVersionUID = 1L;
+
+			public void onSubmit() {
+				String newXid = newXidModel.getObject();
+				int nChanges = akpTaxonService.renameAuthorXid(
+						authorModel.getObject(), newXid);
+				info(MessageFormat.format(getString("xid.renamed.to"), newXid,
+						nChanges));
+				setResponsePage(AkpAuthorPage.class,
+						new PageParameters().add("xid", newXid));
+			}
+		};
+		collapseDiv2.add(renameForm);
+		renameForm.add(new RequiredTextField<String>("newXid", newXidModel));
 
 		// Taxon used
 		final IModel<List<AkpTaxon>> taxonRefsModel = new LoadableDetachableModel<List<AkpTaxon>>() {

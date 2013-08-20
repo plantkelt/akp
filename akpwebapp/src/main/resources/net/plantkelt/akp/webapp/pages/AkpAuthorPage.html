@@ -34,6 +34,31 @@
 			</tr>
 		</table>
 
+		<div wicket:id="renameXidSection">
+			<h3>
+				<span wicket:id="collapseButton"></span>
+				<wicket:message key="rename.author.xid" />
+			</h3>
+			<div wicket:id="renameFeedback"></div>
+			<div wicket:id="collapseDiv" class="formPanel">
+				<form wicket:id="renameXidForm">
+					<table>
+						<tr>
+							<td><label for="newXid"><wicket:message
+										key="new.xid" /></label><input wicket:id="newXid" type="text" /></td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit">
+									<wicket:message key="rename.author.xid.button" />
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+
 		<div wicket:id="taxonRefsSection">
 			<h3>
 				<span wicket:id="collapseButton"></span>
@@ -59,7 +84,6 @@
 				</form>
 			</div>
 		</div>
-
 	</wicket:extend>
 </body>
 </html>
