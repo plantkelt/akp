@@ -75,7 +75,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpClass.setName(name);
 						akpTaxonService.updateClass(akpClass);
 					}
-				});
+				}, 1, 60);
 		add(classNameEditor);
 		classNameEditor.setReadOnly(!isAdmin || isFake);
 		Label classNameLabel = new Label("className",
@@ -100,7 +100,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpClass.setComments(comments);
 						akpTaxonService.updateClass(akpClass);
 					}
-				});
+				}, 1, 60);
 		add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin || isFake);
 		Label classComments = new Label("classComments",
@@ -125,7 +125,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpClass.setSynonyms(synonyms);
 						akpTaxonService.updateClass(akpClass);
 					}
-				});
+				}, 1, 60);
 		add(synonymsEditor);
 		synonymsEditor.setReadOnly(!isAdmin || isFake);
 		Label classSynonyms = new Label("classSynonyms",

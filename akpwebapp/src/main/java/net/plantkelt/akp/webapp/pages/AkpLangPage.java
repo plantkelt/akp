@@ -81,7 +81,7 @@ public class AkpLangPage extends AkpPageTemplate {
 						akpTaxonService.updateLang(lang);
 						target.add(AkpLangPage.this);
 					}
-				});
+				}, 1, 20);
 		add(codeEditor);
 		Label codeLabel = new Label("codeLabel", new PropertyModel<String>(
 				langModel, "code"));
@@ -105,7 +105,7 @@ public class AkpLangPage extends AkpPageTemplate {
 						akpTaxonService.updateLang(lang);
 						target.add(AkpLangPage.this);
 					}
-				});
+				}, 1, 40);
 		add(nameEditor);
 		Label nameLabel = new Label("nameLabel", new PropertyModel<String>(
 				langModel, "name"));

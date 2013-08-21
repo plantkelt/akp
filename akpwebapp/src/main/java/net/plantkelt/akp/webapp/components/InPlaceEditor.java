@@ -26,10 +26,6 @@ public class InPlaceEditor extends Border {
 	private AjaxLink<Void> editLink;
 	private EditorModel<String> editorModel;
 
-	public InPlaceEditor(String id, EditorModel<String> model) {
-		this(id, model, 1, 0);
-	}
-
 	public InPlaceEditor(String id, EditorModel<String> model, final int nRows,
 			final int nCols) {
 		super(id);
@@ -67,6 +63,8 @@ public class InPlaceEditor extends Border {
 		textField = new TextField<String>("textInput", stringModel);
 		textField.add(new InputMacros());
 		textField.setVisible(nRows == 1);
+		textField.add(new AttributeAppender("size", new Model<String>(""
+				+ nCols)));
 		textArea = new TextArea<String>("textArea", stringModel);
 		textArea.setVisible(nRows > 1);
 		textArea.add(new AttributeAppender("rows",

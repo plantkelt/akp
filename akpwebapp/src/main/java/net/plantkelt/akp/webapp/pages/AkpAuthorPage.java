@@ -86,7 +86,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 						akpTaxonService.updateAuthor(author);
 						target.add(AkpAuthorPage.this);
 					}
-				});
+				}, 1, 60);
 		add(nameEditor);
 		nameEditor.setReadOnly(!isAdmin);
 		Label nameLabel = new Label("nameLabel", new PropertyModel<String>(
@@ -112,7 +112,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 						akpTaxonService.updateAuthor(author);
 						target.add(AkpAuthorPage.this);
 					}
-				});
+				}, 1, 60);
 		add(sourceEditor);
 		sourceEditor.setReadOnly(!isAdmin);
 		Label sourceLabel = new Label("sourceLabel", new PropertyModel<String>(
@@ -137,7 +137,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 						akpTaxonService.updateAuthor(author);
 						target.add(AkpAuthorPage.this);
 					}
-				});
+				}, 1, 40);
 		add(datesEditor);
 		datesEditor.setReadOnly(!isAdmin);
 		Label datesLabel = new Label("datesLabel", new PropertyModel<String>(

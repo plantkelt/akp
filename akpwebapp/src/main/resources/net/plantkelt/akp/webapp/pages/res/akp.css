@@ -118,18 +118,8 @@ form.inlineeditor {
 	display: inline;
 }
 
-form.inlineeditor div.oneline>span {
-	display: block;
-	overflow: hidden;
-	padding-right: 10px;
-}
-
-form.inlineeditor div.oneline input[type=text] {
-	width: 100%;
-}
-
-form.inlineeditor div.oneline button {
-	float: right;
+form.inlineeditor div.oneline {
+	display: inline;
 }
 
 /* === Wicket autocomplete === */

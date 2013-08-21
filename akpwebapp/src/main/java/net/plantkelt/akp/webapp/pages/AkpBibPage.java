@@ -81,7 +81,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 2, 60);
 		add(titleEditor);
 		titleEditor.setReadOnly(!isAdmin);
 		Label titleLabel = new Label("titleLabel", new PropertyModel<String>(
@@ -106,7 +106,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 1, 60);
 		add(authorEditor);
 		authorEditor.setReadOnly(!isAdmin);
 		Label authorLabel = new Label("authorLabel", new PropertyModel<String>(
@@ -131,7 +131,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 1, 40);
 		add(dateEditor);
 		dateEditor.setReadOnly(!isAdmin);
 		Label dateLabel = new Label("dateLabel", new PropertyModel<String>(
@@ -156,7 +156,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 1, 20);
 		add(isbnEditor);
 		isbnEditor.setReadOnly(!isAdmin);
 		Label isbnLabel = new Label("isbnLabel", new PropertyModel<String>(
@@ -181,7 +181,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 1, 60);
 		add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin);
 		Label commentsLabel = new Label("commentsLabel",
@@ -206,7 +206,7 @@ public class AkpBibPage extends AkpPageTemplate {
 						akpTaxonService.updateBib(bib);
 						target.add(AkpBibPage.this);
 					}
-				});
+				}, 1, 40);
 		add(editorEditor);
 		editorEditor.setReadOnly(!isAdmin);
 		Label editorLabel = new Label("editorLabel", new PropertyModel<String>(

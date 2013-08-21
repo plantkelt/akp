@@ -113,7 +113,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 								authorsModel.detach();
 								target.add(AkpPlantSynonymsPanel.this);
 							}
-						});
+						}, 4, 60);
 				item.add(editor);
 				editor.setReadOnly(!isAdmin);
 				if (taxonModel.getObject().getName().equals("<l><b></b></l>"))

@@ -3,14 +3,14 @@
 		<a class="edit" wicket:id="editLink"></a> </span>
 	<form class="inlineeditor" wicket:id="editForm">
 		<div class="oneline">
+			<input wicket:id="textInput" type="text" />
+			<textarea wicket:id="textArea"></textarea>
 			<button wicket:id="saveButton">
 				<wicket:message key="save.button" />
 			</button>
 			<button wicket:id="cancelButton">
 				<wicket:message key="cancel.button" />
 			</button>
-			<span><input wicket:id="textInput" type="text" />
-			<textarea wicket:id="textArea"></textarea></span>
 		</div>
 	</form>
 </wicket:border>

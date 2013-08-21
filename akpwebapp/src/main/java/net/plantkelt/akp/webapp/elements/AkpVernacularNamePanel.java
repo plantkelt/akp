@@ -72,7 +72,7 @@ public class AkpVernacularNamePanel extends Panel {
 						}
 						target.add(refreshComponent);
 					}
-				});
+				}, 1, 30);
 		add(vernaEditor);
 		if (vernaName.getName().equals(""))
 			vernaEditor.open();
@@ -176,7 +176,7 @@ public class AkpVernacularNamePanel extends Panel {
 								vernaNameModel.getObject(), comments);
 						target.add(AkpVernacularNamePanel.this);
 					}
-				});
+				}, 1, 40);
 		add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin);
 		Label commentsLabel = new Label("commentsLabel",

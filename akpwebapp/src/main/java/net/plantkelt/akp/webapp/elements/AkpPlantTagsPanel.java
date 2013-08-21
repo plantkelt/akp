@@ -89,7 +89,7 @@ public class AkpPlantTagsPanel extends Panel {
 									}
 									target.add(AkpPlantTagsPanel.this);
 								}
-							});
+							}, 4, 30);
 					item.add(editor);
 					editor.setReadOnly(!isAdmin);
 					editor.add(valueLabel);

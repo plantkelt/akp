@@ -62,7 +62,7 @@ public class AkpPlantHeaderPanel extends Panel {
 						}
 						target.add(AkpPlantHeaderPanel.this);
 					}
-				});
+				}, 4, 60);
 		add(nameEditor);
 		nameEditor.setReadOnly(!isAdmin);
 		IModel<AkpTaxon> nameModel = new PropertyModel<AkpTaxon>(plantModel,
@@ -89,7 +89,7 @@ public class AkpPlantHeaderPanel extends Panel {
 								plantModel.getObject(), comments);
 						target.add(AkpPlantHeaderPanel.this);
 					}
-				});
+				}, 4, 60);
 		commentsEditor.setVisible(false);
 		add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin);

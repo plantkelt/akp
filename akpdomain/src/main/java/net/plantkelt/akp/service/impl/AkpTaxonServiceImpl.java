@@ -331,6 +331,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public void updateTaxonName(AkpTaxon taxon, String newName) {
+		newName = newName.replace("\r\n", " ");
 		String oldName = taxon.getName();
 		taxon.setName(newName);
 		getSession().update(taxon);
