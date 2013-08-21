@@ -55,6 +55,10 @@ public class AkpLangPage extends AkpPageTemplate {
 		if (langModel.getObject() == null)
 			throw new IllegalArgumentException("Invalid lang ID: " + langId);
 
+		// Set page title
+		AkpLang lang = langModel.getObject();
+		setPageTitle(lang.getCode() + " - " + lang.getName());
+
 		// Lang id
 		Label langIdLabel = new Label("langId", langId);
 		add(langIdLabel);

@@ -19,6 +19,10 @@ public class AkpAuthor implements Comparable<AkpAuthor> {
 		return name;
 	}
 
+	public String getTextName() {
+		return name.replaceAll("<.*?>", "");
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -54,7 +58,7 @@ public class AkpAuthor implements Comparable<AkpAuthor> {
 	public int hashCode() {
 		return getXid().hashCode();
 	}
-	
+
 	@Override
 	public int compareTo(AkpAuthor o) {
 		return getXid().compareTo(o.getXid());

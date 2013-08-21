@@ -2,7 +2,6 @@ package net.plantkelt.akp.webapp.pages;
 
 import javax.inject.Inject;
 
-import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.webapp.elements.AkpHeaderPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -13,6 +12,10 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
@@ -22,6 +25,8 @@ public class AkpPageTemplate extends WebPage {
 
 	@Inject
 	AkpLoginService akpLoginService;
+
+	private IModel<String> pageTitleModel = new Model<String>("PlantKelt");
 
 	public AkpPageTemplate() {
 		super();
@@ -42,6 +47,14 @@ public class AkpPageTemplate extends WebPage {
 		// Force getting client timezone info here. See comment on method.
 		AkpWicketSession.get().getClientInfo().getProperties().getTimeZone();
 		add(new AkpHeaderPanel("headerBar"));
+		add(new Label("pageTitle", new LoadableDetachableModel<String>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected String load() {
+				return AkpPageTemplate.this.pageTitleModel.getObject();
+			}
+		}));
 	}
 
 	@Override
@@ -58,10 +71,15 @@ public class AkpPageTemplate extends WebPage {
 				"googleAnalyticsTracker"));
 	}
 
-	public AkpUser getUtilisateur() {
-		return AkpWicketSession.get().getAkpUser();
+	public void setPageTitle(String pageTitle) {
+		pageTitleModel = new Model<String>(pageTitle);
 	}
 
+	public void setPageTitleModel(IModel<String> pageTitleModel) {
+		this.pageTitleModel = pageTitleModel;
+	}
+
+	@Override
 	public AkpWicketSession getSession() {
 		return AkpWicketSession.get();
 	}

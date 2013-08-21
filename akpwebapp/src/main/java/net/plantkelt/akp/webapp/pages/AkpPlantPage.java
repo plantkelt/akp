@@ -65,6 +65,9 @@ public class AkpPlantPage extends AkpPageTemplate {
 				return akpTaxonService.getPlant(plantId);
 			}
 		};
+		// Set page title
+		setPageTitleModel(new PropertyModel<String>(plantModel,
+				"mainName.textName"));
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(

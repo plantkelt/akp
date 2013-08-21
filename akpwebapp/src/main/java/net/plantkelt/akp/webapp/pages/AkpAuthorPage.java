@@ -60,6 +60,10 @@ public class AkpAuthorPage extends AkpPageTemplate {
 		if (authorModel.getObject() == null)
 			throw new IllegalArgumentException("Invalid author ID: " + authorId);
 
+		// Set page title
+		AkpAuthor author = authorModel.getObject();
+		setPageTitle(author.getXid() + " - " + author.getTextName());
+
 		// Author id
 		Label authorIdLabel = new Label("authorId", authorId);
 		add(authorIdLabel);

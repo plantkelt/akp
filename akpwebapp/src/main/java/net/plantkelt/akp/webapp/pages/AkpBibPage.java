@@ -56,6 +56,9 @@ public class AkpBibPage extends AkpPageTemplate {
 		if (bibModel.getObject() == null)
 			throw new IllegalArgumentException("Invalid bib ID: " + bibId);
 
+		// Set page title
+		setPageTitleModel(new PropertyModel<String>(bibModel, "shortName"));
+
 		// Bib id
 		Label bibIdLabel = new Label("bibId", bibId);
 		add(bibIdLabel);
