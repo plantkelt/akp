@@ -760,13 +760,12 @@ div.fortuneInfo {
 
 div.loginSection {
 	width: 30em;
-	padding-top: 180px;
-	background-image: url("plantkelt_logo.png");
-	background-repeat: no-repeat;
-	background-position: center top;
-	margin-left: auto;
 	margin-right: auto;
 	margin-left: auto;
+}
+
+div.loginSection p.logo {
+	text-align: center;
 }
 
 div.loginSection .formPanel {
