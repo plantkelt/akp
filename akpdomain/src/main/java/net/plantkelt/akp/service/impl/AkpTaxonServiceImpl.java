@@ -981,6 +981,17 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			retval.put(kv.getKey(), xids);
 		}
 		searchData.setTaxonName(taxonSearch);
+		// Remove entry xid -> {single xid author}
+		Set<String> toRemove = new HashSet<String>();
+		for (Map.Entry<String, Set<String>> kv : retval.entrySet()) {
+			if (kv.getValue().size() == 1
+					&& kv.getValue().iterator().next().equals(kv.getKey())) {
+				toRemove.add(kv.getKey());
+			}
+		}
+		for (String xid : toRemove) {
+			retval.remove(xid);
+		}
 		if (retval.isEmpty())
 			return null;
 		return retval;
