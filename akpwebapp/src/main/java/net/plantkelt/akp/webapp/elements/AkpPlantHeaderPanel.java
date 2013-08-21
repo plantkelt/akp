@@ -90,6 +90,7 @@ public class AkpPlantHeaderPanel extends Panel {
 						target.add(AkpPlantHeaderPanel.this);
 					}
 				});
+		commentsEditor.setVisible(false);
 		add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin);
 		IModel<String> commentsModel = new PropertyModel<String>(plantModel,

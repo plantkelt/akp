@@ -9,7 +9,6 @@ import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.AdminMarkupContainer;
 import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
 import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -55,9 +54,10 @@ public class AkpSearchForm extends Panel {
 		WebMarkupContainer plantOriginRow = new LoggedInMarkupContainer(
 				"plantOriginRow");
 		form.add(plantOriginRow);
-		WebMarkupContainer plantCommentsRow = new AdminMarkupContainer(
+		WebMarkupContainer plantCommentsRow = new WebMarkupContainer(
 				"plantCommentsRow");
 		form.add(plantCommentsRow);
+		plantCommentsRow.setVisible(false);
 		WebMarkupContainer plantFamilyRow = new LoggedInMarkupContainer(
 				"plantFamilyRow");
 		form.add(plantFamilyRow);
