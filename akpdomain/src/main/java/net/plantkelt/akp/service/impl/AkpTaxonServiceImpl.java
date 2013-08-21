@@ -382,24 +382,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (taxonName.matches(".*=[^\\s].*"))
 			retval.add("error.no.space.after.equals");
 		Matcher synMatcher = Pattern.compile("<l>.*?</l>").matcher(taxonName);
-		for (int i = 1; i <= synMatcher.groupCount(); i++) {
-			String syn = synMatcher.group(i);
-			if (!syn.matches("^<l><(i|b)>(<(x|\\+)>)??[A-Z][a-z,\\-]+? (<(x|\\+)> )??([a-z,\\-]+?)|(spp\\.)</(i|b)>")) {
+		while (synMatcher.find()) {
+			String syn = synMatcher.group();
+			if (!syn.matches("^<l><(i|b)>(<(x|\\+)>)??[A-Z][a-z,\\-]+? (<(x|\\+)> )??(([a-z,\\-]+?)|(spp?\\.))</(i|b)>.*?</l>$")) {
 				retval.add("error.invalid.taxon.structure");
 				break;
 			}
 		}
-		// Unknown author: no need to do since they will be printed in red.
-		// Matcher authMatcher = Pattern.compile("<a>(.*?)</a>")
-		// .matcher(taxonName);
-		// System.out.println("auth group count=" + authMatcher.groupCount());
-		// for (int i = 1; i <= authMatcher.groupCount(); i++) {
-		// String auth = authMatcher.group(i);
-		// System.out.println("auth='" + auth + "'");
-		// // TODO
-		// // error.unknown.author
-		// }
-		// TODO error.missing.e.tag.after.epsilon
 		return retval;
 	}
 
@@ -1763,5 +1752,4 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private Session getSession() {
 		return sessionProvider.get();
 	}
-
 }
