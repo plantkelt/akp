@@ -10,6 +10,7 @@ import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpTaxon;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.pages.AkpAuthorPage;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -39,6 +40,8 @@ public class AkpTaxonLabel extends Panel {
 	public AkpTaxonLabel(String id, final IModel<AkpTaxon> taxonModel,
 			final IModel<Map<String, AkpAuthor>> authorsModel) {
 		super(id);
+
+		final boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		IModel<List<NameElement>> elemListModel = new LoadableDetachableModel<List<NameElement>>() {
 			private static final long serialVersionUID = 1L;
@@ -92,19 +95,23 @@ public class AkpTaxonLabel extends Panel {
 					elemAuthorId.add(new AttributeAppender("class",
 							new Model<String>("wrong-author"), " "));
 				elemAuthorLink.add(elemAuthorId);
+				WebMarkupContainer authorPopup = new WebMarkupContainer("authorPopup");
+				// Do not display popup for administrators
+				authorPopup.setVisible(!isAdmin);
+				elemAuthorLink.add(authorPopup);
 				Label authorId = new Label("authorId",
 						nameElement.author == null ? nameElement.authorElement
 								: nameElement.author.getXid());
-				elemAuthorLink.add(authorId);
+				authorPopup.add(authorId);
 				Label authorName = new Label("authorName",
 						nameElement.author == null ? "?"
 								: nameElement.author.getName());
 				authorName.setEscapeModelStrings(false);
-				elemAuthorLink.add(authorName);
+				authorPopup.add(authorName);
 				Label authorDates = new Label("authorDates",
 						nameElement.author == null ? "?"
 								: nameElement.author.getDates());
-				elemAuthorLink.add(authorDates);
+				authorPopup.add(authorDates);
 			}
 		};
 		add(elemList);
