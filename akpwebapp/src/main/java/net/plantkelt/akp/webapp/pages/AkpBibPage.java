@@ -3,16 +3,17 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -20,8 +21,6 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
@@ -232,35 +231,23 @@ public class AkpBibPage extends AkpPageTemplate {
 		CollapsibleButton collapseButton = new CollapsibleButton(
 				"collapseButton", collapseDiv, false);
 		vernaRefsSection.add(collapseButton);
-		ListView<AkpVernacularName> vernaRefsList = new ListView<AkpVernacularName>(
-				"vernaRefsList", vernaRefsModel) {
+
+		IModel<AkpSearchResult> searchResultModel = new LoadableDetachableModel<AkpSearchResult>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void populateItem(ListItem<AkpVernacularName> item) {
-				AkpVernacularName vernaName = item.getModelObject();
-				AkpLexicalGroup lexicalGroup = vernaName.getLexicalGroup();
-				Label vernaNameLabel = new Label("vernaName",
-						vernaName.getName());
-				item.add(vernaNameLabel);
-				Label langLabel = new Label("lang", lexicalGroup.getLang()
-						.getXid()
-						+ (lexicalGroup.getCorrect() == 0 ? ""
-								: lexicalGroup.getCorrectDisplayCode()));
-				item.add(langLabel);
-				Link<AkpPlantPage> plantLink = AkpPlantPage.link("plantLink",
-						lexicalGroup.getPlant().getXid());
-				item.add(plantLink);
-				Label plantLabel = new Label("plant", vernaName
-						.getLexicalGroup().getPlant().getMainName()
-						.getHtmlName());
-				plantLabel.setEscapeModelStrings(false);
-				plantLink.add(plantLabel);
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
+			protected AkpSearchResult load() {
+				AkpSearchData akpSearchData = new AkpSearchData();
+				akpSearchData.setBibRefXid(bibId);
+				akpSearchData.setVernacularName("%");
+				akpSearchData.setLimit(1000);
+				return akpTaxonService.search(AkpWicketSession.get()
+						.getAkpUser(), akpSearchData);
 			}
 		};
-		collapseDiv.add(vernaRefsList);
+		AkpSearchResultsPanel resultsPanel = new AkpSearchResultsPanel(
+				"resultsSection", searchResultModel);
+		collapseDiv.add(resultsPanel);
 
 		// Delete bib
 		Form<Void> deleteForm = new Form<Void>("deleteForm");
