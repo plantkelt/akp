@@ -66,6 +66,7 @@ public class InPlaceEditor extends Border {
 		textField.add(new AttributeAppender("size", new Model<String>(""
 				+ nCols)));
 		textArea = new TextArea<String>("textArea", stringModel);
+		textArea.add(new InputMacros());
 		textArea.setVisible(nRows > 1);
 		textArea.add(new AttributeAppender("rows",
 				new Model<String>("" + nRows)));

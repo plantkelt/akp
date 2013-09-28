@@ -22,7 +22,7 @@ public class InputMacros extends AttributeModifier {
 			InputMacros.class, "InputMacros.js");
 
 	public InputMacros() {
-		super("onKeyUp", new Model<String>("akp_handleMacro(this, event)"));
+		super("onkeyup", new Model<String>("akp_handleMacro(this, event)"));
 	}
 
 	@Override

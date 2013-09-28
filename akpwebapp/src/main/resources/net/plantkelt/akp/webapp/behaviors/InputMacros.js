@@ -16,15 +16,14 @@ function akp_getCaretPos(input) {
 // Modification de la position du curseur dans un champ
 function akp_setCaretPos(input, pos) {
 	input.focus();
-	if (document.selection) { 
-		input.focus ();
+	if (document.selection) {
+		input.focus();
 		var sel = document.selection.createRange();
 		sel.moveStart('character', -input.value.length);
 		sel.moveStart('character', pos);
 		sel.moveEnd('character', 0);
 		sel.select();
-	}
-	else if (input.selectionStart || input.selectionStart == '0') {
+	} else if (input.selectionStart || input.selectionStart == '0') {
 		input.selectionStart = pos;
 		input.selectionEnd = pos;
 		input.focus();
@@ -32,7 +31,7 @@ function akp_setCaretPos(input, pos) {
 }
 
 function akp_isWordChar(ch) {
-	const WORDCH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-áàâäéèêëíîïóòôöúùûü";
+	var WORDCH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-áàâäéèêëíîïóòôöúùûü";
 	var i;
 	for (i = 0; i < WORDCH.length; i++)
 		if (ch == WORDCH.charAt(i))
@@ -81,9 +80,10 @@ function akp_handleMacro(input, ev) {
 	var key;
 	if (ev.which)
 		key = ev.which;
-	else	key = ev.keyCode;
+	else
+		key = ev.keyCode;
 	if (ev.ctrlKey && ev.shiftKey) {
-		switch(key) {
+		switch (key) {
 		// case 65:
 		case 90:
 			akp_surround(input, "a", 1);
