@@ -463,13 +463,20 @@ h3.langGroup {
 	clear: both;
 }
 
-div.tagsSection {
-	float: right;
-	width: 20em;
+div.tagsSection, div.tagsSectionAdmin {
 	margin-right: 4px;
 	margin-top: 4px;
 	background-color: #eeeeaa;
 	border-radius: 8px;
+}
+
+div.tagsSection {
+	float: right;
+	width: 20em;
+}
+
+div.tagsSectionAdmin {
+	width: 40em;	
 }
 
 div.linksSection {

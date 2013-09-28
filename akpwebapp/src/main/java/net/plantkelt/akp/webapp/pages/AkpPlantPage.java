@@ -21,6 +21,7 @@ import net.plantkelt.akp.webapp.elements.AkpPlantTagsPanel;
 import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -93,6 +94,8 @@ public class AkpPlantPage extends AkpPageTemplate {
 		// Tags
 		AkpPlantTagsPanel tagsPanel = new AkpPlantTagsPanel("tagsPanel",
 				plantModel);
+		if (isAdmin)
+			tagsPanel.add(new AttributeModifier("class", "tagsSectionAdmin"));
 		add(tagsPanel);
 
 		// Links
