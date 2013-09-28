@@ -659,6 +659,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public void updateLang(AkpLang lang) {
 		getSession().update(lang);
+		getSession().flush();
 	}
 
 	@Transactional
