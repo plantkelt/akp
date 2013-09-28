@@ -1,18 +1,18 @@
 package net.plantkelt.akp.webapp.pages;
 
 import java.text.MessageFormat;
-import java.util.List;
 
 import net.plantkelt.akp.domain.AkpAuthor;
-import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchResult;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -21,8 +21,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -173,20 +171,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 		renameForm.add(new RequiredTextField<String>("newXid", newXidModel));
 
 		// Taxon used
-		final IModel<List<AkpTaxon>> taxonRefsModel = new LoadableDetachableModel<List<AkpTaxon>>() {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			protected List<AkpTaxon> load() {
-				int limit = 25;
-				if (AkpWicketSession.get().isLoggedIn())
-					limit = 200;
-				if (AkpWicketSession.get().isAdmin())
-					limit = 1000;
-				return akpTaxonService.getTaxonsForAuthor(limit,
-						authorModel.getObject());
-			}
-		};
 		WebMarkupContainer taxonRefsSection = new WebMarkupContainer(
 				"taxonRefsSection");
 		taxonRefsSection.setVisible(isLoggedIn);
@@ -196,21 +181,27 @@ public class AkpAuthorPage extends AkpPageTemplate {
 		CollapsibleButton collapseButton = new CollapsibleButton(
 				"collapseButton", collapseDiv, false);
 		taxonRefsSection.add(collapseButton);
-		ListView<AkpTaxon> taxonRefsList = new ListView<AkpTaxon>(
-				"taxonRefsList", taxonRefsModel) {
+
+		final IModel<AkpSearchResult> searchResultModel = new LoadableDetachableModel<AkpSearchResult>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void populateItem(ListItem<AkpTaxon> item) {
-				AkpTaxon taxon = item.getModelObject();
-				Label taxonLabel = new Label("taxonName", taxon.getHtmlName());
-				taxonLabel.setEscapeModelStrings(false);
-				item.add(taxonLabel);
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
+			protected AkpSearchResult load() {
+				AkpSearchData akpSearchData = new AkpSearchData();
+				akpSearchData.setTaxonName("%<a>" + authorId + "</a>%");
+				int limit = 25;
+				if (AkpWicketSession.get().isLoggedIn())
+					limit = 200;
+				if (AkpWicketSession.get().isAdmin())
+					limit = 1000;
+				akpSearchData.setLimit(limit);
+				return akpTaxonService.search(AkpWicketSession.get()
+						.getAkpUser(), akpSearchData);
 			}
 		};
-		collapseDiv.add(taxonRefsList);
+		AkpSearchResultsPanel resultsPanel = new AkpSearchResultsPanel(
+				"resultsSection", searchResultModel);
+		collapseDiv.add(resultsPanel);
 
 		// Delete author
 		Form<Void> deleteForm = new Form<Void>("deleteForm");
@@ -228,7 +219,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 			@Override
 			public boolean isVisible() {
 				return AkpWicketSession.get().isAdmin()
-						&& taxonRefsModel.getObject().size() == 0;
+						&& searchResultModel.getObject().isEmpty();
 			}
 		};
 		deleteForm.add(deleteButton);
