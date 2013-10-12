@@ -201,7 +201,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	public AkpPlant createNewPlant(AkpClass owningClass) {
 		AkpTaxon mainTaxon = new AkpTaxon();
 		mainTaxon.setType(AkpTaxon.TYPE_MAIN);
-		mainTaxon.setName("<l><b>Aaa aaa</b></l>");
+		mainTaxon.setName("<l><b>A a</b></l>");
 		AkpPlant plant = new AkpPlant(owningClass, mainTaxon);
 		getSession().save(plant);
 		getSession().save(mainTaxon);
