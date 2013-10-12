@@ -76,12 +76,24 @@ function akp_insert(input, what) {
 	akp_setCaretPos(input, cindex + 2 + what.length);
 }
 
-function akp_handleMacro(input, ev) {
+function akp_submit(submitBtnId) {
+	if (submitBtnId != null)
+		document.getElementById(submitBtnId).click();
+}
+
+function akp_handleMacro(input, ev, submitBtnId) {
 	var key;
 	if (ev.which)
 		key = ev.which;
 	else
 		key = ev.keyCode;
+	if (ev.ctrlKey) {
+		switch (key) {
+		case 13:
+			akp_submit(submitBtnId);
+			break;
+		}
+	}
 	if (ev.ctrlKey && ev.shiftKey) {
 		switch (key) {
 		// case 65:

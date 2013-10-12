@@ -66,7 +66,6 @@ public class InPlaceEditor extends Border {
 		textField.add(new AttributeAppender("size", new Model<String>(""
 				+ nCols)));
 		textArea = new TextArea<String>("textArea", stringModel);
-		textArea.add(new InputMacros());
 		textArea.setVisible(nRows > 1);
 		textArea.add(new AttributeAppender("rows",
 				new Model<String>("" + nRows)));
@@ -74,7 +73,7 @@ public class InPlaceEditor extends Border {
 				new Model<String>("" + nCols)));
 		editForm.add(textField);
 		editForm.add(textArea);
-		editForm.add(new AjaxSubmitLink("saveButton") {
+		AjaxSubmitLink submitBtn = new AjaxSubmitLink("saveButton") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -86,7 +85,10 @@ public class InPlaceEditor extends Border {
 				editForm.setVisible(false);
 				target.add(editForm, viewPanel);
 			}
-		});
+		};
+		submitBtn.setOutputMarkupId(true);
+		textArea.add(new InputMacros(submitBtn.getMarkupId()));
+		editForm.add(submitBtn);
 		editForm.add(new AjaxSubmitLink("cancelButton") {
 			private static final long serialVersionUID = 1L;
 
