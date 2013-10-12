@@ -106,6 +106,7 @@ public class AkpClass implements Comparable<AkpClass> {
 	public List<AkpPlant> getPlants() {
 		if (plants == null)
 			return Collections.emptyList();
+		Collections.sort(plants);
 		return plants;
 	}
 
