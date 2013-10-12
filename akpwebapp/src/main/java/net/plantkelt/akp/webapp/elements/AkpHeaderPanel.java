@@ -46,6 +46,9 @@ public class AkpHeaderPanel extends Panel {
 		Link<AkpAuthorHomePage> authorsLink = AkpAuthorHomePage
 				.link("authorsLink");
 		add(authorsLink);
+		BookmarkablePageLink<WebPage> firstVisitLink = new BookmarkablePageLink<WebPage>(
+				"firstVisitLink", AkpFirstVisitMainPage.class);
+		add(firstVisitLink);
 
 		// Logged-in links
 		WebMarkupContainer loggedInLinks = new WebMarkupContainer(
@@ -74,9 +77,6 @@ public class AkpHeaderPanel extends Panel {
 		BookmarkablePageLink<WebPage> loginLink = new BookmarkablePageLink<WebPage>(
 				"loginLink", AkpLoginPage.class);
 		noUserSection.add(loginLink);
-		BookmarkablePageLink<WebPage> firstVisitLink = new BookmarkablePageLink<WebPage>(
-				"firstVisitLink", AkpFirstVisitMainPage.class);
-		noUserSection.add(firstVisitLink);
 
 		// User section
 		WebMarkupContainer userSection = new WebMarkupContainer("userSection");
