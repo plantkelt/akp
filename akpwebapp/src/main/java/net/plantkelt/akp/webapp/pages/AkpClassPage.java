@@ -197,7 +197,8 @@ public class AkpClassPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpClass> load() {
-				List<AkpClass> children = akpClassModel.getObject().getChildren();
+				List<AkpClass> children = akpClassModel.getObject()
+						.getChildren();
 				Collections.sort(children);
 				return children;
 			}
@@ -228,8 +229,9 @@ public class AkpClassPage extends AkpPageTemplate {
 				adminSection.add(downLink);
 				Link<AkpClassPage> subClassLink = AkpClassPage.link(
 						"subClassLink", subClass.getXid());
-				Label subClassNameLabel = new Label("subClassName",
-						subClass.getName());
+				Label subClassNameLabel = new Label("subClassName", subClass
+						.getTextName().isEmpty() ? "(empty)"
+						: subClass.getName());
 				subClassNameLabel.setEscapeModelStrings(false);
 				subClassLink.add(subClassNameLabel);
 				item.add(subClassLink);
