@@ -6,8 +6,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -101,7 +103,15 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		newUser.setLang(AkpUser.LANG_EN);
 		newUser.setName(login);
 		newUser.setProfile(AkpUser.PROFILE_USER);
-		newUser.setExpire(new Date());
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.set(Calendar.YEAR, 2050);
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		newUser.setExpire(cal.getTime());
 		getSession().save(newUser);
 		return newUser;
 	}

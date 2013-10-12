@@ -42,6 +42,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 	private IModel<String> nameModel;
 	private IModel<String> emailModel;
 	private IModel<Integer> profileModel;
+
 	private IModel<Boolean> onlyExpiredModel;
 
 	private DateFormat expireFormat;
