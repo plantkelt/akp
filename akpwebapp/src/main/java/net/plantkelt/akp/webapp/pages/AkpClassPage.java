@@ -241,7 +241,7 @@ public class AkpClassPage extends AkpPageTemplate {
 
 		// Owned-plants
 		IModel<List<AkpPlant>> ownedPlantsModel = new PropertyModel<List<AkpPlant>>(
-				akpClassModel, "plants");
+				akpClassModel, "plantsSorted");
 		ListView<AkpPlant> ownedPlantsListView = new ListView<AkpPlant>(
 				"ownedPlants", ownedPlantsModel) {
 			private static final long serialVersionUID = 1L;

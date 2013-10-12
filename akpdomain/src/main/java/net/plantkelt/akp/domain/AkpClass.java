@@ -1,5 +1,6 @@
 package net.plantkelt.akp.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -106,6 +107,11 @@ public class AkpClass implements Comparable<AkpClass> {
 	public List<AkpPlant> getPlants() {
 		if (plants == null)
 			return Collections.emptyList();
+		return plants;
+	}
+
+	public List<AkpPlant> getPlantsSorted() {
+		List<AkpPlant> plants = new ArrayList<AkpPlant>(getPlants());
 		Collections.sort(plants);
 		return plants;
 	}
