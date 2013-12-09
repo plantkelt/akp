@@ -212,9 +212,9 @@ public class AkpSearchForm extends Panel {
 
 			@Override
 			public void setObject(AkpBib bib) {
-				form.getModelObject().setBibRefXid(bib.getXid());
+				form.getModelObject().setBibRefXid(
+						bib == null ? null : bib.getXid());
 			}
-
 		};
 		DropDownChoice<AkpBib> bibSelect = new DropDownChoice<AkpBib>(
 				"vernacularNameBib", bibModel, bibsModel,
