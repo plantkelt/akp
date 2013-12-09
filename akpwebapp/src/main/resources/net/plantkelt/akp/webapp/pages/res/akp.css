@@ -383,9 +383,10 @@ a.popup span.popupContent {
 a.popup:hover span.popupContent {
 	display: block;
 	position: absolute;
-	top: -10px;
-	left: 40px;
-	width: 400px;
+	top: 20px;
+	left: -20px;
+	width: auto;
+	min-width: 8em;
 	color: black;
 	background: #eeeeaa;
 	padding: 4px;
@@ -590,6 +591,15 @@ span.plantRef:hover {
 
 span.bibAdder {
 	margin-left: 2px;
+}
+
+td.langSelect {
+	padding-right: 10em;
+}
+
+td.langSelect label {
+	padding-right: 1em;
+	white-space: nowrap;
 }
 
 form.bibAdder {
