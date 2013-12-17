@@ -1,6 +1,8 @@
 package net.plantkelt.akp.domain;
 
 import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AkpVernacularName implements Comparable<AkpVernacularName> {
@@ -75,6 +77,13 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 
 	public List<AkpBib> getBibs() {
 		return bibs;
+	}
+	
+	// TODO How to define this using hibernate mapping ?
+	public List<AkpBib> getOrderedBibs() {
+		List<AkpBib> retval = new ArrayList<AkpBib>(bibs);
+		Collections.sort(retval);
+		return retval;
 	}
 
 	public void setBibs(List<AkpBib> bibs) {

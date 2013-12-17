@@ -86,7 +86,7 @@ public class AkpVernacularNamePanel extends Panel {
 
 		// Bib list entry
 		IModel<List<AkpBib>> bibListModel = new PropertyModel<List<AkpBib>>(
-				vernaNameModel, "bibs");
+				vernaNameModel, "orderedBibs");
 		ListView<AkpBib> bibListView = new ListView<AkpBib>("bibList",
 				bibListModel) {
 			private static final long serialVersionUID = 1L;
