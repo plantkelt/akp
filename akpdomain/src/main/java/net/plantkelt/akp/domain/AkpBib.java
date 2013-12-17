@@ -91,6 +91,12 @@ public class AkpBib implements Comparable<AkpBib> {
 
 	@Override
 	public int compareTo(AkpBib o) {
+		/*
+		 * I'm not sure that with this compare method we will have a stable sort
+		 * (rely on compare to follow an ordering relation, ie symetric,
+		 * transitive and? idempotent?), but normally bib XID are 4 digits
+		 * (edition year) plus 4 letters (title?/author? code).
+		 */
 		try {
 			if (getXid().length() < 4 || o.getXid().length() < 4)
 				return getXid().compareTo(o.getXid());
