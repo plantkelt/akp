@@ -8,6 +8,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	public static final int TYPE_MAIN = 0;
 	public static final int TYPE_SYNONYM = 2;
 
+	public static final String EMPTY_NAME = "<l><b></b></l>";
+
 	private static final String[] EPSILON_LIST = { "sect.", "subsect.",
 			"subsp.", "[subsp.]", "nothosubsp.", "proles", "nothoproles",
 			"var.", "[var.]", "nothovar.", "subvar.", "subgen.", "fa.",
@@ -130,6 +132,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	public synchronized String getSortKey() {
 		if (sortKey == null) {
 			sortKey = name;
+			if (sortKey.equals(EMPTY_NAME))
+				sortKey = "~"; // To place empty names at the end of the list
 			sortKey = sortKey
 					.replace("spp.", "")
 					.replace(", non ", "  ")

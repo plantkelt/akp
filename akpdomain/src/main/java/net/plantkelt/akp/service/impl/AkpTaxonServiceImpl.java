@@ -322,7 +322,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		AkpTaxon taxon = new AkpTaxon();
 		taxon.setPlant(ownerPlant);
 		taxon.setType(AkpTaxon.TYPE_SYNONYM);
-		taxon.setName("<l><b></b></l>");
+		taxon.setName(AkpTaxon.EMPTY_NAME);
 		ownerPlant.addTaxon(taxon);
 		getSession().save(taxon);
 		akpLogService.logTaxonCreation(taxon);
