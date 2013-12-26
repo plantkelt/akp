@@ -26,7 +26,9 @@ public abstract class AkpClassSelectPanel extends Panel {
 	@Inject
 	private AkpTaxonService akpTaxonService;
 
+	private boolean singleResultAutoselect = true;
 	private String searchText;
+	private IModel<List<AkpClass>> resultModel;
 
 	public AkpClassSelectPanel(String id) {
 		super(id);
@@ -37,13 +39,20 @@ public abstract class AkpClassSelectPanel extends Panel {
 
 			@Override
 			public void onSubmit() {
+				if (singleResultAutoselect) {
+					List<AkpClass> results = resultModel.getObject();
+					if (results.size() == 1) {
+						// 1 Result only: auto-select the only result
+						onClassSelected(results.get(0));
+					}
+				}
 			}
 		};
 		add(form);
 		form.add(new TextField<String>("searchText"));
 
 		// Result model
-		IModel<List<AkpClass>> resultModel = new LoadableDetachableModel<List<AkpClass>>() {
+		resultModel = new LoadableDetachableModel<List<AkpClass>>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -82,8 +91,16 @@ public abstract class AkpClassSelectPanel extends Panel {
 		add(resultList);
 	}
 
+	public boolean hasResult() {
+		return !resultModel.getObject().isEmpty();
+	}
+
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
+	}
+
+	public void setSingleResultAutoselect(boolean singleResultAutoselect) {
+		this.singleResultAutoselect = singleResultAutoselect;
 	}
 
 	protected abstract void onClassSelected(AkpClass clazz);
