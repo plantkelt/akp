@@ -8,6 +8,7 @@ import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.elements.AkpClassSelectPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -259,6 +260,18 @@ public class AkpClassPage extends AkpPageTemplate {
 			}
 		};
 		add(ownedPlantsListView);
+
+		// Class quickSearch
+		AkpClassSelectPanel quickSearch = new AkpClassSelectPanel("quickSearch") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onClassSelected(AkpClass clazz) {
+				setResponsePage(AkpClassPage.class,
+						new PageParameters().add("xid", clazz.getXid()));
+			}
+		};
+		add(quickSearch);
 	}
 
 	private void refreshPage() {
