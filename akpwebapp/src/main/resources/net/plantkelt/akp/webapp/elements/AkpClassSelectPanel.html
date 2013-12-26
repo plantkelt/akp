@@ -1,0 +1,13 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<form wicket:id="form">
+		<wicket:message key="class.search" />
+		<input type="text" wicket:id="searchText" />
+		<button type="submit">
+			<wicket:message key="search.button" />
+		</button>
+	</form>
+	<ul>
+		<li wicket:id="resultList"><a wicket:id="link"><span
+				wicket:id="className"></span></a></li>
+	</ul>
+</wicket:panel>
