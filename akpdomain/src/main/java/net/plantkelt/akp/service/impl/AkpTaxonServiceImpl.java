@@ -122,6 +122,21 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
+	public List<AkpClass> searchClass(String searchText) {
+		@SuppressWarnings("unchecked")
+		List<AkpClass> retval = getSession().createCriteria(AkpClass.class)
+				.add(Restrictions.like("name", "%" + searchText + "%")).list();
+		Collections.sort(retval, new Comparator<AkpClass>() {
+			@Override
+			public int compare(AkpClass o1, AkpClass o2) {
+				return o1.getTextName().compareTo(o2.getTextName());
+			}
+		});
+		return retval;
+	}
+
+	@Transactional
+	@Override
 	public void moveDownChildClass(AkpClass parentClass,
 			int childIndexToMoveDown) {
 		// TODO Use hibernate list-index

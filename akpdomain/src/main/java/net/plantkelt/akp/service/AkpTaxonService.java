@@ -25,6 +25,8 @@ public interface AkpTaxonService {
 
 	public abstract List<AkpClass> getFamilies();
 
+	public abstract List<AkpClass> searchClass(String searchText);
+	
 	public abstract void createNewClass(AkpClass parentClass);
 
 	public abstract void moveDownChildClass(AkpClass parentClass,
