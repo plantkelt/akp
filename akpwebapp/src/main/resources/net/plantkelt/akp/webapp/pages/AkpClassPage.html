@@ -4,44 +4,46 @@
 <body>
 	<wicket:extend>
 		<div wicket:id="quickSearch"></div>
-		<div class="classPath" wicket:id="parentPath" />
-		<div wicket:id="classNameEditor">
-			<h1 class="taxon">
-				<span wicket:id="className"></span>
-			</h1>
+		<div wicket:id="mainPanel">
+			<div class="classPath" wicket:id="parentPath" />
+			<div wicket:id="classNameEditor">
+				<h1 class="taxon">
+					<span wicket:id="className"></span>
+				</h1>
+			</div>
+			<div wicket:id="classCommentsEditor">
+				<span class="comments" wicket:id="classComments" />
+			</div>
+			<div wicket:id="classSynonymsEditor">
+				<span class="taxon" wicket:id="classSynonyms" />
+			</div>
+			<form wicket:id="form">
+				<button type="submit" wicket:id="addSubClassButton">
+					<wicket:message key="add.subclass.button" />
+				</button>
+				<button type="submit" wicket:id="removeClassButton">
+					<wicket:message key="remove.class.button" />
+				</button>
+				<button type="submit" wicket:id="addPlantButton">
+					<wicket:message key="add.plant.button" />
+				</button>
+			</form>
+			<h2>
+				<wicket:message key="class.subclasses.header" />
+			</h2>
+			<ul>
+				<li wicket:id="subClasses"><span wicket:id="adminSection"><a
+						class="down" wicket:id="downLink"></a> </span><a wicket:id="subClassLink"><span
+						class="taxon" wicket:id="subClassName" /></a></li>
+			</ul>
+			<h2>
+				<wicket:message key="class.plants.header" />
+			</h2>
+			<ul>
+				<li wicket:id="ownedPlants"><a wicket:id="ownedPlantLink"><span
+						class="taxon" wicket:id="ownedPlantName" /></a></li>
+			</ul>
 		</div>
-		<div wicket:id="classCommentsEditor">
-			<span class="comments" wicket:id="classComments" />
-		</div>
-		<div wicket:id="classSynonymsEditor">
-			<span class="taxon" wicket:id="classSynonyms" />
-		</div>
-		<form wicket:id="form">
-			<button type="submit" wicket:id="addSubClassButton">
-				<wicket:message key="add.subclass.button" />
-			</button>
-			<button type="submit" wicket:id="removeClassButton">
-				<wicket:message key="remove.class.button" />
-			</button>
-			<button type="submit" wicket:id="addPlantButton">
-				<wicket:message key="add.plant.button" />
-			</button>
-		</form>
-		<h2>
-			<wicket:message key="class.subclasses.header" />
-		</h2>
-		<ul>
-			<li wicket:id="subClasses"><span wicket:id="adminSection"><a
-					class="down" wicket:id="downLink"></a> </span><a wicket:id="subClassLink"><span
-					class="taxon" wicket:id="subClassName" /></a></li>
-		</ul>
-		<h2>
-			<wicket:message key="class.plants.header" />
-		</h2>
-		<ul>
-			<li wicket:id="ownedPlants"><a wicket:id="ownedPlantLink"><span
-					class="taxon" wicket:id="ownedPlantName" /></a></li>
-		</ul>
 	</wicket:extend>
 </body>
 </html>

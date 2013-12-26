@@ -40,6 +40,30 @@ public class AkpClassPage extends AkpPageTemplate {
 
 	public AkpClassPage(PageParameters parameters) {
 
+		// Class quickSearch
+		final AkpClassSelectPanel quickSearch = new AkpClassSelectPanel(
+				"quickSearch") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onClassSelected(AkpClass clazz) {
+				setResponsePage(AkpClassPage.class,
+						new PageParameters().add("xid", clazz.getXid()));
+			}
+		};
+		add(quickSearch);
+
+		// Main panel, hidden when result are present
+		WebMarkupContainer mainPanel = new WebMarkupContainer("mainPanel") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isVisible() {
+				return !quickSearch.hasResult();
+			}
+		};
+		add(mainPanel);
+
 		// Load data
 		classId = parameters.get("xid").toOptionalInteger();
 		akpClassModel = new LoadableDetachableModel<AkpClass>() {
@@ -58,7 +82,7 @@ public class AkpClassPage extends AkpPageTemplate {
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
 				"parentPath", new PropertyModel<AkpClass>(akpClassModel,
 						"parent"));
-		add(parentPathLabel);
+		mainPanel.add(parentPathLabel);
 
 		// Class name
 		InPlaceEditor classNameEditor = new InPlaceEditor("classNameEditor",
@@ -77,7 +101,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpTaxonService.updateClass(akpClass);
 					}
 				}, 1, 60);
-		add(classNameEditor);
+		mainPanel.add(classNameEditor);
 		classNameEditor.setReadOnly(!isAdmin || isFake);
 		Label classNameLabel = new Label("className",
 				new PropertyModel<String>(akpClassModel, "htmlName"));
@@ -102,7 +126,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpTaxonService.updateClass(akpClass);
 					}
 				}, 1, 60);
-		add(commentsEditor);
+		mainPanel.add(commentsEditor);
 		commentsEditor.setReadOnly(!isAdmin || isFake);
 		Label classComments = new Label("classComments",
 				new PropertyModel<String>(akpClassModel, "comments"));
@@ -127,7 +151,7 @@ public class AkpClassPage extends AkpPageTemplate {
 						akpTaxonService.updateClass(akpClass);
 					}
 				}, 1, 60);
-		add(synonymsEditor);
+		mainPanel.add(synonymsEditor);
 		synonymsEditor.setReadOnly(!isAdmin || isFake);
 		Label classSynonyms = new Label("classSynonyms",
 				new PropertyModel<String>(akpClassModel, "htmlSynonyms"));
@@ -136,7 +160,7 @@ public class AkpClassPage extends AkpPageTemplate {
 
 		// Generic form
 		Form<Void> form = new Form<Void>("form");
-		add(form);
+		mainPanel.add(form);
 
 		// Add a sub-class button
 		Button addSubClassButton = new Button("addSubClassButton") {
@@ -238,7 +262,7 @@ public class AkpClassPage extends AkpPageTemplate {
 				item.add(subClassLink);
 			}
 		};
-		add(subClassesListView);
+		mainPanel.add(subClassesListView);
 
 		// Owned-plants
 		IModel<List<AkpPlant>> ownedPlantsModel = new PropertyModel<List<AkpPlant>>(
@@ -259,19 +283,7 @@ public class AkpClassPage extends AkpPageTemplate {
 				item.add(ownedPlantLink);
 			}
 		};
-		add(ownedPlantsListView);
-
-		// Class quickSearch
-		AkpClassSelectPanel quickSearch = new AkpClassSelectPanel("quickSearch") {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void onClassSelected(AkpClass clazz) {
-				setResponsePage(AkpClassPage.class,
-						new PageParameters().add("xid", clazz.getXid()));
-			}
-		};
-		add(quickSearch);
+		mainPanel.add(ownedPlantsListView);
 	}
 
 	private void refreshPage() {
