@@ -26,7 +26,7 @@ public interface AkpTaxonService {
 	public abstract List<AkpClass> getFamilies();
 
 	public abstract List<AkpClass> searchClass(String searchText);
-	
+
 	public abstract void createNewClass(AkpClass parentClass);
 
 	public abstract void moveDownChildClass(AkpClass parentClass,
@@ -56,6 +56,8 @@ public interface AkpTaxonService {
 	public abstract boolean canDeletePlant(AkpPlant plant);
 
 	public abstract boolean deletePlant(AkpPlant plant);
+
+	public abstract void movePlant(AkpPlant plant, AkpClass newClass);
 
 	public abstract boolean createNewPlantTag(AkpPlant plant, int tagType);
 
@@ -163,7 +165,7 @@ public interface AkpTaxonService {
 	public abstract void updateAuthor(AkpAuthor author);
 
 	public abstract int renameAuthorXid(AkpAuthor author, String newXid);
-	
+
 	public abstract boolean deleteAuthor(AkpAuthor author);
 
 	public abstract AkpSearchResult search(AkpUser user,

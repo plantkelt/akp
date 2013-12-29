@@ -303,6 +303,17 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Transactional
 	@Override
+	public void movePlant(AkpPlant plant, AkpClass newClass) {
+		plant = getPlant(plant.getXid());
+		AkpClass oldClass = plant.getAkpClass();
+		newClass = getClass(newClass.getXid());
+		plant.setAkpClass(newClass);
+		getSession().update(plant);
+		akpLogService.logPlantMove(plant, oldClass, newClass);
+	}
+
+	@Transactional
+	@Override
 	public boolean createNewPlantTag(AkpPlant plant, int tagType) {
 		for (AkpPlantTag tag : plant.getTags())
 			if (tag.getType() == tagType)

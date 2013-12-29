@@ -103,6 +103,10 @@ public class AkpPlantPage extends AkpPageTemplate {
 				"viewHistoryLink", plantId);
 		viewHistoryLink.setVisible(isAdmin);
 		add(viewHistoryLink);
+		Link<AkpPlantAdminPage> plantAdminLink = AkpPlantAdminPage.link(
+				"adminLink", plantId);
+		plantAdminLink.setVisible(isAdmin);
+		add(plantAdminLink);
 
 		// Lexical groups
 		IModel<List<AkpLexicalGroup>> lexicalGroupsModel = new LoadableDetachableModel<List<AkpLexicalGroup>>() {

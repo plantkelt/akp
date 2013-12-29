@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -27,6 +28,9 @@ public interface AkpLogService {
 	public abstract void logPlantCreation(AkpPlant plant);
 
 	public abstract void logPlantDeletion(AkpPlant plant);
+
+	public abstract void logPlantMove(AkpPlant plant, AkpClass oldClass,
+			AkpClass newClass);
 
 	public abstract void logPlantCommentsUpdate(AkpPlant plant, String oldValue);
 

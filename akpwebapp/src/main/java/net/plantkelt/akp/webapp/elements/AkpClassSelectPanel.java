@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -16,6 +17,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
 
@@ -27,6 +29,7 @@ public abstract class AkpClassSelectPanel extends Panel {
 	private AkpTaxonService akpTaxonService;
 
 	private boolean singleResultAutoselect = true;
+	private boolean confirmClick = false;
 	private String searchText;
 	private IModel<List<AkpClass>> resultModel;
 
@@ -86,6 +89,11 @@ public abstract class AkpClassSelectPanel extends Panel {
 						clazz.getHtmlName());
 				classNameLabel.setEscapeModelStrings(false);
 				link.add(classNameLabel);
+				if (confirmClick) {
+					link.add(new JavascriptConfirmationModifier("onClick",
+							new StringResourceModel("confirm.action.message",
+									AkpClassSelectPanel.this, null)));
+				}
 			}
 		};
 		add(resultList);
@@ -103,6 +111,12 @@ public abstract class AkpClassSelectPanel extends Panel {
 		this.singleResultAutoselect = singleResultAutoselect;
 	}
 
+	public void setConfirmClick(boolean confirmClick) {
+		this.confirmClick = confirmClick;
+		if (confirmClick)
+			singleResultAutoselect = false;
+	}
+	
 	protected abstract void onClassSelected(AkpClass clazz);
 
 }

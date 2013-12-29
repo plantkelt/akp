@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -65,6 +66,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public static final int LOG_TYPE_TAG_CREATION = 20;
 	public static final int LOG_TYPE_PLANT_REF_CREATION = 22;
 	public static final int LOG_TYPE_PLANT_REF_DELETION = 23;
+	public static final int LOG_TYPE_PLANT_CLASS_MOVE = 24;
 
 	public static final int USERLOG_TYPE_LOGIN = 1;
 	public static final int USERLOG_TYPE_LOGOUT = 2;
@@ -132,6 +134,13 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public void logPlantDeletion(AkpPlant plant) {
 		logNewEntry(LOG_TYPE_PLANT_DELETION, plant.getXid(), null, null, null,
 				plant.getAkpClass().getName(), null);
+	}
+
+	@Override
+	public void logPlantMove(AkpPlant plant, AkpClass oldClass,
+			AkpClass newClass) {
+		logNewEntry(LOG_TYPE_PLANT_CLASS_MOVE, plant.getXid(), null, null,
+				null, oldClass.getTextName(), newClass.getTextName());
 	}
 
 	@Override
