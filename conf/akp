@@ -1,5 +1,6 @@
 <VirtualHost 94.23.250.196:80>
 	ServerName app.plantkelt.net
+	ServerAlias www2.plantkelt.net
 	ProxyPreserveHost On
 	ProxyPass / http://localhost:8080/
 	ProxyPassReverse / http://localhost:8080/
