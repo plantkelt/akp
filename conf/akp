@@ -7,6 +7,7 @@
 
 <VirtualHost 94.23.250.196:80>
 	ServerName www.plantkelt.net
+	ServerAlias plantkelt.net
 	ServerAdmin root@plantkelt.net
 	DocumentRoot /var/www/akp
 	ErrorLog /var/log/apache2/error.log
