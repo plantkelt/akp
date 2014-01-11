@@ -15,3 +15,9 @@ $ cp akpwebapp.war /opt/akp/
 $ cp log4j.properties /opt/akp/
 $ cp akp.xml /etc/tomcat/Catalina/localhost/
 
+4. Configure APACHE REDIRECTION
+$ vi /etc/apache2/apache2.conf
+In <Directory> "/var/www/" conf add: AllowOverride All
+Add .htaccess file in /var/www/akp containing:
+RedirectMatch 301 ^.*$ http://www2.plantkelt.net/akp/web/
+
