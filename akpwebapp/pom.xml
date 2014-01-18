@@ -103,7 +103,6 @@
                 </excludes>
             </resource>
         </resources>
-
 <!--
         <filters>
             <filter>${basedir}/target/filter.properties</filter>

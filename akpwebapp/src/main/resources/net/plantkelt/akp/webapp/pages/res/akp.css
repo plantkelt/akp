@@ -667,6 +667,12 @@ form.plantRefAdder input {
 	color: #775533;
 }
 
+.commentsNoIt {
+	font-family: "Times New Roman", Times, "serif";
+	font-style: normal;
+	color: #775533;
+}
+
 .bibISBN {
 	font-size: 110%;
 	font-family: monospace;
