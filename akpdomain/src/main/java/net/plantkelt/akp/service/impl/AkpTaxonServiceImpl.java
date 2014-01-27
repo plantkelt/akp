@@ -1731,13 +1731,15 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Collections.sort(elementsList, new Comparator<Pair<String, String>>() {
 			@Override
 			public int compare(Pair<String, String> o1, Pair<String, String> o2) {
-				return o1.getFirst().compareToIgnoreCase(o2.getSecond());
+				return o1.getFirst().compareToIgnoreCase(o2.getFirst());
 			}
 		});
 		int n = elementsList.size() / MAX_PAGE + 1;
 		PrintStream indexOut = new PrintStream(new FileOutputStream(
 				String.format("%s/%s.html", location, elementBase)));
-		indexOut.println("<html><body>");
+		indexOut.println("<html><head>");
+		indexOut.println("<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
+		indexOut.println("</head><body>");
 		indexOut.println(String.format("<h1>%s</h1>", title));
 		indexOut.println("<ul>");
 		for (int page = 0; page < MAX_PAGE; page++) {
@@ -1753,7 +1755,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			PrintStream pageOut = new PrintStream(new FileOutputStream(
 					String.format("%s/%s_%02d.html", location, elementBase,
 							page)));
-			pageOut.println("<html><body>");
+			pageOut.println("<html><head>");
+			pageOut.println("<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
+			pageOut.println("</head><body>");
 			pageOut.println(String.format("<h1>Plantkelt - page %d</h1>", page));
 			pageOut.println("<ul>");
 			for (int i = ia; i < ib; i++) {

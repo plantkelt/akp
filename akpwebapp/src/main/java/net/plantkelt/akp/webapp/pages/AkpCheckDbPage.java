@@ -117,7 +117,7 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
 				return akpTaxonService.getHybridParents();
 			}
-			
+
 		});
 		CHECKERS.add(new Checker("equalsSynonyms") {
 			private static final long serialVersionUID = 1L;
@@ -126,7 +126,7 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
 				return akpTaxonService.getEqualsSynonyms();
 			}
-			
+
 		});
 	}
 
@@ -162,9 +162,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 			@Override
 			public void onClick() {
-				// akpTaxonService.updateStaticIndexes();
-				// info(getString("check.db.updatelist") + " : OK");
-				warn("Cette fonction a été désactivée temporairement.");
+				akpTaxonService.updateStaticIndexes();
+				info(getString("check.db.updatelist") + " : OK");
 			}
 		};
 		add(updateStaticListLink);
