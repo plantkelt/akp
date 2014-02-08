@@ -100,8 +100,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 						+ "</span>");
 			}
 			for (String eps : EPSILON3_LIST) {
-				xName = xName.replace(" " + eps + " ",
-						" <span class='epsilon3'>" + eps + "</span> ");
+				xName = xName.replace(eps, "<span class='epsilon3'>" + eps
+						+ "</span>");
 			}
 		}
 		return xName;
