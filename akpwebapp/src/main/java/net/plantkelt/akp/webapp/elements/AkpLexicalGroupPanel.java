@@ -8,7 +8,7 @@ import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
-import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
+import net.plantkelt.akp.webapp.pages.AkpLangInfoPopup;
 import net.plantkelt.akp.webapp.wicket.AkpSessionData;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -68,17 +68,11 @@ public class AkpLexicalGroupPanel extends Panel {
 
 		// Lang ID / correct code
 		AkpLang lang = lexicalGroup.getLang();
-		WebMarkupContainer langCodeLink = new WebMarkupContainer("langCodeLink");
+		WebMarkupContainer langCodeLink = AkpLangInfoPopup.link("langCodeLink",
+				lang.getXid());
 		add(langCodeLink);
 		Label langCodeLabel = new Label("langCode", lang.getCode());
 		langCodeLink.add(langCodeLabel);
-		Label langTitleLabel = new Label("langTitle",
-				new BrEnFrStringModel(lang.getName()));
-		langCodeLink.add(langTitleLabel);
-		Label langDescLabel = new Label("langDesc", new BrEnFrStringModel(
-				lang.getDesc()));
-		langDescLabel.setEscapeModelStrings(false);
-		langCodeLink.add(langDescLabel);
 		Label correctCode = new Label("correctCode",
 				lexicalGroup.getCorrectDisplayCode());
 		correctCode.setVisible(lexicalGroup.getCorrect() != 0);

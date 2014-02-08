@@ -23,6 +23,7 @@ import net.plantkelt.akp.webapp.pages.AkpFirstVisitWhoPage;
 import net.plantkelt.akp.webapp.pages.AkpHomePage;
 import net.plantkelt.akp.webapp.pages.AkpIndexPage;
 import net.plantkelt.akp.webapp.pages.AkpLangHomePage;
+import net.plantkelt.akp.webapp.pages.AkpLangInfoPopup;
 import net.plantkelt.akp.webapp.pages.AkpLangPage;
 import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
@@ -99,6 +100,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/author/${xid}", AkpAuthorPage.class);
 		mountPage("/langs", AkpLangHomePage.class);
 		mountPage("/lang/${xid}", AkpLangPage.class);
+		mountPage("/langinfo/${xid}", AkpLangInfoPopup.class);
 		mountPage("/users", AkpUserManagementPage.class);
 		mountPage("/user/${login}", AkpUserPage.class);
 		mountPage("/about", AkpFirstVisitMainPage.class);
