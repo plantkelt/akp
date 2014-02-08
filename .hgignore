@@ -1,5 +1,7 @@
 
 syntax: regexp
 ^akpdomain/target$
-syntax: regexp
 ^akpwebapp/target$
+/\.settings/
+\.classpath
+\.project
