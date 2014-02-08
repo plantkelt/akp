@@ -65,6 +65,8 @@ public interface AkpTaxonService {
 
 	public abstract void deletePlantTag(AkpPlantTag tag);
 
+	public abstract AkpTaxon getTaxon(Integer xid);
+	
 	public abstract void createNewTaxon(AkpPlant ownerPlant);
 
 	public abstract void updateTaxonName(AkpTaxon taxon, String newName);

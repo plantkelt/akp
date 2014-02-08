@@ -10,6 +10,7 @@
     <modules>
         <module>akpdomain</module>
         <module>akpwebapp</module>
+        <module>akpapp</module>
     </modules>
     <properties>
         <hibernate.version>4.1.7.Final</hibernate.version>

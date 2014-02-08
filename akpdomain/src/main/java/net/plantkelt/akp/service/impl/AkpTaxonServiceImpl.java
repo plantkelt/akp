@@ -227,9 +227,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public AkpPlant getPlant(Integer xid) {
-		// return (AkpPlant) getSession().createCriteria(AkpPlant.class)
-		// .add(Restrictions.eq("xid", xid))
-		// .setFetchMode("lexicalGroups", FetchMode.JOIN).uniqueResult();
 		return (AkpPlant) getSession().get(AkpPlant.class, xid);
 	}
 
@@ -340,6 +337,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		plant.getTags().remove(tag);
 		getSession().delete(tag);
 		getSession().flush();
+	}
+
+	@Transactional
+	@Override
+	public AkpTaxon getTaxon(Integer xid) {
+		return (AkpTaxon) getSession().get(AkpTaxon.class, xid);
 	}
 
 	@Transactional

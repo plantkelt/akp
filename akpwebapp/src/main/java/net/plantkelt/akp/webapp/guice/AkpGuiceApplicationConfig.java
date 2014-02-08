@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import net.plantkelt.akp.service.guice.AkpServiceGuiceModule;
+import net.plantkelt.akp.service.guice.ProvideHibernateSessionModule;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

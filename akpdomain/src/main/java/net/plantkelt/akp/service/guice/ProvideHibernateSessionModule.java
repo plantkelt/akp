@@ -1,4 +1,4 @@
-package net.plantkelt.akp.webapp.guice;
+package net.plantkelt.akp.service.guice;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
