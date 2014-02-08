@@ -10,10 +10,10 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public static final String EMPTY_NAME = "<l><b></b></l>";
 
-	private static final String[] EPSILON_LIST = { "sect.", "subsect.",
-			"subsp.", "[subsp.]", "nothosubsp.", "proles", "nothoproles",
-			"var.", "[var.]", "nothovar.", "subvar.", "subgen.", "fa.",
-			"subfa.", "convar.", "cv.", "infrasp.", "grex" };
+	private static final String[] EPSILON_LIST = { "infrasp.", "subgen.",
+			"sect.", "subsect.", "subsp.", "[subsp.]", "nothosubsp.", "proles",
+			"nothoproles", "var.", "[var.]", "nothovar.", "subvar.", "convar.",
+			"fa.", "subfa.", "cv.", "grex" };
 	private static final String[] EPSILON2_LIST = { " non ", " nec ", " ex ",
 			" & ", " an ", " excl. ", " incl. ", " emend. ", " fide ", " vel ",
 			" ser. ", " apud ", " lusus ", "<i>orth. var.</i>", "<i>p. p.</i>",
