@@ -143,6 +143,9 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 		addSection.add(addForm);
 		addForm.add(new FeedbackPanel("feedback"));
 		addForm.add(new TextField<String>("login", addForm.getModel()));
+		
+		// Link to user login history
+		add(AkpLoginListPage.link("loginLogLink"));
 	}
 
 	private boolean somethingToSearchFor() {

@@ -24,6 +24,7 @@ import net.plantkelt.akp.domain.AkpUserLogEntry;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -296,6 +297,30 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	@Override
 	public void userLogLogin(String login) {
 		userLogNewEntry(USERLOG_TYPE_LOGIN, login, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<AkpUserLogEntry> getLoginLogs(Date day, String login) {
+		Criteria query = getSession().createCriteria(AkpUserLogEntry.class);
+		if (login != null)
+			query.add(Restrictions.eq("login", login));
+		if (day != null) {
+			// Assume 1 day
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(day);
+			cal.set(Calendar.MILLISECOND, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			query.add(Restrictions.ge("date", cal.getTime()));
+			cal.add(Calendar.DATE, 1);
+			query.add(Restrictions.lt("date", cal.getTime()));
+		}
+		query.addOrder(Order.desc("date"));
+		query.setMaxResults(1000);
+		return query.list();
 	}
 
 	@Override

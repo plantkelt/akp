@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:extend>
+		<div class="formPanel floating">
+			<h2>
+				<wicket:message key="userlog.search.header" />
+			</h2>
+			<form wicket:id="searchForm">
+				<table style="width: 100%">
+					<tr>
+						<td><label for="login"><wicket:message
+									key="userlog.login" /></label></td>
+						<td><input type="text" wicket:id="login" size="10" /></td>
+					</tr>
+					<tr>
+						<td><label for="date"><wicket:message
+									key="userlog.day" /></label></td>
+						<td><div wicket:id="date"></div></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="submit">
+								<wicket:message key="userlog.search.button" />
+							</button>
+							<button wicket:id="previous" type="submit">
+								<wicket:message key="userlog.search.previousday" />
+							</button>
+							<button wicket:id="next" type="submit">
+								<wicket:message key="userlog.search.nextday" />
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div class="clear" wicket:id="searchResultsSection">
+			<h2>
+				<wicket:message key="userlog.search.results" />
+			</h2>
+			<table class="listing">
+				<thead>
+					<tr>
+						<th><wicket:message key="result.column.userlog.login" /></th>
+						<th><wicket:message key="result.column.userlog.date" /></th>
+						<th><wicket:message key="result.column.userlog.addr" /></th>
+						<th><wicket:message key="result.column.userlog.operation" /></th>
+						<th><wicket:message key="result.column.userlog.value" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="logList">
+						<td><span wicket:id="loginLabel"></span></td>
+						<td><span wicket:id="dateLabel"></span></td>
+						<td><span wicket:id="addrLabel"></span></td>
+						<td><span wicket:id="operationLabel"></span></td>
+						<td><span wicket:id="valueLabel"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</wicket:extend>
+</body>
+</html>

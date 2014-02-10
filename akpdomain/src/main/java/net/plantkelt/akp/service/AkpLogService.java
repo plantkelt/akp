@@ -1,6 +1,7 @@
 package net.plantkelt.akp.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
@@ -10,6 +11,7 @@ import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserLogEntry;
 import net.plantkelt.akp.domain.AkpVernacularName;
 
 public interface AkpLogService {
@@ -81,6 +83,8 @@ public interface AkpLogService {
 			AkpVernacularName vernacularName, AkpPlant plant);
 
 	public abstract void userLogLogin(String login);
+
+	public abstract List<AkpUserLogEntry> getLoginLogs(Date day, String login);
 
 	public abstract void userLogLogout();
 
