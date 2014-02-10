@@ -8,7 +8,7 @@ import net.plantkelt.akp.domain.AkpUser;
 public interface AkpLoginService {
 
 	public abstract String getAkpVersion();
-	
+
 	public abstract AkpUser login(String login, String password);
 
 	public abstract void logout();
@@ -16,7 +16,7 @@ public interface AkpLoginService {
 	public AkpUser createUser(String login);
 
 	public abstract AkpUser getUser(String login);
-	
+
 	public abstract void incUserRequestCount(AkpUser user);
 
 	public abstract void updateUser(AkpUser user);
@@ -34,5 +34,4 @@ public interface AkpLoginService {
 	public abstract void subscriptionRequested(AkpSubscriptionRequest request);
 
 	public abstract String getGoogleAnalyticsTrackerAccount();
-
 }
