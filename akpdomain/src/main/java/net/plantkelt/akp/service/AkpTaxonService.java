@@ -186,6 +186,8 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getTaxonSyntaxErrors();
 
 	public abstract AkpSearchResult getAuthorWithoutTags();
+	
+	public abstract AkpSearchResult getUnknownAuthors();
 
 	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();
 

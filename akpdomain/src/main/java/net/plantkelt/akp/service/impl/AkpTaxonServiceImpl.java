@@ -1357,6 +1357,38 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	@Transactional
+	public AkpSearchResult getUnknownAuthors() {
+		AkpSearchResult retval = new AkpSearchResult();
+		retval.addHeaderKey("result.column.synonym");
+		retval.addHeaderKey("result.column.author");
+		List<AkpAuthor> authors = getAuthors();
+		Set<String> authorXids = new HashSet<String>();
+		for (AkpAuthor author : authors) {
+			authorXids.add(author.getXid());
+		}
+		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
+				.setFetchSize(100).setReadOnly(true).setLockMode(LockMode.NONE)
+				.scroll();
+		while (taxons.next()) {
+			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
+			for (String authorXid : taxon.getReferencedAuthorIds()) {
+				if (!authorXids.contains(authorXid)) {
+					AkpSearchResultRow result = new AkpSearchResultRow(taxon
+							.getPlant().getXid(), null, null);
+					result.addColumn(new AkpSearchResultColumn(taxon
+							.getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(authorXid,
+							"comment"));
+					result.setSortKey(taxon.getSortKey());
+					retval.addRow(result);
+				}
+			}
+		}
+		return retval;
+	}
+
+	@Override
+	@Transactional
 	public AkpSearchResult getImpreciseVernaWithoutPlantRef() {
 		@SuppressWarnings("unchecked")
 		List<AkpVernacularName> wrongNames = getSession()

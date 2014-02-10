@@ -78,6 +78,15 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 				return akpTaxonService.getAuthorWithoutTags();
 			}
 		});
+		CHECKERS.add(new Checker("unknownAuthors") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
+				return akpTaxonService.getUnknownAuthors();
+			}
+			
+		});
 		CHECKERS.add(new Checker("impreciseVernaWithoutPlantRef") {
 			private static final long serialVersionUID = 1L;
 
