@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -87,6 +88,9 @@ public class AkpLoginListPage extends AkpPageTemplate {
 				item.add(new Label("dateLabel", dateFormat.format(userLog
 						.getDate())));
 				item.add(new Label("addrLabel", userLog.getRemoteAddr()));
+				item.add(new ExternalLink("geoipLink",
+						"http://www.geoiptool.com/fr/?IP="
+								+ userLog.getRemoteAddr()));
 				item.add(new Label(
 						"operationLabel",
 						getString("userlog.operation." + userLog.getOperation())));
