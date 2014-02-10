@@ -9,6 +9,7 @@ import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -41,16 +42,20 @@ public class AkpBibPanel extends Panel {
 				"xid"));
 		bibLink.add(bibLabel);
 
-		// More info
+		// Popup
+		WebMarkupContainer bibPopup = new WebMarkupContainer("bibPopup");
+		// Do not display popup for administrators
+		bibPopup.setVisible(!isAdmin);
+		bibLink.add(bibPopup);
 		Label bibTitleLabel = new Label("bibTitle", new PropertyModel<String>(
 				bibModel, "title"));
-		bibLink.add(bibTitleLabel);
+		bibPopup.add(bibTitleLabel);
 		Label bibAuthorLabel = new Label("bibAuthor",
 				new PropertyModel<String>(bibModel, "author"));
-		bibLink.add(bibAuthorLabel);
+		bibPopup.add(bibAuthorLabel);
 		Label bibISBNLabel = new Label("bibISBN", new PropertyModel<String>(
 				bibModel, "isbn"));
-		bibLink.add(bibISBNLabel);
+		bibPopup.add(bibISBNLabel);
 
 		// Delete link (admin section)
 		AjaxConfirmLink<Void> deleteLink = new AjaxConfirmLink<Void>(

@@ -95,7 +95,8 @@ public class AkpTaxonLabel extends Panel {
 					elemAuthorId.add(new AttributeAppender("class",
 							new Model<String>("wrong-author"), " "));
 				elemAuthorLink.add(elemAuthorId);
-				WebMarkupContainer authorPopup = new WebMarkupContainer("authorPopup");
+				WebMarkupContainer authorPopup = new WebMarkupContainer(
+						"authorPopup");
 				// Do not display popup for administrators
 				authorPopup.setVisible(!isAdmin);
 				elemAuthorLink.add(authorPopup);
