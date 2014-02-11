@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -45,9 +46,9 @@ public class AkpSubscribeForm extends Panel {
 		form.add(langSelect);
 		form.add(new RequiredTextField<String>("name"));
 		form.add(new RequiredTextField<String>("email"));
-		form.add(new RequiredTextField<String>("organization"));
-		form.add(new RequiredTextField<String>("occupation"));
-		form.add(new RequiredTextField<String>("city"));
+		form.add(new TextField<String>("organization"));
+		form.add(new TextField<String>("occupation"));
+		form.add(new TextField<String>("city"));
 		form.add(new RequiredTextField<String>("state"));
 
 		Button continueButton = new Button("continueButton") {
