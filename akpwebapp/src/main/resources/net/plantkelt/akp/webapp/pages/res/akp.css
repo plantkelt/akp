@@ -508,11 +508,15 @@ div.lexicalGroup {
 
 div.lexicalGroup div.langSection {
 	float: left;
-	width: 80px;
+	width: 100px;
+}
+
+h4 span.langcode {
+	font-size: 80%;
 }
 
 div.lexicalGroup div.vernaSection {
-	margin-left: 80px;
+	margin-left: 100px;
 	overflow: visible;
 	background-color: #eeeeee;
 	border-left: 1px solid gray;
