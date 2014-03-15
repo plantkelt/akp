@@ -24,6 +24,7 @@ import net.plantkelt.akp.domain.AkpUserLogEntry;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpLogService;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -34,6 +35,7 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -73,6 +75,8 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	public static final int USERLOG_TYPE_LOGOUT = 2;
 
 	private static final int OLD_NEW_VALUE_LEN = 2048;
+
+	private Logger log = Logger.getLogger(AkpLogServiceImpl.class);
 
 	@Inject
 	private Provider<Session> sessionProvider;
@@ -353,6 +357,9 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		chart.setBackgroundPaint(Color.WHITE);
 		chart.getTitle().setPaint(Color.BLACK);
 		CategoryPlot p = chart.getCategoryPlot();
+		LogarithmicAxis logAxis = new LogarithmicAxis("Modifications");
+		logAxis.setRange(0.9, 100000);
+		p.setRangeAxis(0, logAxis);
 		CategoryAxis xAxis = (CategoryAxis) p.getDomainAxis();
 		xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 		BarRenderer barRenderer = ((BarRenderer) p.getRenderer());
@@ -365,6 +372,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 			ChartUtilities.writeChartAsPNG(baos, chart, width, height);
 		} catch (IOException e) {
 			// Should not happen
+			log.error(e);
 			throw new RuntimeException(e);
 		}
 		return baos.toByteArray();
