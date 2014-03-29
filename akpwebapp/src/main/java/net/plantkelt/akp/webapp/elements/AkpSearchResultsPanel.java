@@ -29,7 +29,7 @@ public class AkpSearchResultsPanel extends Panel {
 	private static final long serialVersionUID = 1L;
 
 	public AkpSearchResultsPanel(String id,
-			IModel<AkpSearchResult> searchResultModel) {
+			final IModel<AkpSearchResult> searchResultModel) {
 		super(id);
 
 		ListView<String> resultsHeaderListView = new ListView<String>(
@@ -125,5 +125,17 @@ public class AkpSearchResultsPanel extends Panel {
 				new StringResourceModel("search.number.of.results", this,
 						searchResultModel));
 		add(numberOfResults);
+
+		Label resultsLimit = new Label("resultsLimit", new StringResourceModel(
+				"search.results.limit", this, searchResultModel)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isVisible() {
+				return searchResultModel.getObject().getLimit() > 0;
+			}
+
+		};
+		add(resultsLimit);
 	}
 }

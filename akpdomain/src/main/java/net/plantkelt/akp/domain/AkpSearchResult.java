@@ -39,11 +39,11 @@ public class AkpSearchResult {
 		public boolean isValueKey() {
 			return isValueKey;
 		}
-		
+
 		public void setEscape(boolean escape) {
 			isEscape = escape;
 		}
-		
+
 		public boolean isEscape() {
 			return isEscape;
 		}
@@ -102,17 +102,19 @@ public class AkpSearchResult {
 	}
 
 	private List<String> headerKeys;
+	private int limit;
 	private List<AkpSearchResultRow> rows;
 	private Map<String, Set<String>> authorRenameMap;
 	private boolean sorted = false;
 
-	public AkpSearchResult(int estimatedRows) {
-		rows = new ArrayList<AkpSearchResultRow>(estimatedRows);
+	public AkpSearchResult(int limit) {
+		this.limit = limit;
+		rows = new ArrayList<AkpSearchResultRow>(limit / 2);
 		headerKeys = new ArrayList<String>();
 	}
 
-	public AkpSearchResult() {
-		this(32);
+	public int getLimit() {
+		return limit;
 	}
 
 	public List<AkpSearchResultRow> getRows() {

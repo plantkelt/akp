@@ -963,7 +963,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		} else if (searchType == AkpSearchType.VERNA) {
 			result = searchVerna(searchData);
 		} else {
-			result = new AkpSearchResult();
+			result = new AkpSearchResult(0);
 			incRequestCount = false;
 		}
 		result.setAuthorRenameMap(authorRenameMap);
@@ -1019,7 +1019,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private AkpSearchResult searchTaxon(AkpSearchData searchData) {
 		// Create criterias
-		AkpSearchResult results = new AkpSearchResult();
+		AkpSearchResult results = new AkpSearchResult(searchData.getLimit());
 		Criteria taxonCriteria = getSession().createCriteria(AkpTaxon.class);
 		taxonCriteria.setMaxResults(searchData.getLimit());
 		if (searchData.getTaxonName() != null)
@@ -1093,7 +1093,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private AkpSearchResult searchVerna(AkpSearchData searchData) {
 		// Create criterias
-		AkpSearchResult results = new AkpSearchResult();
+		AkpSearchResult results = new AkpSearchResult(searchData.getLimit());
 		Criteria vernaCriteria = getSession().createCriteria(
 				AkpVernacularName.class);
 		vernaCriteria.setMaxResults(searchData.getLimit());
@@ -1240,7 +1240,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Query query = getSession().getNamedQuery("duplicatedVernacularName");
 		@SuppressWarnings("unchecked")
 		List<AkpVernacularName> duplicatedNames = query.list();
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.vernaname");
 		retval.addHeaderKey("result.column.lang");
 		retval.addHeaderKey("result.column.plantname");
@@ -1268,7 +1268,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Query query = getSession().getNamedQuery("duplicatedTaxonName");
 		@SuppressWarnings("unchecked")
 		List<AkpTaxon> duplicatedTaxons = query.list();
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.plantname");
 		for (AkpTaxon taxon : duplicatedTaxons) {
@@ -1288,7 +1288,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getTaxonSyntaxErrors() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.plantname");
 		retval.addHeaderKey("result.column.syntaxerror");
@@ -1322,7 +1322,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getAuthorWithoutTags() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.author");
 		List<AkpAuthor> authors = getAuthors();
@@ -1358,7 +1358,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getUnknownAuthors() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.synonym");
 		retval.addHeaderKey("result.column.author");
 		List<AkpAuthor> authors = getAuthors();
@@ -1398,7 +1398,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				.add(Restrictions.isEmpty("plantRefs"))
 				.createAlias("lexicalGroup", "lexGrp")
 				.add(Restrictions.ne("lexGrp.correct", 0)).list();
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.vernaname");
 		retval.addHeaderKey("result.column.lang");
 		retval.addHeaderKey("result.column.plantname");
@@ -1424,7 +1424,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public AkpSearchResult getAuthorRefCount() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.author");
 		retval.addHeaderKey("result.column.count");
 		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
@@ -1458,7 +1458,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	public AkpSearchResult getPlantsWithoutVerna() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.plantname");
 		retval.addHeaderKey("result.column.lang");
 		// 1. Get plants with no lexical groups
@@ -1502,7 +1502,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	public AkpSearchResult getPlantsXRefs() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.plantname");
 		retval.addHeaderKey("result.column.plantname");
 		// 1. Get plants with no lexical groups
@@ -1530,7 +1530,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	public AkpSearchResult getHybridParents() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.taxon");
 		retval.addHeaderKey("result.column.taxon");
 		ScrollableResults taxons = getSession().createCriteria(AkpTaxon.class)
@@ -1575,7 +1575,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	@Override
 	public AkpSearchResult getEqualsSynonyms() {
-		AkpSearchResult retval = new AkpSearchResult();
+		AkpSearchResult retval = new AkpSearchResult(0);
 		retval.addHeaderKey("result.column.taxon");
 		retval.addHeaderKey("result.column.taxon");
 		// Scroll first time to extract all "[= ... ]" names

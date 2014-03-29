@@ -240,7 +240,7 @@ public class AkpBibPage extends AkpPageTemplate {
 				AkpSearchData akpSearchData = new AkpSearchData();
 				akpSearchData.setBibRefXid(bibId);
 				akpSearchData.setVernacularName("%");
-				akpSearchData.setLimit(1000);
+				akpSearchData.setLimit(2000);
 				return akpTaxonService.search(AkpWicketSession.get()
 						.getAkpUser(), akpSearchData);
 			}
