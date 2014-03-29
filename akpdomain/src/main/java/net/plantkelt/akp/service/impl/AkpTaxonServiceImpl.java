@@ -1743,6 +1743,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			Set<Pair<String, String>> vernaSet = new HashSet<Pair<String, String>>();
 			while (vernas.next()) {
 				AkpVernacularName verna = (AkpVernacularName) vernas.get(0);
+				if (verna.getName().equals("#"))
+					continue;
 				vernaSet.add(new Pair<String, String>(verna.getName(), verna
 						.getName()
 						+ " ("
