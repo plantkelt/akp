@@ -358,7 +358,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		chart.getTitle().setPaint(Color.BLACK);
 		CategoryPlot p = chart.getCategoryPlot();
 		LogarithmicAxis logAxis = new LogarithmicAxis("Modifications");
-		logAxis.setRange(0.9, 100000);
+		logAxis.setRange(9, 10000);
 		p.setRangeAxis(0, logAxis);
 		CategoryAxis xAxis = (CategoryAxis) p.getDomainAxis();
 		xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
