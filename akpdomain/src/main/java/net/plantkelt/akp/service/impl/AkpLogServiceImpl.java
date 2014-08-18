@@ -83,6 +83,9 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 
 	private LoginGetter loginGetter;
 
+	private String lastLogDate = null;
+	private byte[] activityLogImage = null;
+
 	private Session getSession() {
 		return sessionProvider.get();
 	}
@@ -333,7 +336,13 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	}
 
 	@Override
-	public byte[] getActivityGraph(int width, int height) {
+	public synchronized byte[] getActivityGraph(int width, int height) {
+		String today = getTodayDate();
+		if (today.equals(lastLogDate) && activityLogImage != null) {
+			return activityLogImage;
+		}
+		log.info("Re-generating activity graph for " + today);
+		lastLogDate = today;
 		// TODO Cache the generated image in memory
 		Query query = getSession().getNamedQuery("activityPerWeek");
 		Calendar cal = GregorianCalendar.getInstance();
@@ -358,7 +367,7 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		chart.getTitle().setPaint(Color.BLACK);
 		CategoryPlot p = chart.getCategoryPlot();
 		LogarithmicAxis logAxis = new LogarithmicAxis("Modifications");
-		logAxis.setRange(9, 10000);
+		logAxis.setRange(0.9, 10000);
 		p.setRangeAxis(0, logAxis);
 		CategoryAxis xAxis = (CategoryAxis) p.getDomainAxis();
 		xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -375,6 +384,13 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
-		return baos.toByteArray();
+		activityLogImage = baos.toByteArray();
+		return activityLogImage;
+	}
+
+	private String getTodayDate() {
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		// Use default timezone
+		return df.format(new Date());
 	}
 }
