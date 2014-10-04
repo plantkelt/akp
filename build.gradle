@@ -9,14 +9,25 @@ repositories {
     mavenCentral()
 }
 
+version = "3.0.0"
+
+war {
+    doFirst {
+        manifest {
+            attributes("Implementation-Title": "AKP", "Implementation-Version": version, "Implementation-Timestamp": new Date())
+        }
+    }
+    archiveName 'akp.war'
+}
+
 // Emulate 'provided' -- see https://issues.gradle.org/browse/GRADLE-784
 configurations {
     provided
 }
 sourceSets {
     main {
-        compileClasspath += configurations.provided
-        eclipse.classpath.plusConfigurations += configurations.provided
+        compileClasspath += [ configurations.provided ]
+        eclipse.classpath.plusConfigurations += [ configurations.provided ]
 }   }
 
 dependencies {
@@ -42,4 +53,3 @@ dependencies {
     compile 'org.apache.wicket:wicket-guice:6.1.1'
     testCompile 'junit:junit:3.8.1'
 }
-
