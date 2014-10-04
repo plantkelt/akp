@@ -3,8 +3,10 @@ package net.plantkelt.akp.webapp.pages;
 import javax.inject.Inject;
 
 import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.utils.Pair;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.protocol.http.WebApplication;
 
 public class AkpFirstVisitToolsPage extends AkpFirstVisitPage {
 
@@ -15,7 +17,9 @@ public class AkpFirstVisitToolsPage extends AkpFirstVisitPage {
 
 	public AkpFirstVisitToolsPage() {
 
-		add(new Label("buildVersion", akpLoginService.getAkpVersion()));
-		add(new Label("buildTime", akpLoginService.getAkpTimestamp()));
+		Pair<String, String> akpVersions = akpLoginService
+				.getAkpVersions(WebApplication.get().getServletContext());
+		add(new Label("buildVersion", akpVersions.getFirst()));
+		add(new Label("buildTime", akpVersions.getSecond()));
 	}
 }

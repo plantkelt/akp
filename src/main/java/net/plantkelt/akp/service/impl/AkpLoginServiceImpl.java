@@ -23,11 +23,13 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 
 import net.plantkelt.akp.domain.AkpSubscriptionRequest;
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.utils.Pair;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -44,27 +46,18 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Inject
 	private AkpLogService akpLogService;
 
-	private String akpVersion = null;
-	private String akpTimestamp = null;
+	private Pair<String, String> akpVersions = null;
 
 	@Override
-	public synchronized String getAkpVersion() {
-		loadManifest();
-		return akpVersion;
-	}
-
-	@Override
-	public synchronized String getAkpTimestamp() {
-		loadManifest();
-		return akpTimestamp;
-	}
-
-	private void loadManifest() {
-		if (akpVersion != null)
-			return; // Load once, as the version won't change!
-
+	public synchronized Pair<String, String> getAkpVersions(
+			ServletContext servletContext) {
+		if (akpVersions != null)
+			return akpVersions;
+		// Load once only, as the version won't change!
+		String akpVersion = "";
+		String akpTimestamp = "";
 		try {
-			InputStream inputStream = getClass().getClassLoader()
+			InputStream inputStream = servletContext
 					.getResourceAsStream(JarFile.MANIFEST_NAME);
 			if (inputStream != null) {
 				Manifest manifest = new Manifest(inputStream);
@@ -87,6 +80,8 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		} catch (Exception e) {
 			akpVersion = "[" + e.getMessage() + "]";
 		}
+		akpVersions = new Pair<String, String>(akpVersion, akpTimestamp);
+		return akpVersions;
 	}
 
 	@Transactional

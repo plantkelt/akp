@@ -2,15 +2,16 @@ package net.plantkelt.akp.service;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import net.plantkelt.akp.domain.AkpSubscriptionRequest;
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.utils.Pair;
 
 public interface AkpLoginService {
 
-	public abstract String getAkpVersion();
+	public abstract Pair<String, String> getAkpVersions(ServletContext context);
 	
-	public abstract String getAkpTimestamp();
-
 	public abstract AkpUser login(String login, String password);
 
 	public abstract void logout();
