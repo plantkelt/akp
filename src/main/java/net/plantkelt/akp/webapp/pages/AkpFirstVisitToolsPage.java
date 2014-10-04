@@ -15,6 +15,7 @@ public class AkpFirstVisitToolsPage extends AkpFirstVisitPage {
 
 	public AkpFirstVisitToolsPage() {
 
-		add(new Label("buildTime", akpLoginService.getAkpVersion()));
+		add(new Label("buildVersion", akpLoginService.getAkpVersion()));
+		add(new Label("buildTime", akpLoginService.getAkpTimestamp()));
 	}
 }
