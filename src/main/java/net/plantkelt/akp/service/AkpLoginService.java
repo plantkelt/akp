@@ -8,6 +8,8 @@ import net.plantkelt.akp.domain.AkpUser;
 public interface AkpLoginService {
 
 	public abstract String getAkpVersion();
+	
+	public abstract String getAkpTimestamp();
 
 	public abstract AkpUser login(String login, String password);
 

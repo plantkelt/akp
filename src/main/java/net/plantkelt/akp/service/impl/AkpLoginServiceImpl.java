@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -42,29 +45,48 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	private AkpLogService akpLogService;
 
 	private String akpVersion = null;
+	private String akpTimestamp = null;
 
 	@Override
 	public synchronized String getAkpVersion() {
-		if (akpVersion == null) {
-			// Load once, as the version won't change!
-			try {
-				InputStream inputStream = getClass().getClassLoader()
-						.getResourceAsStream("akp.properties");
-				if (inputStream != null) {
-					Properties props = new Properties();
-					props.load(inputStream);
-					akpVersion = props.getProperty("build.time");
-					if (akpVersion == null) {
-						akpVersion = "[build.time property not found]";
-					}
-				} else {
-					akpVersion = "[akp.properties file not found]";
-				}
-			} catch (Exception e) {
-				akpVersion = "[" + e.getMessage() + "]";
-			}
-		}
+		loadManifest();
 		return akpVersion;
+	}
+
+	@Override
+	public synchronized String getAkpTimestamp() {
+		loadManifest();
+		return akpTimestamp;
+	}
+
+	private void loadManifest() {
+		if (akpVersion != null)
+			return; // Load once, as the version won't change!
+
+		try {
+			InputStream inputStream = getClass().getClassLoader()
+					.getResourceAsStream(JarFile.MANIFEST_NAME);
+			if (inputStream != null) {
+				Manifest manifest = new Manifest(inputStream);
+				Properties props = new Properties();
+				props.load(inputStream);
+				Attributes mainAttributes = manifest.getMainAttributes();
+				akpVersion = mainAttributes.getValue("Implementation-Version");
+				if (akpVersion == null) {
+					akpVersion = "[Implementation-Version not found]";
+				}
+				akpTimestamp = mainAttributes
+						.getValue("Implementation-Timestamp");
+				if (akpTimestamp == null) {
+					akpTimestamp = "[Implementation-Timestamp not found]";
+				}
+			} else {
+				akpVersion = "[MANIFEST.MF not found]";
+				akpTimestamp = akpVersion;
+			}
+		} catch (Exception e) {
+			akpVersion = "[" + e.getMessage() + "]";
+		}
 	}
 
 	@Transactional
