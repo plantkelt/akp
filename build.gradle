@@ -17,7 +17,7 @@ war {
             attributes("Implementation-Title": "AKP", "Implementation-Version": version, "Implementation-Timestamp": new Date())
         }
     }
-    archiveName 'akp.war'
+    archiveName 'akpwebapp.war'
 }
 
 // Emulate 'provided' -- see https://issues.gradle.org/browse/GRADLE-784
