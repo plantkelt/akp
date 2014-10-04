@@ -7,3 +7,4 @@ syntax: glob
 .gradle
 gradle.properties
 build
+bin
