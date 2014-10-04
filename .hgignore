@@ -1,8 +1,9 @@
 
-syntax: regexp
-^akpdomain/target$
-^akpwebapp/target$
-^akpapp/target$
-/\.settings/
-\.classpath
-\.project
+syntax: glob
+
+.settings
+.classpath
+.project
+.gradle
+gradle.properties
+build
