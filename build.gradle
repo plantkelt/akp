@@ -1,0 +1,45 @@
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+// Emulate 'provided' -- see https://issues.gradle.org/browse/GRADLE-784
+configurations {
+    provided
+}
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+        eclipse.classpath.plusConfigurations += configurations.provided
+}   }
+
+dependencies {
+    compile 'org.apache.logging.log4j:log4j-core:2.0.2'
+    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+    compile 'com.google.inject:guice:3.0'
+    compile 'com.google.inject.extensions:guice-servlet:3.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:3.0'
+    compile 'com.google.inject.extensions:guice-persist:3.0'
+    compile 'org.hibernate:hibernate-core:4.1.7.Final'
+    compile 'org.hibernate:hibernate-entitymanager:4.1.7.Final'
+    compile 'javassist:javassist:3.12.1.GA'
+    compile 'postgresql:postgresql:8.4-701.jdbc3'
+    compile 'jfree:jfreechart:1.0.13'
+    compile 'javax.mail:mail:1.4.6'
+    compile 'com.beust:jcommander:1.32'
+    provided 'javax.servlet:servlet-api:2.5'
+    compile 'org.apache.wicket:wicket-core:6.1.1'
+    compile 'org.apache.wicket:wicket-auth-roles:6.1.1'
+    compile 'org.apache.wicket:wicket-extensions:6.1.1'
+    compile 'org.apache.wicket:wicket-datetime:6.1.1'
+    compile 'org.apache.wicket:wicket-devutils:6.1.1'
+    compile 'org.apache.wicket:wicket-guice:6.1.1'
+    testCompile 'junit:junit:3.8.1'
+}
+
