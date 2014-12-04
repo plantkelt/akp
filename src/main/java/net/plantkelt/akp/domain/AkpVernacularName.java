@@ -115,7 +115,12 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 			// Empty string is greater than anything else
 			return -1;
 		}
-		return defaultCollator.compare(getName(), o.getName());
+		int cmp = defaultCollator.compare(getName(), o.getName());
+		if (cmp == 0) {
+			// We want a stable sort
+			cmp = getXid() - o.getXid();
+		}
+		return cmp;
 	}
 
 }
