@@ -73,6 +73,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private static Set<Integer> PUBLIC_PLANT_XIDS;
 
+	private static List<Integer> CLASS_LEVELS;
+
 	private String staticIndexLocation = "";
 
 	static {
@@ -83,6 +85,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		PUBLIC_PLANT_XIDS.add(2640);
 		PUBLIC_PLANT_XIDS.add(3271);
 		PUBLIC_PLANT_XIDS.add(1974);
+
+		CLASS_LEVELS = new ArrayList<Integer>();
+		for (int i = -1; i <= 6; i++)
+			CLASS_LEVELS.add(i);
 	}
 
 	@Transactional
@@ -209,6 +215,43 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		getSession().delete(akpClass);
 		getSession().flush();
 		return true;
+	}
+
+	@Override
+	public List<Integer> getClassLevels() {
+		return CLASS_LEVELS;
+	}
+
+	@Override
+	public String getClassLevelName(int level) {
+		// TODO Get appropriate level names in Latin
+		// 0 - Règne (Chromista, Fungi, Plantae)
+		// 1 - Sous-règne (Tracheobionta)
+		// 2 - Embranchement (...phyta)
+		// 3 - Classe (...opsida)
+		// 4 - Sous-classe (...idae)
+		// 5 - Ordre (...ales)
+		// 6 - Famille (...aceae)
+		switch (level) {
+		case -1:
+			return "";
+		case 0:
+			return "Règne";
+		case 1:
+			return "Sous-règne";
+		case 2:
+			return "Embranchement";
+		case 3:
+			return "Classe";
+		case 4:
+			return "Sous-classe";
+		case 5:
+			return "Ordre";
+		case 6:
+			return "Famille";
+		default:
+			return "Niveau " + level;
+		}
 	}
 
 	@Transactional
@@ -1799,16 +1842,16 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			pageOut.println("<ul>");
 			for (int i = ia; i < ib; i++) {
 				pageOut.println(String
-						.format("<li>%s (<a href='http://www.plantkelt.net/'>→ PlantKelt</a>)</li>",
+						.format("<li>%s (<a href='http://www.plantkelt.bzh/'>→ PlantKelt</a>)</li>",
 								elementsList.get(i).getSecond()));
 			}
 			pageOut.println("</ul>");
-			pageOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.net/'>www.plantkelt.net</a></p>");
+			pageOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
 			pageOut.println("</body></html>");
 			pageOut.close();
 		}
 		indexOut.println("</ul>");
-		indexOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.net/'>www.plantkelt.net</a></p>");
+		indexOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
 		indexOut.println("</body></html>");
 		indexOut.close();
 		elementsList.clear();

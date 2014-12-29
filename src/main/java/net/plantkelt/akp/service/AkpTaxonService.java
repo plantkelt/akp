@@ -38,6 +38,10 @@ public interface AkpTaxonService {
 
 	public abstract boolean deleteClass(AkpClass akpClass);
 
+	public abstract List<Integer> getClassLevels();
+
+	public abstract String getClassLevelName(int level);
+
 	public abstract AkpPlant createNewPlant(AkpClass owningClass);
 
 	public abstract AkpPlant getPlant(Integer xid);
@@ -66,7 +70,7 @@ public interface AkpTaxonService {
 	public abstract void deletePlantTag(AkpPlantTag tag);
 
 	public abstract AkpTaxon getTaxon(Integer xid);
-	
+
 	public abstract void createNewTaxon(AkpPlant ownerPlant);
 
 	public abstract void updateTaxonName(AkpTaxon taxon, String newName);
@@ -186,7 +190,7 @@ public interface AkpTaxonService {
 	public abstract AkpSearchResult getTaxonSyntaxErrors();
 
 	public abstract AkpSearchResult getAuthorWithoutTags();
-	
+
 	public abstract AkpSearchResult getUnknownAuthors();
 
 	public abstract AkpSearchResult getImpreciseVernaWithoutPlantRef();

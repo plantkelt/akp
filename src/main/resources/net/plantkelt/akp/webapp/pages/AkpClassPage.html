@@ -6,11 +6,14 @@
 		<div wicket:id="quickSearch"></div>
 		<div wicket:id="mainPanel">
 			<div class="classPath" wicket:id="parentPath" />
-			<div wicket:id="classNameEditor">
-				<h1 class="taxon">
+			<h1 class="taxon">
+				<span wicket:id="levelEditor">
+					<span wicket:id="levelName"></span>
+				</span>
+				<span wicket:id="classNameEditor">
 					<span wicket:id="className"></span>
-				</h1>
-			</div>
+				</span>
+			</h1>
 			<div wicket:id="classCommentsEditor">
 				<span class="comments" wicket:id="classComments" />
 			</div>

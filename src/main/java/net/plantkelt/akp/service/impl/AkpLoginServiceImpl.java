@@ -224,16 +224,16 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 						+ "                 --R2D2\n"
 						+ "\n"
 						+ "PS: Merci de ne pas me répondre directement, je ne comprendrai pas.\n"
-						+ "Adressez-vous plutôt à mon mécanicien attitré (root@plantkelt.net).\n",
+						+ "Adressez-vous plutôt à mon mécanicien attitré (root@plantkelt.bzh).\n",
 						dateFormat.format(new Date()), request.getName(),
 						request.getEmail(), request.getLogin(),
 						request.getLang(), request.getOrganization(),
 						request.getOccupation(), request.getCity(),
 						request.getState(), request.getClientIp(),
 						request.getClientIp());
-		String to = "melestr@plantkelt.net";
+		String to = "melestr@plantkelt.bzh";
 		// String to = "laurent.gregoire@gmail.com";
-		String from = "r2d2@plantkelt.net";
+		String from = "r2d2@plantkelt.bzh";
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -242,7 +242,7 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		javax.mail.Session session = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("r2d2@plantkelt.net",
+						return new PasswordAuthentication("r2d2@plantkelt.bzh",
 								"xxxxxx");
 					}
 				});

@@ -8,6 +8,8 @@ import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.components.InPlaceSelector;
+import net.plantkelt.akp.webapp.components.SelectorModel;
 import net.plantkelt.akp.webapp.elements.AkpClassSelectPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -21,6 +23,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
@@ -108,6 +111,51 @@ public class AkpClassPage extends AkpPageTemplate {
 		classNameLabel.setEscapeModelStrings(false);
 		classNameEditor.add(classNameLabel);
 
+		// Level
+		InPlaceSelector<Integer> levelEditor = new InPlaceSelector<Integer>("levelEditor",
+				new SelectorModel<Integer>() {
+					private static final long serialVersionUID = 1L;
+
+					public Integer getObject() {
+						return akpClassModel.getObject().getLevel();
+					}
+
+					@Override
+					public void saveObject(AjaxRequestTarget target, Integer level) {
+						AkpClass akpClass = akpClassModel.getObject();
+						akpClass.setLevel(level);
+						akpTaxonService.updateClass(akpClass);
+					}
+
+					@Override
+					public String getDisplayValue(Integer level) {
+						return akpTaxonService.getClassLevelName(level);
+					}
+
+					@Override
+					public String getIdValue(Integer level) {
+						return "" + level;
+					}
+
+					@Override
+					public List<Integer> getValues() {
+						return akpTaxonService.getClassLevels();
+					}
+				});
+		mainPanel.add(levelEditor);
+		levelEditor.setReadOnly(!isAdmin || isFake);
+		Label levelLabel = new Label("levelName",
+				new AbstractReadOnlyModel<String>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject() {
+						return akpTaxonService.getClassLevelName(akpClassModel.getObject().getLevel());
+					}
+				});
+		levelEditor.add(levelLabel);
+
+		
 		// Comments
 		InPlaceEditor commentsEditor = new InPlaceEditor("classCommentsEditor",
 				new EditorModel<String>() {
