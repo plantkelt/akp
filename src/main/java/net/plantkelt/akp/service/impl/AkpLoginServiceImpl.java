@@ -233,7 +233,7 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 						request.getClientIp());
 		String to = "melestr@plantkelt.bzh";
 		// String to = "laurent.gregoire@gmail.com";
-		String from = "r2d2@plantkelt.bzh";
+		String from = "r2d2@plantkelt.net";
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -242,7 +242,7 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		javax.mail.Session session = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("r2d2@plantkelt.bzh",
+						return new PasswordAuthentication("r2d2@plantkelt.net",
 								"xxxxxx");
 					}
 				});
