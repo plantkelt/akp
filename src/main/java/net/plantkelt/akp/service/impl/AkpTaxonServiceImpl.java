@@ -131,7 +131,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	public List<AkpClass> searchClass(String searchText) {
 		@SuppressWarnings("unchecked")
 		List<AkpClass> retval = getSession().createCriteria(AkpClass.class)
-				.add(Restrictions.like("name", "%" + searchText + "%")).list();
+				.add(Restrictions.ilike("name", "%" + searchText + "%")).list();
 		Collections.sort(retval, new Comparator<AkpClass>() {
 			@Override
 			public int compare(AkpClass o1, AkpClass o2) {
@@ -287,7 +287,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				.createCriteria("taxons")
 				.add(Restrictions.and(
 						Restrictions.eq("type", AkpTaxon.TYPE_MAIN),
-						Restrictions.like("name", "%" + name + "%"))).list();
+						Restrictions.ilike("name", "%" + name + "%"))).list();
 	}
 
 	@Transactional
@@ -651,19 +651,19 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria criteria = getSession().createCriteria(AkpBib.class);
 		criteria.setMaxResults(limit);
 		if (xid != null)
-			criteria.add(Restrictions.like("xid", "%" + xid + "%"));
+			criteria.add(Restrictions.ilike("xid", "%" + xid + "%"));
 		if (title != null)
-			criteria.add(Restrictions.like("title", "%" + title + "%"));
+			criteria.add(Restrictions.ilike("title", "%" + title + "%"));
 		if (author != null)
-			criteria.add(Restrictions.like("author", "%" + author + "%"));
+			criteria.add(Restrictions.ilike("author", "%" + author + "%"));
 		if (date != null)
-			criteria.add(Restrictions.like("date", "%" + date + "%"));
+			criteria.add(Restrictions.ilike("date", "%" + date + "%"));
 		if (isbn != null)
-			criteria.add(Restrictions.like("isbn", "%" + isbn + "%"));
+			criteria.add(Restrictions.ilike("isbn", "%" + isbn + "%"));
 		if (comments != null)
-			criteria.add(Restrictions.like("comments", "%" + comments + "%"));
+			criteria.add(Restrictions.ilike("comments", "%" + comments + "%"));
 		if (editor != null)
-			criteria.add(Restrictions.like("editor", "%" + editor + "%"));
+			criteria.add(Restrictions.ilike("editor", "%" + editor + "%"));
 		@SuppressWarnings("unchecked")
 		List<AkpBib> retval = criteria.list();
 		Collections.sort(retval);
@@ -675,7 +675,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public List<String> searchBibFromId(String id) {
 		return getSession().createCriteria(AkpBib.class)
-				.add(Restrictions.like("xid", "%" + id + "%"))
+				.add(Restrictions.ilike("xid", "%" + id + "%"))
 				.setProjection(Projections.property("xid")).list();
 	}
 
@@ -867,7 +867,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
 		List<Criterion> likes = new ArrayList<Criterion>(oldXids.size());
 		for (String oldXid : oldXids) {
-			likes.add(Restrictions.like("source", oldXid, MatchMode.ANYWHERE));
+			likes.add(Restrictions.ilike("source", oldXid, MatchMode.ANYWHERE));
 			likes.add(Restrictions.eq("xid", oldXid));
 		}
 		criteria.add(Restrictions.or(likes.toArray(new Criterion[likes.size()])));
@@ -916,14 +916,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		criteria.setMaxResults(limit);
 		if (xid != null)
 			criteria.add(Restrictions.or(
-					Restrictions.like("xid", "%" + xid + "%"),
-					Restrictions.like("source", "%" + xid + "%")));
+					Restrictions.ilike("xid", "%" + xid + "%"),
+					Restrictions.ilike("source", "%" + xid + "%")));
 		if (name != null)
-			criteria.add(Restrictions.like("name", "%" + name + "%"));
+			criteria.add(Restrictions.ilike("name", "%" + name + "%"));
 		if (dates != null)
-			criteria.add(Restrictions.like("dates", "%" + dates + "%"));
+			criteria.add(Restrictions.ilike("dates", "%" + dates + "%"));
 		if (source != null)
-			criteria.add(Restrictions.like("source", "%" + source + "%"));
+			criteria.add(Restrictions.ilike("source", "%" + source + "%"));
 		@SuppressWarnings("unchecked")
 		List<AkpAuthor> retval = criteria.list();
 		Collections.sort(retval);
@@ -937,7 +937,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		List<AkpTaxon> taxons = getSession()
 				.createCriteria(AkpTaxon.class)
 				.setMaxResults(limit)
-				.add(Restrictions.like("name", "%<a>" + author.getXid()
+				.add(Restrictions.ilike("name", "%<a>" + author.getXid()
 						+ "</a>%")).list();
 		Collections.sort(taxons);
 		return taxons;
@@ -968,7 +968,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		getSession().save(newAuthor);
 		@SuppressWarnings("unchecked")
 		List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
-				.add(Restrictions.like("name", "%<a>" + oldXid + "</a>%"))
+				.add(Restrictions.ilike("name", "%<a>" + oldXid + "</a>%"))
 				.list();
 		int retval = 0;
 		for (AkpTaxon taxon : taxons) {
@@ -1066,14 +1066,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria taxonCriteria = getSession().createCriteria(AkpTaxon.class);
 		taxonCriteria.setMaxResults(searchData.getLimit());
 		if (searchData.getTaxonName() != null)
-			taxonCriteria.add(Restrictions.like("name",
+			taxonCriteria.add(Restrictions.ilike("name",
 					"%" + searchData.getTaxonName() + "%"));
 		taxonCriteria.setFetchMode("plant", FetchMode.JOIN);
 		if (!(searchData.isIncludeSynonyms() && searchData.getTaxonName() != null))
 			taxonCriteria.add(Restrictions.eq("type", AkpTaxon.TYPE_MAIN));
 		if (searchData.getPlantComments() != null) {
 			Criteria plantCriteria = taxonCriteria.createCriteria("plant");
-			plantCriteria.add(Restrictions.like("comments",
+			plantCriteria.add(Restrictions.ilike("comments",
 					"%" + searchData.getPlantComments() + "%"));
 		}
 		if (searchData.getPlantOrigin() != null) {
@@ -1081,7 +1081,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					"tag");
 			tagCriteria
 					.add(Restrictions.eq("type", AkpPlantTag.TAGTYPE_ORIGIN));
-			tagCriteria.add(Restrictions.like("stringValue",
+			tagCriteria.add(Restrictions.ilike("stringValue",
 					"%" + searchData.getPlantOrigin() + "%"));
 		}
 		if (searchData.getFamilyXid() != null) {
@@ -1143,12 +1143,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		vernaCriteria.setFetchMode("lexicalGroup", FetchMode.JOIN);
 		vernaCriteria.setFetchMode("lexicalGroup.plant", FetchMode.JOIN);
 		if (searchData.getVernacularName() != null)
-			vernaCriteria.add(Restrictions.like("name",
+			vernaCriteria.add(Restrictions.ilike("name",
 					"%" + searchData.getVernacularName() + "%"));
 		if (searchData.getTaxonName() != null) {
 			Criteria taxonCriteria = vernaCriteria.createCriteria(
 					"lexicalGroup.plant.taxons", "taxon");
-			taxonCriteria.add(Restrictions.like("taxon.name",
+			taxonCriteria.add(Restrictions.ilike("taxon.name",
 					"%" + searchData.getTaxonName() + "%"));
 			taxonCriteria
 					.add(Restrictions.eq("taxon.type", AkpTaxon.TYPE_MAIN));
@@ -1165,13 +1165,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					searchData.getLangXids()));
 		}
 		if (searchData.getVernacularNameComments() != null) {
-			vernaCriteria.add(Restrictions.like("comments",
+			vernaCriteria.add(Restrictions.ilike("comments",
 					"%" + searchData.getVernacularNameComments() + "%"));
 		}
 		if (searchData.getPlantComments() != null) {
 			Criteria plantCriteria = vernaCriteria.createCriteria(
 					"lexicalGroup.plant", "plant");
-			plantCriteria.add(Restrictions.like("comments",
+			plantCriteria.add(Restrictions.ilike("comments",
 					"%" + searchData.getPlantComments() + "%"));
 		}
 		if (searchData.getPlantOrigin() != null) {
@@ -1179,7 +1179,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					"lexicalGroup.plant.tags", "tag");
 			tagCriteria
 					.add(Restrictions.eq("type", AkpPlantTag.TAGTYPE_ORIGIN));
-			tagCriteria.add(Restrictions.like("stringValue",
+			tagCriteria.add(Restrictions.ilike("stringValue",
 					"%" + searchData.getPlantOrigin() + "%"));
 		}
 		if (searchData.getFamilyXid() != null) {
