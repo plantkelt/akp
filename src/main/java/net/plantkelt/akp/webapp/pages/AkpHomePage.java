@@ -39,7 +39,7 @@ public class AkpHomePage extends AkpPageTemplate {
 		AkpSearchData akpSearchData = new AkpSearchData();
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 		boolean isLoggedIn = AkpWicketSession.get().isLoggedIn();
-		akpSearchData.setLimit(isAdmin ? 4000 : isLoggedIn ? 200 : 20);
+		akpSearchData.setLimit(isAdmin ? 4000 : isLoggedIn ? 1000 : 1000);
 
 		searchDataModel = new Model<AkpSearchData>(akpSearchData);
 		searchResultModel = new LoadableDetachableModel<AkpSearchResult>() {
