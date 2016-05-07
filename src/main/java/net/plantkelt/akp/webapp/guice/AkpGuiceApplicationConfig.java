@@ -2,6 +2,9 @@ package net.plantkelt.akp.webapp.guice;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -74,11 +77,26 @@ public class AkpGuiceApplicationConfig extends GuiceServletContextListener {
 
 		AkpServiceGuiceModule akpServiceGuiceModule = new AkpServiceGuiceModule(
 				null, dev);
-		akpServiceGuiceModule.setStaticIndexLocation(servletContext
-				.getInitParameter("net.plantkelt.akp.static-index-location"));
+		// Init parameters
+		akpServiceGuiceModule
+				.setInitParameters(marshalInitParameters(servletContext));
 
 		return Guice.createInjector(new AkpGuiceHibernateModule(),
 				new AkpWebappGuiceServletModule(), akpServiceGuiceModule,
 				new ProvideHibernateSessionModule(), jpaPersistModule);
+	}
+
+	private Map<String, String> marshalInitParameters(
+			ServletContext servletContext) {
+		Map<String, String> retval = new HashMap<>();
+		@SuppressWarnings("unchecked")
+		Enumeration<String> e = servletContext.getInitParameterNames();
+		while (e.hasMoreElements()) {
+			String parameterName = e.nextElement();
+			String parameterValue = servletContext
+					.getInitParameter(parameterName);
+			retval.put(parameterName, parameterValue);
+		}
+		return retval;
 	}
 }

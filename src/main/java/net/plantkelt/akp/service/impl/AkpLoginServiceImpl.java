@@ -17,6 +17,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -41,8 +42,22 @@ import com.google.inject.persist.Transactional;
 public class AkpLoginServiceImpl implements AkpLoginService {
 
 	@Inject
+	@Named("smtp.host")
+	private String smtpHost;
+	@Inject
+	@Named("smtp.port")
+	private Integer smtpPort;
+	@Inject
+	@Named("smtp.login")
+	private String smtpLogin;
+	@Inject
+	@Named("smtp.password")
+	private String smtpPassword;
+	@Inject
+	@Named("smtp.to")
+	private String smtpTo;
+	@Inject
 	private Provider<Session> sessionProvider;
-
 	@Inject
 	private AkpLogService akpLogService;
 
@@ -201,8 +216,9 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(
 				DateFormat.SHORT, DateFormat.MEDIUM);
+		/* TODO Configure this properly with some other SMTP variable */
 		String emailText = String
-				.format("Cher Roland,\n"
+				.format("Cher Administrateur,\n"
 						+ "\n"
 						+ "Je viens de recevoir à l'instant une nouvelle demande d'inscription a PLANTKELT V2!\n"
 						+ "\n"
@@ -231,19 +247,19 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 						request.getOccupation(), request.getCity(),
 						request.getState(), request.getClientIp(),
 						request.getClientIp());
-		String to = "melestr@plantkelt.bzh";
-		// String to = "laurent.gregoire@gmail.com";
-		String from = "r2d2@plantkelt.net";
+		String to = smtpTo;
+		// Assume "mail from" is smtpLogin
+		String from = smtpLogin;
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", smtpHost);
+		props.put("mail.smtp.port", "" + smtpPort);
 		javax.mail.Session session = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("r2d2@plantkelt.net",
-								"xxxxxx");
+						return new PasswordAuthentication(smtpLogin,
+								smtpPassword);
 					}
 				});
 		try {

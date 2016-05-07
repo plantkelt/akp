@@ -10,10 +10,6 @@
         <param-value>development</param-value>
         <!-- <param-value>deployment</param-value> -->
     </context-param>
-    <context-param>
-        <param-name>net.plantkelt.akp.static-index-location</param-name>
-        <param-value>/var/www/akp/static/</param-value>
-    </context-param>
     <!-- <context-param> -->
     <!-- <param-name>net.plantkelt.akp.logfile</param-name> -->
     <!-- <param-value>/path/to/log4j.properties</param-value> -->
@@ -30,9 +26,32 @@
         <param-name>javax.persistence.jdbc.password</param-name>
         <param-value></param-value>
     </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.static-index-location</param-name>
+        <param-value>/var/www/akp/static/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.smtp.host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.smtp.port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.smtp.login</param-name>
+        <param-value>r2d2@plantkelt.net</param-value>
+    </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.smtp.password</param-name>
+        <param-value>xxxxxx</param-value>
+    </context-param>
+    <context-param>
+        <param-name>net.plantkelt.akp.smtp.to</param-name>
+        <param-value>melestr@plantkelt.bzh</param-value>
+    </context-param>
 
     <!-- Guice -->
-
     <filter>
         <filter-name>guiceFilter</filter-name>
         <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>

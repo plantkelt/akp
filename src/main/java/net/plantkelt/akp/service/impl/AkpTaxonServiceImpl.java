@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
@@ -75,6 +76,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private static List<Integer> CLASS_LEVELS;
 
+	@Inject
+	@Named("static-index-location")
 	private String staticIndexLocation = "";
 
 	static {
@@ -1855,10 +1858,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		indexOut.println("</body></html>");
 		indexOut.close();
 		elementsList.clear();
-	}
-
-	public void setStaticIndexLocation(String staticIndexLocation) {
-		this.staticIndexLocation = staticIndexLocation;
 	}
 
 	private Session getSession() {
