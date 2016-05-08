@@ -411,20 +411,23 @@ div.tabs ul {
 	border-bottom: 1px solid #888888;
 	margin: 0;
 	padding: 0;
-	padding-bottom: 1.4em;
+	padding-bottom: 1.6em;
 }
 
 div.tabs ul li {
 	display: inline-block;
 	float: left;
 	height: 1.4em;
-	min-width: 8em;
+	min-width: 6em;
 	text-align: center;
 	border: 1px solid #cccccc;
 	border-bottom: none;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	margin-left: 10px;
+	padding-top: 0.2em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
 }
 
 div.tabs ul li:hover {

@@ -1,7 +1,6 @@
 package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitClassificationPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitCorpusPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitPage;
 import net.plantkelt.akp.webapp.pages.AkpFirstVisitSourcesPage;
@@ -21,8 +20,9 @@ public class AkpFirstVisitNavigator extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Class<?>[] PAGES = { AkpFirstVisitMainPage.class,
-			AkpFirstVisitCorpusPage.class,
+	private static final Class<?>[] PAGES = {
+			AkpFirstVisitMainPage.class,
+			// AkpFirstVisitCorpusPage.class,
 			AkpFirstVisitClassificationPage.class,
 			AkpFirstVisitSourcesPage.class, AkpFirstVisitWhoPage.class,
 			AkpFirstVisitToolsPage.class, AkpFirstVisitStatisticsPage.class };
