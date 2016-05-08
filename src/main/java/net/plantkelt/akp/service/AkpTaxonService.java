@@ -40,8 +40,6 @@ public interface AkpTaxonService {
 
 	public abstract List<Integer> getClassLevels();
 
-	public abstract String getClassLevelName(int level);
-
 	public abstract AkpPlant createNewPlant(AkpClass owningClass);
 
 	public abstract AkpPlant getPlant(Integer xid);

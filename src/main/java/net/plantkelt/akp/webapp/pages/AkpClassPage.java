@@ -112,8 +112,8 @@ public class AkpClassPage extends AkpPageTemplate {
 		classNameEditor.add(classNameLabel);
 
 		// Level
-		InPlaceSelector<Integer> levelEditor = new InPlaceSelector<Integer>("levelEditor",
-				new SelectorModel<Integer>() {
+		InPlaceSelector<Integer> levelEditor = new InPlaceSelector<Integer>(
+				"levelEditor", new SelectorModel<Integer>() {
 					private static final long serialVersionUID = 1L;
 
 					public Integer getObject() {
@@ -121,7 +121,8 @@ public class AkpClassPage extends AkpPageTemplate {
 					}
 
 					@Override
-					public void saveObject(AjaxRequestTarget target, Integer level) {
+					public void saveObject(AjaxRequestTarget target,
+							Integer level) {
 						AkpClass akpClass = akpClassModel.getObject();
 						akpClass.setLevel(level);
 						akpTaxonService.updateClass(akpClass);
@@ -129,7 +130,7 @@ public class AkpClassPage extends AkpPageTemplate {
 
 					@Override
 					public String getDisplayValue(Integer level) {
-						return akpTaxonService.getClassLevelName(level);
+						return getString("class.level." + level);
 					}
 
 					@Override
@@ -150,12 +151,12 @@ public class AkpClassPage extends AkpPageTemplate {
 
 					@Override
 					public String getObject() {
-						return akpTaxonService.getClassLevelName(akpClassModel.getObject().getLevel());
+						int level = akpClassModel.getObject().getLevel();
+						return getString("class.level." + level);
 					}
 				});
 		levelEditor.add(levelLabel);
 
-		
 		// Comments
 		InPlaceEditor commentsEditor = new InPlaceEditor("classCommentsEditor",
 				new EditorModel<String>() {
@@ -309,6 +310,11 @@ public class AkpClassPage extends AkpPageTemplate {
 				subClassLink.add(subClassNameLabel);
 				item.add(subClassLink);
 			}
+
+			@Override
+			public boolean isVisible() {
+				return !getModelObject().isEmpty();
+			}
 		};
 		mainPanel.add(subClassesListView);
 
@@ -329,6 +335,11 @@ public class AkpClassPage extends AkpPageTemplate {
 				ownedPlantNameLabel.setEscapeModelStrings(false);
 				ownedPlantLink.add(ownedPlantNameLabel);
 				item.add(ownedPlantLink);
+			}
+
+			@Override
+			public boolean isVisible() {
+				return !getModelObject().isEmpty();
 			}
 		};
 		mainPanel.add(ownedPlantsListView);

@@ -74,6 +74,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 
 	private static Set<Integer> PUBLIC_PLANT_XIDS;
 
+	private static final int ROOT_CLASS_LEVEL = -2;
+	private static final int MAX_CLASS_LEVEL = 6;
 	private static List<Integer> CLASS_LEVELS;
 
 	@Inject
@@ -90,7 +92,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		PUBLIC_PLANT_XIDS.add(1974);
 
 		CLASS_LEVELS = new ArrayList<Integer>();
-		for (int i = -1; i <= 6; i++)
+		for (int i = ROOT_CLASS_LEVEL + 1; i <= MAX_CLASS_LEVEL; i++)
 			CLASS_LEVELS.add(i);
 	}
 
@@ -108,7 +110,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			rootClass.setName("/");
 			rootClass.setSynonyms("");
 			rootClass.setComments("");
-			rootClass.setLevel(-1);
+			rootClass.setLevel(ROOT_CLASS_LEVEL);
 			return rootClass;
 		} else {
 			return (AkpClass) getSession().get(AkpClass.class, xid);
@@ -224,38 +226,6 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public List<Integer> getClassLevels() {
 		return CLASS_LEVELS;
-	}
-
-	@Override
-	public String getClassLevelName(int level) {
-		// TODO Get appropriate level names in Latin
-		// 0 - Règne (Chromista, Fungi, Plantae)
-		// 1 - Sous-règne (Tracheobionta)
-		// 2 - Embranchement (...phyta)
-		// 3 - Classe (...opsida)
-		// 4 - Sous-classe (...idae)
-		// 5 - Ordre (...ales)
-		// 6 - Famille (...aceae)
-		switch (level) {
-		case -1:
-			return "";
-		case 0:
-			return "Règne";
-		case 1:
-			return "Sous-règne";
-		case 2:
-			return "Embranchement";
-		case 3:
-			return "Classe";
-		case 4:
-			return "Sous-classe";
-		case 5:
-			return "Ordre";
-		case 6:
-			return "Famille";
-		default:
-			return "Niveau " + level;
-		}
 	}
 
 	@Transactional
