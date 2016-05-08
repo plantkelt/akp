@@ -13,7 +13,6 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -143,7 +142,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 		addSection.add(addForm);
 		addForm.add(new FeedbackPanel("feedback"));
 		addForm.add(new TextField<String>("login", addForm.getModel()));
-		
+
 		// Link to user login history
 		add(AkpLoginListPage.link("loginLogLink"));
 	}
@@ -180,7 +179,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 							return "" + object;
 						}
 					});
-			add(new CheckBox("onlyExpired", onlyExpiredModel));
+			// add(new CheckBox("onlyExpired", onlyExpiredModel));
 			profileChoice.setNullValid(true);
 			add(profileChoice);
 		}
