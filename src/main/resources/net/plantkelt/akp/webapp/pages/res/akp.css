@@ -93,6 +93,13 @@ pre {
 	font-weight: bold;	
 }
 
+p.code {
+	font-family: monospace;
+	font-weight: bold;
+	font-size: 80%;
+	color: #555555;
+}
+
 /* === Feedback panel === */
 ul.feedbackPanel {
 	background-color: #ffffaa;
@@ -292,10 +299,14 @@ div.column {
 	vertical-align: top;
 	display: inline-block;
 	width: 30%;
+}
+
+div.column-block {
 	border-radius: 8px;
 	background-color: #eeeeaa;
 	padding: 1em;
 	margin: 0.2em;
+	margin-top: 0.8em;
 }
 
 /* === Header === */
