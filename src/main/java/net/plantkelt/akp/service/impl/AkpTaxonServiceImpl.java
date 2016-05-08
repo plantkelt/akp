@@ -108,6 +108,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			rootClass.setName("/");
 			rootClass.setSynonyms("");
 			rootClass.setComments("");
+			rootClass.setLevel(-1);
 			return rootClass;
 		} else {
 			return (AkpClass) getSession().get(AkpClass.class, xid);
