@@ -59,7 +59,7 @@ public class AkpLangHomePage extends AkpPageTemplate {
 				langLink.add(new Label("xidLabel", lang.getXid()));
 				item.add(new Label("codeLabel", lang.getCode()));
 				item.add(new Label("nameLabel", lang.getName()));
-				item.add(new Label("grplngLabel", lang.getLangGroup().getCode()));
+				item.add(new Label("grplngLabel", lang.getLangGroup().getName()));
 				item.add(new Label("levelLabel", "" + lang.getLevel()));
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));
