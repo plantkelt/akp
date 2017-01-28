@@ -45,9 +45,8 @@ public class AkpLexicalGroupPanel extends Panel {
 		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
 		add(collapseDiv);
 		CollapsibleButton collapseButton = new CollapsibleButton(
-				"collapseButton", collapseDiv, AkpWicketSession
-						.get()
-						.getSessionData()
+				"collapseButton", collapseDiv,
+				AkpWicketSession.get().getSessionData()
 						.isLexicalGroupDefaultOpen(
 								lexicalGroup.getLang().getXid(),
 								lexicalGroup.getCorrect())) {
@@ -105,8 +104,9 @@ public class AkpLexicalGroupPanel extends Panel {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				AkpUser user = AkpWicketSession.get().getAkpUser();
-				akpTaxonService.addRootVernacularName(lexicalGroupModel
-						.getObject(), user == null ? null : user.getLastbib());
+				akpTaxonService.addRootVernacularName(
+						lexicalGroupModel.getObject(),
+						user == null ? null : user.getLastbib());
 				target.add(AkpLexicalGroupPanel.this);
 			}
 		});
@@ -115,8 +115,8 @@ public class AkpLexicalGroupPanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				akpTaxonService.deleteLexicalGroup(lexicalGroupModel
-						.getObject());
+				akpTaxonService
+						.deleteLexicalGroup(lexicalGroupModel.getObject());
 				target.add(refreshMasterComponent);
 			}
 

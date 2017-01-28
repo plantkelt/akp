@@ -20,8 +20,7 @@ public class AkpFirstVisitNavigator extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Class<?>[] PAGES = {
-			AkpFirstVisitMainPage.class,
+	private static final Class<?>[] PAGES = { AkpFirstVisitMainPage.class,
 			// AkpFirstVisitCorpusPage.class,
 			AkpFirstVisitClassificationPage.class,
 			AkpFirstVisitSourcesPage.class, AkpFirstVisitWhoPage.class,
@@ -40,8 +39,8 @@ public class AkpFirstVisitNavigator extends Panel {
 			BookmarkablePageLink<AkpFirstVisitPage> link = new BookmarkablePageLink<AkpFirstVisitPage>(
 					"link", pageClass);
 			item.add(link);
-			Label pageLabel = new Label("label", new StringResourceModel(
-					"first.visit." + i, null));
+			Label pageLabel = new Label("label",
+					new StringResourceModel("first.visit." + i, null));
 			link.add(pageLabel);
 			if (parent.getClass().equals(pageClass)) {
 				item.add(new AttributeModifier("class", "selected"));

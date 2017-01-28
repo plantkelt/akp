@@ -53,12 +53,12 @@ public class AkpUserPage extends AkpPageTemplate {
 			}
 		};
 		if (userModel.getObject() == null)
-			throw new IllegalArgumentException("Invalid user login: "
-					+ userLogin);
+			throw new IllegalArgumentException(
+					"Invalid user login: " + userLogin);
 
 		// User login (immutable)
-		add(new Label("loginLabel", new PropertyModel<String>(userModel,
-				"login")));
+		add(new Label("loginLabel",
+				new PropertyModel<String>(userModel, "login")));
 		// Form
 		add(new AkpUserForm("form", userModel));
 	}
@@ -89,7 +89,8 @@ public class AkpUserPage extends AkpPageTemplate {
 			DropDownChoice<Integer> langSelect = new DropDownChoice<Integer>(
 					"lang", new PropertyModel<Integer>(userModel, "lang"),
 					Arrays.asList(AkpUser.LANG_EN, AkpUser.LANG_FR,
-							AkpUser.LANG_BR), new IChoiceRenderer<Integer>() {
+							AkpUser.LANG_BR),
+					new IChoiceRenderer<Integer>() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -113,8 +114,8 @@ public class AkpUserPage extends AkpPageTemplate {
 			langSelect.setRequired(true);
 			add(langSelect);
 			DropDownChoice<Integer> profileSelect = new DropDownChoice<Integer>(
-					"profile", Arrays.asList(AkpUser.PROFILE_USER,
-							AkpUser.PROFILE_ADMIN),
+					"profile",
+					Arrays.asList(AkpUser.PROFILE_USER, AkpUser.PROFILE_ADMIN),
 					new IChoiceRenderer<Integer>() {
 						private static final long serialVersionUID = 1L;
 

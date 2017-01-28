@@ -121,7 +121,8 @@ public class AkpSearchResult {
 		if (!sorted) {
 			Collections.sort(rows, new Comparator<AkpSearchResultRow>() {
 				@Override
-				public int compare(AkpSearchResultRow o1, AkpSearchResultRow o2) {
+				public int compare(AkpSearchResultRow o1,
+						AkpSearchResultRow o2) {
 					String k1 = o1.getSortKey();
 					String k2 = o2.getSortKey();
 					if (k1 == null || k2 == null)

@@ -14,7 +14,8 @@ public class CollapsibleButton extends Panel {
 	private Component showHideComponent;
 	private boolean opened = false;
 
-	public CollapsibleButton(String id, Component showHide, boolean defaultOpen) {
+	public CollapsibleButton(String id, Component showHide,
+			boolean defaultOpen) {
 		super(id);
 		this.opened = defaultOpen;
 		this.showHideComponent = showHide;

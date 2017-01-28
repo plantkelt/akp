@@ -26,7 +26,8 @@ public class AkpServiceGuiceModule extends AbstractModule {
 			"net.plantkelt.akp.smtp.host", "net.plantkelt.akp.smtp.login",
 			"net.plantkelt.akp.smtp.password", "net.plantkelt.akp.smtp.to" };
 
-	private static final String[] INTEGER_INIT_PARAMS = { "net.plantkelt.akp.smtp.port" };
+	private static final String[] INTEGER_INIT_PARAMS = {
+			"net.plantkelt.akp.smtp.port" };
 
 	public AkpServiceGuiceModule(Properties properties, boolean dev) {
 		this.properties = properties;
@@ -39,12 +40,12 @@ public class AkpServiceGuiceModule extends AbstractModule {
 		bindConstant().annotatedWith(Names.named("dev")).to(dev);
 		bindConstants(String.class, STRING_INIT_PARAMS, STRING_CONVERTER);
 		bindConstants(Integer.class, INTEGER_INIT_PARAMS, INTEGER_CONVERTER);
-		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class).in(
-				Scopes.SINGLETON);
-		bind(AkpLogService.class).to(AkpLogServiceImpl.class).in(
-				Scopes.SINGLETON);
-		bind(AkpTaxonService.class).to(AkpTaxonServiceImpl.class).in(
-				Scopes.SINGLETON);
+		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class)
+				.in(Scopes.SINGLETON);
+		bind(AkpLogService.class).to(AkpLogServiceImpl.class)
+				.in(Scopes.SINGLETON);
+		bind(AkpTaxonService.class).to(AkpTaxonServiceImpl.class)
+				.in(Scopes.SINGLETON);
 	}
 
 	public void setInitParameters(Map<String, String> initParameters) {
@@ -73,15 +74,15 @@ public class AkpServiceGuiceModule extends AbstractModule {
 			Converter<T> converter) {
 		for (String initParamName : paramNames) {
 			if (!initParamName.startsWith("net.plantkelt.akp."))
-				throw new IllegalArgumentException("Bad init param name: "
-						+ initParamName);
+				throw new IllegalArgumentException(
+						"Bad init param name: " + initParamName);
 			T paramValue = converter.convert(initParameters.get(initParamName));
 			if (paramValue == null)
-				throw new IllegalArgumentException("Missing init parameter: "
-						+ initParamName);
+				throw new IllegalArgumentException(
+						"Missing init parameter: " + initParamName);
 			String bindName = initParamName.replace("net.plantkelt.akp.", "");
-			bind(clazz).annotatedWith(Names.named(bindName)).toInstance(
-					paramValue);
+			bind(clazz).annotatedWith(Names.named(bindName))
+					.toInstance(paramValue);
 		}
 	}
 }

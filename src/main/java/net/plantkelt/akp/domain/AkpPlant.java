@@ -135,8 +135,8 @@ public class AkpPlant implements Comparable<AkpPlant> {
 				synonyms.add(taxon);
 				break;
 			default:
-				throw new RuntimeException("Invalid taxon type: "
-						+ taxon.getType());
+				throw new RuntimeException(
+						"Invalid taxon type: " + taxon.getType());
 			}
 		}
 	}

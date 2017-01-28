@@ -43,8 +43,8 @@ public class AkpLoginPage extends AkpPageTemplate {
 		add(signInPanel);
 
 		Form<Void> autologinForm = new Form<Void>("autologinForm");
-		autologinForm
-				.setVisible(AkpWicketApplication.get().getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT);
+		autologinForm.setVisible(AkpWicketApplication.get()
+				.getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT);
 		add(autologinForm);
 		Button autologinAdminButton = new Button("autologinAdminButton") {
 			private static final long serialVersionUID = 1L;
@@ -82,11 +82,11 @@ public class AkpLoginPage extends AkpPageTemplate {
 		// Misc info (last update)
 		Date lastUpdate = akpTaxonService.getLastUpdate();
 		Label lastUpdateLabel = new Label("lastUpdate",
-				getString("last.update")
-						+ " "
-						+ SimpleDateFormat.getDateInstance(DateFormat.LONG,
-								AkpWicketSession.get().getLocale()).format(
-								lastUpdate));
+				getString("last.update") + " "
+						+ SimpleDateFormat
+								.getDateInstance(DateFormat.LONG,
+										AkpWicketSession.get().getLocale())
+								.format(lastUpdate));
 		add(lastUpdateLabel);
 
 		// Fortune

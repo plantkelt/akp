@@ -66,8 +66,8 @@ public class AkpPlantBackRefsPanel extends Panel {
 				Link<AkpPlantPage> plantLink = AkpPlantPage.link("plantLink",
 						plant.getXid());
 				item.add(plantLink);
-				Label plantLabel = new Label("plant", "⇐ "
-						+ plant.getMainName().getHtmlName());
+				Label plantLabel = new Label("plant",
+						"⇐ " + plant.getMainName().getHtmlName());
 				plantLabel.setEscapeModelStrings(false);
 				plantLink.add(plantLabel);
 			}
@@ -80,8 +80,8 @@ public class AkpPlantBackRefsPanel extends Panel {
 
 			@Override
 			protected List<AkpVernacularName> load() {
-				return akpTaxonService.getVernacularNameBackRefs(plantModel
-						.getObject());
+				return akpTaxonService
+						.getVernacularNameBackRefs(plantModel.getObject());
 			}
 		};
 		ListView<AkpVernacularName> vernaBackRefList = new ListView<AkpVernacularName>(
@@ -92,8 +92,8 @@ public class AkpPlantBackRefsPanel extends Panel {
 			protected void populateItem(ListItem<AkpVernacularName> item) {
 				AkpVernacularName vernaName = item.getModelObject();
 				AkpLexicalGroup lexicalGroup = vernaName.getLexicalGroup();
-				Label vernaNameLabel = new Label("vernaName", "⇐ "
-						+ vernaName.getName());
+				Label vernaNameLabel = new Label("vernaName",
+						"⇐ " + vernaName.getName());
 				item.add(vernaNameLabel);
 				Label langLabel = new Label("lang", lexicalGroup.getLang()
 						.getXid()
@@ -103,9 +103,9 @@ public class AkpPlantBackRefsPanel extends Panel {
 				Link<AkpPlantPage> plantLink = AkpPlantPage.link("plantLink",
 						lexicalGroup.getPlant().getXid());
 				item.add(plantLink);
-				Label plantLabel = new Label("plant", vernaName
-						.getLexicalGroup().getPlant().getMainName()
-						.getHtmlName());
+				Label plantLabel = new Label("plant",
+						vernaName.getLexicalGroup().getPlant().getMainName()
+								.getHtmlName());
 				plantLabel.setEscapeModelStrings(false);
 				plantLink.add(plantLabel);
 			}

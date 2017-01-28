@@ -42,9 +42,8 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 		final DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
 
 		// Header
-		Label plantName = new Label("plantName",
-				plant == null ? plantId.toString() : plant.getMainName()
-						.getHtmlName());
+		Label plantName = new Label("plantName", plant == null
+				? plantId.toString() : plant.getMainName().getHtmlName());
 		plantName.setEscapeModelStrings(false);
 		add(plantName);
 
@@ -68,13 +67,13 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 			@Override
 			protected void populateItem(ListItem<AkpLogEntry> item) {
 				AkpLogEntry logEntry = item.getModelObject();
-				Label dateLabel = new Label("date", dateFormat.format(logEntry
-						.getDate()));
+				Label dateLabel = new Label("date",
+						dateFormat.format(logEntry.getDate()));
 				item.add(dateLabel);
 				Label userLabel = new Label("user", logEntry.getLogin());
 				item.add(userLabel);
-				Label typeLabel = new Label("type", getString("log.type."
-						+ logEntry.getType()));
+				Label typeLabel = new Label("type",
+						getString("log.type." + logEntry.getType()));
 				item.add(typeLabel);
 				Label newValueLabel = new Label("newValue",
 						logEntry.getNewValue());

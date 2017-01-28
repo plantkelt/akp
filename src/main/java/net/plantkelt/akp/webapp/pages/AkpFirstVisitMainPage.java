@@ -29,8 +29,9 @@ public class AkpFirstVisitMainPage extends AkpFirstVisitPage {
 					exampleRepeat.newChildId());
 			exampleRepeat.add(item);
 			item.add(AkpPlantPage.link("exampleLink", xid));
-			item.add(new Label("exampleLabel", plant.getMainName()
-					.getHtmlName()).setEscapeModelStrings(false));
+			item.add(
+					new Label("exampleLabel", plant.getMainName().getHtmlName())
+							.setEscapeModelStrings(false));
 		}
 
 	}

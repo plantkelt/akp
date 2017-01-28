@@ -24,8 +24,8 @@ public class AkpApplicationService {
 	public void taxonRegexp(String search, String replace, boolean commit) {
 		unitOfWork.begin();
 
-		System.out.println(String.format("Taxon regexp '%s' -> '%s'.", search,
-				replace));
+		System.out.println(
+				String.format("Taxon regexp '%s' -> '%s'.", search, replace));
 		if (commit)
 			System.out.println("Commit mode.");
 		ScrollableResults taxons = sessionProvider.get()

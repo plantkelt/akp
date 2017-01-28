@@ -36,10 +36,10 @@ public class JavascriptConfirmationModifier extends AttributeModifier {
 	@Override
 	protected String newValue(final String currentValue,
 			final String replacementValue) {
-		String prefix = String
-				.format("var conf = confirm('%s'); if (!conf) { return false; } else { %s return true; }",
-						replacementValue,
-						disappear ? "this.style.display='none';" : "");
+		String prefix = String.format(
+				"var conf = confirm('%s'); if (!conf) { return false; } else { %s return true; }",
+				replacementValue,
+				disappear ? "this.style.display='none';" : "");
 		String result = prefix;
 		if (currentValue != null) {
 			result = prefix + currentValue;

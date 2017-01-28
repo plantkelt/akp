@@ -47,8 +47,8 @@ public class AkpPlantTagsPanel extends Panel {
 
 			@Override
 			public List<AkpPlantTag> getObject() {
-				return new ArrayList<AkpPlantTag>(plantModel.getObject()
-						.getTags());
+				return new ArrayList<AkpPlantTag>(
+						plantModel.getObject().getTags());
 			}
 		};
 		ListView<AkpPlantTag> tagsList = new ListView<AkpPlantTag>("tags",
@@ -63,9 +63,11 @@ public class AkpPlantTagsPanel extends Panel {
 						"value");
 				Label valueLabel = new Label("tagValue", valueModel);
 				valueLabel.setEscapeModelStrings(false);
-				valueLabel.add(new AttributeAppender("class",
-						new Model<String>("tag_"
-								+ tagModel.getObject().getType()), " "));
+				valueLabel
+						.add(new AttributeAppender("class",
+								new Model<String>("tag_"
+										+ tagModel.getObject().getType()),
+								" "));
 				if (tag.isTypeString()) {
 					InPlaceEditor editor = new InPlaceEditor("tagEditor",
 							new EditorModel<String>() {
@@ -78,8 +80,8 @@ public class AkpPlantTagsPanel extends Panel {
 								}
 
 								@Override
-								public void saveObject(
-										AjaxRequestTarget target, String value) {
+								public void saveObject(AjaxRequestTarget target,
+										String value) {
 									AkpPlantTag tag = tagModel.getObject();
 									if (value == null || value.length() == 0) {
 										akpTaxonService.deletePlantTag(tag);
@@ -104,8 +106,8 @@ public class AkpPlantTagsPanel extends Panel {
 								}
 
 								@Override
-								public void saveObject(
-										AjaxRequestTarget target, Integer value) {
+								public void saveObject(AjaxRequestTarget target,
+										Integer value) {
 									AkpPlantTag tag = tagModel.getObject();
 									if (value == null) {
 										akpTaxonService.deletePlantTag(tag);

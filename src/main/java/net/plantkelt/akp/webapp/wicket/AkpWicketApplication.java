@@ -64,11 +64,11 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 	protected void init() {
 		super.init();
 		// Guice
-		getComponentInstantiationListeners().add(
-				new GuiceComponentInjector(this, injector));
+		getComponentInstantiationListeners()
+				.add(new GuiceComponentInjector(this, injector));
 		loginService = injector.getInstance(AkpLoginService.class);
-		injector.getInstance(AkpLogService.class).setLoginGetter(
-				new LoginGetter() {
+		injector.getInstance(AkpLogService.class)
+				.setLoginGetter(new LoginGetter() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -80,7 +80,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 					public String getCurrentRemoteAddr() {
 						return ((ServletWebRequest) RequestCycle.get()
 								.getRequest()).getContainerRequest()
-								.getRemoteAddr();
+										.getRemoteAddr();
 					}
 				});
 
@@ -126,7 +126,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
 
 			@Override
-			public IRequestHandler onException(RequestCycle cycle, Exception ex) {
+			public IRequestHandler onException(RequestCycle cycle,
+					Exception ex) {
 				Throwable cause = ex;
 				if (cause instanceof WicketRuntimeException) {
 					cause = cause.getCause();
@@ -135,8 +136,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 					cause = cause.getCause();
 				}
 				if (cause instanceof RuntimeException) {
-					return new RenderPageRequestHandler(new PageProvider(
-							new AkpExceptionPage(cause)));
+					return new RenderPageRequestHandler(
+							new PageProvider(new AkpExceptionPage(cause)));
 				}
 				return null;
 			}

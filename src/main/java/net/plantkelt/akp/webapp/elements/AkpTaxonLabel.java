@@ -54,8 +54,9 @@ public class AkpTaxonLabel extends Panel {
 				for (int i = 1; i < elems.length; i += 2) {
 					authorIds.add(elems[i]);
 				}
-				Map<String, AkpAuthor> authors = authorsModel != null ? authorsModel
-						.getObject() : akpTaxonService.getAuthors(authorIds);
+				Map<String, AkpAuthor> authors = authorsModel != null
+						? authorsModel.getObject()
+						: akpTaxonService.getAuthors(authorIds);
 				List<NameElement> retval = new ArrayList<NameElement>(
 						elems.length / 2 + 1);
 				for (int i = 0; i < elems.length; i += 2) {
@@ -83,9 +84,10 @@ public class AkpTaxonLabel extends Panel {
 						nameElement.taxonElement);
 				elemTaxon.setEscapeModelStrings(false);
 				item.add(elemTaxon);
-				WebMarkupContainer elemAuthorLink = nameElement.author == null ? new WebMarkupContainer(
-						"elemAuthorLink") : AkpAuthorPage.link(
-						"elemAuthorLink", nameElement.author.getXid());
+				WebMarkupContainer elemAuthorLink = nameElement.author == null
+						? new WebMarkupContainer("elemAuthorLink")
+						: AkpAuthorPage.link("elemAuthorLink",
+								nameElement.author.getXid());
 				item.add(elemAuthorLink);
 				Label elemAuthorId = new Label("elemAuthorId",
 						nameElement.authorElement == null ? ""

@@ -83,8 +83,8 @@ public class AkpLangPage extends AkpPageTemplate {
 					}
 				}, 1, 20);
 		add(codeEditor);
-		Label codeLabel = new Label("codeLabel", new PropertyModel<String>(
-				langModel, "code"));
+		Label codeLabel = new Label("codeLabel",
+				new PropertyModel<String>(langModel, "code"));
 		codeEditor.add(codeLabel);
 
 		// Name
@@ -107,8 +107,8 @@ public class AkpLangPage extends AkpPageTemplate {
 					}
 				}, 1, 40);
 		add(nameEditor);
-		Label nameLabel = new Label("nameLabel", new PropertyModel<String>(
-				langModel, "name"));
+		Label nameLabel = new Label("nameLabel",
+				new PropertyModel<String>(langModel, "name"));
 		nameEditor.add(nameLabel);
 
 		// Lang group
@@ -146,8 +146,8 @@ public class AkpLangPage extends AkpPageTemplate {
 					}
 				});
 		add(groupSelector);
-		Label groupLabel = new Label("groupLabel", new PropertyModel<String>(
-				langModel, "langGroup.name"));
+		Label groupLabel = new Label("groupLabel",
+				new PropertyModel<String>(langModel, "langGroup.name"));
 		groupSelector.add(groupLabel);
 
 		// Level
@@ -186,8 +186,8 @@ public class AkpLangPage extends AkpPageTemplate {
 					}
 				});
 		add(levelSelector);
-		Label levelLabel = new Label("levelLabel", new StringResourceModel(
-				"profile.${level}", this, langModel));
+		Label levelLabel = new Label("levelLabel",
+				new StringResourceModel("profile.${level}", this, langModel));
 		levelSelector.add(levelLabel);
 
 		// Description
@@ -210,8 +210,8 @@ public class AkpLangPage extends AkpPageTemplate {
 					}
 				}, 6, 80);
 		add(descEditor);
-		Label descLabel = new Label("descLabel", new PropertyModel<String>(
-				langModel, "desc"));
+		Label descLabel = new Label("descLabel",
+				new PropertyModel<String>(langModel, "desc"));
 		descLabel.setEscapeModelStrings(false);
 		descEditor.add(descLabel);
 

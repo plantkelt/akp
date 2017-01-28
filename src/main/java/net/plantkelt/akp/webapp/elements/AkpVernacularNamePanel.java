@@ -50,7 +50,8 @@ public class AkpVernacularNamePanel extends Panel {
 					}
 
 					@Override
-					public void saveObject(AjaxRequestTarget target, String name) {
+					public void saveObject(AjaxRequestTarget target,
+							String name) {
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
 						if (name == null || name.length() == 0) {
@@ -117,8 +118,8 @@ public class AkpVernacularNamePanel extends Panel {
 							AkpPlant targetPlant) {
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
-						akpTaxonService.addPlantRefToVernacularName(
-								targetPlant, vernaName);
+						akpTaxonService.addPlantRefToVernacularName(targetPlant,
+								vernaName);
 						target.add(AkpVernacularNamePanel.this);
 					}
 				});

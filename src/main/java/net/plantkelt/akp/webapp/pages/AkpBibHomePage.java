@@ -91,7 +91,8 @@ public class AkpBibHomePage extends AkpPageTemplate {
 			}
 		};
 		add(searchResultsSection);
-		ListView<AkpBib> bibList = new ListView<AkpBib>("bibList", resultsModel) {
+		ListView<AkpBib> bibList = new ListView<AkpBib>("bibList",
+				resultsModel) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

@@ -19,6 +19,22 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.LockMode;
+import org.hibernate.Query;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
+import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
+
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpClass;
@@ -41,22 +57,6 @@ import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.utils.MapUtils;
 import net.plantkelt.akp.utils.Pair;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.LockMode;
-import org.hibernate.Query;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-
-import com.google.inject.Provider;
-import com.google.inject.persist.Transactional;
 
 public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -256,12 +256,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public List<AkpPlant> searchPlantFromName(String name) {
-		return (List<AkpPlant>) getSession()
-				.createCriteria(AkpPlant.class)
+		return (List<AkpPlant>) getSession().createCriteria(AkpPlant.class)
 				.createCriteria("taxons")
 				.add(Restrictions.and(
 						Restrictions.eq("type", AkpTaxon.TYPE_MAIN),
-						Restrictions.ilike("name", "%" + name + "%"))).list();
+						Restrictions.ilike("name", "%" + name + "%")))
+				.list();
 	}
 
 	@Transactional
@@ -431,7 +431,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Matcher synMatcher = Pattern.compile("<l>.*?</l>").matcher(taxonName);
 		while (synMatcher.find()) {
 			String syn = synMatcher.group();
-			if (!syn.matches("^<l><(i|b)>(<(x|\\+)>)??[A-Z][a-z,\\-]+? (<(x|\\+)> )??(([a-z,\\-]+?)|(spp?\\.))</(i|b)>.*?</l>$")) {
+			if (!syn.matches(
+					"^<l><(i|b)>(<(x|\\+)>)??[A-Z][a-z,\\-]+? (<(x|\\+)> )??(([a-z,\\-]+?)|(spp?\\.))</(i|b)>.*?</l>$")) {
 				retval.add("error.invalid.taxon.structure");
 				break;
 			}
@@ -664,8 +665,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	public List<AkpLangGroup> getLangGroupList() {
 		@SuppressWarnings("unchecked")
-		List<AkpLangGroup> groups = getSession().createCriteria(
-				AkpLangGroup.class).list();
+		List<AkpLangGroup> groups = getSession()
+				.createCriteria(AkpLangGroup.class).list();
 		Collections.sort(groups);
 		return groups;
 	}
@@ -772,13 +773,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Transactional
 	@Override
 	public List<AkpVernacularName> getVernacularNameBackRefs(AkpPlant plant) {
-		Criteria vernaCriteria = getSession().createCriteria(
-				AkpVernacularName.class);
+		Criteria vernaCriteria = getSession()
+				.createCriteria(AkpVernacularName.class);
 		vernaCriteria.setFetchMode("lexicalGroup", FetchMode.JOIN)
 				.createCriteria("lexicalGroup")
 				.setFetchMode("plant", FetchMode.JOIN);
-		Criteria plantRefCriteria = vernaCriteria.createCriteria("plantRefs",
-				"plantRef").add(Restrictions.eq("xid", plant.getXid()));
+		Criteria plantRefCriteria = vernaCriteria
+				.createCriteria("plantRefs", "plantRef")
+				.add(Restrictions.eq("xid", plant.getXid()));
 		return plantRefCriteria.list();
 	}
 
@@ -835,7 +837,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public Map<String, Set<AkpAuthor>> getAuthorFromSources(Set<String> oldXids) {
+	public Map<String, Set<AkpAuthor>> getAuthorFromSources(
+			Set<String> oldXids) {
 		if (oldXids.size() == 0)
 			return Collections.emptyMap();
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
@@ -844,7 +847,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			likes.add(Restrictions.ilike("source", oldXid, MatchMode.ANYWHERE));
 			likes.add(Restrictions.eq("xid", oldXid));
 		}
-		criteria.add(Restrictions.or(likes.toArray(new Criterion[likes.size()])));
+		criteria.add(
+				Restrictions.or(likes.toArray(new Criterion[likes.size()])));
 		List<AkpAuthor> authors = criteria.list();
 		Map<String, Set<AkpAuthor>> retval = new HashMap<String, Set<AkpAuthor>>(
 				authors.size());
@@ -889,9 +893,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		Criteria criteria = getSession().createCriteria(AkpAuthor.class);
 		criteria.setMaxResults(limit);
 		if (xid != null)
-			criteria.add(Restrictions.or(
-					Restrictions.ilike("xid", "%" + xid + "%"),
-					Restrictions.ilike("source", "%" + xid + "%")));
+			criteria.add(
+					Restrictions.or(Restrictions.ilike("xid", "%" + xid + "%"),
+							Restrictions.ilike("source", "%" + xid + "%")));
 		if (name != null)
 			criteria.add(Restrictions.ilike("name", "%" + name + "%"));
 		if (dates != null)
@@ -908,11 +912,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	public List<AkpTaxon> getTaxonsForAuthor(int limit, AkpAuthor author) {
 		@SuppressWarnings("unchecked")
-		List<AkpTaxon> taxons = getSession()
-				.createCriteria(AkpTaxon.class)
-				.setMaxResults(limit)
-				.add(Restrictions.ilike("name", "%<a>" + author.getXid()
-						+ "</a>%")).list();
+		List<AkpTaxon> taxons = getSession().createCriteria(AkpTaxon.class)
+				.setMaxResults(limit).add(Restrictions.ilike("name",
+						"%<a>" + author.getXid() + "</a>%"))
+				.list();
 		Collections.sort(taxons);
 		return taxons;
 	}
@@ -930,8 +933,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (author.getXid().equals(newXid))
 			return 0;
 		if (getAuthor(newXid) != null)
-			throw new IllegalArgumentException("Author with XID=" + newXid
-					+ " already exists!");
+			throw new IllegalArgumentException(
+					"Author with XID=" + newXid + " already exists!");
 		AkpAuthor newAuthor = new AkpAuthor();
 		newAuthor.setXid(newXid);
 		newAuthor.setName(author.getName());
@@ -947,8 +950,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		int retval = 0;
 		for (AkpTaxon taxon : taxons) {
 			String oldName = taxon.getName();
-			String newName = oldName.replace("<a>" + oldXid + "</a>", "<a>"
-					+ newXid + "</a>");
+			String newName = oldName.replace("<a>" + oldXid + "</a>",
+					"<a>" + newXid + "</a>");
 			if (!oldName.equals(newName)) {
 				taxon.setName(newName);
 				retval++;
@@ -1006,9 +1009,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			if (taxonSearch.contains("<a>" + kv.getKey() + "</a>")) {
 				if (kv.getValue().size() == 1) {
 					// Auto-replace only if ONE match.
-					taxonSearch = taxonSearch
-							.replace("<a>" + kv.getKey() + "</a>", "<a>"
-									+ kv.getValue().iterator().next().getXid()
+					taxonSearch = taxonSearch.replace(
+							"<a>" + kv.getKey() + "</a>",
+							"<a>" + kv.getValue().iterator().next().getXid()
 									+ "</a>");
 				}
 			}
@@ -1043,7 +1046,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			taxonCriteria.add(Restrictions.ilike("name",
 					"%" + searchData.getTaxonName() + "%"));
 		taxonCriteria.setFetchMode("plant", FetchMode.JOIN);
-		if (!(searchData.isIncludeSynonyms() && searchData.getTaxonName() != null))
+		if (!(searchData.isIncludeSynonyms()
+				&& searchData.getTaxonName() != null))
 			taxonCriteria.add(Restrictions.eq("type", AkpTaxon.TYPE_MAIN));
 		if (searchData.getPlantComments() != null) {
 			Criteria plantCriteria = taxonCriteria.createCriteria("plant");
@@ -1060,8 +1064,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		}
 		if (searchData.getFamilyXid() != null) {
 			Criteria plantCriteria = taxonCriteria.createCriteria("plant");
-			plantCriteria.add(Restrictions.eq("akpClass.xid",
-					searchData.getFamilyXid()));
+			plantCriteria.add(
+					Restrictions.eq("akpClass.xid", searchData.getFamilyXid()));
 		}
 		// Search
 		@SuppressWarnings("unchecked")
@@ -1083,15 +1087,16 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					null, null);
 			if (DEBUG_TAXON_SORT) {
-				result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-						.getSortKey().replace(" ", "_ "), "sortkey"));
+				result.addColumn(new AkpSearchResultColumn(
+						plant.getMainName().getSortKey().replace(" ", "_ "),
+						"sortkey"));
 			}
 			if (searchData.isIncludeSynonyms()
 					&& searchData.getTaxonName() != null)
 				result.addColumn(new AkpSearchResultColumn(taxon.getHtmlName(),
 						"taxon"));
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			if (searchData.getPlantComments() != null)
 				result.addColumn(new AkpSearchResultColumn(plant.getComments(),
 						"comments"));
@@ -1111,8 +1116,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	private AkpSearchResult searchVerna(AkpSearchData searchData) {
 		// Create criterias
 		AkpSearchResult results = new AkpSearchResult(searchData.getLimit());
-		Criteria vernaCriteria = getSession().createCriteria(
-				AkpVernacularName.class);
+		Criteria vernaCriteria = getSession()
+				.createCriteria(AkpVernacularName.class);
 		vernaCriteria.setMaxResults(searchData.getLimit());
 		vernaCriteria.setFetchMode("lexicalGroup", FetchMode.JOIN);
 		vernaCriteria.setFetchMode("lexicalGroup.plant", FetchMode.JOIN);
@@ -1120,8 +1125,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			vernaCriteria.add(Restrictions.ilike("name",
 					"%" + searchData.getVernacularName() + "%"));
 		if (searchData.getTaxonName() != null) {
-			Criteria taxonCriteria = vernaCriteria.createCriteria(
-					"lexicalGroup.plant.taxons", "taxon");
+			Criteria taxonCriteria = vernaCriteria
+					.createCriteria("lexicalGroup.plant.taxons", "taxon");
 			taxonCriteria.add(Restrictions.ilike("taxon.name",
 					"%" + searchData.getTaxonName() + "%"));
 			taxonCriteria
@@ -1129,28 +1134,28 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		}
 		if (searchData.getBibRefXid() != null) {
 			Criteria bibCriteria = vernaCriteria.createCriteria("bibs", "bib");
-			bibCriteria.add(Restrictions.eq("bib.xid",
-					searchData.getBibRefXid()));
+			bibCriteria
+					.add(Restrictions.eq("bib.xid", searchData.getBibRefXid()));
 		}
 		if (searchData.getLangXids().size() > 0) {
 			Criteria lexgrpCriteria = vernaCriteria
 					.createCriteria("lexicalGroup");
-			lexgrpCriteria.add(Restrictions.in("lang.xid",
-					searchData.getLangXids()));
+			lexgrpCriteria
+					.add(Restrictions.in("lang.xid", searchData.getLangXids()));
 		}
 		if (searchData.getVernacularNameComments() != null) {
 			vernaCriteria.add(Restrictions.ilike("comments",
 					"%" + searchData.getVernacularNameComments() + "%"));
 		}
 		if (searchData.getPlantComments() != null) {
-			Criteria plantCriteria = vernaCriteria.createCriteria(
-					"lexicalGroup.plant", "plant");
+			Criteria plantCriteria = vernaCriteria
+					.createCriteria("lexicalGroup.plant", "plant");
 			plantCriteria.add(Restrictions.ilike("comments",
 					"%" + searchData.getPlantComments() + "%"));
 		}
 		if (searchData.getPlantOrigin() != null) {
-			Criteria tagCriteria = vernaCriteria.createCriteria(
-					"lexicalGroup.plant.tags", "tag");
+			Criteria tagCriteria = vernaCriteria
+					.createCriteria("lexicalGroup.plant.tags", "tag");
 			tagCriteria
 					.add(Restrictions.eq("type", AkpPlantTag.TAGTYPE_ORIGIN));
 			tagCriteria.add(Restrictions.ilike("stringValue",
@@ -1159,8 +1164,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		if (searchData.getFamilyXid() != null) {
 			Criteria plantCriteria = vernaCriteria
 					.createCriteria("lexicalGroup.plant");
-			plantCriteria.add(Restrictions.eq("akpClass.xid",
-					searchData.getFamilyXid()));
+			plantCriteria.add(
+					Restrictions.eq("akpClass.xid", searchData.getFamilyXid()));
 		}
 		// Search
 		@SuppressWarnings("unchecked")
@@ -1181,17 +1186,18 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = lexicalGroup.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
-			result.addColumn(new AkpSearchResultColumn(
-					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
+					"verna"));
 			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
 					.getXid()
-					+ (lexicalGroup.getCorrect() != 0 ? " "
-							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+					+ (lexicalGroup.getCorrect() != 0
+							? " " + lexicalGroup.getCorrectDisplayCode() : ""),
+					null));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			if (searchData.getVernacularNameComments() != null)
-				result.addColumn(new AkpSearchResultColumn(vernacularName
-						.getComments(), "comments"));
+				result.addColumn(new AkpSearchResultColumn(
+						vernacularName.getComments(), "comments"));
 			if (searchData.getPlantComments() != null)
 				result.addColumn(new AkpSearchResultColumn(plant.getComments(),
 						"comments"));
@@ -1220,12 +1226,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		final Class<?> CLASSES[] = { AkpPlant.class, AkpTaxon.class,
 				AkpVernacularName.class, AkpBib.class, AkpAuthor.class };
 		for (Class<?> clazz : CLASSES) {
-			retval.put(clazz.getSimpleName(), (Long) getSession()
-					.createCriteria(clazz)
-					.setProjection(Projections.rowCount()).uniqueResult());
+			retval.put(clazz.getSimpleName(),
+					(Long) getSession().createCriteria(clazz)
+							.setProjection(Projections.rowCount())
+							.uniqueResult());
 		}
-		retval.put(
-				"AkpBibRef",
+		retval.put("AkpBibRef",
 				(Long) getSession().createCriteria(AkpVernacularName.class)
 						.createCriteria("bibs", "bib")
 						.setProjection(Projections.rowCount()).uniqueResult());
@@ -1240,9 +1246,7 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				.createCriteria(AkpVernacularName.class)
 				.createAlias("lexicalGroup", "lexicalGroup")
 				.setProjection(
-						Projections
-								.projectionList()
-								.add(Projections.rowCount())
+						Projections.projectionList().add(Projections.rowCount())
 								.add(Projections
 										.groupProperty("lexicalGroup.lang")))
 				.list();
@@ -1266,14 +1270,15 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = lexicalGroup.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
-			result.addColumn(new AkpSearchResultColumn(
-					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
+					"verna"));
 			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
 					.getXid()
-					+ (lexicalGroup.getCorrect() != 0 ? " "
-							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+					+ (lexicalGroup.getCorrect() != 0
+							? " " + lexicalGroup.getCorrectDisplayCode() : ""),
+					null));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(vernacularName.getName());
 			retval.addRow(result);
 		}
@@ -1292,10 +1297,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = taxon.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					null, null);
-			result.addColumn(new AkpSearchResultColumn(taxon.getHtmlName(),
-					"taxon"));
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+			result.addColumn(
+					new AkpSearchResultColumn(taxon.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(taxon.getSortKey());
 			retval.addRow(result);
 		}
@@ -1320,10 +1325,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				for (String error : errors) {
 					AkpSearchResultRow result = new AkpSearchResultRow(
 							plant.getXid(), null, null);
-					result.addColumn(new AkpSearchResultColumn(taxon
-							.getHtmlName(), "taxon"));
-					result.addColumn(new AkpSearchResultColumn(plant
-							.getMainName().getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(
+							taxon.getHtmlName(), "taxon"));
+					result.addColumn(new AkpSearchResultColumn(
+							plant.getMainName().getHtmlName(), "taxon"));
 					AkpSearchResultColumn col3 = new AkpSearchResultColumn(
 							error, "comment", true);
 					col3.setEscape(true);
@@ -1359,11 +1364,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			String[] elements = taxonName.split("[\\s]");
 			for (String elem : elements) {
 				if (authorXids.contains(elem)) {
-					AkpSearchResultRow result = new AkpSearchResultRow(taxon
-							.getPlant().getXid(), null, null);
-					result.addColumn(new AkpSearchResultColumn(taxon
-							.getHtmlName(), "taxon"));
-					result.addColumn(new AkpSearchResultColumn(elem, "comment"));
+					AkpSearchResultRow result = new AkpSearchResultRow(
+							taxon.getPlant().getXid(), null, null);
+					result.addColumn(new AkpSearchResultColumn(
+							taxon.getHtmlName(), "taxon"));
+					result.addColumn(
+							new AkpSearchResultColumn(elem, "comment"));
 					result.setSortKey(taxon.getSortKey());
 					retval.addRow(result);
 				}
@@ -1390,12 +1396,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
 			for (String authorXid : taxon.getReferencedAuthorIds()) {
 				if (!authorXids.contains(authorXid)) {
-					AkpSearchResultRow result = new AkpSearchResultRow(taxon
-							.getPlant().getXid(), null, null);
-					result.addColumn(new AkpSearchResultColumn(taxon
-							.getHtmlName(), "taxon"));
-					result.addColumn(new AkpSearchResultColumn(authorXid,
-							"comment"));
+					AkpSearchResultRow result = new AkpSearchResultRow(
+							taxon.getPlant().getXid(), null, null);
+					result.addColumn(new AkpSearchResultColumn(
+							taxon.getHtmlName(), "taxon"));
+					result.addColumn(
+							new AkpSearchResultColumn(authorXid, "comment"));
 					result.setSortKey(taxon.getSortKey());
 					retval.addRow(result);
 				}
@@ -1424,14 +1430,15 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = lexicalGroup.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
-			result.addColumn(new AkpSearchResultColumn(
-					vernacularName.getName(), "verna"));
+			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
+					"verna"));
 			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
 					.getXid()
-					+ (lexicalGroup.getCorrect() != 0 ? " "
-							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+					+ (lexicalGroup.getCorrect() != 0
+							? " " + lexicalGroup.getCorrectDisplayCode() : ""),
+					null));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
@@ -1461,13 +1468,14 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					usageCount.put(authXid, count + 1);
 			}
 		}
-		Map<String, Integer> sortedUsageCount = MapUtils.sortByValue(
-				usageCount, true);
+		Map<String, Integer> sortedUsageCount = MapUtils.sortByValue(usageCount,
+				true);
 		for (Map.Entry<String, Integer> kv : sortedUsageCount.entrySet()) {
-			AkpSearchResultRow result = new AkpSearchResultRow(null, null, null);
+			AkpSearchResultRow result = new AkpSearchResultRow(null, null,
+					null);
 			result.addColumn(new AkpSearchResultColumn(kv.getKey(), "author"));
-			result.addColumn(new AkpSearchResultColumn("" + kv.getValue(),
-					"comment"));
+			result.addColumn(
+					new AkpSearchResultColumn("" + kv.getValue(), "comment"));
 			retval.addRow(result);
 		}
 		return retval;
@@ -1487,8 +1495,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = (AkpPlant) plants.get(0);
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					null, null);
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			result.addColumn(new AkpSearchResultColumn("", null));
 			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
@@ -1505,12 +1513,13 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpPlant plant = lexicalGroup.getPlant();
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
-			result.addColumn(new AkpSearchResultColumn(plant.getMainName()
-					.getHtmlName(), "taxon"));
+			result.addColumn(new AkpSearchResultColumn(
+					plant.getMainName().getHtmlName(), "taxon"));
 			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
 					.getXid()
-					+ (lexicalGroup.getCorrect() != 0 ? " "
-							+ lexicalGroup.getCorrectDisplayCode() : ""), null));
+					+ (lexicalGroup.getCorrect() != 0
+							? " " + lexicalGroup.getCorrectDisplayCode() : ""),
+					null));
 			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
@@ -1532,10 +1541,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			for (AkpPlant plant2 : plant1.getPlantRefs()) {
 				AkpSearchResultRow result = new AkpSearchResultRow(
 						plant1.getXid(), null, null);
-				result.addColumn(new AkpSearchResultColumn(plant1.getMainName()
-						.getHtmlName(), "taxon"));
-				AkpSearchResultColumn col2 = new AkpSearchResultColumn("⇒ "
-						+ plant2.getMainName().getHtmlName(), "taxon");
+				result.addColumn(new AkpSearchResultColumn(
+						plant1.getMainName().getHtmlName(), "taxon"));
+				AkpSearchResultColumn col2 = new AkpSearchResultColumn(
+						"⇒ " + plant2.getMainName().getHtmlName(), "taxon");
 				col2.setPlantXid(plant2.getXid());
 				result.addColumn(col2);
 				result.setSortKey(plant1.getMainName().getSortKey());
@@ -1576,10 +1585,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpTaxon taxon1 = kv.getValue();
 			AkpTaxon taxon2 = hybridMap.get(parent);
 			if (taxon2 != null) {
-				AkpSearchResultRow result = new AkpSearchResultRow(taxon1
-						.getPlant().getXid(), null, null);
-				result.addColumn(new AkpSearchResultColumn(
-						taxon1.getHtmlName(), "taxon"));
+				AkpSearchResultRow result = new AkpSearchResultRow(
+						taxon1.getPlant().getXid(), null, null);
+				result.addColumn(new AkpSearchResultColumn(taxon1.getHtmlName(),
+						"taxon"));
 				AkpSearchResultColumn col2 = new AkpSearchResultColumn(
 						taxon2.getHtmlName(), "taxon");
 				col2.setPlantXid(taxon2.getPlant().getXid());
@@ -1618,10 +1627,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				continue;
 			AkpTaxon taxon2 = equalsMap.get(taxon1.getTextName());
 			if (taxon2 != null) {
-				AkpSearchResultRow result = new AkpSearchResultRow(taxon1
-						.getPlant().getXid(), null, null);
-				result.addColumn(new AkpSearchResultColumn(
-						taxon1.getHtmlName(), "taxon"));
+				AkpSearchResultRow result = new AkpSearchResultRow(
+						taxon1.getPlant().getXid(), null, null);
+				result.addColumn(new AkpSearchResultColumn(taxon1.getHtmlName(),
+						"taxon"));
 				AkpSearchResultColumn col2 = new AkpSearchResultColumn(
 						taxon2.getHtmlName(), "taxon");
 				col2.setPlantXid(taxon2.getPlant().getXid());
@@ -1638,11 +1647,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		AkpLang lang1 = getLang(langId1);
 		AkpLang lang2 = getLang(langId2);
 		Session session = getSession();
-		ScrollableResults plants = session
-				.createCriteria(AkpLexicalGroup.class)
+		ScrollableResults plants = session.createCriteria(AkpLexicalGroup.class)
 				.addOrder(Order.asc("xid")).add(Restrictions.eq("lang", lang2))
-				.setFetchSize(100).setReadOnly(false)
-				.setLockMode(LockMode.NONE).scroll();
+				.setFetchSize(100).setReadOnly(false).setLockMode(LockMode.NONE)
+				.scroll();
 		while (plants.next()) {
 			AkpLexicalGroup lex2 = (AkpLexicalGroup) plants.get(0);
 			AkpPlant plant = lex2.getPlant();
@@ -1679,9 +1687,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 						allBibs.addAll(name2.getBibs());
 						name1.setBibs(new ArrayList<AkpBib>(allBibs));
 						session.update(name1);
-						if (name2.getComments() != null
-								&& !name2.getComments().equals(
-										name1.getComments()))
+						if (name2.getComments() != null && !name2.getComments()
+								.equals(name1.getComments()))
 							System.out
 									.println("Warning: comment will be removed!"
 											+ name2.getComments());
@@ -1701,9 +1708,9 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 	@Override
 	@Transactional
 	public void addAuthNameAsSource() {
-		ScrollableResults authors = getSession()
-				.createCriteria(AkpAuthor.class).setFetchSize(1000)
-				.setReadOnly(false).setLockMode(LockMode.NONE).scroll();
+		ScrollableResults authors = getSession().createCriteria(AkpAuthor.class)
+				.setFetchSize(1000).setReadOnly(false)
+				.setLockMode(LockMode.NONE).scroll();
 		while (authors.next()) {
 			AkpAuthor author = (AkpAuthor) authors.get(0);
 			String name = author.getName();
@@ -1746,8 +1753,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			Set<Pair<String, String>> taxonSet = new HashSet<Pair<String, String>>();
 			while (taxons.next()) {
 				AkpTaxon taxon = (AkpTaxon) taxons.get(0);
-				taxonSet.add(new Pair<String, String>(taxon.getSortKey(), taxon
-						.getHtmlName()));
+				taxonSet.add(new Pair<String, String>(taxon.getSortKey(),
+						taxon.getHtmlName()));
 			}
 			outputStaticFileIndex("taxon", "PlantKelt Linnean Names Index",
 					taxonSet, staticIndexLocation);
@@ -1762,10 +1769,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 				AkpVernacularName verna = (AkpVernacularName) vernas.get(0);
 				if (verna.getName().equals("#"))
 					continue;
-				vernaSet.add(new Pair<String, String>(verna.getName(), verna
-						.getName()
-						+ " ("
-						+ verna.getLexicalGroup().getLang().getCode() + ")"));
+				vernaSet.add(new Pair<String, String>(verna.getName(),
+						verna.getName() + " ("
+								+ verna.getLexicalGroup().getLang().getCode()
+								+ ")"));
 			}
 			outputStaticFileIndex("verna", "PlantKelt Vernacular Names Index",
 					vernaSet, staticIndexLocation);
@@ -1784,7 +1791,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		elementsSet.clear();
 		Collections.sort(elementsList, new Comparator<Pair<String, String>>() {
 			@Override
-			public int compare(Pair<String, String> o1, Pair<String, String> o2) {
+			public int compare(Pair<String, String> o1,
+					Pair<String, String> o2) {
 				return o1.getFirst().compareToIgnoreCase(o2.getFirst());
 			}
 		});
@@ -1792,7 +1800,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 		PrintStream indexOut = new PrintStream(new FileOutputStream(
 				String.format("%s/%s.html", location, elementBase)));
 		indexOut.println("<html><head>");
-		indexOut.println("<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
+		indexOut.println(
+				"<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
 		indexOut.println("</head><body>");
 		indexOut.println(String.format("<h1>%s</h1>", title));
 		indexOut.println("<ul>");
@@ -1801,31 +1810,33 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			int ib = (page + 1) * n;
 			if (ib > elementsList.size())
 				ib = elementsList.size();
-			indexOut.println(String
-					.format("<li><a href='%s_%02d.html'><b>Page %02d<b/></a> <small>[ %s ... %s ]</small></li>",
-							elementBase, page, page, elementsList.get(ia)
-									.getSecond(), elementsList.get(ib - 1)
-									.getSecond()));
-			PrintStream pageOut = new PrintStream(new FileOutputStream(
-					String.format("%s/%s_%02d.html", location, elementBase,
-							page)));
+			indexOut.println(String.format(
+					"<li><a href='%s_%02d.html'><b>Page %02d<b/></a> <small>[ %s ... %s ]</small></li>",
+					elementBase, page, page, elementsList.get(ia).getSecond(),
+					elementsList.get(ib - 1).getSecond()));
+			PrintStream pageOut = new PrintStream(new FileOutputStream(String
+					.format("%s/%s_%02d.html", location, elementBase, page)));
 			pageOut.println("<html><head>");
-			pageOut.println("<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
+			pageOut.println(
+					"<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
 			pageOut.println("</head><body>");
-			pageOut.println(String.format("<h1>Plantkelt - page %d</h1>", page));
+			pageOut.println(
+					String.format("<h1>Plantkelt - page %d</h1>", page));
 			pageOut.println("<ul>");
 			for (int i = ia; i < ib; i++) {
-				pageOut.println(String
-						.format("<li>%s (<a href='http://www.plantkelt.bzh/'>→ PlantKelt</a>)</li>",
-								elementsList.get(i).getSecond()));
+				pageOut.println(String.format(
+						"<li>%s (<a href='http://www.plantkelt.bzh/'>→ PlantKelt</a>)</li>",
+						elementsList.get(i).getSecond()));
 			}
 			pageOut.println("</ul>");
-			pageOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
+			pageOut.println(
+					"<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
 			pageOut.println("</body></html>");
 			pageOut.close();
 		}
 		indexOut.println("</ul>");
-		indexOut.println("<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
+		indexOut.println(
+				"<p>Copyright &copy; 2001-2013 <b>Plantkelt</b>, <a href='http://www.plantkelt.bzh/'>www.plantkelt.bzh</a></p>");
 		indexOut.println("</body></html>");
 		indexOut.close();
 		elementsList.clear();

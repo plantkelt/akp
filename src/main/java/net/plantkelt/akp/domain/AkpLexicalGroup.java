@@ -8,7 +8,8 @@ import java.util.Map;
 
 public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 
-	private static final String[] CORRECT_DISPLAY_CODES = { "=", "≈", "≠", "?" };
+	private static final String[] CORRECT_DISPLAY_CODES = { "=", "≈", "≠",
+			"?" };
 
 	public static final int MAX_CORRECT = 3;
 

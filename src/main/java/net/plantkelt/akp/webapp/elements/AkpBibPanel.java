@@ -33,13 +33,13 @@ public class AkpBibPanel extends Panel {
 		boolean isAdmin = AkpWicketSession.get().isAdmin();
 
 		// Link
-		Link<AkpBibPage> bibLink = AkpBibPage.link("bibLink", bibModel
-				.getObject().getXid());
+		Link<AkpBibPage> bibLink = AkpBibPage.link("bibLink",
+				bibModel.getObject().getXid());
 		add(bibLink);
 
 		// Label: displayed
-		Label bibLabel = new Label("bibId", new PropertyModel<String>(bibModel,
-				"xid"));
+		Label bibLabel = new Label("bibId",
+				new PropertyModel<String>(bibModel, "xid"));
 		bibLink.add(bibLabel);
 
 		// Popup
@@ -47,14 +47,14 @@ public class AkpBibPanel extends Panel {
 		// Do not display popup for administrators
 		bibPopup.setVisible(!isAdmin);
 		bibLink.add(bibPopup);
-		Label bibTitleLabel = new Label("bibTitle", new PropertyModel<String>(
-				bibModel, "title"));
+		Label bibTitleLabel = new Label("bibTitle",
+				new PropertyModel<String>(bibModel, "title"));
 		bibPopup.add(bibTitleLabel);
 		Label bibAuthorLabel = new Label("bibAuthor",
 				new PropertyModel<String>(bibModel, "author"));
 		bibPopup.add(bibAuthorLabel);
-		Label bibISBNLabel = new Label("bibISBN", new PropertyModel<String>(
-				bibModel, "isbn"));
+		Label bibISBNLabel = new Label("bibISBN",
+				new PropertyModel<String>(bibModel, "isbn"));
 		bibPopup.add(bibISBNLabel);
 
 		// Delete link (admin section)

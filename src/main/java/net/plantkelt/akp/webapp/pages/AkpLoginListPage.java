@@ -85,15 +85,14 @@ public class AkpLoginListPage extends AkpPageTemplate {
 			protected void populateItem(ListItem<AkpUserLogEntry> item) {
 				AkpUserLogEntry userLog = item.getModelObject();
 				item.add(new Label("loginLabel", userLog.getLogin()));
-				item.add(new Label("dateLabel", dateFormat.format(userLog
-						.getDate())));
+				item.add(new Label("dateLabel",
+						dateFormat.format(userLog.getDate())));
 				item.add(new Label("addrLabel", userLog.getRemoteAddr()));
 				item.add(new ExternalLink("geoipLink",
 						"http://www.geoiptool.com/fr/?IP="
 								+ userLog.getRemoteAddr()));
-				item.add(new Label(
-						"operationLabel",
-						getString("userlog.operation." + userLog.getOperation())));
+				item.add(new Label("operationLabel", getString(
+						"userlog.operation." + userLog.getOperation())));
 				item.add(new Label("valueLabel", userLog.getValue()));
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));

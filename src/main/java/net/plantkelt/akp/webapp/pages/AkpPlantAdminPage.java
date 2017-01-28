@@ -41,9 +41,8 @@ public class AkpPlantAdminPage extends AkpPageTemplate {
 		AkpPlant plant = plantModel.getObject();
 
 		// Header
-		Label plantName = new Label("plantName",
-				plant == null ? plantId.toString() : plant.getMainName()
-						.getHtmlName());
+		Label plantName = new Label("plantName", plant == null
+				? plantId.toString() : plant.getMainName().getHtmlName());
 		plantName.setEscapeModelStrings(false);
 		add(plantName);
 

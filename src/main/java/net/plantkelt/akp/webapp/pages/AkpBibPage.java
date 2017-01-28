@@ -83,8 +83,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				}, 2, 60);
 		add(titleEditor);
 		titleEditor.setReadOnly(!isAdmin);
-		Label titleLabel = new Label("titleLabel", new PropertyModel<String>(
-				bibModel, "title"));
+		Label titleLabel = new Label("titleLabel",
+				new PropertyModel<String>(bibModel, "title"));
 		titleEditor.add(titleLabel);
 
 		// Author
@@ -108,8 +108,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				}, 1, 60);
 		add(authorEditor);
 		authorEditor.setReadOnly(!isAdmin);
-		Label authorLabel = new Label("authorLabel", new PropertyModel<String>(
-				bibModel, "author"));
+		Label authorLabel = new Label("authorLabel",
+				new PropertyModel<String>(bibModel, "author"));
 		authorEditor.add(authorLabel);
 
 		// Date
@@ -133,8 +133,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				}, 1, 40);
 		add(dateEditor);
 		dateEditor.setReadOnly(!isAdmin);
-		Label dateLabel = new Label("dateLabel", new PropertyModel<String>(
-				bibModel, "date"));
+		Label dateLabel = new Label("dateLabel",
+				new PropertyModel<String>(bibModel, "date"));
 		dateEditor.add(dateLabel);
 
 		// ISBN
@@ -158,13 +158,13 @@ public class AkpBibPage extends AkpPageTemplate {
 				}, 1, 20);
 		add(isbnEditor);
 		isbnEditor.setReadOnly(!isAdmin);
-		Label isbnLabel = new Label("isbnLabel", new PropertyModel<String>(
-				bibModel, "isbn"));
+		Label isbnLabel = new Label("isbnLabel",
+				new PropertyModel<String>(bibModel, "isbn"));
 		isbnEditor.add(isbnLabel);
 
 		// Comments
-		final InPlaceEditor commentsEditor = new InPlaceEditor(
-				"commentsEditor", new EditorModel<String>() {
+		final InPlaceEditor commentsEditor = new InPlaceEditor("commentsEditor",
+				new EditorModel<String>() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -208,8 +208,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				}, 1, 40);
 		add(editorEditor);
 		editorEditor.setReadOnly(!isAdmin);
-		Label editorLabel = new Label("editorLabel", new PropertyModel<String>(
-				bibModel, "editor"));
+		Label editorLabel = new Label("editorLabel",
+				new PropertyModel<String>(bibModel, "editor"));
 		editorEditor.add(editorLabel);
 
 		// Vernacular names
@@ -218,8 +218,8 @@ public class AkpBibPage extends AkpPageTemplate {
 
 			@Override
 			protected List<AkpVernacularName> load() {
-				return akpTaxonService.getVernacularNameRefsFromBib(bibModel
-						.getObject());
+				return akpTaxonService
+						.getVernacularNameRefsFromBib(bibModel.getObject());
 			}
 		};
 		WebMarkupContainer vernaRefsSection = new WebMarkupContainer(
@@ -241,8 +241,8 @@ public class AkpBibPage extends AkpPageTemplate {
 				akpSearchData.setBibRefXid(bibId);
 				akpSearchData.setVernacularName("%");
 				akpSearchData.setLimit(2000);
-				return akpTaxonService.search(AkpWicketSession.get()
-						.getAkpUser(), akpSearchData);
+				return akpTaxonService.search(
+						AkpWicketSession.get().getAkpUser(), akpSearchData);
 			}
 		};
 		AkpSearchResultsPanel resultsPanel = new AkpSearchResultsPanel(

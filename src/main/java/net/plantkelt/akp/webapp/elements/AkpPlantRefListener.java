@@ -8,5 +8,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 
 public interface AkpPlantRefListener extends Serializable {
 
-	public abstract void onPlantRefRemoved(AjaxRequestTarget target, AkpPlant targetPlant);
+	public abstract void onPlantRefRemoved(AjaxRequestTarget target,
+			AkpPlant targetPlant);
 }

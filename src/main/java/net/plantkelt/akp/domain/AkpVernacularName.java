@@ -78,7 +78,7 @@ public class AkpVernacularName implements Comparable<AkpVernacularName> {
 	public List<AkpBib> getBibs() {
 		return bibs;
 	}
-	
+
 	// TODO How to define this using hibernate mapping ?
 	public List<AkpBib> getOrderedBibs() {
 		List<AkpBib> retval = new ArrayList<AkpBib>(bibs);

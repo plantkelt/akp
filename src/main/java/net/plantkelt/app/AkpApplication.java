@@ -28,16 +28,16 @@ public class AkpApplication {
 	}
 
 	private static void usage() {
-		System.out
-				.println("AkpApp - Copyright (c) 2014 Plantkelt.bzh / Laurent Gregoire & Roland Le Moigne.");
+		System.out.println(
+				"AkpApp - Copyright (c) 2014 Plantkelt.bzh / Laurent Gregoire & Roland Le Moigne.");
 		System.out.println("");
 		System.out.println("Usage:");
-		System.out
-				.println(" --help                         Display this help screen");
-		System.out
-				.println(" --taxonRegexp search replace   Search and replace taxons");
-		System.out
-				.println(" --commit                       Save to database (make a dryrun w/o first!)");
+		System.out.println(
+				" --help                         Display this help screen");
+		System.out.println(
+				" --taxonRegexp search replace   Search and replace taxons");
+		System.out.println(
+				" --commit                       Save to database (make a dryrun w/o first!)");
 		System.out.println("");
 		System.out.println("");
 	}

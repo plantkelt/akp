@@ -67,18 +67,18 @@ public class AkpPlantPage extends AkpPageTemplate {
 			}
 		};
 		// Set page title
-		setPageTitleModel(new PropertyModel<String>(plantModel,
-				"mainName.textName"));
+		setPageTitleModel(
+				new PropertyModel<String>(plantModel, "mainName.textName"));
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
-				"parentPath", new PropertyModel<AkpClass>(plantModel,
-						"akpClass"));
+				"parentPath",
+				new PropertyModel<AkpClass>(plantModel, "akpClass"));
 		add(parentPathLabel);
 
 		// Plant main name
-		AkpPlantHeaderPanel headerPanel = new AkpPlantHeaderPanel(
-				"headerPanel", plantModel);
+		AkpPlantHeaderPanel headerPanel = new AkpPlantHeaderPanel("headerPanel",
+				plantModel);
 		add(headerPanel);
 
 		// Plant xref
@@ -99,12 +99,12 @@ public class AkpPlantPage extends AkpPageTemplate {
 		add(tagsPanel);
 
 		// Links
-		Link<AkpPlantLogsPage> viewHistoryLink = AkpPlantLogsPage.link(
-				"viewHistoryLink", plantId);
+		Link<AkpPlantLogsPage> viewHistoryLink = AkpPlantLogsPage
+				.link("viewHistoryLink", plantId);
 		viewHistoryLink.setVisible(isAdmin);
 		add(viewHistoryLink);
-		Link<AkpPlantAdminPage> plantAdminLink = AkpPlantAdminPage.link(
-				"adminLink", plantId);
+		Link<AkpPlantAdminPage> plantAdminLink = AkpPlantAdminPage
+				.link("adminLink", plantId);
 		plantAdminLink.setVisible(isAdmin);
 		add(plantAdminLink);
 
@@ -143,8 +143,8 @@ public class AkpPlantPage extends AkpPageTemplate {
 				Label langGroupLabel = new Label("langGroupName",
 						new BrEnFrStringModel(langGroup.getName()));
 				item.add(langGroupLabel);
-				langGroupLabel.setVisible(lastLangGroupXid != langGroup
-						.getXid());
+				langGroupLabel
+						.setVisible(lastLangGroupXid != langGroup.getXid());
 				lastLangGroupXid = langGroup.getXid();
 				// Create model to prevent reloading whole plant
 				final Integer lexicalGroupXid = lexicalGroup.getXid();

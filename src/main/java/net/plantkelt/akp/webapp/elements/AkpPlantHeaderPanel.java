@@ -40,7 +40,8 @@ public class AkpPlantHeaderPanel extends Panel {
 					}
 
 					@Override
-					public void saveObject(AjaxRequestTarget target, String name) {
+					public void saveObject(AjaxRequestTarget target,
+							String name) {
 						AkpTaxon mainTaxon = plantModel.getObject()
 								.getMainName();
 						if (name != null && name.length() > 0) {

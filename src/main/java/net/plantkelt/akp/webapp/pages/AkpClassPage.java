@@ -83,8 +83,8 @@ public class AkpClassPage extends AkpPageTemplate {
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
-				"parentPath", new PropertyModel<AkpClass>(akpClassModel,
-						"parent"));
+				"parentPath",
+				new PropertyModel<AkpClass>(akpClassModel, "parent"));
 		mainPanel.add(parentPathLabel);
 
 		// Class name
@@ -98,7 +98,8 @@ public class AkpClassPage extends AkpPageTemplate {
 					}
 
 					@Override
-					public void saveObject(AjaxRequestTarget target, String name) {
+					public void saveObject(AjaxRequestTarget target,
+							String name) {
 						AkpClass akpClass = akpClassModel.getObject();
 						akpClass.setName(name);
 						akpTaxonService.updateClass(akpClass);
@@ -236,16 +237,14 @@ public class AkpClassPage extends AkpPageTemplate {
 					if (parentClass == null)
 						setResponsePage(AkpClassPage.class);
 					else
-						setResponsePage(
-								AkpClassPage.class,
-								new PageParameters().add("xid",
-										parentClass.getXid()));
+						setResponsePage(AkpClassPage.class, new PageParameters()
+								.add("xid", parentClass.getXid()));
 				}
 			}
 		};
 		// We need to be admin to remove, we can't remove a non-empty class
-		removeClassButton.setVisible(isAdmin
-				&& akpTaxonService.canDeleteClass(akpClass));
+		removeClassButton.setVisible(
+				isAdmin && akpTaxonService.canDeleteClass(akpClass));
 		form.add(removeClassButton);
 		// We can't add a new root class
 		addSubClassButton.setVisible(isAdmin && akpClass.getXid() != null);
@@ -255,8 +254,8 @@ public class AkpClassPage extends AkpPageTemplate {
 			private static final long serialVersionUID = 1L;
 
 			public void onSubmit() {
-				AkpPlant plant = akpTaxonService.createNewPlant(akpClassModel
-						.getObject());
+				AkpPlant plant = akpTaxonService
+						.createNewPlant(akpClassModel.getObject());
 				setResponsePage(AkpPlantPage.class,
 						new PageParameters().add("xid", plant.getXid()));
 			}
@@ -301,11 +300,11 @@ public class AkpClassPage extends AkpPageTemplate {
 					}
 				};
 				adminSection.add(downLink);
-				Link<AkpClassPage> subClassLink = AkpClassPage.link(
-						"subClassLink", subClass.getXid());
-				Label subClassNameLabel = new Label("subClassName", subClass
-						.getTextName().isEmpty() ? "(empty)"
-						: subClass.getName());
+				Link<AkpClassPage> subClassLink = AkpClassPage
+						.link("subClassLink", subClass.getXid());
+				Label subClassNameLabel = new Label("subClassName",
+						subClass.getTextName().isEmpty() ? "(empty)"
+								: subClass.getName());
 				subClassNameLabel.setEscapeModelStrings(false);
 				subClassLink.add(subClassNameLabel);
 				item.add(subClassLink);
@@ -328,10 +327,10 @@ public class AkpClassPage extends AkpPageTemplate {
 			@Override
 			protected void populateItem(ListItem<AkpPlant> item) {
 				AkpPlant plant = item.getModelObject();
-				Link<AkpPlantPage> ownedPlantLink = AkpPlantPage.link(
-						"ownedPlantLink", plant.getXid());
-				Label ownedPlantNameLabel = new Label("ownedPlantName", plant
-						.getMainName().getHtmlName());
+				Link<AkpPlantPage> ownedPlantLink = AkpPlantPage
+						.link("ownedPlantLink", plant.getXid());
+				Label ownedPlantNameLabel = new Label("ownedPlantName",
+						plant.getMainName().getHtmlName());
 				ownedPlantNameLabel.setEscapeModelStrings(false);
 				ownedPlantLink.add(ownedPlantNameLabel);
 				item.add(ownedPlantLink);

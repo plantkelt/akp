@@ -34,8 +34,8 @@ public class AkpPlantRefPanel extends Panel {
 		add(plantRefLink);
 
 		// Label to display
-		Label plantRefLabel = new Label("plantRefLabel", "⇒ "
-				+ targetPlant.getMainName().getHtmlName());
+		Label plantRefLabel = new Label("plantRefLabel",
+				"⇒ " + targetPlant.getMainName().getHtmlName());
 		plantRefLabel.setEscapeModelStrings(false);
 		plantRefLink.add(plantRefLabel);
 

@@ -127,8 +127,8 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Override
 	public AkpUser createUser(String login) {
 		if (getUser(login) != null) {
-			throw new IllegalArgumentException("User with login '" + login
-					+ "' already exist!");
+			throw new IllegalArgumentException(
+					"User with login '" + login + "' already exist!");
 		}
 		AkpUser newUser = new AkpUser();
 		newUser.setLogin(login);
@@ -214,39 +214,26 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 	@Override
 	public void subscriptionRequested(AkpSubscriptionRequest request) {
 
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(
-				DateFormat.SHORT, DateFormat.MEDIUM);
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+				DateFormat.MEDIUM);
 		/* TODO Configure this properly with some other SMTP variable */
-		String emailText = String
-				.format("Cher Administrateur,\n"
-						+ "\n"
-						+ "Je viens de recevoir à l'instant une nouvelle demande d'inscription a PLANTKELT V2!\n"
-						+ "\n"
-						+ "Date de la demande: %s\n"
-						+ "Nom: %s\n"
-						+ "Email: %s\n"
-						+ "Login souhaité: %s\n"
-						+ "Langue: %s\n"
-						+ "Organisation: %s\n"
-						+ "Activité: %s\n"
-						+ "Ville: %s\n"
-						+ "Pays: %s\n"
-						+ "Adresse IP: %s (http://www.geoiptool.com/fr/?IP=%s)\n"
-						+ "\n"
-						+ "Merci de créer le compte, et d'envoyer un mail de confirmation.\n"
-						+ "\n"
-						+ "Votre fidèle et dévoué,\n"
-						+ "\n"
-						+ "                 --R2D2\n"
-						+ "\n"
-						+ "PS: Merci de ne pas me répondre directement, je ne comprendrai pas.\n"
-						+ "Adressez-vous plutôt à mon mécanicien attitré (root@plantkelt.bzh).\n",
-						dateFormat.format(new Date()), request.getName(),
-						request.getEmail(), request.getLogin(),
-						request.getLang(), request.getOrganization(),
-						request.getOccupation(), request.getCity(),
-						request.getState(), request.getClientIp(),
-						request.getClientIp());
+		String emailText = String.format("Cher Administrateur,\n" + "\n"
+				+ "Je viens de recevoir à l'instant une nouvelle demande d'inscription a PLANTKELT V2!\n"
+				+ "\n" + "Date de la demande: %s\n" + "Nom: %s\n"
+				+ "Email: %s\n" + "Login souhaité: %s\n" + "Langue: %s\n"
+				+ "Organisation: %s\n" + "Activité: %s\n" + "Ville: %s\n"
+				+ "Pays: %s\n"
+				+ "Adresse IP: %s (http://www.geoiptool.com/fr/?IP=%s)\n" + "\n"
+				+ "Merci de créer le compte, et d'envoyer un mail de confirmation.\n"
+				+ "\n" + "Votre fidèle et dévoué,\n" + "\n"
+				+ "                 --R2D2\n" + "\n"
+				+ "PS: Merci de ne pas me répondre directement, je ne comprendrai pas.\n"
+				+ "Adressez-vous plutôt à mon mécanicien attitré (root@plantkelt.bzh).\n",
+				dateFormat.format(new Date()), request.getName(),
+				request.getEmail(), request.getLogin(), request.getLang(),
+				request.getOrganization(), request.getOccupation(),
+				request.getCity(), request.getState(), request.getClientIp(),
+				request.getClientIp());
 		String to = smtpTo;
 		// Assume "mail from" is smtpLogin
 		String from = smtpLogin;
@@ -265,11 +252,11 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					to));
-			message.setSubject(String.format(
-					"Demande d'inscription a PlantKelt V2! (%s)",
-					request.getName()));
+			message.addRecipient(Message.RecipientType.TO,
+					new InternetAddress(to));
+			message.setSubject(
+					String.format("Demande d'inscription a PlantKelt V2! (%s)",
+							request.getName()));
 			message.setText(emailText);
 			Transport.send(message);
 		} catch (MessagingException e) {

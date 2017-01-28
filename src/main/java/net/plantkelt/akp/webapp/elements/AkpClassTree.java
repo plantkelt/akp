@@ -29,8 +29,8 @@ public class AkpClassTree extends Panel {
 		super(id);
 		akpClassModel = classModel;
 
-		Label className = new Label("className", new PropertyModel<String>(
-				akpClassModel, "htmlName"));
+		Label className = new Label("className",
+				new PropertyModel<String>(akpClassModel, "htmlName"));
 		className.setEscapeModelStrings(false);
 		// Do not display root class name
 		className.setVisible(classModel.getObject().getXid() != null);
@@ -73,8 +73,8 @@ public class AkpClassTree extends Panel {
 				@SuppressWarnings("unchecked")
 				ListView<AkpClass> parent = (ListView<AkpClass>) item
 						.getParent();
-				boolean last = (item.getIndex() == parent.getModelObject()
-						.size() - 1);
+				boolean last = (item
+						.getIndex() == parent.getModelObject().size() - 1);
 				if (last) {
 					item.add(new AttributeAppender("class", "last"));
 				}

@@ -9,7 +9,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 /**
- * See: http://groups.google.com/group/google-guice/browse_thread/thread/bbb9a48e4faee182
+ * See: http://groups.google.com/group/google-guice/browse_thread/thread/
+ * bbb9a48e4faee182
  */
 public class ProvideHibernateSessionModule extends AbstractModule {
 

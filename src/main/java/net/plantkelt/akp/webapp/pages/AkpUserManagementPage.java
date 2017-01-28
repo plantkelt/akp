@@ -94,22 +94,22 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 			@Override
 			protected void populateItem(ListItem<AkpUser> item) {
 				AkpUser user = item.getModelObject();
-				Link<?> userLink = AkpUserPage
-						.link("userLink", user.getLogin());
+				Link<?> userLink = AkpUserPage.link("userLink",
+						user.getLogin());
 				item.add(userLink);
 				userLink.add(new Label("loginLabel", user.getLogin()));
 				item.add(new Label("nameLabel", user.getName()));
 				item.add(new Label("emailLabel", user.getEmail()));
-				item.add(new Label("profileLabel", getString("profile."
-						+ user.getProfile())));
+				item.add(new Label("profileLabel",
+						getString("profile." + user.getProfile())));
 				boolean expired = user.getExpire().compareTo(new Date()) < 0;
-				item.add(new Label("expireLabel", expireFormat.format(user
-						.getExpire())
-						+ (expired ? " (" + getString("user.expired") + ")"
+				item.add(new Label("expireLabel",
+						expireFormat.format(user.getExpire()) + (expired
+								? " (" + getString("user.expired") + ")"
 								: "")));
 				item.add(new Label("requestCountLabel",
-						user.getRequestCount() == null ? "-" : ""
-								+ user.getRequestCount()));
+						user.getRequestCount() == null ? "-"
+								: "" + user.getRequestCount()));
 				item.add(new AttributeModifier("class",
 						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
@@ -152,7 +152,7 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				|| emailModel.getObject() != null
 				|| profileModel.getObject() != null
 				|| onlyExpiredModel.getObject() != null
-				&& onlyExpiredModel.getObject();
+						&& onlyExpiredModel.getObject();
 	}
 
 	private class SearchForm extends Form<Void> {
@@ -164,8 +164,8 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 			add(new TextField<String>("name", nameModel));
 			add(new TextField<String>("email", emailModel));
 			DropDownChoice<Integer> profileChoice = new DropDownChoice<Integer>(
-					"profile", profileModel, Arrays.asList(
-							AkpUser.PROFILE_USER, AkpUser.PROFILE_ADMIN),
+					"profile", profileModel,
+					Arrays.asList(AkpUser.PROFILE_USER, AkpUser.PROFILE_ADMIN),
 					new IChoiceRenderer<Integer>() {
 						private static final long serialVersionUID = 1L;
 

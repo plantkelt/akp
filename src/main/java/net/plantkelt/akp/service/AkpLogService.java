@@ -34,7 +34,8 @@ public interface AkpLogService {
 	public abstract void logPlantMove(AkpPlant plant, AkpClass oldClass,
 			AkpClass newClass);
 
-	public abstract void logPlantCommentsUpdate(AkpPlant plant, String oldValue);
+	public abstract void logPlantCommentsUpdate(AkpPlant plant,
+			String oldValue);
 
 	public abstract void logPlantRefCreation(AkpPlant plant,
 			AkpPlant targetPlant);

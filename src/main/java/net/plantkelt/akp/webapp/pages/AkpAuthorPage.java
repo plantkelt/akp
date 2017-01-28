@@ -56,7 +56,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 			}
 		};
 		if (authorModel.getObject() == null)
-			throw new IllegalArgumentException("Invalid author ID: " + authorId);
+			throw new IllegalArgumentException(
+					"Invalid author ID: " + authorId);
 
 		// Set page title
 		AkpAuthor author = authorModel.getObject();
@@ -87,8 +88,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				}, 1, 60);
 		add(nameEditor);
 		nameEditor.setReadOnly(!isAdmin);
-		Label nameLabel = new Label("nameLabel", new PropertyModel<String>(
-				authorModel, "name"));
+		Label nameLabel = new Label("nameLabel",
+				new PropertyModel<String>(authorModel, "name"));
 		nameLabel.setEscapeModelStrings(false);
 		nameEditor.add(nameLabel);
 
@@ -113,8 +114,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				}, 1, 60);
 		add(sourceEditor);
 		sourceEditor.setReadOnly(!isAdmin);
-		Label sourceLabel = new Label("sourceLabel", new PropertyModel<String>(
-				authorModel, "source"));
+		Label sourceLabel = new Label("sourceLabel",
+				new PropertyModel<String>(authorModel, "source"));
 		sourceEditor.add(sourceLabel);
 
 		// Dates
@@ -138,8 +139,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				}, 1, 40);
 		add(datesEditor);
 		datesEditor.setReadOnly(!isAdmin);
-		Label datesLabel = new Label("datesLabel", new PropertyModel<String>(
-				authorModel, "dates"));
+		Label datesLabel = new Label("datesLabel",
+				new PropertyModel<String>(authorModel, "dates"));
 		datesEditor.add(datesLabel);
 
 		// Rename XID section
@@ -159,8 +160,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 
 			public void onSubmit() {
 				String newXid = newXidModel.getObject();
-				int nChanges = akpTaxonService.renameAuthorXid(
-						authorModel.getObject(), newXid);
+				int nChanges = akpTaxonService
+						.renameAuthorXid(authorModel.getObject(), newXid);
 				info(MessageFormat.format(getString("xid.renamed.to"), newXid,
 						nChanges));
 				setResponsePage(AkpAuthorPage.class,
@@ -195,8 +196,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				if (AkpWicketSession.get().isAdmin())
 					limit = 1000;
 				akpSearchData.setLimit(limit);
-				return akpTaxonService.search(AkpWicketSession.get()
-						.getAkpUser(), akpSearchData);
+				return akpTaxonService.search(
+						AkpWicketSession.get().getAkpUser(), akpSearchData);
 			}
 		};
 		AkpSearchResultsPanel resultsPanel = new AkpSearchResultsPanel(

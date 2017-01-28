@@ -53,10 +53,10 @@ public class AkpAdminDbPage extends AkpPageTemplate {
 				}
 			}
 		});
-		
+
 		form.add(new Button("addAuthNameAsSource") {
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void onSubmit() {
 				akpTaxonService.addAuthNameAsSource();
@@ -68,20 +68,22 @@ public class AkpAdminDbPage extends AkpPageTemplate {
 		private static final long serialVersionUID = 1L;
 
 		public LangDropDown(String id, final IModel<String> langXidModel) {
-			super(id, langXidModel, convertLangList(akpTaxonService
-					.getLangList(AkpUser.PROFILE_ADMIN)), new IChoiceRenderer<String>() {
-				private static final long serialVersionUID = 1L;
+			super(id, langXidModel,
+					convertLangList(
+							akpTaxonService.getLangList(AkpUser.PROFILE_ADMIN)),
+					new IChoiceRenderer<String>() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public Object getDisplayValue(String langXid) {
-					return langXid;
-				}
+						@Override
+						public Object getDisplayValue(String langXid) {
+							return langXid;
+						}
 
-				@Override
-				public String getIdValue(String langXid, int index) {
-					return langXid;
-				}
-			});
+						@Override
+						public String getIdValue(String langXid, int index) {
+							return langXid;
+						}
+					});
 		}
 
 	}

@@ -92,22 +92,22 @@ public class AkpPlantSynonymsPanel extends Panel {
 								if (name == null || name.length() == 0) {
 									akpTaxonService.deleteTaxon(taxon);
 								} else {
-									akpTaxonService
-											.updateTaxonName(taxon, name);
+									akpTaxonService.updateTaxonName(taxon,
+											name);
 									List<String> errorKeys = akpTaxonService
 											.checkTaxon(taxon);
 									if (!errorKeys.isEmpty()) {
 										StringBuffer errorMsg = new StringBuffer();
-										errorMsg.append(
-												getString("taxon.name.error.dialog"))
+										errorMsg.append(getString(
+												"taxon.name.error.dialog"))
 												.append("\\n");
 										for (String errorKey : errorKeys)
 											errorMsg.append(getString(errorKey))
 													.append("\\n");
 										target.appendJavaScript(String.format(
 												"alert('%s')",
-												errorMsg.toString().replace(
-														"'", "\\'")));
+												errorMsg.toString().replace("'",
+														"\\'")));
 									}
 								}
 								authorsModel.detach();

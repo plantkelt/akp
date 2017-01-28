@@ -20,8 +20,8 @@ public class AkpWebappGuiceServletModule extends ServletModule {
 		filter("/*").through(PersistFilter.class);
 
 		// Wicket
-		bind(WebApplication.class).toProvider(
-				AkpWicketApplicationProvider.class);
+		bind(WebApplication.class)
+				.toProvider(AkpWicketApplicationProvider.class);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(WicketFilter.FILTER_MAPPING_PARAM, "/web/*");
 		filter("/web/*").through(WicketGuiceFilter.class, params);

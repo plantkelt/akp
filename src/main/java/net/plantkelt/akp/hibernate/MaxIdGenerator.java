@@ -35,12 +35,13 @@ public class MaxIdGenerator implements IdentifierGenerator, Configurable {
 		return generateHolder(session).makeValue();
 	}
 
-	protected IntegralDataTypeHolder generateHolder(SessionImplementor session) {
+	protected IntegralDataTypeHolder generateHolder(
+			SessionImplementor session) {
 		Connection connection = session.connection();
 		try {
 			IntegralDataTypeHolder value = IdentifierGeneratorHelper
-					.getIntegralDataTypeHolder(identifierType
-							.getReturnedClass());
+					.getIntegralDataTypeHolder(
+							identifierType.getReturnedClass());
 			String sql = "select max(" + columnName + ") from " + tableName;
 			PreparedStatement qps = connection.prepareStatement(sql);
 			try {
@@ -55,8 +56,8 @@ public class MaxIdGenerator implements IdentifierGenerator, Configurable {
 			}
 			return value.copy().increment();
 		} catch (SQLException e) {
-			throw new IdentifierGenerationException(
-					"Can't select max id value", e);
+			throw new IdentifierGenerationException("Can't select max id value",
+					e);
 		}
 	}
 }

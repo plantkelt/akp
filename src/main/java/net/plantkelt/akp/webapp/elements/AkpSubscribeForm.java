@@ -36,8 +36,8 @@ public class AkpSubscribeForm extends Panel {
 		request = new AkpSubscriptionRequest();
 		add(new FeedbackPanel("feedback"));
 		Form<AkpSubscriptionRequest> form = new Form<AkpSubscriptionRequest>(
-				"form", new CompoundPropertyModel<AkpSubscriptionRequest>(
-						request));
+				"form",
+				new CompoundPropertyModel<AkpSubscriptionRequest>(request));
 		add(form);
 		form.add(new RequiredTextField<String>("login"));
 		DropDownChoice<String> langSelect = new DropDownChoice<String>("lang",

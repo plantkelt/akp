@@ -11,7 +11,7 @@ import net.plantkelt.akp.utils.Pair;
 public interface AkpLoginService {
 
 	public abstract Pair<String, String> getAkpVersions(ServletContext context);
-	
+
 	public abstract AkpUser login(String login, String password);
 
 	public abstract void logout();

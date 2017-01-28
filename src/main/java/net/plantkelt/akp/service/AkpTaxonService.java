@@ -48,9 +48,11 @@ public interface AkpTaxonService {
 
 	public abstract List<AkpPlant> searchPlantFromName(String name);
 
-	public abstract void updatePlantComments(AkpPlant plant, String newComments);
+	public abstract void updatePlantComments(AkpPlant plant,
+			String newComments);
 
-	public abstract void addPlantRefToPlant(AkpPlant plant, AkpPlant targetPlant);
+	public abstract void addPlantRefToPlant(AkpPlant plant,
+			AkpPlant targetPlant);
 
 	public abstract void removePlantRefFromPlant(AkpPlant plant,
 			AkpPlant targetPlant);

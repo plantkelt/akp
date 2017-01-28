@@ -46,7 +46,8 @@ public class AkpSearchForm extends Panel {
 		add(form);
 
 		// Admin/logged-in/public containers
-		WebMarkupContainer taxonNameRow = new WebMarkupContainer("taxonNameRow");
+		WebMarkupContainer taxonNameRow = new WebMarkupContainer(
+				"taxonNameRow");
 		form.add(taxonNameRow);
 		WebMarkupContainer includeSynonymsRow = new LoggedInMarkupContainer(
 				"includeSynonymsRow");
@@ -80,8 +81,8 @@ public class AkpSearchForm extends Panel {
 		plantOriginRow.add(new TextField<String>("plantOrigin"));
 		plantCommentsRow.add(new TextField<String>("plantComments"));
 		vernacularNameRow.add(new TextField<String>("vernacularName"));
-		vernacularNameCommentsRow.add(new TextField<String>(
-				"vernacularNameComments"));
+		vernacularNameCommentsRow
+				.add(new TextField<String>("vernacularNameComments"));
 
 		// Families
 		familiesModel = new LoadableDetachableModel<List<AkpClass>>() {
@@ -148,15 +149,16 @@ public class AkpSearchForm extends Panel {
 					langListRepeat.newChildId());
 			langListRepeat.add(item);
 
-			WebMarkupContainer langLink = new WebMarkupContainer("langNameLink");
+			WebMarkupContainer langLink = new WebMarkupContainer(
+					"langNameLink");
 			item.add(langLink);
 			Label langCodeLabel = new Label("langCode", lang.getCode());
 			langLink.add(langCodeLabel);
 			Label langTitleLabel = new Label("langTitle",
 					new BrEnFrStringModel(lang.getName()));
 			langLink.add(langTitleLabel);
-			Label langDescLabel = new Label("langDesc", new BrEnFrStringModel(
-					lang.getDesc()));
+			Label langDescLabel = new Label("langDesc",
+					new BrEnFrStringModel(lang.getDesc()));
 			langDescLabel.setEscapeModelStrings(false);
 			langLink.add(langDescLabel);
 
@@ -212,8 +214,8 @@ public class AkpSearchForm extends Panel {
 
 			@Override
 			public void setObject(AkpBib bib) {
-				form.getModelObject().setBibRefXid(
-						bib == null ? null : bib.getXid());
+				form.getModelObject()
+						.setBibRefXid(bib == null ? null : bib.getXid());
 			}
 		};
 		DropDownChoice<AkpBib> bibSelect = new DropDownChoice<AkpBib>(

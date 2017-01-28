@@ -147,8 +147,8 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	@Override
 	public void logPlantMove(AkpPlant plant, AkpClass oldClass,
 			AkpClass newClass) {
-		logNewEntry(LOG_TYPE_PLANT_CLASS_MOVE, plant.getXid(), null, null,
-				null, oldClass.getTextName(), newClass.getTextName());
+		logNewEntry(LOG_TYPE_PLANT_CLASS_MOVE, plant.getXid(), null, null, null,
+				oldClass.getTextName(), newClass.getTextName());
 	}
 
 	@Override
@@ -208,85 +208,89 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	@Override
 	public void logLexicalGroupCreation(AkpLexicalGroup lexicalGroup) {
 		logNewEntry(LOG_TYPE_LEXGRP_CREATION, lexicalGroup.getPlant().getXid(),
-				null, lexicalGroup.getXid(), null, null, lexicalGroup.getLang()
-						.getXid() + "/" + lexicalGroup.getCorrect());
+				null, lexicalGroup.getXid(), null, null,
+				lexicalGroup.getLang().getXid() + "/"
+						+ lexicalGroup.getCorrect());
 	}
 
 	@Override
 	public void logLexicalGroupDeletion(AkpLexicalGroup lexicalGroup) {
 		logNewEntry(LOG_TYPE_LEXGRP_DELETION, lexicalGroup.getPlant().getXid(),
-				null, lexicalGroup.getXid(), null, lexicalGroup.getLang()
-						.getXid() + "/" + lexicalGroup.getCorrect(), null);
+				null, lexicalGroup.getXid(), null,
+				lexicalGroup.getLang().getXid() + "/"
+						+ lexicalGroup.getCorrect(),
+				null);
 	}
 
 	@Override
 	public void logVernacularNameCreation(AkpVernacularName vernacularName) {
-		logNewEntry(LOG_TYPE_VERNA_CREATION, vernacularName.getLexicalGroup()
-				.getPlant().getXid(), null, vernacularName.getLexicalGroup()
-				.getXid(), vernacularName.getXid(), null,
-				vernacularName.getName());
+		logNewEntry(LOG_TYPE_VERNA_CREATION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), null, vernacularName.getName());
 	}
 
 	@Override
 	public void logVernacularNameDeletion(AkpVernacularName vernacularName) {
-		logNewEntry(LOG_TYPE_VERNA_DELETION, vernacularName.getLexicalGroup()
-				.getPlant().getXid(), null, vernacularName.getLexicalGroup()
-				.getXid(), vernacularName.getXid(), vernacularName.getName(),
-				null);
+		logNewEntry(LOG_TYPE_VERNA_DELETION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), vernacularName.getName(), null);
 	}
 
 	@Override
 	public void logVernacularNameCommentsUpdate(
 			AkpVernacularName vernacularName, String oldComments) {
-		logNewEntry(LOG_TYPE_VERNA_COMMENT_UPDATE, vernacularName
-				.getLexicalGroup().getPlant().getXid(), null, vernacularName
-				.getLexicalGroup().getXid(), vernacularName.getXid(),
-				oldComments, vernacularName.getComments());
+		logNewEntry(LOG_TYPE_VERNA_COMMENT_UPDATE,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), oldComments,
+				vernacularName.getComments());
 	}
 
 	@Override
 	public void logVernacularNameNameUpdate(AkpVernacularName vernacularName,
 			String oldName) {
-		logNewEntry(LOG_TYPE_VERNA_UPDATE, vernacularName.getLexicalGroup()
-				.getPlant().getXid(), null, vernacularName.getLexicalGroup()
-				.getXid(), vernacularName.getXid(), oldName,
-				vernacularName.getName());
+		logNewEntry(LOG_TYPE_VERNA_UPDATE,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), oldName, vernacularName.getName());
 	}
 
 	@Override
 	public void logVernacularNameBibAddition(AkpVernacularName vernacularName,
 			AkpBib bib) {
-		logNewEntry(LOG_TYPE_VERNA_BIB_REF_CREATION, vernacularName
-				.getLexicalGroup().getPlant().getXid(), null, vernacularName
-				.getLexicalGroup().getXid(), vernacularName.getXid(), null,
-				bib.getXid());
+		logNewEntry(LOG_TYPE_VERNA_BIB_REF_CREATION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), null, bib.getXid());
 	}
 
 	@Override
 	public void logVernacularNameBibRemoval(AkpVernacularName vernacularName,
 			AkpBib bib) {
-		logNewEntry(LOG_TYPE_VERNA_BIB_REF_DELETION, vernacularName
-				.getLexicalGroup().getPlant().getXid(), null, vernacularName
-				.getLexicalGroup().getXid(), vernacularName.getXid(),
-				bib.getXid(), null);
+		logNewEntry(LOG_TYPE_VERNA_BIB_REF_DELETION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), bib.getXid(), null);
 	}
 
 	@Override
 	public void logVernacularNamePlantRefAddition(
 			AkpVernacularName vernacularName, AkpPlant plant) {
-		logNewEntry(LOG_TYPE_VERNA_PLANT_REF_CREATION, vernacularName
-				.getLexicalGroup().getPlant().getXid(), null, vernacularName
-				.getLexicalGroup().getXid(), vernacularName.getXid(), null,
-				plant.getMainName().getName());
+		logNewEntry(LOG_TYPE_VERNA_PLANT_REF_CREATION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), null, plant.getMainName().getName());
 	}
 
 	@Override
 	public void logVernacularNamePlantRefRemoval(
 			AkpVernacularName vernacularName, AkpPlant plant) {
-		logNewEntry(LOG_TYPE_VERNA_PLANT_REF_DELETION, vernacularName
-				.getLexicalGroup().getPlant().getXid(), null, vernacularName
-				.getLexicalGroup().getXid(), vernacularName.getXid(), plant
-				.getMainName().getName(), null);
+		logNewEntry(LOG_TYPE_VERNA_PLANT_REF_DELETION,
+				vernacularName.getLexicalGroup().getPlant().getXid(), null,
+				vernacularName.getLexicalGroup().getXid(),
+				vernacularName.getXid(), plant.getMainName().getName(), null);
 	}
 
 	@Transactional
@@ -295,8 +299,8 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		userLogEntry.setOperation(operation);
 		userLogEntry.setDate(new Date());
 		userLogEntry.setValue(value);
-		userLogEntry.setLogin(login == null ? loginGetter.getCurrentLogin()
-				: login);
+		userLogEntry.setLogin(
+				login == null ? loginGetter.getCurrentLogin() : login);
 		userLogEntry.setRemoteAddr(loginGetter.getCurrentRemoteAddr());
 		getSession().save(userLogEntry);
 	}
@@ -361,8 +365,8 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		}
 		BarRenderer.setDefaultShadowsVisible(false);
 		JFreeChart chart = ChartFactory.createBarChart("", "Week",
-				"Modifications", dataset, PlotOrientation.VERTICAL, false,
-				true, false);
+				"Modifications", dataset, PlotOrientation.VERTICAL, false, true,
+				false);
 		chart.setBackgroundPaint(Color.WHITE);
 		chart.getTitle().setPaint(Color.BLACK);
 		CategoryPlot p = chart.getCategoryPlot();

@@ -46,8 +46,8 @@ public class AkpLangInfoPopup extends AkpPopupTemplate {
 		// Infos
 		add(new Label("langId", langId));
 		add(new Label("langName", new BrEnFrStringModel(lang.getName())));
-		Label langDescLabel = new Label("langDesc", new BrEnFrStringModel(
-				lang.getDesc()));
+		Label langDescLabel = new Label("langDesc",
+				new BrEnFrStringModel(lang.getDesc()));
 		langDescLabel.setEscapeModelStrings(false);
 		add(langDescLabel);
 	}

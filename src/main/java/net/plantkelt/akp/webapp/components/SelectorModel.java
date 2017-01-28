@@ -14,7 +14,7 @@ public interface SelectorModel<T> extends Serializable {
 	public abstract String getDisplayValue(T t);
 
 	public abstract String getIdValue(T t);
-	
+
 	public abstract List<T> getValues();
-	
+
 }

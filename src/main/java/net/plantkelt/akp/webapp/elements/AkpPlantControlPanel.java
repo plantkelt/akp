@@ -55,8 +55,8 @@ public class AkpPlantControlPanel extends Panel {
 		for (AkpLang lang : langs)
 			langXids.add(lang.getXid());
 		Collections.sort(langXids);
-		addLangModel = new Model<String>(AkpWicketSession.get()
-				.getSessionData().getDefaultLangXid());
+		addLangModel = new Model<String>(
+				AkpWicketSession.get().getSessionData().getDefaultLangXid());
 		DropDownChoice<String> langSelect = new DropDownChoice<String>(
 				"langSelect", addLangModel, langXids);
 		form.add(langSelect);

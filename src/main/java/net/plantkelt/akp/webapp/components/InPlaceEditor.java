@@ -63,14 +63,14 @@ public class InPlaceEditor extends Border {
 		textField = new TextField<String>("textInput", stringModel);
 		textField.add(new InputMacros());
 		textField.setVisible(nRows == 1);
-		textField.add(new AttributeAppender("size", new Model<String>(""
-				+ nCols)));
+		textField.add(
+				new AttributeAppender("size", new Model<String>("" + nCols)));
 		textArea = new TextArea<String>("textArea", stringModel);
 		textArea.setVisible(nRows > 1);
-		textArea.add(new AttributeAppender("rows",
-				new Model<String>("" + nRows)));
-		textArea.add(new AttributeAppender("cols",
-				new Model<String>("" + nCols)));
+		textArea.add(
+				new AttributeAppender("rows", new Model<String>("" + nRows)));
+		textArea.add(
+				new AttributeAppender("cols", new Model<String>("" + nCols)));
 		editForm.add(textField);
 		editForm.add(textArea);
 		AjaxSubmitLink submitBtn = new AjaxSubmitLink("saveButton") {

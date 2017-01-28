@@ -64,11 +64,13 @@ public class AkpPageTemplate extends WebPage {
 				AkpPageTemplate.class, "res/akp.css")));
 		response.render(JavaScriptHeaderItem
 				.forUrl("http://www.google-analytics.com/ga.js"));
-		response.render(JavaScriptHeaderItem.forScript(
-				String.format(
-						"var pageTracker = _gat._getTracker('%s'); pageTracker._trackPageview();",
-						akpLoginService.getGoogleAnalyticsTrackerAccount()),
-				"googleAnalyticsTracker"));
+		response.render(JavaScriptHeaderItem
+				.forScript(
+						String.format(
+								"var pageTracker = _gat._getTracker('%s'); pageTracker._trackPageview();",
+								akpLoginService
+										.getGoogleAnalyticsTrackerAccount()),
+						"googleAnalyticsTracker"));
 	}
 
 	public void setPageTitle(String pageTitle) {

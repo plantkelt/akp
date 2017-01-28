@@ -19,10 +19,10 @@ public class AkpAppGuiceModule extends AbstractModule {
 	protected void configure() {
 
 		AkpTaxonServiceImpl akpTaxonServiceImpl = new AkpTaxonServiceImpl();
-		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class).in(
-				Scopes.SINGLETON);
-		bind(AkpLogService.class).to(AkpLogServiceImpl.class).in(
-				Scopes.SINGLETON);
+		bind(AkpLoginService.class).to(AkpLoginServiceImpl.class)
+				.in(Scopes.SINGLETON);
+		bind(AkpLogService.class).to(AkpLogServiceImpl.class)
+				.in(Scopes.SINGLETON);
 		bind(AkpTaxonService.class).toInstance(akpTaxonServiceImpl);
 		bind(AkpApplicationService.class).in(Scopes.SINGLETON);
 	}

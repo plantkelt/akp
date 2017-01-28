@@ -39,8 +39,8 @@ public class AkpSearchResultsPanel extends Panel {
 
 			@Override
 			protected void populateItem(ListItem<String> item) {
-				item.add(new Label("headerLabel", getString(item
-						.getModelObject())));
+				item.add(new Label("headerLabel",
+						getString(item.getModelObject())));
 			}
 		};
 		add(resultsHeaderListView);
@@ -58,8 +58,8 @@ public class AkpSearchResultsPanel extends Panel {
 				RepeatingView colRepeat = new RepeatingView("colRepeat");
 				AkpSearchResultRow row = item.getModelObject();
 				for (AkpSearchResultColumn col : row.getColumns()) {
-					final Integer plantXid = col.getPlantXid() != null ? col
-							.getPlantXid() : row.getPlantXid();
+					final Integer plantXid = col.getPlantXid() != null
+							? col.getPlantXid() : row.getPlantXid();
 					boolean hasPlantLink = AkpWicketSession.get().isLoggedIn()
 							&& plantXid != null;
 					final String langXid = col.getPlantXid() != null ? null
@@ -77,11 +77,9 @@ public class AkpSearchResultsPanel extends Panel {
 							@Override
 							public void onClick() {
 								if (langXid != null && correct != null)
-									AkpWicketSession
-											.get()
-											.getSessionData()
-											.setLexicalGroupDefaultOpen(
-													langXid, correct, true);
+									AkpWicketSession.get().getSessionData()
+											.setLexicalGroupDefaultOpen(langXid,
+													correct, true);
 								setResponsePage(AkpPlantPage.class,
 										new PageParameters().add("xid",
 												plantXid));
@@ -92,8 +90,9 @@ public class AkpSearchResultsPanel extends Panel {
 						cellLink.setVisible(false);
 					}
 					cell.add(cellLink);
-					String colValue = col.isValueKey() ? getString(col
-							.getDisplayValue()) : col.getDisplayValue();
+					String colValue = col.isValueKey()
+							? getString(col.getDisplayValue())
+							: col.getDisplayValue();
 					Label cellValue = new Label("cellValue", colValue);
 					Label cellValue2 = new Label("cellValue2", colValue);
 					String className = col.getClassName();

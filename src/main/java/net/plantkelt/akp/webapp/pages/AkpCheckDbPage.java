@@ -40,7 +40,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 			return checkTypeId;
 		}
 
-		protected abstract AkpSearchResult check(AkpTaxonService akpTaxonService);
+		protected abstract AkpSearchResult check(
+				AkpTaxonService akpTaxonService);
 	}
 
 	private static List<Checker> CHECKERS;
@@ -85,7 +86,7 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 			protected AkpSearchResult check(AkpTaxonService akpTaxonService) {
 				return akpTaxonService.getUnknownAuthors();
 			}
-			
+
 		});
 		CHECKERS.add(new Checker("impreciseVernaWithoutPlantRef") {
 			private static final long serialVersionUID = 1L;
@@ -152,8 +153,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 		public CheckLink(String id, Checker checker) {
 			super(id, new Model<Checker>(checker));
-			add(new Label("checkLabel", new StringResourceModel("check.type."
-					+ checker.getCheckTypeId(), null)));
+			add(new Label("checkLabel", new StringResourceModel(
+					"check.type." + checker.getCheckTypeId(), null)));
 		}
 
 		@Override
@@ -166,7 +167,8 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 		add(new FeedbackPanel("feedback"));
 
-		Link<Void> updateStaticListLink = new Link<Void>("updateStaticListLink") {
+		Link<Void> updateStaticListLink = new Link<Void>(
+				"updateStaticListLink") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -192,12 +194,13 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 
 			@Override
 			protected AkpSearchResult load() {
-				return currentChecker == null ? null : currentChecker
-						.check(akpTaxonService);
+				return currentChecker == null ? null
+						: currentChecker.check(akpTaxonService);
 			}
 		};
 
-		WebMarkupContainer checkResults = new WebMarkupContainer("checkResults") {
+		WebMarkupContainer checkResults = new WebMarkupContainer(
+				"checkResults") {
 			private static final long serialVersionUID = 1L;
 
 			@Override

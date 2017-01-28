@@ -90,9 +90,11 @@ public abstract class AkpClassSelectPanel extends Panel {
 				classNameLabel.setEscapeModelStrings(false);
 				link.add(classNameLabel);
 				if (confirmClick) {
-					link.add(new JavascriptConfirmationModifier("onClick",
-							new StringResourceModel("confirm.action.message",
-									AkpClassSelectPanel.this, null)));
+					link.add(
+							new JavascriptConfirmationModifier("onClick",
+									new StringResourceModel(
+											"confirm.action.message",
+											AkpClassSelectPanel.this, null)));
 				}
 			}
 		};
@@ -116,7 +118,7 @@ public abstract class AkpClassSelectPanel extends Panel {
 		if (confirmClick)
 			singleResultAutoselect = false;
 	}
-	
+
 	protected abstract void onClassSelected(AkpClass clazz);
 
 }
