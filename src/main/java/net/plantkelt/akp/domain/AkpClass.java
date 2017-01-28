@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.plantkelt.akp.utils.TagFixer;
+
 public class AkpClass implements Comparable<AkpClass> {
 
 	public static final int LEVEL_FAMILY = 6;
@@ -31,7 +33,9 @@ public class AkpClass implements Comparable<AkpClass> {
 	}
 
 	public String getHtmlName() {
-		return name.replace("<l>", "<b>").replace("</l>", "</b>");
+		String ret = name.replace("<l>", "<b>").replace("</l>", "</b>");
+		ret = TagFixer.fixHtml(ret);
+		return ret;
 	}
 
 	public String getTextName() {

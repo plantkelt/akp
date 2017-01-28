@@ -3,6 +3,8 @@ package net.plantkelt.akp.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.plantkelt.akp.utils.TagFixer;
+
 public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	public static final int TYPE_MAIN = 0;
@@ -11,13 +13,14 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	public static final String EMPTY_NAME = "<l><b></b></l>";
 
 	private static final String[] EPSILON_LIST = { "infrasp.", "subgen.",
-			"subser.", "sect.", "subsect.", "subsp.", "[subsp.]",
-			"nothosubsp.", "proles", "nothoproles", "var.", "[var.]",
-			"nothovar.", "subvar.", "convar.", "fa.", "subfa.", "cv.", "grex" };
+			"subser.", "sect.", "subsect.", "subsp.", "[subsp.]", "nothosubsp.",
+			"proles", "nothoproles", "var.", "[var.]", "nothovar.", "subvar.",
+			"convar.", "fa.", "subfa.", "cv.", "grex" };
 	private static final String[] EPSILON2_LIST = { " non ", " nec ", " ex ",
 			" & ", " an ", " excl. ", " incl. ", " emend. ", " fide ", " vel ",
 			" ser. ", " apud ", " lusus ", "<i>orth. var.</i>", "<i>p. p.</i>",
-			"<i>p. max. p.</i>", "<i>p. min. p.</i>", "<i>lapsus calami ?</i>" };
+			"<i>p. max. p.</i>", "<i>p. min. p.</i>",
+			"<i>lapsus calami ?</i>" };
 	private static final String[] EPSILON3_LIST = { "<i>sensu</i>",
 			"<i>pro sp.</i>", "<i>pro hybr.</i>" };
 
@@ -60,8 +63,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	}
 
 	public String getHtmlName() {
-		return getXName().replace("<a>", "<span class='author'>").replace(
-				"</a>", "</span>");
+		return getXName().replace("<a>", "<span class='author'>")
+				.replace("</a>", "</span>");
 	}
 
 	public String[] getNameElements() {
@@ -79,9 +82,16 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 
 	private synchronized String getXName() {
 		if (xName == null) {
+			// Replace single tag elements (not handled by parser)
 			xName = name.replace("<x>", "×").replace("<+>", "+")
-					.replace("<urseurtad>", " - 1 seurtad:").replace("<l>", "")
-					.replace("</l>", "").replace("<y>", "<span class='txy'>")
+					.replace("<urseurtad>", " - 1 seurtad:");
+
+			// At this point the name should be some "pseudo-xml"
+			xName = TagFixer.fixHtml(xName);
+
+			// Replace with more complex HTML tags
+			xName = xName.replace("<l>", "").replace("</l>", "")
+					.replace("<y>", "<span class='txy'>")
 					.replace("</y>", "</span>");
 			if (type == TYPE_MAIN) {
 				xName = xName.replace("<b>", "<b><i>")
@@ -96,12 +106,12 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 						" <span class='epsilon'>" + eps + "</span> ");
 			}
 			for (String eps : EPSILON2_LIST) {
-				xName = xName.replace(eps, "<span class='epsilon'>" + eps
-						+ "</span>");
+				xName = xName.replace(eps,
+						"<span class='epsilon'>" + eps + "</span>");
 			}
 			for (String eps : EPSILON3_LIST) {
-				xName = xName.replace(eps, "<span class='epsilon3'>" + eps
-						+ "</span>");
+				xName = xName.replace(eps,
+						"<span class='epsilon3'>" + eps + "</span>");
 			}
 		}
 		return xName;
@@ -112,8 +122,8 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 	}
 
 	public static String getTextName(String name) {
-		return name.replace("<x>", "×").replace("<+>", "+")
-				.replaceAll("<.*?>", "");
+		return name.replace("<x>", "×").replace("<+>", "+").replaceAll("<.*?>",
+				"");
 	}
 
 	public synchronized void setName(String name) {
@@ -134,15 +144,13 @@ public class AkpTaxon implements Comparable<AkpTaxon> {
 			sortKey = name;
 			if (sortKey.equals(EMPTY_NAME))
 				sortKey = "~"; // To place empty names at the end of the list
-			sortKey = sortKey
-					.replace("spp.", "")
-					.replace(", non ", "  ")
+			sortKey = sortKey.replace("spp.", "").replace(", non ", "  ")
 					.replaceAll(
 							"^(<l><b>.*?</b>)(((?!\\s\\[=).)*?((<e>.*?</e>)|(cv\\.)).*)",
 							"$1@$2");
 			for (String epsilon : escapedEpsilonList) {
-				sortKey = sortKey.replaceAll("\\s(" + epsilon
-						+ ")\\s<e>([\\w-]+)</e>", " ~$2 $1");
+				sortKey = sortKey.replaceAll(
+						"\\s(" + epsilon + ")\\s<e>([\\w-]+)</e>", " ~$2 $1");
 			}
 			sortKey = sortKey
 					.replaceAll("\\s(cv\\.)\\s'?([\\w-]+)'?", " ~$2 $1")
