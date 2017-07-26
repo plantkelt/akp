@@ -2,6 +2,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
+apply plugin: 'application'
 
 sourceCompatibility = 1.7
 
@@ -20,15 +21,7 @@ war {
     archiveName 'akpwebapp.war'
 }
 
-// Emulate 'provided' -- see https://issues.gradle.org/browse/GRADLE-784
-configurations {
-    provided
-}
-sourceSets {
-    main {
-        compileClasspath += [ configurations.provided ]
-        eclipse.classpath.plusConfigurations += [ configurations.provided ]
-}   }
+mainClassName = "net.plantkelt.app.AkpApplication"
 
 dependencies {
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
@@ -44,7 +37,7 @@ dependencies {
     compile 'jfree:jfreechart:1.0.13'
     compile 'javax.mail:mail:1.4.6'
     compile 'com.beust:jcommander:1.32'
-    provided 'javax.servlet:servlet-api:2.5'
+    compile 'javax.servlet:servlet-api:2.5'
     compile 'org.apache.wicket:wicket-core:6.1.1'
     compile 'org.apache.wicket:wicket-auth-roles:6.1.1'
     compile 'org.apache.wicket:wicket-extensions:6.1.1'
