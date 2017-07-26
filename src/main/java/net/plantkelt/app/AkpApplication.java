@@ -29,7 +29,7 @@ public class AkpApplication {
 
 	private static void usage() {
 		System.out.println(
-				"AkpApp - Copyright (c) 2014 Plantkelt.bzh / Laurent Gregoire & Roland Le Moigne.");
+				"AkpApp - Copyright (c) 2014,2017 Plantkelt.bzh / Laurent Gregoire & Roland Le Moigne.");
 		System.out.println("");
 		System.out.println("Usage:");
 		System.out.println(
