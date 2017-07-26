@@ -1,15 +1,18 @@
 package net.plantkelt.app;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-
-import net.plantkelt.akp.service.AkpLogService;
-import net.plantkelt.akp.service.AkpLogService.LoginGetter;
-import net.plantkelt.akp.service.guice.ProvideHibernateSessionModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
+
+import net.plantkelt.akp.service.AkpLogService;
+import net.plantkelt.akp.service.AkpLogService.LoginGetter;
+import net.plantkelt.akp.service.guice.AkpServiceGuiceModule;
+import net.plantkelt.akp.service.guice.ProvideHibernateSessionModule;
 
 public class AkpApplicationConfigurator {
 
@@ -26,10 +29,21 @@ public class AkpApplicationConfigurator {
 		JpaPersistModule jpaPersistModule = new JpaPersistModule("akpJpaUnit");
 		jpaPersistModule.properties(jpaProperties);
 
-		AkpAppGuiceModule akpAppGuiceModule = new AkpAppGuiceModule();
+		// TODO Read this parameters from somewhere
+		Map<String, String> initParams = new HashMap<>();
+		initParams.put("net.plantkelt.akp.static-index-location",
+				"/var/www/akp/static/");
+		initParams.put("net.plantkelt.akp.smtp.host", "smtp.gmail.com");
+		initParams.put("net.plantkelt.akp.smtp.port", "587");
+		initParams.put("net.plantkelt.akp.smtp.login", "r2d2@plantkelt.net");
+		initParams.put("net.plantkelt.akp.smtp.password", "xxxx");
+		initParams.put("net.plantkelt.akp.smtp.to", "melestr@plantkelt.bzh");
+		AkpServiceGuiceModule akpServiceGuiceModule = new AkpServiceGuiceModule(
+				null, false);
+		akpServiceGuiceModule.setInitParameters(initParams);
 
 		injector = Guice.createInjector(new ProvideHibernateSessionModule(),
-				akpAppGuiceModule, jpaPersistModule);
+				jpaPersistModule, akpServiceGuiceModule);
 		persistService = injector.getInstance(PersistService.class);
 	}
 
