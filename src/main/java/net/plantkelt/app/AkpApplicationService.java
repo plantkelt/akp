@@ -28,9 +28,10 @@ public class AkpApplicationService {
 				String.format("Taxon regexp '%s' -> '%s'.", search, replace));
 		if (commit)
 			System.out.println("Commit mode.");
-		ScrollableResults taxons = sessionProvider.get()
-				.createCriteria(AkpTaxon.class).setFetchSize(1000)
-				.setReadOnly(true).setLockMode(LockMode.NONE).scroll();
+		Session session = sessionProvider.get();
+		ScrollableResults taxons = session.createCriteria(AkpTaxon.class)
+				.setFetchSize(1000).setReadOnly(false)
+				.setLockMode(LockMode.NONE).scroll();
 		int n = 0;
 		while (taxons.next()) {
 			AkpTaxon taxon = (AkpTaxon) taxons.get(0);
