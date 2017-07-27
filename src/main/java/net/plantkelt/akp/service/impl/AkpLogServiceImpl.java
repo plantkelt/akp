@@ -110,8 +110,9 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 		if (newValue != null && newValue.length() > OLD_NEW_VALUE_LEN)
 			newValue = newValue.substring(0, OLD_NEW_VALUE_LEN);
 		logEntry.setNewValue(newValue);
-		getSession().save(logEntry);
-		getSession().flush();
+		Session session = getSession();
+		session.save(logEntry);
+		session.flush();
 	}
 
 	@Override
