@@ -24,11 +24,11 @@ public class AkpCmdLineOpts {
 	@Parameter(names = "--commit", description = "Save to database")
 	protected boolean commit = false;
 
-	@Parameter(names = "--help", help = true)
-	protected boolean help;
+	@Parameter(names = "--help", help = true, description = "Print this help and exit.")
+	protected boolean help = false;
 
-	@Parameter(names = "--server")
-	protected boolean server;
+	@Parameter(names = "--server", description = "Run webapp in an embedded Jetty server.")
+	protected boolean server = false;
 
 	@Parameter(names = { "--jdbcUrl" }, description = "Database JDBC url.")
 	public String jdbcUrl = DEFAULT_JDBC_URL;
@@ -61,28 +61,28 @@ public class AkpCmdLineOpts {
 	public String logConfiguration = null;
 
 	@Parameter(names = {
-			"--development" }, description = "True to enable development mode")
+			"--development" }, description = "True to enable development mode.")
 	public boolean development = false;
 
 	@Parameter(names = {
-			"--staticIndexLocation" }, description = "Location of static index files")
-	public String staticIndexLocation;
+			"--staticIndexLocation" }, description = "Location of static index files.")
+	public String staticIndexLocation = "/var/www/akp/static/";
 
-	@Parameter(names = { "--smtpHost" }, description = "SMTP host")
+	@Parameter(names = { "--smtpHost" }, description = "SMTP host.")
 	public String smtpHost = "smtp.gmail.com";
 
-	@Parameter(names = { "--smtpPort" }, description = "SMTP port")
+	@Parameter(names = { "--smtpPort" }, description = "SMTP port.")
 	public int smtpPort = 587;
 
-	@Parameter(names = { "--smtpLogin" }, description = "SMTP login")
+	@Parameter(names = { "--smtpLogin" }, description = "SMTP login.")
 	public String smtpLogin = "r2d2@plantkelt.net";
 
-	@Parameter(names = { "--smtpPassword" }, description = "SMTP password")
-	public String smtpPassword;
+	@Parameter(names = { "--smtpPassword" }, description = "SMTP password.")
+	public String smtpPassword = ""; // Must be set, but allow to start w/o
 
 	@Parameter(names = {
-			"--smtpTo" }, description = "Email address to send to admin emails")
-	public String smtpTo;
+			"--smtpTo" }, description = "Email address to send admin emails to")
+	public String smtpTo = "root@localhost";
 
 	public static class AvailablePort implements IParameterValidator {
 
