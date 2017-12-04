@@ -26,9 +26,10 @@ public class AkpApplication {
 		AkpCmdLineOpts params = new AkpCmdLineOpts();
 		JCommander jcmd = new JCommander(params);
 		jcmd.parse(args);
+		jcmd.setProgramName("akp");
 
 		if (params.help) {
-			// What?
+			jcmd.usage();
 		} else if (params.server) {
 			runServer(params);
 		} else {
