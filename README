@@ -2,6 +2,6 @@
 
 Code source for the http://plantkelt.bzh/ application.
 
-Keywords: Java, Wicket, Hibernate, Guice, PostgreSQL.
+Keywords: Java, Wicket, Hibernate, Guice, PostgreSQL, Jetty.
 
 Contact: root@plantkelt.net
