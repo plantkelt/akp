@@ -13,6 +13,7 @@ import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLogService.LoginGetter;
 import net.plantkelt.akp.service.guice.AkpServiceGuiceModule;
 import net.plantkelt.akp.service.guice.ProvideHibernateSessionModule;
+import net.plantkelt.akp.webapp.guice.AkpGuiceApplicationConfig;
 
 public class AkpApplicationConfigurator {
 

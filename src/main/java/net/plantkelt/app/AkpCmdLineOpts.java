@@ -2,7 +2,9 @@ package net.plantkelt.app;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
@@ -116,5 +118,23 @@ public class AkpCmdLineOpts {
 				throw new ParameterException(msg);
 			}
 		}
+	}
+
+	public Map<String, String> getInitParams() {
+		Map<String, String> initParams = new HashMap<>();
+		initParams.put("javax.persistence.jdbc.url", this.jdbcUrl);
+		initParams.put("javax.persistence.jdbc.user", this.jdbcUser);
+		initParams.put("javax.persistence.jdbc.password", this.jdbcPassword);
+		initParams.put("net.plantkelt.akp.configuration",
+				this.development ? "development" : "deployment");
+		initParams.put("net.plantkelt.akp.logfile", this.logConfiguration);
+		initParams.put("net.plantkelt.akp.static-index-location",
+				this.staticIndexLocation);
+		initParams.put("net.plantkelt.akp.smtp.host", this.smtpHost);
+		initParams.put("net.plantkelt.akp.smtp.port", "" + this.smtpPort);
+		initParams.put("net.plantkelt.akp.smtp.login", this.smtpLogin);
+		initParams.put("net.plantkelt.akp.smtp.password", this.smtpPassword);
+		initParams.put("net.plantkelt.akp.smtp.to", this.smtpTo);
+		return initParams;
 	}
 }

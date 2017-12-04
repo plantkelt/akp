@@ -37,10 +37,6 @@ public class AkpApplication {
 	}
 
 	private static void runServer(AkpCmdLineOpts params) {
-
-		AkpApplicationConfigurator config = new AkpApplicationConfigurator(
-				params);
-
 		// Start server
 		EmbeddedServer jettyServer = new EmbeddedServer(params);
 		// Loop to restart server on uncaught exceptions
@@ -57,7 +53,6 @@ public class AkpApplication {
 				}
 			}
 		}
-
 	}
 
 	private static void runTools(AkpCmdLineOpts params) {

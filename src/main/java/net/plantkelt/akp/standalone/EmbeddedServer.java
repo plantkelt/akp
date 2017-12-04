@@ -13,7 +13,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.google.inject.servlet.GuiceFilter;
 
-import net.plantkelt.akp.webapp.guice.AkpGuiceApplicationConfig;
+import net.plantkelt.akp.webapp.guice.AkpGuiceServletApplicationConfig;
 import net.plantkelt.app.AkpCmdLineOpts;
 
 public class EmbeddedServer {
@@ -56,28 +56,8 @@ public class EmbeddedServer {
 		ServletContextHandler context = new ServletContextHandler(jettyServer,
 				"/akp", ServletContextHandler.SESSIONS);
 
-		context.setInitParameter("javax.persistence.jdbc.url", params.jdbcUrl);
-		context.setInitParameter("javax.persistence.jdbc.user",
-				params.jdbcUser);
-		context.setInitParameter("javax.persistence.jdbc.password",
-				params.jdbcPassword);
-		context.setInitParameter("net.plantkelt.akp.configuration",
-				params.development ? "development" : "deployment");
-		context.setInitParameter("net.plantkelt.akp.logfile",
-				params.logConfiguration);
-		context.setInitParameter("net.plantkelt.akp.static-index-location",
-				params.staticIndexLocation);
-		context.setInitParameter("net.plantkelt.akp.smtp.host",
-				params.smtpHost);
-		context.setInitParameter("net.plantkelt.akp.smtp.port",
-				"" + params.smtpPort);
-		context.setInitParameter("net.plantkelt.akp.smtp.login",
-				params.smtpLogin);
-		context.setInitParameter("net.plantkelt.akp.smtp.password",
-				params.smtpPassword);
-		context.setInitParameter("net.plantkelt.akp.smtp.to", params.smtpTo);
-
-		context.addEventListener(new AkpGuiceApplicationConfig());
+		context.addEventListener(
+				new AkpGuiceServletApplicationConfig(params.getInitParams()));
 		context.addFilter(GuiceFilter.class, "/*",
 				EnumSet.of(javax.servlet.DispatcherType.REQUEST,
 						javax.servlet.DispatcherType.ASYNC));
