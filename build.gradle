@@ -1,7 +1,5 @@
 
 apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'war'
 apply plugin: 'application'
 
 sourceCompatibility = 1.7
@@ -12,20 +10,26 @@ repositories {
 
 version = "3.0.0"
 
-war {
-    doFirst {
-        manifest {
-            attributes("Implementation-Title": "AKP", "Implementation-Version": version, "Implementation-Timestamp": new Date())
+jar {
+    manifest {
+        attributes("Implementation-Title": "AKP", "Implementation-Version": version, "Implementation-Timestamp": new Date())
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/webapp'
         }
     }
-    archiveName 'akpwebapp.war'
 }
 
 mainClassName = "net.plantkelt.app.AkpApplication"
 
 dependencies {
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
-    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+    compile 'org.slf4j:slf4j-log4j12:1.7.25'
+    compile 'org.slf4j:jul-to-slf4j:1.7.25'
     compile 'com.google.inject:guice:3.0'
     compile 'com.google.inject.extensions:guice-servlet:3.0'
     compile 'com.google.inject.extensions:guice-assistedinject:3.0'
@@ -36,13 +40,26 @@ dependencies {
     compile 'postgresql:postgresql:8.4-701.jdbc3'
     compile 'jfree:jfreechart:1.0.13'
     compile 'javax.mail:mail:1.4.6'
-    compile 'com.beust:jcommander:1.32'
-    compile 'javax.servlet:servlet-api:2.5'
+    compile 'com.beust:jcommander:1.72'
     compile 'org.apache.wicket:wicket-core:6.1.1'
     compile 'org.apache.wicket:wicket-auth-roles:6.1.1'
     compile 'org.apache.wicket:wicket-extensions:6.1.1'
     compile 'org.apache.wicket:wicket-datetime:6.1.1'
     compile 'org.apache.wicket:wicket-devutils:6.1.1'
     compile 'org.apache.wicket:wicket-guice:6.1.1'
+    compile 'org.eclipse.jetty:jetty-server:9.4.7.v20170914'
+    compile 'org.eclipse.jetty:jetty-servlet:9.4.7.v20170914'
+    compile 'org.eclipse.jetty:jetty-webapp:9.4.7.v20170914'
+    compile 'org.eclipse.jetty:jetty-util:9.4.7.v20170914'
+    compile 'org.eclipse.jetty:jetty-security:9.4.7.v20170914'
+	compile 'javax.servlet:javax.servlet-api:3.0.1'
     testCompile 'junit:junit:3.8.1'
+}
+
+dependencies {
+    modules {
+        module("javax.servlet:servlet-api") {
+            replacedBy("javax.servlet:javax.servlet-api")
+        }
+    }
 }

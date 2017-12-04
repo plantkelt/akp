@@ -19,25 +19,28 @@ public class AkpApplicationConfigurator {
 	private Injector injector;
 	private PersistService persistService;
 
-	public AkpApplicationConfigurator() {
+	public AkpApplicationConfigurator(AkpCmdLineOpts params) {
 
 		Properties jpaProperties = new Properties();
-		jpaProperties.put("javax.persistence.jdbc.url",
-				"jdbc:postgresql://localhost:5432/akp");
-		jpaProperties.put("javax.persistence.jdbc.user", "akp");
-		jpaProperties.put("javax.persistence.jdbc.password", "");
+		jpaProperties.put("javax.persistence.jdbc.url", params.jdbcUrl);
+		jpaProperties.put("javax.persistence.jdbc.user", params.jdbcUser);
+		jpaProperties.put("javax.persistence.jdbc.password",
+				params.jdbcPassword);
 		JpaPersistModule jpaPersistModule = new JpaPersistModule("akpJpaUnit");
 		jpaPersistModule.properties(jpaProperties);
 
-		// TODO Read this parameters from somewhere
 		Map<String, String> initParams = new HashMap<>();
+		initParams.put("net.plantkelt.akp.configuration",
+				params.development ? "development" : "deployment");
+		initParams.put("net.plantkelt.akp.logfile", params.logConfiguration);
 		initParams.put("net.plantkelt.akp.static-index-location",
-				"/var/www/akp/static/");
-		initParams.put("net.plantkelt.akp.smtp.host", "smtp.gmail.com");
-		initParams.put("net.plantkelt.akp.smtp.port", "587");
-		initParams.put("net.plantkelt.akp.smtp.login", "r2d2@plantkelt.net");
-		initParams.put("net.plantkelt.akp.smtp.password", "xxxx");
-		initParams.put("net.plantkelt.akp.smtp.to", "melestr@plantkelt.bzh");
+				params.staticIndexLocation);
+		initParams.put("net.plantkelt.akp.smtp.host", params.smtpHost);
+		initParams.put("net.plantkelt.akp.smtp.port", "" + params.smtpPort);
+		initParams.put("net.plantkelt.akp.smtp.login", params.smtpLogin);
+		initParams.put("net.plantkelt.akp.smtp.password", params.smtpPassword);
+		initParams.put("net.plantkelt.akp.smtp.to", params.smtpTo);
+
 		AkpServiceGuiceModule akpServiceGuiceModule = new AkpServiceGuiceModule(
 				null, false);
 		akpServiceGuiceModule.setInitParameters(initParams);
