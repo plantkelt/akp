@@ -157,6 +157,45 @@ div.wicket-aa ul li.selected {
 	color: white;
 }
 
+/* === Palette === */
+table.palette {
+	display: inline-block;
+	border-radius: 6px;
+	background-color: #dddddd;
+	padding: 0.4em;
+}
+
+table.palette td.header {
+	display: block;
+	font-weight: bold;
+	background-color: transparent;
+	border-top: none;
+	border-bottom: none;
+}
+
+table.palette td.pane select {
+	min-width: 12em;
+	border: none;
+}
+
+table.palette td.buttons button {
+	display: block;
+}
+
+table.palette td.buttons button.button.add div {
+	background-image: url("16x16/right-arrow.png");
+	background-size: 16px 16px;
+	height: 16px;
+	width: 16px;
+}
+
+table.palette td.buttons button.button.remove div {
+	background-image: url("16x16/left-arrow.png");
+	background-size: 16px 16px;
+	height: 16px;
+	width: 16px;
+}
+
 /* === Icons links === */
 a.edit {
 	background-image: url("16x16/edit.png");
