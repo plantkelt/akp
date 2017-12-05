@@ -50,9 +50,8 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 				// Profile ADMIN
 				if (adminRoles == null) {
 					adminRoles = new Roles();
-					for (String role : AkpUserRoles.allRoles()) {
-						adminRoles.add(role);
-					}
+					adminRoles.addAll(AkpUserRoles.allRoles());
+					adminRoles.add(AkpUserRoles.ROLE_ADMIN);
 				}
 				roles = adminRoles;
 			} else {

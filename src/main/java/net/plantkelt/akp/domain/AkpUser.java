@@ -60,12 +60,13 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	}
 
 	public Set<String> getRoles() {
-		if (roles == null) {
-			roles = new HashSet<>(10);
+		if (roles == null || roles.isEmpty()) {
+			Set<String> tempRoles = new HashSet<>(10);
 			// For admin: default value is empty roles
 			if (getProfile() == PROFILE_USER) {
-				roles.add(AkpUserRoles.ROLE_USER);
+				tempRoles.add(AkpUserRoles.ROLE_USER);
 			}
+			return tempRoles;
 		}
 		return roles;
 	}
