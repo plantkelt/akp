@@ -15,7 +15,7 @@
         <property name="name" type="string" column="nom" />
         <property name="email" type="string" />
         <property name="requestCount" type="integer" />
-        <set name="roles" lazy="false" table="xuser_roles">
+        <set name="roles" lazy="false" batch-size="100" table="xuser_roles">
             <key column="xuser" />
             <element column="role" type="string" length="30" />
         </set>
