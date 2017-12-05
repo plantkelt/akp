@@ -1,15 +1,16 @@
 package net.plantkelt.akp.webapp.pages;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -26,9 +27,19 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
+import net.plantkelt.akp.webapp.renderers.SimpleToStringIChoiceRenderer;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpUserPage extends AkpPageTemplate {
@@ -37,6 +48,8 @@ public class AkpUserPage extends AkpPageTemplate {
 
 	@Inject
 	private AkpLoginService akpLoginService;
+	@Inject
+	private AkpTaxonService akpTaxonService;
 
 	private String userLogin;
 	private IModel<AkpUser> userModel;
@@ -133,6 +146,60 @@ public class AkpUserPage extends AkpPageTemplate {
 					});
 			profileSelect.setRequired(true);
 			add(profileSelect);
+
+			// Roles
+			List<AkpLang> allLangs = akpTaxonService
+					.getLangList(AkpUser.PROFILE_ADMIN);
+			List<String> langXids = new ArrayList<>(allLangs.size());
+			for (AkpLang lang : allLangs) {
+				langXids.add(lang.getXid());
+			}
+			Collections.sort(langXids);
+			List<String> allRoles = AkpUserRoles.allRoles(langXids);
+			final Palette<String> rolesPalette = new Palette<String>("roles",
+					new IModel<List<String>>() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void detach() {
+						}
+
+						@Override
+						public List<String> getObject() {
+							List<String> roles = new ArrayList<String>(
+									AkpUserForm.this.getModelObject()
+											.getRoles());
+							Collections.sort(roles);
+							return roles;
+						}
+
+						@Override
+						public void setObject(List<String> object) {
+							AkpUserForm.this.getModelObject()
+									.setRoles(new HashSet<String>(object));
+						}
+					}, new ListModel<String>(allRoles),
+					new SimpleToStringIChoiceRenderer<String>(), 8, false) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isEnabled() {
+					return AkpUserForm.this.getModelObject()
+							.getProfile() != AkpUser.PROFILE_ADMIN;
+				}
+
+			};
+			rolesPalette.setOutputMarkupId(true);
+			add(rolesPalette);
+
+			profileSelect.add(new AjaxFormComponentUpdatingBehavior("change") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected void onUpdate(AjaxRequestTarget target) {
+					target.add(rolesPalette);
+				}
+			});
 
 			// Password
 			passwordModel = new Model<String>();

@@ -1,14 +1,11 @@
 package net.plantkelt.akp.webapp.pages;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpLoginService;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -29,6 +26,10 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpLoginService;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpUserManagementPage extends AkpPageTemplate {
@@ -101,8 +102,21 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				userLink.add(new Label("loginLabel", user.getLogin()));
 				item.add(new Label("nameLabel", user.getName()));
 				item.add(new Label("emailLabel", user.getEmail()));
-				item.add(new Label("profileLabel",
-						getString("profile." + user.getProfile())));
+				StringBuffer profileStr = new StringBuffer();
+				if (user.getProfile() == AkpUser.PROFILE_ADMIN) {
+					profileStr.append("ADMIN");
+				} else {
+					List<String> roles = new ArrayList<>(user.getRoles());
+					Collections.sort(roles);
+					for (String role : roles) {
+						profileStr.append(role).append(", ");
+					}
+					if (profileStr.length() >= 2) {
+						// Remove last comma-space
+						profileStr.setLength(profileStr.length() - 2);
+					}
+				}
+				item.add(new Label("profileLabel", profileStr.toString()));
 				boolean expired = user.getExpire().compareTo(new Date()) < 0;
 				item.add(new Label("expireLabel",
 						expireFormat.format(user.getExpire()) + (expired
