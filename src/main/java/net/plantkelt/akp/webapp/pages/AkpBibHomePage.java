@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -25,7 +26,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("USER")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_USER)
 public class AkpBibHomePage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +48,8 @@ public class AkpBibHomePage extends AkpPageTemplate {
 		super();
 
 		// Load data
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Search
 		xidModel = new Model<String>();
@@ -69,7 +71,7 @@ public class AkpBibHomePage extends AkpPageTemplate {
 			protected List<AkpBib> load() {
 				if (somethingToSearchFor()) {
 					int limit = 50;
-					if (AkpWicketSession.get().isAdmin())
+					if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
 						limit = 500;
 					return akpTaxonService.searchBib(limit,
 							xidModel.getObject(), titleModel.getObject(),
@@ -155,7 +157,8 @@ public class AkpBibHomePage extends AkpPageTemplate {
 
 		public SearchForm(String id) {
 			super(id);
-			boolean isAdmin = AkpWicketSession.get().isAdmin();
+			boolean isAdmin = AkpWicketSession.get()
+					.hasRole(AkpUserRoles.ROLE_ADMIN);
 			add(new TextField<String>("xid", xidModel));
 			add(new TextField<String>("title", titleModel));
 			add(new TextField<String>("author", authorModel));

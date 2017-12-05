@@ -1,11 +1,5 @@
 package net.plantkelt.akp.webapp.elements;
 
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
-import net.plantkelt.akp.webapp.pages.AkpPlantPage;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -13,6 +7,13 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
+import net.plantkelt.akp.webapp.pages.AkpPlantPage;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpPlantRefPanel extends Panel {
 
@@ -25,7 +26,8 @@ public class AkpPlantRefPanel extends Panel {
 			final AkpPlantRefListener plantRefListener) {
 		super(id);
 
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Link to referenced plant
 		AkpPlant targetPlant = targetPlantModel.getObject();

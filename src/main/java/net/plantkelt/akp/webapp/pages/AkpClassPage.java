@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
@@ -79,7 +80,8 @@ public class AkpClassPage extends AkpPageTemplate {
 		};
 		AkpClass akpClass = akpClassModel.getObject();
 		boolean isFake = akpClass.getXid() == null;
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Parent classes
 		AkpParentClassPathLabel parentPathLabel = new AkpParentClassPathLabel(
@@ -287,7 +289,8 @@ public class AkpClassPage extends AkpPageTemplate {
 				WebMarkupContainer adminSection = new WebMarkupContainer(
 						"adminSection");
 				item.add(adminSection);
-				boolean isAdmin = AkpWicketSession.get().isAdmin();
+				boolean isAdmin = AkpWicketSession.get()
+						.hasRole(AkpUserRoles.ROLE_ADMIN);
 				adminSection.setVisible(isAdmin);
 				Link<Void> downLink = new Link<Void>("downLink") {
 					private static final long serialVersionUID = 1L;

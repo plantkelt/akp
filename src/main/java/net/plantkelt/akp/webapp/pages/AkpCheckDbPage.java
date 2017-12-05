@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
@@ -23,7 +24,7 @@ import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpCheckDbPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;

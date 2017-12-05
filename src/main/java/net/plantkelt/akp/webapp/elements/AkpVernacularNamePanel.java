@@ -5,6 +5,7 @@ import java.util.List;
 import net.plantkelt.akp.domain.AkpBib;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
@@ -37,7 +38,8 @@ public class AkpVernacularNamePanel extends Panel {
 		super(id);
 
 		AkpVernacularName vernaName = vernaNameModel.getObject();
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Vernacular name in-place editor
 		InPlaceEditor vernaEditor = new InPlaceEditor("vernaEditor",

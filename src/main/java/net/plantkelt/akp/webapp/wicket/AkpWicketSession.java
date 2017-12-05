@@ -2,18 +2,20 @@ package net.plantkelt.akp.webapp.wicket;
 
 import java.util.Locale;
 
-import net.plantkelt.akp.domain.AkpUser;
-
 import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
+
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 
 public class AkpWicketSession extends AuthenticatedWebSession {
 	private static final long serialVersionUID = 1L;
 
 	private AkpUser akpUser;
 	private AkpSessionData sessionData;
+	private static Roles adminRoles;
 
 	public AkpUser getAkpUser() {
 		return akpUser;
@@ -22,7 +24,7 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	public AkpSessionData getSessionData() {
 		if (sessionData == null) {
 			sessionData = new AkpSessionData();
-			if (isAdmin())
+			if (hasRole(AkpUserRoles.ROLE_ADMIN))
 				sessionData.setSynonymsDefaultOpen(true);
 		}
 		return sessionData;
@@ -42,20 +44,32 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	}
 
 	public Roles getRoles() {
+		Roles roles = new Roles();
 		if (isSignedIn()) {
-			// TODO make generic
-			if (akpUser.getProfile() == AkpUser.PROFILE_ADMIN)
-				return new Roles(new String[] { "USER", "ADMIN" });
-			else
-				return new Roles("USER");
+			if (akpUser.getProfile() == AkpUser.PROFILE_ADMIN) {
+				// Profile ADMIN
+				if (adminRoles == null) {
+					adminRoles = new Roles();
+					for (String role : AkpUserRoles.allRoles()) {
+						adminRoles.add(role);
+					}
+				}
+				roles = adminRoles;
+			} else {
+				// Profile USER
+				for (String role : akpUser.getRoles()) {
+					roles.add(role);
+				}
+			}
 		}
-		return new Roles();
+		return roles;
 	}
 
-	public boolean isAdmin() {
-		if (getAkpUser() == null)
+	public boolean hasRole(String role) {
+		AkpUser akpUser = getAkpUser();
+		if (akpUser == null)
 			return false;
-		return getAkpUser().isAdmin();
+		return akpUser.hasRole(role);
 	}
 
 	public boolean isLoggedIn() {

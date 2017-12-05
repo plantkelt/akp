@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpUserLogEntry;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLogService;
 
 import org.apache.wicket.AttributeModifier;
@@ -28,7 +29,7 @@ import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpLoginListPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;

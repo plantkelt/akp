@@ -5,6 +5,7 @@ import java.util.List;
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
@@ -38,7 +39,8 @@ public class AkpLexicalGroupPanel extends Panel {
 			final Component refreshMasterComponent) {
 		super(id);
 
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 		AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
 
 		// Collapsible stuff

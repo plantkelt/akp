@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
@@ -27,7 +28,8 @@ public class AkpPlantHeaderPanel extends Panel {
 	public AkpPlantHeaderPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Main name
 		InPlaceEditor nameEditor = new InPlaceEditor("nameEditor",

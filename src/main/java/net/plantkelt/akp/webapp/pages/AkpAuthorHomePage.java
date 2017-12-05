@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpAuthor;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -42,7 +43,8 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 		super();
 
 		// Load data
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Search
 		xidModel = new Model<String>();
@@ -63,7 +65,7 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 					int limit = 10;
 					if (AkpWicketSession.get().isLoggedIn())
 						limit = 100;
-					if (AkpWicketSession.get().isAdmin())
+					if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
 						limit = 500;
 					return akpTaxonService.searchAuthor(limit,
 							xidModel.getObject(), nameModel.getObject(),
@@ -144,7 +146,8 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 
 		public SearchForm(String id) {
 			super(id);
-			boolean isAdmin = AkpWicketSession.get().isAdmin();
+			boolean isAdmin = AkpWicketSession.get()
+					.hasRole(AkpUserRoles.ROLE_ADMIN);
 			add(new TextField<String>("xid", xidModel));
 			add(new TextField<String>("name", nameModel));
 			WebMarkupContainer datesRow = new WebMarkupContainer("datesRow");

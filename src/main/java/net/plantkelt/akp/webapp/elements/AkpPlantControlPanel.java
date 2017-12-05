@@ -4,15 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpClass;
-import net.plantkelt.akp.domain.AkpLang;
-import net.plantkelt.akp.domain.AkpLexicalGroup;
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.pages.AkpClassPage;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -27,6 +18,16 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.pages.AkpClassPage;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpPlantControlPanel extends Panel {
 
@@ -129,6 +130,6 @@ public class AkpPlantControlPanel extends Panel {
 
 	@Override
 	public boolean isVisible() {
-		return AkpWicketSession.get().isAdmin();
+		return AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN);
 	}
 }

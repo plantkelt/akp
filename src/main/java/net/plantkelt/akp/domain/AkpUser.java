@@ -2,6 +2,8 @@ package net.plantkelt.akp.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private String name;
 	private String email;
 	private Integer requestCount;
+	private Set<String> roles;
 
 	public String getLogin() {
 		return login;
@@ -54,6 +57,33 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 
 	public void setProfile(int profile) {
 		this.profile = profile;
+	}
+
+	public Set<String> getRoles() {
+		if (roles == null) {
+			roles = new HashSet<>(10);
+			// For admin: default value is empty roles
+			if (getProfile() == PROFILE_USER) {
+				roles.add(AkpUserRoles.ROLE_USER);
+			}
+		}
+		return roles;
+	}
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
+	}
+
+	public boolean hasRole(String role) {
+		// Admin has *all* roles
+		switch (getProfile()) {
+		case PROFILE_ADMIN:
+			return true;
+		case PROFILE_USER:
+			return getRoles().contains(role);
+		default:
+			throw new RuntimeException("Unknown profile: " + getProfile());
+		}
 	}
 
 	public int getLang() {
@@ -102,10 +132,6 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 		requestCount++;
 	}
 
-	public boolean isAdmin() {
-		return profile == 3;
-	}
-
 	@Override
 	public boolean equals(Object another) {
 		if (another instanceof AkpUser) {
@@ -123,5 +149,4 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	public int compareTo(AkpUser o) {
 		return getLogin().compareToIgnoreCase(o.getLogin());
 	}
-
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpPlantTag;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.EditorModel;
 import net.plantkelt.akp.webapp.components.InPlaceEditor;
@@ -40,7 +41,8 @@ public class AkpPlantTagsPanel extends Panel {
 	public AkpPlantTagsPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		IModel<List<AkpPlantTag>> listModel = new AbstractReadOnlyModel<List<AkpPlantTag>>() {
 			private static final long serialVersionUID = 1L;
@@ -63,11 +65,8 @@ public class AkpPlantTagsPanel extends Panel {
 						"value");
 				Label valueLabel = new Label("tagValue", valueModel);
 				valueLabel.setEscapeModelStrings(false);
-				valueLabel
-						.add(new AttributeAppender("class",
-								new Model<String>("tag_"
-										+ tagModel.getObject().getType()),
-								" "));
+				valueLabel.add(new AttributeAppender("class", new Model<String>(
+						"tag_" + tagModel.getObject().getType()), " "));
 				if (tag.isTypeString()) {
 					InPlaceEditor editor = new InPlaceEditor("tagEditor",
 							new EditorModel<String>() {

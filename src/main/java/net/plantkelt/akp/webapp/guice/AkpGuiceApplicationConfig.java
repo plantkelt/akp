@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -43,6 +44,7 @@ public class AkpGuiceApplicationConfig {
 			Properties properties = new Properties();
 			try {
 				properties.load(new FileInputStream(log4jFile));
+				BasicConfigurator.resetConfiguration();
 				PropertyConfigurator.configure(log4jFile);
 				logger = LogManager.getLogger(this.getClass().getName());
 				logger.info("Configured logging using: " + log4jFile);

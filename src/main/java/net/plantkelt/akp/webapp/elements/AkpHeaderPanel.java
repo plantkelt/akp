@@ -2,7 +2,17 @@ package net.plantkelt.akp.webapp.elements;
 
 import java.util.Locale;
 
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
+
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.webapp.pages.AkpAuthorHomePage;
 import net.plantkelt.akp.webapp.pages.AkpBibHomePage;
 import net.plantkelt.akp.webapp.pages.AkpCheckDbPage;
@@ -14,15 +24,6 @@ import net.plantkelt.akp.webapp.pages.AkpLoginPage;
 import net.plantkelt.akp.webapp.pages.AkpLogoutPage;
 import net.plantkelt.akp.webapp.pages.AkpUserManagementPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 
 public class AkpHeaderPanel extends Panel {
 
@@ -60,7 +61,7 @@ public class AkpHeaderPanel extends Panel {
 
 		// Admin links
 		WebMarkupContainer adminLinks = new WebMarkupContainer("adminLinks");
-		adminLinks.setVisible(AkpWicketSession.get().isAdmin());
+		adminLinks.setVisible(session.hasRole(AkpUserRoles.ROLE_ADMIN));
 		add(adminLinks);
 		Link<AkpLangHomePage> langsLink = AkpLangHomePage.link("langsLink");
 		adminLinks.add(langsLink);

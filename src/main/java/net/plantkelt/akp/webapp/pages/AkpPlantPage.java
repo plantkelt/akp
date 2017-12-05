@@ -9,6 +9,7 @@ import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpLexicalGroupPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
@@ -51,7 +52,8 @@ public class AkpPlantPage extends AkpPageTemplate {
 
 		plantId = parameters.get("xid").toOptionalInteger();
 		// Load data
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Check for public access
 		if (!AkpWicketSession.get().isLoggedIn()

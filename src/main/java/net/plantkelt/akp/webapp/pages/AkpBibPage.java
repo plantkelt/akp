@@ -2,18 +2,6 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpSearchData;
-import net.plantkelt.akp.domain.AkpSearchResult;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
-import net.plantkelt.akp.webapp.components.CollapsibleButton;
-import net.plantkelt.akp.webapp.components.EditorModel;
-import net.plantkelt.akp.webapp.components.InPlaceEditor;
-import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -27,6 +15,19 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
+import net.plantkelt.akp.webapp.components.CollapsibleButton;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpBibPage extends AkpPageTemplate {
 
@@ -43,7 +44,8 @@ public class AkpBibPage extends AkpPageTemplate {
 
 		// Load data
 		bibId = parameters.get("xid").toOptionalString();
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 		bibModel = new LoadableDetachableModel<AkpBib>() {
 			private static final long serialVersionUID = 1L;
 
@@ -263,7 +265,7 @@ public class AkpBibPage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return AkpWicketSession.get().isAdmin()
+				return AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN)
 						&& vernaRefsModel.getObject().size() == 0;
 			}
 		};

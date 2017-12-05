@@ -2,6 +2,7 @@ package net.plantkelt.akp.webapp.pages;
 
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpClassSelectPanel;
 
@@ -16,7 +17,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpPlantAdminPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;

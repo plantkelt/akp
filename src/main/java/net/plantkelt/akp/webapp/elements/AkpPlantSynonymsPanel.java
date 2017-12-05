@@ -8,6 +8,7 @@ import java.util.Set;
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
 import net.plantkelt.akp.webapp.components.EditorModel;
@@ -37,7 +38,8 @@ public class AkpPlantSynonymsPanel extends Panel {
 	public AkpPlantSynonymsPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
 		add(collapseDiv);

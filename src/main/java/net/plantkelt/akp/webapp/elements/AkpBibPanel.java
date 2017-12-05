@@ -1,6 +1,7 @@
 package net.plantkelt.akp.webapp.elements;
 
 import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.domain.AkpVernacularName;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
@@ -30,7 +31,8 @@ public class AkpBibPanel extends Panel {
 			final Component refreshComponent) {
 		super(id);
 
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Link
 		Link<AkpBibPage> bibLink = AkpBibPage.link("bibLink",

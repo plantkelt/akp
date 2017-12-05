@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpSearchForm;
 import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
@@ -37,7 +38,8 @@ public class AkpHomePage extends AkpPageTemplate {
 
 		// Load data
 		AkpSearchData akpSearchData = new AkpSearchData();
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 		boolean isLoggedIn = AkpWicketSession.get().isLoggedIn();
 		akpSearchData.setLimit(isAdmin ? 4000 : isLoggedIn ? 1000 : 1000);
 

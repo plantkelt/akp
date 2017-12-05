@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.Arrays;
 
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -24,11 +25,12 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpUserPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
@@ -154,7 +156,8 @@ public class AkpUserPage extends AkpPageTemplate {
 				}
 			};
 			deleteButton.add(new JavascriptConfirmationModifier("onClick",
-					getString("confirm.action.message")));
+					new StringResourceModel("confirm.action.message",
+							AkpUserPage.this, null)));
 			deleteButton.setDefaultFormProcessing(false);
 			add(deleteButton);
 			// Cancel button

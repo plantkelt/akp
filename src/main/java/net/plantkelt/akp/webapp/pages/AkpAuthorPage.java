@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
 import net.plantkelt.akp.webapp.components.CollapsibleButton;
@@ -45,7 +46,8 @@ public class AkpAuthorPage extends AkpPageTemplate {
 
 		// Load data
 		authorId = parameters.get("xid").toOptionalString();
-		boolean isAdmin = AkpWicketSession.get().isAdmin();
+		boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 		boolean isLoggedIn = AkpWicketSession.get().isLoggedIn();
 		authorModel = new LoadableDetachableModel<AkpAuthor>() {
 			private static final long serialVersionUID = 1L;
@@ -193,7 +195,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 				int limit = 25;
 				if (AkpWicketSession.get().isLoggedIn())
 					limit = 200;
-				if (AkpWicketSession.get().isAdmin())
+				if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
 					limit = 1000;
 				akpSearchData.setLimit(limit);
 				return akpTaxonService.search(
@@ -219,7 +221,7 @@ public class AkpAuthorPage extends AkpPageTemplate {
 
 			@Override
 			public boolean isVisible() {
-				return AkpWicketSession.get().isAdmin()
+				return AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN)
 						&& searchResultModel.getObject().isEmpty();
 			}
 		};

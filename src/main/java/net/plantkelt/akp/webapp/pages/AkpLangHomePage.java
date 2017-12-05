@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 
 import org.apache.wicket.AttributeModifier;
@@ -24,7 +25,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpLangHomePage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;

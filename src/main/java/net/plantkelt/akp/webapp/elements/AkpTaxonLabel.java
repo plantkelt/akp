@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.plantkelt.akp.domain.AkpAuthor;
 import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.pages.AkpAuthorPage;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
@@ -41,7 +42,8 @@ public class AkpTaxonLabel extends Panel {
 			final IModel<Map<String, AkpAuthor>> authorsModel) {
 		super(id);
 
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		IModel<List<NameElement>> elemListModel = new LoadableDetachableModel<List<NameElement>>() {
 			private static final long serialVersionUID = 1L;

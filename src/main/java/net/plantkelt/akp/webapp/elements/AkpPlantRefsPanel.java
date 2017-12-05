@@ -3,6 +3,7 @@ package net.plantkelt.akp.webapp.elements;
 import java.util.List;
 
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -25,7 +26,8 @@ public class AkpPlantRefsPanel extends Panel {
 	public AkpPlantRefsPanel(String id, final IModel<AkpPlant> plantModel) {
 		super(id);
 
-		final boolean isAdmin = AkpWicketSession.get().isAdmin();
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Plant refs
 		IModel<List<AkpPlant>> plantRefsModel = new PropertyModel<List<AkpPlant>>(

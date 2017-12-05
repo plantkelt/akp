@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.plantkelt.akp.domain.AkpLogEntry;
 import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 
@@ -22,7 +23,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation("ADMIN")
+@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpPlantLogsPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
