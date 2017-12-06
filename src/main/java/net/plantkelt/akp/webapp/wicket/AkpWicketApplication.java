@@ -2,6 +2,20 @@ package net.plantkelt.akp.webapp.wicket;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.core.request.handler.PageProvider;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
+import org.apache.wicket.guice.GuiceComponentInjector;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
+import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
+import org.apache.wicket.request.cycle.RequestCycle;
+
+import com.google.inject.Injector;
+
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpLogService.LoginGetter;
 import net.plantkelt.akp.service.AkpLoginService;
@@ -33,22 +47,9 @@ import net.plantkelt.akp.webapp.pages.AkpPlantLogsPage;
 import net.plantkelt.akp.webapp.pages.AkpPlantPage;
 import net.plantkelt.akp.webapp.pages.AkpSubscribeOkPage;
 import net.plantkelt.akp.webapp.pages.AkpSubscribePage;
+import net.plantkelt.akp.webapp.pages.AkpUserLogsPage;
 import net.plantkelt.akp.webapp.pages.AkpUserManagementPage;
 import net.plantkelt.akp.webapp.pages.AkpUserPage;
-
-import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.core.request.handler.PageProvider;
-import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
-import org.apache.wicket.guice.GuiceComponentInjector;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
-import org.apache.wicket.request.IRequestHandler;
-import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
-import org.apache.wicket.request.cycle.RequestCycle;
-
-import com.google.inject.Injector;
 
 public class AkpWicketApplication extends AuthenticatedWebApplication {
 
@@ -105,6 +106,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		mountPage("/users", AkpUserManagementPage.class);
 		mountPage("/userslog", AkpLoginListPage.class);
 		mountPage("/user/${login}", AkpUserPage.class);
+		mountPage("/user/history/${login}", AkpUserLogsPage.class);
 		mountPage("/about", AkpFirstVisitMainPage.class);
 		mountPage("/about/corpus", AkpFirstVisitCorpusPage.class);
 		mountPage("/about/classification",

@@ -80,6 +80,9 @@ public class AkpUserPage extends AkpPageTemplate {
 				new PropertyModel<String>(userModel, "login")));
 		// Form
 		add(new AkpUserForm("form", userModel));
+
+		// View history link
+		add(AkpUserLogsPage.link("viewHistoryLink", userLogin));
 	}
 
 	public static Link<AkpUserPage> link(String id, String login) {
@@ -176,7 +179,7 @@ public class AkpUserPage extends AkpPageTemplate {
 									.setRoles(new HashSet<String>(object));
 						}
 					}, new ListModel<String>(allRoles),
-					new SimpleToStringIChoiceRenderer<String>(), 8, false) {
+					new SimpleToStringIChoiceRenderer<String>(), 6, false) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -238,7 +241,7 @@ public class AkpUserPage extends AkpPageTemplate {
 							AkpUserForm.this.getModelObject()
 									.setLangIds(langIds);
 						}
-					}, allLangListModel, new LangIChoiceRenderer(), 8, false) {
+					}, allLangListModel, new LangIChoiceRenderer(), 6, false) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
