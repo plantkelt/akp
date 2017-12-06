@@ -858,3 +858,43 @@ div.loginSection p.motto {
 div.loginSection p.subscribe {
 	text-align: center;
 }
+
+/* === Paged control === */
+
+div.pagedControl {
+	display: inline-block;
+	background: #eeeeee;
+	padding: 0.2em;
+}
+
+div.pagedControl .previous, div.pagedControl .next {
+	display: inline-block;
+	vertical-align: bottom;
+	background-image: url("16x16/left-arrow.png");
+	background-size: 16px 16px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	height: 16px;
+	width: 16px;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+}
+
+div.pagedControl span.previous, div.pagedControl span.next {
+	opacity: 0.25;
+}
+
+div.pagedControl .previous {
+	background-image: url("16x16/left-arrow.png");
+}
+
+div.pagedControl .next {
+	background-image: url("16x16/right-arrow.png");
+}
+
+div.pagedControl span.info {
+	font-style: italic;
+	color: #777777;
+	font-size: 80%;
+	padding-right: 0.4em;
+}
