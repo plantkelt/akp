@@ -7,6 +7,7 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
+import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpUser;
 import net.plantkelt.akp.domain.AkpUserRoles;
 
@@ -69,6 +70,17 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 		if (akpUser == null)
 			return false;
 		return akpUser.hasRole(role);
+	}
+
+	/**
+	 * @return true if somebody is logged-in, and has right for the lang, and
+	 *         has ONE OF the given roles.
+	 */
+	public boolean hasRole(AkpLang lang, String... roles) {
+		AkpUser akpUser = getAkpUser();
+		if (akpUser == null)
+			return false;
+		return akpUser.hasRole(lang, roles);
 	}
 
 	public boolean isLoggedIn() {

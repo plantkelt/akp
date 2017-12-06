@@ -92,6 +92,24 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 		}
 	}
 
+	public boolean hasRole(AkpLang lang, String... roles) {
+		// Admin has all the rights, do not look for langs
+		if (getProfile() == PROFILE_ADMIN)
+			return true;
+		if (!hasLangRight(lang))
+			return false;
+		/*
+		 * Implementation note: the provided list of roles is small, so a loop
+		 * lookup is probably way faster than looking if the union intersection
+		 * is non empty.
+		 */
+		for (String role : roles) {
+			if (getRoles().contains(role))
+				return true;
+		}
+		return false;
+	}
+
 	public Set<AkpLang> getLangs() {
 		if (langs == null)
 			return Collections.emptySet();
