@@ -154,6 +154,27 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 				.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpLogEntry> getUserLogs(String login, int pageNumber,
+			int pageSize) {
+		return (List<AkpLogEntry>) getSession()
+				.createCriteria(AkpLogEntry.class)
+				.add(Restrictions.eq("login", login))
+				.addOrder(Order.desc("date"))
+				.setFirstResult(pageNumber * pageSize).setMaxResults(pageSize)
+				.list();
+	}
+
+	@Transactional
+	@Override
+	public int getUserLogsCount(String login) {
+		return (int) (long) getSession().createCriteria(AkpLogEntry.class)
+				.add(Restrictions.eq("login", login))
+				.setProjection(Projections.rowCount()).uniqueResult();
+	}
+
 	@Override
 	@Transactional
 	public void logPlantCreation(AkpPlant plant) {
