@@ -6,8 +6,6 @@ import org.apache.wicket.authroles.authorization.strategies.role.annotations.Aut
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -18,6 +16,8 @@ import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLogService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.elements.AkpLogTablePanel;
+import net.plantkelt.akp.webapp.elements.AkpPagedTableControlPanel;
+import net.plantkelt.akp.webapp.models.PagedListModel;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_VIEW_PLANT_HIST)
 public class AkpPlantLogsPage extends AkpPageTemplate {
@@ -48,17 +48,23 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 				plantId);
 		add(viewPlantLink);
 
-		// Model
-		IModel<List<AkpLogEntry>> logListModel = new LoadableDetachableModel<List<AkpLogEntry>>() {
+		// Paged model
+		PagedListModel<AkpLogEntry> logListModel = new PagedListModel<AkpLogEntry>(
+				akpLogService.getPlantLogsCount(plantId), 100) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<AkpLogEntry> load() {
-				return akpLogService.getPlantLogs(plantId);
+			protected List<AkpLogEntry> fetchPage(int pageNumber,
+					int pageSize) {
+				return akpLogService.getPlantLogs(plantId, pageNumber,
+						pageSize);
 			}
 		};
 
-		// Table
+		// Table and page control
+		AkpPagedTableControlPanel<AkpLogEntry> tableControl = new AkpPagedTableControlPanel<>(
+				"tableControl", logListModel);
+		add(tableControl);
 		AkpLogTablePanel logTable = new AkpLogTablePanel("logTable",
 				logListModel);
 		add(logTable);
