@@ -27,6 +27,11 @@ public interface AkpLogService {
 
 	public abstract List<AkpLogEntry> getPlantLogs(Integer plantId);
 
+	public abstract List<AkpLogEntry> getPlantLogs(Integer plantId,
+			int pageNumber, int pageSize);
+
+	public abstract int getPlantLogsCount(Integer plantId);
+
 	public abstract void logPlantCreation(AkpPlant plant);
 
 	public abstract void logPlantDeletion(AkpPlant plant);

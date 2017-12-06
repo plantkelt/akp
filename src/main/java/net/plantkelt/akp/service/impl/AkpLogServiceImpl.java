@@ -13,22 +13,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpClass;
-import net.plantkelt.akp.domain.AkpLexicalGroup;
-import net.plantkelt.akp.domain.AkpLogEntry;
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpPlantTag;
-import net.plantkelt.akp.domain.AkpTaxon;
-import net.plantkelt.akp.domain.AkpUserLogEntry;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpLogService;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -44,6 +34,17 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
+
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpLogEntry;
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpPlantTag;
+import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserLogEntry;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpLogService;
 
 public class AkpLogServiceImpl implements AkpLogService, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -130,6 +131,27 @@ public class AkpLogServiceImpl implements AkpLogService, Serializable {
 				.createCriteria(AkpLogEntry.class)
 				.add(Restrictions.eq("plantId", plantId))
 				.addOrder(Order.desc("date")).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<AkpLogEntry> getPlantLogs(Integer plantId, int pageNumber,
+			int pageSize) {
+		return (List<AkpLogEntry>) getSession()
+				.createCriteria(AkpLogEntry.class)
+				.add(Restrictions.eq("plantId", plantId))
+				.addOrder(Order.desc("date"))
+				.setFirstResult(pageNumber * pageSize).setMaxResults(pageSize)
+				.list();
+	}
+
+	@Transactional
+	@Override
+	public int getPlantLogsCount(Integer plantId) {
+		return (int) (long) getSession().createCriteria(AkpLogEntry.class)
+				.add(Restrictions.eq("plantId", plantId))
+				.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override
