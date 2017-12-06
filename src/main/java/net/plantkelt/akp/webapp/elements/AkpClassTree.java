@@ -2,9 +2,6 @@ package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpClass;
-import net.plantkelt.akp.service.AkpTaxonService;
-
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -14,14 +11,11 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 
-import com.google.inject.Inject;
+import net.plantkelt.akp.domain.AkpClass;
 
 public class AkpClassTree extends Panel {
 
 	private static final long serialVersionUID = 1L;
-
-	@Inject
-	private AkpTaxonService akpTaxonService;
 
 	private IModel<AkpClass> akpClassModel;
 
