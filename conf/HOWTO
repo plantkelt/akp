@@ -5,15 +5,23 @@ $ createuser akp
 $ createdb -E UTF8 -O akp akp
 
 2. Configure APACHE
-$ cp akp /etc/apache2/sites-available/
-$ ln -s ../sites-available/akp /etc/apache2/sites-enabled/001-akp
+$ cp akp/conf/001-akp.conf /etc/apache2/sites-available/
+$ ln -s ../sites-available/001-akp.conf /etc/apache2/sites-enabled/001-akp
 $ /etc/init.d/apache restart
 
-3. Configure TOMCAT
-$ mkdir /opt/akp
-$ cp akpwebapp.war /opt/akp/
-$ cp log4j.properties /opt/akp/
-$ cp akp.xml /etc/tomcat/Catalina/localhost/
+3. Build AKP
+$ cd akp
+$ gradle assemble
+
+4. Install AKP
+$ cp build/distributions/akp-x.y.z.zip /opt
+$ cd /opt && unzip -o akp*.zip
+$ cp conf/log4j.properties /opt/akp-x.y.z/
+$ cp conf/akp.params /opt/akp-x.y.z/
+
+Create an init script to run AKP, that launch the following cmd:
+
+cd /opt/akp-x.y.z && ./bin/akp @akp.params
 
 4. Configure APACHE REDIRECTION
 $ vi /etc/apache2/apache2.conf
