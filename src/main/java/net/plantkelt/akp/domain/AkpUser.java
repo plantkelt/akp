@@ -1,6 +1,7 @@
 package net.plantkelt.akp.domain;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,13 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private String name;
 	private String email;
 	private Integer requestCount;
+	/** Set of roles (rights) for the user */
 	private Set<String> roles;
+	/**
+	 * Lang restriction for verna or lang related role, an empty list means
+	 * "all"
+	 */
+	private Set<AkpLang> langs;
 
 	public String getLogin() {
 		return login;
@@ -61,11 +68,9 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 
 	public Set<String> getRoles() {
 		if (roles == null || roles.isEmpty()) {
+			// Ensure DB migration by adding a default "USER" role
 			Set<String> tempRoles = new HashSet<>(10);
-			// For admin: default value is empty roles
-			if (getProfile() == PROFILE_USER) {
-				tempRoles.add(AkpUserRoles.ROLE_USER);
-			}
+			tempRoles.add(AkpUserRoles.ROLE_USER);
 			return tempRoles;
 		}
 		return roles;
@@ -85,6 +90,23 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 		default:
 			throw new RuntimeException("Unknown profile: " + getProfile());
 		}
+	}
+
+	public Set<AkpLang> getLangs() {
+		if (langs == null)
+			return Collections.emptySet();
+		return langs;
+	}
+
+	public void setLangs(Set<AkpLang> langs) {
+		this.langs = langs;
+	}
+
+	public boolean hasLangRight(AkpLang lang) {
+		if (langs == null || langs.isEmpty()) {
+			return false;
+		}
+		return langs.contains(lang);
 	}
 
 	public int getLang() {

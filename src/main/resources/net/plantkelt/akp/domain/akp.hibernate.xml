@@ -19,6 +19,10 @@
             <key column="xuser" />
             <element column="role" type="string" length="30" />
         </set>
+        <set name="langs" lazy="false" batch-size="100" table="xuser_langues">
+            <key column="xuser" />
+            <many-to-many column="lang" class="AkpLang" />
+        </set>
     </class>
 
     <class name="AkpClass" table="classe">
