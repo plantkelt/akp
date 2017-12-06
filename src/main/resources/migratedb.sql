@@ -24,3 +24,10 @@ alter table taxon add foreign key (plante) references plante (xid);
 
 delete from plante_etiquette where plante not in (select xid from plante);
 alter table plante_etiquette add foreign key (plante) references plante (xid);
+
+-- Add indexes (can't create by hibernate)
+create index index_xuser_roles on xuser_roles(xuser);
+create index index_xuser_langues on xuser_langues(xuser);
+create index index_etiquette_planteetiq on plante_etiquette(etiquette);
+create index index_plante_planteetiq on plante_etiquette(plante);
+create index index_verna_bibverna2 on bib_verna2(verna2);

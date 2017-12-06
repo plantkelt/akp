@@ -31,7 +31,7 @@
         </id>
         <property name="order" type="integer" column="ordre" />
         <property name="level" type="integer" column="niveau" />
-        <many-to-one name="parent" fetch="join" />
+        <many-to-one name="parent" fetch="join" index="index_parent_classe" />
         <bag name="children" lazy="true" table="classe" order-by="ordre" inverse="true">
             <key column="parent" />
             <one-to-many class="AkpClass" />
@@ -50,7 +50,7 @@
             <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="comments" type="string" column="commentaire" />
-        <many-to-one name="akpClass" column="classe" />
+        <many-to-one name="akpClass" column="classe" index="index_classe_plante" />
         <bag name="taxons" lazy="false" batch-size="100" table="taxon" inverse="true">
             <key column="plante" />
             <one-to-many class="AkpTaxon" />
@@ -83,7 +83,7 @@
             <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
         <property name="name" type="string" column="nom" />
-        <many-to-one name="plant" column="plante" not-null="true" />
+        <many-to-one name="plant" column="plante" not-null="true" index="index_plante_taxon" />
         <property name="type" type="integer" column="synsan" />
     </class>
 
@@ -107,7 +107,7 @@
         <property name="name" type="string" column="nom" />
         <property name="level" type="integer" column="niveau" />
         <many-to-one name="langGroup" class="AkpLangGroup" column="grplng" not-null="true" lazy="false"
-            fetch="join" />
+            fetch="join" index="index_grplng_langue" />
         <property name="desc" type="string" length="4000" column="description" />
     </class>
 
@@ -117,7 +117,7 @@
         </id>
         <property name="correct" type="integer" />
         <many-to-one name="lang" class="AkpLang" column="langue" not-null="true" lazy="false" fetch="join" />
-        <many-to-one name="plant" class="AkpPlant" column="plante" not-null="true" />
+        <many-to-one name="plant" class="AkpPlant" column="plante" not-null="true" index="index_plante_grplex2" />
         <bag name="vernacularNames" lazy="true" batch-size="100" table="verna2" inverse="true">
             <key column="grplex2" />
             <one-to-many class="AkpVernacularName" />
@@ -128,10 +128,11 @@
         <id name="xid" type="int">
             <generator class="net.plantkelt.akp.hibernate.MaxIdGenerator" />
         </id>
-        <property name="parentId" type="int" column="parent" />
+        <property name="parentId" type="int" column="parent" index="verna2_parent" />
         <property name="name" type="string" column="nom" />
         <property name="comments" type="string" column="commentaire" />
-        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true" />
+        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true"
+            index="index_grplex2_verna2" />
         <bag name="bibs" lazy="false" batch-size="100" table="bib_verna2">
             <key column="verna2" />
             <many-to-many column="bib" class="AkpBib" />
@@ -165,10 +166,11 @@
                 <param name="sequence">hist_xid_seq</param>
             </generator>
         </id>
-        <property name="date" type="timestamp" column="ts" not-null="true" />
-        <property name="login" type="string" column="xuser" not-null="true" />
+        <property name="date" type="timestamp" column="ts" not-null="true" index="index_date_hist" />
+        <property name="login" type="string" column="xuser" not-null="true" index="index_login_hist" />
         <property name="type" type="integer" column="oper" not-null="true" />
-        <property name="plantId" type="integer" column="plante" not-null="true" />
+        <property name="plantId" type="integer" column="plante" not-null="true" index="index_plante_hist" />
+        <!-- The following 3 values are weak references -->
         <property name="lexicalGroupId" type="integer" column="grplex" />
         <property name="vernacularNameId" type="integer" column="verna" />
         <property name="taxonId" type="integer" column="taxon" />
@@ -182,8 +184,8 @@
                 <param name="sequence">xlog_xid_seq</param>
             </generator>
         </id>
-        <property name="date" type="timestamp" column="ts" not-null="true" />
-        <property name="login" type="string" column="xuser" not-null="true" />
+        <property name="date" type="timestamp" column="ts" not-null="true" index="index_date_xlog" />
+        <property name="login" type="string" column="xuser" not-null="true" index="index_login_xlog" />
         <property name="remoteAddr" type="string" column="addr" />
         <property name="operation" type="integer" column="oper" not-null="true" />
         <property name="value" type="string" column="value" />
