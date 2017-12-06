@@ -51,10 +51,12 @@ public class AkpPlantPage extends AkpPageTemplate {
 	public AkpPlantPage(PageParameters parameters) {
 		super(parameters);
 
+		AkpWicketSession session = AkpWicketSession.get();
 		plantId = parameters.get("xid").toOptionalInteger();
 		// Load data
-		boolean isAdmin = AkpWicketSession.get()
-				.hasRole(AkpUserRoles.ROLE_ADMIN);
+		boolean isAdmin = session.hasRole(AkpUserRoles.ROLE_ADMIN);
+		boolean canViewHist = session
+				.hasRole(AkpUserRoles.ROLE_VIEW_PLANT_HIST);
 
 		// Check for public access
 		if (!AkpWicketSession.get().isLoggedIn()
@@ -104,7 +106,7 @@ public class AkpPlantPage extends AkpPageTemplate {
 		// Links
 		Link<AkpPlantLogsPage> viewHistoryLink = AkpPlantLogsPage
 				.link("viewHistoryLink", plantId);
-		viewHistoryLink.setVisible(isAdmin);
+		viewHistoryLink.setVisible(canViewHist);
 		add(viewHistoryLink);
 		Link<AkpPlantAdminPage> plantAdminLink = AkpPlantAdminPage
 				.link("adminLink", plantId);

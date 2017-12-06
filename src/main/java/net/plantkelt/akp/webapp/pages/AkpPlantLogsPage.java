@@ -4,12 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpLogEntry;
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpLogService;
-import net.plantkelt.akp.service.AkpTaxonService;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,7 +17,13 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
-@AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
+import net.plantkelt.akp.domain.AkpLogEntry;
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpLogService;
+import net.plantkelt.akp.service.AkpTaxonService;
+
+@AuthorizeInstantiation(AkpUserRoles.ROLE_VIEW_PLANT_HIST)
 public class AkpPlantLogsPage extends AkpPageTemplate {
 
 	private static final long serialVersionUID = 1L;
@@ -43,8 +43,9 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 		final DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
 
 		// Header
-		Label plantName = new Label("plantName", plant == null
-				? plantId.toString() : plant.getMainName().getHtmlName());
+		Label plantName = new Label("plantName",
+				plant == null ? plantId.toString()
+						: plant.getMainName().getHtmlName());
 		plantName.setEscapeModelStrings(false);
 		add(plantName);
 
