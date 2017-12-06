@@ -38,6 +38,7 @@ import net.plantkelt.akp.domain.AkpUserRoles;
 import net.plantkelt.akp.service.AkpLoginService;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.behaviors.JavascriptConfirmationModifier;
+import net.plantkelt.akp.webapp.renderers.LangIChoiceRenderer;
 import net.plantkelt.akp.webapp.renderers.SimpleToStringIChoiceRenderer;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -148,14 +149,7 @@ public class AkpUserPage extends AkpPageTemplate {
 			add(profileSelect);
 
 			// Roles
-			List<AkpLang> allLangs = akpTaxonService
-					.getLangList(AkpUser.PROFILE_ADMIN);
-			List<String> langXids = new ArrayList<>(allLangs.size());
-			for (AkpLang lang : allLangs) {
-				langXids.add(lang.getXid());
-			}
-			Collections.sort(langXids);
-			List<String> allRoles = AkpUserRoles.allRoles(langXids);
+			List<String> allRoles = AkpUserRoles.allRoles();
 			final Palette<String> rolesPalette = new Palette<String>("roles",
 					new IModel<List<String>>() {
 						private static final long serialVersionUID = 1L;
@@ -192,12 +186,57 @@ public class AkpUserPage extends AkpPageTemplate {
 			rolesPalette.setOutputMarkupId(true);
 			add(rolesPalette);
 
+			IModel<List<AkpLang>> allLangListModel = new LoadableDetachableModel<List<AkpLang>>() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected List<AkpLang> load() {
+					// Note: Use "admin" profile here
+					return akpTaxonService.getLangList(AkpUser.PROFILE_ADMIN);
+				}
+			};
+			final Palette<AkpLang> langsPalette = new Palette<AkpLang>("langs",
+					new IModel<List<AkpLang>>() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void detach() {
+						}
+
+						@Override
+						public List<AkpLang> getObject() {
+							List<AkpLang> langs = new ArrayList<>(
+									AkpUserForm.this.getModelObject()
+											.getLangs());
+							Collections.sort(langs);
+							return langs;
+						}
+
+						@Override
+						public void setObject(List<AkpLang> object) {
+							AkpUserForm.this.getModelObject()
+									.setLangs(new HashSet<>(object));
+						}
+					}, allLangListModel, new LangIChoiceRenderer(), 8, false) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isEnabled() {
+					return AkpUserForm.this.getModelObject()
+							.getProfile() != AkpUser.PROFILE_ADMIN;
+				}
+
+			};
+			langsPalette.setOutputMarkupId(true);
+			add(langsPalette);
+
 			profileSelect.add(new AjaxFormComponentUpdatingBehavior("change") {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				protected void onUpdate(AjaxRequestTarget target) {
 					target.add(rolesPalette);
+					target.add(langsPalette);
 				}
 			});
 
