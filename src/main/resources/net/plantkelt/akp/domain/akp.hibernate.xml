@@ -19,9 +19,9 @@
             <key column="xuser" />
             <element column="role" type="string" length="30" />
         </set>
-        <set name="langs" lazy="false" batch-size="100" table="xuser_langues">
+        <set name="langIds" lazy="false" batch-size="100" table="xuser_langues">
             <key column="xuser" />
-            <many-to-many column="lang" class="AkpLang" />
+            <element column="lang" type="string" length="6" />
         </set>
     </class>
 

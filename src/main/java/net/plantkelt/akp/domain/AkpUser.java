@@ -30,9 +30,9 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 	private Set<String> roles;
 	/**
 	 * Lang restriction for verna or lang related role, an empty list means
-	 * "all"
+	 * "all". We store only IDs (as weak references, can contain removed langs).
 	 */
-	private Set<AkpLang> langs;
+	private Set<String> langIds;
 
 	public String getLogin() {
 		return login;
@@ -110,21 +110,21 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 		return false;
 	}
 
-	public Set<AkpLang> getLangs() {
-		if (langs == null)
+	public Set<String> getLangIds() {
+		if (langIds == null)
 			return Collections.emptySet();
-		return langs;
+		return langIds;
 	}
 
-	public void setLangs(Set<AkpLang> langs) {
-		this.langs = langs;
+	public void setLangIds(Set<String> langIds) {
+		this.langIds = langIds;
 	}
 
 	public boolean hasLangRight(AkpLang lang) {
-		if (langs == null || langs.isEmpty()) {
+		if (langIds == null || langIds.isEmpty()) {
 			return false;
 		}
-		return langs.contains(lang);
+		return langIds.contains(lang.getXid());
 	}
 
 	public int getLang() {

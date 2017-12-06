@@ -3,8 +3,11 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -186,7 +189,7 @@ public class AkpUserPage extends AkpPageTemplate {
 			rolesPalette.setOutputMarkupId(true);
 			add(rolesPalette);
 
-			IModel<List<AkpLang>> allLangListModel = new LoadableDetachableModel<List<AkpLang>>() {
+			final IModel<List<AkpLang>> allLangListModel = new LoadableDetachableModel<List<AkpLang>>() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -205,17 +208,35 @@ public class AkpUserPage extends AkpPageTemplate {
 
 						@Override
 						public List<AkpLang> getObject() {
+							List<AkpLang> allLangs = allLangListModel
+									.getObject();
+							Map<String, AkpLang> langsMap = new HashMap<>(
+									allLangs.size());
+							for (AkpLang lang : allLangs) {
+								langsMap.put(lang.getXid(), lang);
+							}
+							Set<String> langIds = AkpUserForm.this
+									.getModelObject().getLangIds();
 							List<AkpLang> langs = new ArrayList<>(
-									AkpUserForm.this.getModelObject()
-											.getLangs());
+									langIds.size());
+							for (String langId : langIds) {
+								AkpLang lang = langsMap.get(langId);
+								if (lang != null) {
+									langs.add(lang);
+								}
+							}
 							Collections.sort(langs);
 							return langs;
 						}
 
 						@Override
-						public void setObject(List<AkpLang> object) {
+						public void setObject(List<AkpLang> langs) {
+							Set<String> langIds = new HashSet<>(langs.size());
+							for (AkpLang lang : langs) {
+								langIds.add(lang.getXid());
+							}
 							AkpUserForm.this.getModelObject()
-									.setLangs(new HashSet<>(object));
+									.setLangIds(langIds);
 						}
 					}, allLangListModel, new LangIChoiceRenderer(), 8, false) {
 				private static final long serialVersionUID = 1L;
