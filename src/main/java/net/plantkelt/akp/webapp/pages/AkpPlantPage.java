@@ -4,7 +4,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.authorization.UnauthorizedInstantiationException;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import com.google.inject.Inject;
+
 import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpLangGroup;
 import net.plantkelt.akp.domain.AkpLexicalGroup;
 import net.plantkelt.akp.domain.AkpPlant;
@@ -21,20 +36,6 @@ import net.plantkelt.akp.webapp.elements.AkpPlantSynonymsPanel;
 import net.plantkelt.akp.webapp.elements.AkpPlantTagsPanel;
 import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.authorization.UnauthorizedInstantiationException;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-
-import com.google.inject.Inject;
 
 public class AkpPlantPage extends AkpPageTemplate {
 
@@ -119,14 +120,21 @@ public class AkpPlantPage extends AkpPageTemplate {
 				List<AkpLexicalGroup> retval = new ArrayList<AkpLexicalGroup>(
 						plantModel.getObject().getSortedLexicalGroups());
 				// Only return lang with correct profile
+				// OR authorized for user
 				int profile = AkpUser.PROFILE_USER;
-				if (AkpWicketSession.get().isLoggedIn())
-					profile = AkpWicketSession.get().getAkpUser().getProfile();
+				AkpUser user = AkpWicketSession.get().getAkpUser();
+				if (user != null) {
+					profile = user.getProfile();
+				}
 				for (Iterator<AkpLexicalGroup> i = retval.iterator(); i
 						.hasNext();) {
 					AkpLexicalGroup lexicalGroup = i.next();
-					if (lexicalGroup.getLang().getLevel() > profile)
-						i.remove();
+					AkpLang lang = lexicalGroup.getLang();
+					if (user != null && user.hasLangRight(lang))
+						continue; // OK, keep
+					if (lang.getLevel() <= profile)
+						continue; // OK, keep
+					i.remove();
 				}
 				return retval;
 			}

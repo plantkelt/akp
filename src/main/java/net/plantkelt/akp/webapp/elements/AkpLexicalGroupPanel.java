@@ -2,17 +2,6 @@ package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpLang;
-import net.plantkelt.akp.domain.AkpLexicalGroup;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.CollapsibleButton;
-import net.plantkelt.akp.webapp.pages.AkpLangInfoPopup;
-import net.plantkelt.akp.webapp.wicket.AkpSessionData;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -27,6 +16,17 @@ import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpLexicalGroup;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.CollapsibleButton;
+import net.plantkelt.akp.webapp.pages.AkpLangInfoPopup;
+import net.plantkelt.akp.webapp.wicket.AkpSessionData;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
+
 public class AkpLexicalGroupPanel extends Panel {
 
 	@Inject
@@ -39,9 +39,12 @@ public class AkpLexicalGroupPanel extends Panel {
 			final Component refreshMasterComponent) {
 		super(id);
 
-		boolean isAdmin = AkpWicketSession.get()
-				.hasRole(AkpUserRoles.ROLE_ADMIN);
 		AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
+		final boolean canEdit = AkpWicketSession.get().hasRole(
+				lexicalGroup.getLang(), AkpUserRoles.ROLE_ADMIN,
+				AkpUserRoles.ROLE_EDIT_VERNA);
+		final boolean isAdmin = AkpWicketSession.get()
+				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Collapsible stuff
 		WebMarkupContainer collapseDiv = new WebMarkupContainer("collapseDiv");
@@ -90,7 +93,7 @@ public class AkpLexicalGroupPanel extends Panel {
 			protected void populateItem(ListItem<AkpVernacularName> item) {
 				AkpVernacularNamePanel vernaNamePanel = new AkpVernacularNamePanel(
 						"vernaPanel", item.getModel(),
-						AkpLexicalGroupPanel.this);
+						AkpLexicalGroupPanel.this, canEdit);
 				item.add(vernaNamePanel);
 			}
 		};
@@ -99,12 +102,14 @@ public class AkpLexicalGroupPanel extends Panel {
 		// Add root name button
 		Form<Void> form = new Form<Void>("form");
 		collapseDiv.add(form);
-		form.setVisible(isAdmin);
+		form.setVisible(canEdit);
 		form.add(new AjaxSubmitLink("addRootNameButton") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				if (!canEdit)
+					return;
 				AkpUser user = AkpWicketSession.get().getAkpUser();
 				akpTaxonService.addRootVernacularName(
 						lexicalGroupModel.getObject(),
@@ -117,6 +122,8 @@ public class AkpLexicalGroupPanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				if (!canEdit)
+					return;
 				akpTaxonService
 						.deleteLexicalGroup(lexicalGroupModel.getObject());
 				target.add(refreshMasterComponent);
@@ -125,7 +132,7 @@ public class AkpLexicalGroupPanel extends Panel {
 			@Override
 			public boolean isVisible() {
 				return (lexicalGroupModel.getObject().getVernacularNames()
-						.size() == 0);
+						.size() == 0 && isAdmin);
 			}
 		});
 

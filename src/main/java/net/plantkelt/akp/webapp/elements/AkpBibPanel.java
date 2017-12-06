@@ -1,13 +1,5 @@
 package net.plantkelt.akp.webapp.elements;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
-import net.plantkelt.akp.webapp.pages.AkpBibPage;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -19,6 +11,12 @@ import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.AjaxConfirmLink;
+import net.plantkelt.akp.webapp.pages.AkpBibPage;
+
 public class AkpBibPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
@@ -28,11 +26,8 @@ public class AkpBibPanel extends Panel {
 
 	public AkpBibPanel(String id, final IModel<AkpBib> bibModel,
 			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent) {
+			final Component refreshComponent, final boolean canEdit) {
 		super(id);
-
-		boolean isAdmin = AkpWicketSession.get()
-				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Link
 		Link<AkpBibPage> bibLink = AkpBibPage.link("bibLink",
@@ -46,8 +41,8 @@ public class AkpBibPanel extends Panel {
 
 		// Popup
 		WebMarkupContainer bibPopup = new WebMarkupContainer("bibPopup");
-		// Do not display popup for administrators
-		bibPopup.setVisible(!isAdmin);
+		// Do not display popup for editors
+		bibPopup.setVisible(!canEdit);
 		bibLink.add(bibPopup);
 		Label bibTitleLabel = new Label("bibTitle",
 				new PropertyModel<String>(bibModel, "title"));
@@ -66,13 +61,15 @@ public class AkpBibPanel extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
+				if (!canEdit)
+					return;
 				AkpVernacularName vernaName = vernaNameModel.getObject();
 				akpTaxonService.removeBibFromVernacularName(
 						bibModel.getObject(), vernaName);
 				target.add(refreshComponent);
 			}
 		};
-		deleteLink.setVisible(isAdmin);
+		deleteLink.setVisible(canEdit);
 		add(deleteLink);
 	}
 }

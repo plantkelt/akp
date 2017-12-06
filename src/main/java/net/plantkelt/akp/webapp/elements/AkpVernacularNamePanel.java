@@ -2,16 +2,6 @@ package net.plantkelt.akp.webapp.elements;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.EditorModel;
-import net.plantkelt.akp.webapp.components.InPlaceEditor;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -25,6 +15,15 @@ import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
 
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
+
 public class AkpVernacularNamePanel extends Panel {
 
 	@Inject
@@ -34,12 +33,10 @@ public class AkpVernacularNamePanel extends Panel {
 
 	public AkpVernacularNamePanel(String id,
 			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent) {
+			final Component refreshComponent, final boolean canEdit) {
 		super(id);
 
 		AkpVernacularName vernaName = vernaNameModel.getObject();
-		final boolean isAdmin = AkpWicketSession.get()
-				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Vernacular name in-place editor
 		InPlaceEditor vernaEditor = new InPlaceEditor("vernaEditor",
@@ -54,6 +51,8 @@ public class AkpVernacularNamePanel extends Panel {
 					@Override
 					public void saveObject(AjaxRequestTarget target,
 							String name) {
+						if (!canEdit)
+							return;
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
 						if (name == null || name.length() == 0) {
@@ -67,6 +66,8 @@ public class AkpVernacularNamePanel extends Panel {
 
 					@Override
 					public void cancelObject(AjaxRequestTarget target) {
+						if (!canEdit)
+							return;
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
 						if (vernaName.getName() == null
@@ -79,8 +80,8 @@ public class AkpVernacularNamePanel extends Panel {
 		add(vernaEditor);
 		if (vernaName.getName().equals(""))
 			vernaEditor.open();
-		vernaEditor.setReadOnly(!isAdmin);
-		vernaEditor.setVisible(isAdmin || !vernaName.getName().equals("#"));
+		vernaEditor.setReadOnly(!canEdit);
+		vernaEditor.setVisible(canEdit || !vernaName.getName().equals("#"));
 
 		// Vernacular name label
 		Label vernaNameLabel = new Label("vernaName",
@@ -98,7 +99,7 @@ public class AkpVernacularNamePanel extends Panel {
 			protected void populateItem(ListItem<AkpBib> item) {
 				AkpBibPanel bibPanel = new AkpBibPanel("bibEntry",
 						item.getModel(), vernaNameModel,
-						AkpVernacularNamePanel.this);
+						AkpVernacularNamePanel.this, canEdit);
 				item.add(bibPanel);
 			}
 		};
@@ -108,7 +109,7 @@ public class AkpVernacularNamePanel extends Panel {
 		AkpBibAdderPanel bibAdder = new AkpBibAdderPanel("bibAdder",
 				vernaNameModel, this);
 		add(bibAdder);
-		bibAdder.setVisible(isAdmin);
+		bibAdder.setVisible(canEdit);
 
 		// Plant ref adder
 		AkpPlantRefAdderPanel plantRefAdder = new AkpPlantRefAdderPanel(
@@ -118,6 +119,8 @@ public class AkpVernacularNamePanel extends Panel {
 					@Override
 					public void onPlantRefAdded(AjaxRequestTarget target,
 							AkpPlant targetPlant) {
+						if (!canEdit)
+							return;
 						AkpVernacularName vernaName = vernaNameModel
 								.getObject();
 						akpTaxonService.addPlantRefToVernacularName(targetPlant,
@@ -126,7 +129,7 @@ public class AkpVernacularNamePanel extends Panel {
 					}
 				});
 		add(plantRefAdder);
-		plantRefAdder.setVisible(isAdmin);
+		plantRefAdder.setVisible(canEdit);
 
 		// Children recursive list
 		final IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(
@@ -139,7 +142,7 @@ public class AkpVernacularNamePanel extends Panel {
 			protected void populateItem(ListItem<AkpVernacularName> item) {
 				AkpVernacularNamePanel subPanel = new AkpVernacularNamePanel(
 						"childrenPanel", item.getModel(),
-						AkpVernacularNamePanel.this);
+						AkpVernacularNamePanel.this, canEdit);
 				item.add(subPanel);
 			}
 		};
@@ -152,6 +155,8 @@ public class AkpVernacularNamePanel extends Panel {
 
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				if (!canEdit)
+					return;
 				AkpUser user = AkpWicketSession.get().getAkpUser();
 				akpTaxonService.addChildVernacularName(
 						vernaNameModel.getObject(),
@@ -160,7 +165,7 @@ public class AkpVernacularNamePanel extends Panel {
 			}
 		});
 		add(form);
-		form.setVisible(isAdmin);
+		form.setVisible(canEdit);
 
 		// Comments editor
 		InPlaceEditor commentsEditor = new InPlaceEditor("commentsEditor",
@@ -175,13 +180,15 @@ public class AkpVernacularNamePanel extends Panel {
 					@Override
 					public void saveObject(AjaxRequestTarget target,
 							String comments) {
+						if (!canEdit)
+							return;
 						akpTaxonService.updateVernacularNameComments(
 								vernaNameModel.getObject(), comments);
 						target.add(AkpVernacularNamePanel.this);
 					}
 				}, 1, 40);
 		add(commentsEditor);
-		commentsEditor.setReadOnly(!isAdmin);
+		commentsEditor.setReadOnly(!canEdit);
 		Label commentsLabel = new Label("commentsLabel",
 				new PropertyModel<String>(vernaNameModel, "comments"));
 		commentsLabel.setEscapeModelStrings(false);
@@ -204,6 +211,8 @@ public class AkpVernacularNamePanel extends Panel {
 							public void onPlantRefRemoved(
 									AjaxRequestTarget target,
 									AkpPlant targetPlant) {
+								if (!canEdit)
+									return;
 								AkpVernacularName vernaName = vernaNameModel
 										.getObject();
 								akpTaxonService
