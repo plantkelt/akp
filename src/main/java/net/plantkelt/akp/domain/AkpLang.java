@@ -1,5 +1,7 @@
 package net.plantkelt.akp.domain;
 
+import java.util.Objects;
+
 public class AkpLang implements Comparable<AkpLang> {
 
 	private String xid;
@@ -78,5 +80,22 @@ public class AkpLang implements Comparable<AkpLang> {
 	@Override
 	public int compareTo(AkpLang o) {
 		return getCode().compareToIgnoreCase(o.getCode());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(xid);
+	}
+
+	@Override
+	public boolean equals(Object another) {
+		if (another == null)
+			return false;
+		if (another == this)
+			return true;
+		if (!(another instanceof AkpLang))
+			return false;
+		AkpLang anotherLang = (AkpLang) another;
+		return Objects.equals(xid, anotherLang.xid);
 	}
 }
