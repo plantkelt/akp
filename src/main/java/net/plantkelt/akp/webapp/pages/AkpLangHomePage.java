@@ -2,12 +2,6 @@ package net.plantkelt.akp.webapp.pages;
 
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpLang;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpTaxonService;
-
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,6 +18,11 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpLangHomePage extends AkpPageTemplate {
@@ -63,8 +62,6 @@ public class AkpLangHomePage extends AkpPageTemplate {
 				item.add(new Label("grplngLabel",
 						lang.getLangGroup().getName()));
 				item.add(new Label("levelLabel", "" + lang.getLevel()));
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		add(langList);

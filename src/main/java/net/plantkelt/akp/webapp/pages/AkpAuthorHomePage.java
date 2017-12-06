@@ -3,12 +3,6 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.Collections;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpAuthor;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -24,6 +18,11 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpAuthor;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpAuthorHomePage extends AkpPageTemplate {
 
@@ -100,8 +99,6 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 						.setEscapeModelStrings(false));
 				item.add(new Label("datesLabel", author.getDates()));
 				item.add(new Label("sourceLabel", author.getSource()));
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		searchResultsSection.add(authorList);

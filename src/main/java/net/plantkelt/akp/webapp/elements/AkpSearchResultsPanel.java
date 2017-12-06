@@ -4,13 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.plantkelt.akp.domain.AkpSearchResult;
-import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
-import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
-import net.plantkelt.akp.webapp.pages.AkpPlantPage;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,6 +17,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultColumn;
+import net.plantkelt.akp.domain.AkpSearchResult.AkpSearchResultRow;
+import net.plantkelt.akp.webapp.pages.AkpPlantPage;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpSearchResultsPanel extends Panel {
 	private static final long serialVersionUID = 1L;
@@ -59,7 +58,8 @@ public class AkpSearchResultsPanel extends Panel {
 				AkpSearchResultRow row = item.getModelObject();
 				for (AkpSearchResultColumn col : row.getColumns()) {
 					final Integer plantXid = col.getPlantXid() != null
-							? col.getPlantXid() : row.getPlantXid();
+							? col.getPlantXid()
+							: row.getPlantXid();
 					boolean hasPlantLink = AkpWicketSession.get().isLoggedIn()
 							&& plantXid != null;
 					final String langXid = col.getPlantXid() != null ? null
@@ -115,8 +115,6 @@ public class AkpSearchResultsPanel extends Panel {
 					cellValue2.setVisible(!hasPlantLink);
 				}
 				item.add(colRepeat);
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		add(resultsTableListView);

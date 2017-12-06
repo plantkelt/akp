@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -125,8 +124,6 @@ public class AkpUserManagementPage extends AkpPageTemplate {
 				item.add(new Label("requestCountLabel",
 						user.getRequestCount() == null ? "-"
 								: "" + user.getRequestCount()));
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		searchResultsSection.add(userList);

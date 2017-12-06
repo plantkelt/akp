@@ -6,11 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpUserLogEntry;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpLogService;
-
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -28,6 +23,10 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpUserLogEntry;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpLogService;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpLoginListPage extends AkpPageTemplate {
@@ -95,8 +94,6 @@ public class AkpLoginListPage extends AkpPageTemplate {
 				item.add(new Label("operationLabel", getString(
 						"userlog.operation." + userLog.getOperation())));
 				item.add(new Label("valueLabel", userLog.getValue()));
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		searchResultsSection.add(logList);

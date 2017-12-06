@@ -3,12 +3,6 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.Collections;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -25,6 +19,11 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_USER)
 public class AkpBibHomePage extends AkpPageTemplate {
@@ -108,8 +107,6 @@ public class AkpBibHomePage extends AkpPageTemplate {
 				item.add(new Label("dateLabel", bib.getDate()));
 				item.add(new Label("isbnLabel", bib.getIsbn()));
 				item.add(new Label("editorLabel", bib.getEditor()));
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		searchResultsSection.add(bibList);

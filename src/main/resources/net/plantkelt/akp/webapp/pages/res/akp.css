@@ -753,15 +753,12 @@ table.listing thead th {
 	text-align: left;
 }
 
-table.listing tr {
-	
+table.listing tr:nth-child(odd) {
+	background-color: #eeffee;
 }
 
-table.listing tr.even {
+table.listing tr:nth-child(even) {
 	background-color: #ccffcc;
-}
-
-table.listing td,table.logs th {
 }
 
 table.logs span.newValue {

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -101,10 +100,6 @@ public class AkpLogTablePanel extends Panel {
 				Label oldValueLabel = new Label("oldValue",
 						logEntry.getOldValue());
 				item.add(oldValueLabel);
-
-				// TODO Use css "even/odd" selectors for that
-				item.add(new AttributeModifier("class",
-						item.getIndex() % 2 == 0 ? "even" : "odd"));
 			}
 		};
 		add(logListView);
