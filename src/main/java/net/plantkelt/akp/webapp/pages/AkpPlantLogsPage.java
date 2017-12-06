@@ -66,7 +66,7 @@ public class AkpPlantLogsPage extends AkpPageTemplate {
 				"tableControl", logListModel);
 		add(tableControl);
 		AkpLogTablePanel logTable = new AkpLogTablePanel("logTable",
-				logListModel);
+				logListModel, true, false);
 		add(logTable);
 	}
 

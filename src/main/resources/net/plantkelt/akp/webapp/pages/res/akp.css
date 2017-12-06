@@ -762,7 +762,6 @@ table.listing tr.even {
 }
 
 table.listing td,table.logs th {
-	
 }
 
 table.logs span.newValue {
@@ -865,6 +864,8 @@ div.pagedControl {
 	display: inline-block;
 	background: #eeeeee;
 	padding: 0.2em;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 16px;
 }
 
 div.pagedControl .previous, div.pagedControl .next {
