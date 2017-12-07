@@ -23,7 +23,7 @@ smtp.gmail.com
 --smtpPort
 587
 --smtpLogin
-r2d2@plantkelt.net
+root@plantkelt.net
 --smtpPassword
 xxxxxx
 --smtpTo
