@@ -25,7 +25,7 @@ public class EmbeddedServer {
 	private AkpCmdLineOpts params;
 
 	static {
-		// Bridge Java.util.logging (used by Jersey) to SLF4J
+		// Bridge Java.util.logging to SLF4J
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 	}
