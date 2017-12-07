@@ -1,5 +1,6 @@
 package net.plantkelt.akp.standalone;
 
+import java.net.URL;
 import java.util.EnumSet;
 
 import org.eclipse.jetty.server.Server;
@@ -64,10 +65,16 @@ public class EmbeddedServer {
 		// Default session timeout to 30 sec.
 		context.getSessionHandler().setMaxInactiveInterval(30 * 60);
 
-		String webDir = getClass().getClassLoader().getResource(".")
-				.toExternalForm();
-		log.info("Using webdir: " + webDir);
-		context.setResourceBase(webDir);
+		String someFile = "plantkelt_logo.png";
+		URL resource = getClass().getClassLoader().getResource(someFile);
+		if (resource == null) {
+			log.error("Can't find web resources root!");
+		} else {
+			String webDir = resource.toExternalForm();
+			webDir = webDir.substring(0, webDir.length() - someFile.length());
+			log.info("Using webdir: " + webDir);
+			context.setResourceBase(webDir);
+		}
 
 		context.addServlet(DefaultServlet.class, "/");
 
