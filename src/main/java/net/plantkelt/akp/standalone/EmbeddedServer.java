@@ -36,7 +36,7 @@ public class EmbeddedServer {
 
 	public void run() {
 
-		log.info("Starting app server on ports {} (HTTP) of interface {}",
+		log.info("Starting app server on port {} (HTTP) of interface {}",
 				params.port, params.bindAddress);
 
 		// Thread pool
