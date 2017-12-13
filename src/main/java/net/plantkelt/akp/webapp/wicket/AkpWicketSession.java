@@ -73,6 +73,16 @@ public class AkpWicketSession extends AuthenticatedWebSession {
 	}
 
 	/**
+	 * @return true if somebody is logged-in, and has ONE OF the given roles.
+	 */
+	public boolean hasRole(String... roles) {
+		AkpUser akpUser = getAkpUser();
+		if (akpUser == null)
+			return false;
+		return akpUser.hasRole(roles);
+	}
+
+	/**
 	 * @return true if somebody is logged-in, and has right for the lang, and
 	 *         has ONE OF the given roles.
 	 */
