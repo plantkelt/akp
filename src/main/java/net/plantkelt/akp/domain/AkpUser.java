@@ -92,12 +92,10 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 		}
 	}
 
-	public boolean hasRole(AkpLang lang, String... roles) {
-		// Admin has all the rights, do not look for langs
+	public boolean hasRole(String... roles) {
+		// Admin has all the rights
 		if (getProfile() == PROFILE_ADMIN)
 			return true;
-		if (!hasLangRight(lang))
-			return false;
 		/*
 		 * Implementation note: the provided list of roles is small, so a loop
 		 * lookup is probably way faster than looking if the union intersection
@@ -108,6 +106,15 @@ public class AkpUser implements Serializable, Comparable<AkpUser> {
 				return true;
 		}
 		return false;
+	}
+
+	public boolean hasRole(AkpLang lang, String... roles) {
+		// Admin has all the rights, do not look for langs
+		if (getProfile() == PROFILE_ADMIN)
+			return true;
+		if (!hasLangRight(lang))
+			return false;
+		return hasRole(roles);
 	}
 
 	public Set<String> getLangIds() {
