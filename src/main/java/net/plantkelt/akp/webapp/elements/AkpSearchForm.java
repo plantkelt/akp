@@ -4,15 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpClass;
-import net.plantkelt.akp.domain.AkpLang;
-import net.plantkelt.akp.domain.AkpSearchData;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
-import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -26,6 +17,16 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpClass;
+import net.plantkelt.akp.domain.AkpLang;
+import net.plantkelt.akp.domain.AkpSearchData;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.behaviors.RoleBasedVisibleBehavior;
+import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
+import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpSearchForm extends Panel {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +50,7 @@ public class AkpSearchForm extends Panel {
 		WebMarkupContainer taxonNameRow = new WebMarkupContainer(
 				"taxonNameRow");
 		form.add(taxonNameRow);
+		taxonNameRow.add(new RoleBasedVisibleBehavior());
 		WebMarkupContainer includeSynonymsRow = new LoggedInMarkupContainer(
 				"includeSynonymsRow");
 		form.add(includeSynonymsRow);
@@ -58,11 +60,12 @@ public class AkpSearchForm extends Panel {
 		WebMarkupContainer plantCommentsRow = new WebMarkupContainer(
 				"plantCommentsRow");
 		form.add(plantCommentsRow);
+		// TODO Why this is always hidden?
 		plantCommentsRow.setVisible(false);
 		WebMarkupContainer plantFamilyRow = new LoggedInMarkupContainer(
 				"plantFamilyRow");
 		form.add(plantFamilyRow);
-		WebMarkupContainer vernacularNameRow = new LoggedInMarkupContainer(
+		WebMarkupContainer vernacularNameRow = new WebMarkupContainer(
 				"vernacularNameRow");
 		form.add(vernacularNameRow);
 		WebMarkupContainer langSelectRow = new LoggedInMarkupContainer(
@@ -248,5 +251,6 @@ public class AkpSearchForm extends Panel {
 			}
 		};
 		form.add(luckyButton);
+		luckyButton.add(new RoleBasedVisibleBehavior());
 	}
 }
