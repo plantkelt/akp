@@ -24,7 +24,6 @@ import net.plantkelt.akp.domain.AkpLang;
 import net.plantkelt.akp.domain.AkpSearchData;
 import net.plantkelt.akp.service.AkpTaxonService;
 import net.plantkelt.akp.webapp.behaviors.RoleBasedVisibleBehavior;
-import net.plantkelt.akp.webapp.components.LoggedInMarkupContainer;
 import net.plantkelt.akp.webapp.models.BrEnFrStringModel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
@@ -51,32 +50,46 @@ public class AkpSearchForm extends Panel {
 				"taxonNameRow");
 		form.add(taxonNameRow);
 		taxonNameRow.add(new RoleBasedVisibleBehavior());
-		WebMarkupContainer includeSynonymsRow = new LoggedInMarkupContainer(
+
+		WebMarkupContainer includeSynonymsRow = new WebMarkupContainer(
 				"includeSynonymsRow");
 		form.add(includeSynonymsRow);
-		WebMarkupContainer plantOriginRow = new LoggedInMarkupContainer(
+		includeSynonymsRow.add(new RoleBasedVisibleBehavior());
+
+		WebMarkupContainer plantOriginRow = new WebMarkupContainer(
 				"plantOriginRow");
 		form.add(plantOriginRow);
+		plantOriginRow.add(new RoleBasedVisibleBehavior());
+
 		WebMarkupContainer plantCommentsRow = new WebMarkupContainer(
 				"plantCommentsRow");
 		form.add(plantCommentsRow);
 		// TODO Why this is always hidden?
 		plantCommentsRow.setVisible(false);
-		WebMarkupContainer plantFamilyRow = new LoggedInMarkupContainer(
+
+		WebMarkupContainer plantFamilyRow = new WebMarkupContainer(
 				"plantFamilyRow");
 		form.add(plantFamilyRow);
+		plantFamilyRow.add(new RoleBasedVisibleBehavior());
+
 		WebMarkupContainer vernacularNameRow = new WebMarkupContainer(
 				"vernacularNameRow");
 		form.add(vernacularNameRow);
-		WebMarkupContainer langSelectRow = new LoggedInMarkupContainer(
+
+		WebMarkupContainer langSelectRow = new WebMarkupContainer(
 				"langSelectRow");
 		form.add(langSelectRow);
-		WebMarkupContainer vernacularNameBibRow = new LoggedInMarkupContainer(
+		langSelectRow.add(new RoleBasedVisibleBehavior());
+
+		WebMarkupContainer vernacularNameBibRow = new WebMarkupContainer(
 				"vernacularNameBibRow");
 		form.add(vernacularNameBibRow);
-		WebMarkupContainer vernacularNameCommentsRow = new LoggedInMarkupContainer(
+		vernacularNameBibRow.add(new RoleBasedVisibleBehavior());
+
+		WebMarkupContainer vernacularNameCommentsRow = new WebMarkupContainer(
 				"vernacularNameCommentsRow");
 		form.add(vernacularNameCommentsRow);
+		vernacularNameCommentsRow.add(new RoleBasedVisibleBehavior());
 
 		// Simple stuff
 		taxonNameRow.add(new TextField<String>("taxonName"));
