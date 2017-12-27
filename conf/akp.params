@@ -1,6 +1,6 @@
 --server
 --logConfiguration
-log4j.properties
+conf/log4j.properties
 --jdbcUrl
 jdbc:postgresql://localhost:5432/akp
 --jdbcUser
