@@ -64,6 +64,9 @@ public class EmbeddedServer {
 						javax.servlet.DispatcherType.ASYNC));
 		// Default session timeout to 30 sec.
 		context.getSessionHandler().setMaxInactiveInterval(30 * 60);
+		// Disable directory listing
+		context.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed",
+				"false");
 
 		String someFile = "plantkelt_logo.png";
 		URL resource = getClass().getClassLoader().getResource(someFile);
