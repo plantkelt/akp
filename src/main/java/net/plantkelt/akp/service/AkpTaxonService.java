@@ -205,6 +205,8 @@ public interface AkpTaxonService {
 
 	public abstract AkpSearchResult getEqualsSynonyms();
 
+	public abstract AkpSearchResult getEmptyVerna();
+
 	public abstract void mergeLang(String lang1, String lang2);
 
 	public abstract void addAuthNameAsSource();
