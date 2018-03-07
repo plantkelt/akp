@@ -1188,13 +1188,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(
-					new AkpSearchResultColumn(lexicalGroup.getLang().getXid()
-							+ (lexicalGroup
-									.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-									? " " + lexicalGroup.getCorrectDisplayCode()
-									: ""),
-							null));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
+							? " " + lexicalGroup.getCorrectDisplayCode()
+							: ""),
+					null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			if (searchData.getVernacularNameComments() != null)
@@ -1274,12 +1273,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(
-					new AkpSearchResultColumn(lexicalGroup.getLang().getXid()
-							+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-									? " " + lexicalGroup.getCorrectDisplayCode()
-									: ""),
-							null));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
+							? " " + lexicalGroup.getCorrectDisplayCode()
+							: ""),
+					null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(vernacularName.getName());
@@ -1435,12 +1434,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(
-					new AkpSearchResultColumn(lexicalGroup.getLang().getXid()
-							+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-									? " " + lexicalGroup.getCorrectDisplayCode()
-									: ""),
-							null));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
+							? " " + lexicalGroup.getCorrectDisplayCode()
+							: ""),
+					null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(plant.getMainName().getSortKey());
@@ -1519,12 +1518,12 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
-			result.addColumn(
-					new AkpSearchResultColumn(lexicalGroup.getLang().getXid()
-							+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-									? " " + lexicalGroup.getCorrectDisplayCode()
-									: ""),
-							null));
+			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
+					.getXid()
+					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
+							? " " + lexicalGroup.getCorrectDisplayCode()
+							: ""),
+					null));
 			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
@@ -1832,8 +1831,10 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			}
 		});
 		int n = elementsList.size() / MAX_PAGE + 1;
-		PrintStream indexOut = new PrintStream(new FileOutputStream(
-				String.format("%s/%s.html", location, elementBase)));
+		PrintStream indexOut = new PrintStream(
+				new FileOutputStream(
+						String.format("%s/%s.html", location, elementBase)),
+				false, "UTF-8");
 		indexOut.println("<html><head>");
 		indexOut.println(
 				"<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
@@ -1850,7 +1851,8 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					elementBase, page, page, elementsList.get(ia).getSecond(),
 					elementsList.get(ib - 1).getSecond()));
 			PrintStream pageOut = new PrintStream(new FileOutputStream(String
-					.format("%s/%s_%02d.html", location, elementBase, page)));
+					.format("%s/%s_%02d.html", location, elementBase, page)),
+					false, "UTF-8");
 			pageOut.println("<html><head>");
 			pageOut.println(
 					"<meta http-equiv='content-type' content='text/html;charset=utf-8' />");
