@@ -1188,12 +1188,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
-					.getXid()
-					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-							? " " + lexicalGroup.getCorrectDisplayCode()
-							: ""),
-					null));
+			result.addColumn(
+					new AkpSearchResultColumn(
+							lexicalGroup.getLang().getXid()
+									+ lexicalGroup.getCorrectDisplayCode(true),
+							null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			if (searchData.getVernacularNameComments() != null)
@@ -1273,12 +1272,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
-					.getXid()
-					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-							? " " + lexicalGroup.getCorrectDisplayCode()
-							: ""),
-					null));
+			result.addColumn(
+					new AkpSearchResultColumn(
+							lexicalGroup.getLang().getXid()
+									+ lexicalGroup.getCorrectDisplayCode(true),
+							null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(vernacularName.getName());
@@ -1434,12 +1432,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(vernacularName.getName(),
 					"verna"));
-			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
-					.getXid()
-					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-							? " " + lexicalGroup.getCorrectDisplayCode()
-							: ""),
-					null));
+			result.addColumn(
+					new AkpSearchResultColumn(
+							lexicalGroup.getLang().getXid()
+									+ lexicalGroup.getCorrectDisplayCode(true),
+							null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(plant.getMainName().getSortKey());
@@ -1518,12 +1515,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
-			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
-					.getXid()
-					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-							? " " + lexicalGroup.getCorrectDisplayCode()
-							: ""),
-					null));
+			result.addColumn(
+					new AkpSearchResultColumn(
+							lexicalGroup.getLang().getXid()
+									+ lexicalGroup.getCorrectDisplayCode(true),
+							null));
 			result.setSortKey(plant.getMainName().getSortKey());
 			retval.addRow(result);
 		}
@@ -1661,12 +1657,11 @@ public class AkpTaxonServiceImpl implements AkpTaxonService, Serializable {
 			AkpSearchResultRow result = new AkpSearchResultRow(plant.getXid(),
 					lexicalGroup.getLang().getXid(), lexicalGroup.getCorrect());
 			result.addColumn(new AkpSearchResultColumn("(N/A)", "verna"));
-			result.addColumn(new AkpSearchResultColumn(lexicalGroup.getLang()
-					.getXid()
-					+ (lexicalGroup.getCorrect() != AkpLexicalGroup.CORRECT_DEF
-							? " " + lexicalGroup.getCorrectDisplayCode()
-							: ""),
-					null));
+			result.addColumn(
+					new AkpSearchResultColumn(
+							lexicalGroup.getLang().getXid()
+									+ lexicalGroup.getCorrectDisplayCode(true),
+							null));
 			result.addColumn(new AkpSearchResultColumn(
 					plant.getMainName().getHtmlName(), "taxon"));
 			result.setSortKey(plant.getMainName().getSortKey());

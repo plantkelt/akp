@@ -74,7 +74,8 @@ public class AkpPlantControlPanel extends Panel {
 
 					@Override
 					public Object getDisplayValue(Integer correct) {
-						return AkpLexicalGroup.getCorrectDisplayCode(correct);
+						return AkpLexicalGroup.getCorrectDisplayCode(correct,
+								false);
 					}
 
 					@Override

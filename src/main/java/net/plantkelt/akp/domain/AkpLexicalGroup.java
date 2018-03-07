@@ -36,11 +36,14 @@ public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 		return correct;
 	}
 
-	public String getCorrectDisplayCode() {
-		return getCorrectDisplayCode(correct);
+	public String getCorrectDisplayCode(boolean emptyIfCorrect) {
+		return getCorrectDisplayCode(correct, emptyIfCorrect);
 	}
 
-	public static String getCorrectDisplayCode(int correct) {
+	public static String getCorrectDisplayCode(int correct,
+			boolean emptyIfCorrect) {
+		if (correct == 0 && emptyIfCorrect)
+			return "";
 		if (correct >= 0 && correct < CORRECT_DISPLAY_CODES.length)
 			return CORRECT_DISPLAY_CODES[correct];
 		else

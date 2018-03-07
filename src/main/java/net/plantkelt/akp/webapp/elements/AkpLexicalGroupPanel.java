@@ -78,7 +78,7 @@ public class AkpLexicalGroupPanel extends Panel {
 		Label langCodeLabel = new Label("langCode", lang.getCode());
 		langCodeLink.add(langCodeLabel);
 		Label correctCode = new Label("correctCode",
-				lexicalGroup.getCorrectDisplayCode());
+				lexicalGroup.getCorrectDisplayCode(true));
 		correctCode.setVisible(lexicalGroup.getCorrect() != 0);
 		add(correctCode);
 
