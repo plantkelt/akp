@@ -11,6 +11,10 @@ public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 	private static final String[] CORRECT_DISPLAY_CODES = { "=", "≈", "≠",
 			"?" };
 
+	public static final int CORRECT_DEF = 0;
+	public static final int CORRECT_IMPRECISE = 1;
+	public static final int CORRECT_INCORRECT = 2;
+	public static final int CORRECT_UNKNOWN = 3;
 	public static final int MAX_CORRECT = 3;
 
 	private int xid;
@@ -41,6 +45,10 @@ public class AkpLexicalGroup implements Comparable<AkpLexicalGroup> {
 			return CORRECT_DISPLAY_CODES[correct];
 		else
 			return "" + correct;
+	}
+
+	public boolean canRefPlant() {
+		return correct != CORRECT_DEF;
 	}
 
 	public void setCorrect(int correct) {
