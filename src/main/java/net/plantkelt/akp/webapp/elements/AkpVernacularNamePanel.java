@@ -33,7 +33,7 @@ public class AkpVernacularNamePanel extends Panel {
 
 	public AkpVernacularNamePanel(String id,
 			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent, final boolean canEdit) {
+			final Component refreshComponent, final boolean canEdit, final boolean canRefPlant) {
 		super(id);
 
 		AkpVernacularName vernaName = vernaNameModel.getObject();
@@ -129,7 +129,7 @@ public class AkpVernacularNamePanel extends Panel {
 					}
 				});
 		add(plantRefAdder);
-		plantRefAdder.setVisible(canEdit);
+		plantRefAdder.setVisible(canEdit && canRefPlant);
 
 		// Children recursive list
 		final IModel<List<AkpVernacularName>> childrenNamesModel = new PropertyModel<List<AkpVernacularName>>(
@@ -142,7 +142,7 @@ public class AkpVernacularNamePanel extends Panel {
 			protected void populateItem(ListItem<AkpVernacularName> item) {
 				AkpVernacularNamePanel subPanel = new AkpVernacularNamePanel(
 						"childrenPanel", item.getModel(),
-						AkpVernacularNamePanel.this, canEdit);
+						AkpVernacularNamePanel.this, canEdit, canRefPlant);
 				item.add(subPanel);
 			}
 		};

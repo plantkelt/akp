@@ -91,9 +91,11 @@ public class AkpLexicalGroupPanel extends Panel {
 
 			@Override
 			protected void populateItem(ListItem<AkpVernacularName> item) {
+				AkpLexicalGroup lexicalGroup = lexicalGroupModel.getObject();
 				AkpVernacularNamePanel vernaNamePanel = new AkpVernacularNamePanel(
 						"vernaPanel", item.getModel(),
-						AkpLexicalGroupPanel.this, canEdit);
+						AkpLexicalGroupPanel.this, canEdit,
+						lexicalGroup.canRefPlant());
 				item.add(vernaNamePanel);
 			}
 		};
