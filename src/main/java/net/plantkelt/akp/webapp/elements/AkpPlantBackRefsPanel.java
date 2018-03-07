@@ -95,10 +95,12 @@ public class AkpPlantBackRefsPanel extends Panel {
 				Label vernaNameLabel = new Label("vernaName",
 						"⇐ " + vernaName.getName());
 				item.add(vernaNameLabel);
-				Label langLabel = new Label("lang", lexicalGroup.getLang()
-						.getXid()
-						+ (lexicalGroup.getCorrect() == 0 ? ""
-								: lexicalGroup.getCorrectDisplayCode()));
+				Label langLabel = new Label("lang",
+						lexicalGroup.getLang().getXid() + (lexicalGroup
+								.getCorrect() == AkpLexicalGroup.CORRECT_DEF
+										? ""
+										: lexicalGroup
+												.getCorrectDisplayCode()));
 				item.add(langLabel);
 				Link<AkpPlantPage> plantLink = AkpPlantPage.link("plantLink",
 						lexicalGroup.getPlant().getXid());
