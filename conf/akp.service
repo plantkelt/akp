@@ -1,0 +1,17 @@
+[Unit]
+Description=AKP
+After=network-online.target
+ 
+[Service]
+Type=simple
+User=akp
+Group=akp
+UMask=007
+Environment="JAVA_OPTS=-Xmx2G"
+WorkingDirectory=/opt/akp2
+ExecStart=/opt/akp2/akp-latest/bin/akp @akp.params
+Restart=on-failure
+TimeoutStopSec=30
+ 
+[Install]
+WantedBy=multi-user.target
