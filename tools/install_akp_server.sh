@@ -19,7 +19,7 @@ echo "=== INSTALL APPLICATION ==="
 groupadd akp
 useradd akp -g akp
 mkdir -p /opt/akp2/conf/
-unzip akp/build/distributions/akp-*.zip -d /opt/akp2/
+unzip -o akp/build/distributions/akp-*.zip -d /opt/akp2/
 cp akp/conf/log4j.properties /opt/akp2/conf/
 cp akp/conf/akp.params /opt/akp2/
 ln -fs /opt/akp2/akp-?.?.? /opt/akp2/akp-latest
