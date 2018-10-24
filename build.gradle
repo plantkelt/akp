@@ -37,7 +37,7 @@ dependencies {
     compile 'org.hibernate:hibernate-core:4.1.7.Final'
     compile 'org.hibernate:hibernate-entitymanager:4.1.7.Final'
     compile 'javassist:javassist:3.12.1.GA'
-    compile 'postgresql:postgresql:8.4-701.jdbc3'
+    compile 'org.postgresql:postgresql:42.2.4'
     compile 'jfree:jfreechart:1.0.13'
     compile 'javax.mail:mail:1.4.6'
     compile 'com.beust:jcommander:1.72'
