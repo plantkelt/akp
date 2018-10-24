@@ -37,7 +37,10 @@ cp akp/conf/index.html /var/www/akp/
 a2enmod proxy_http && a2ensite 001-akp
 systemctl reload apache2
 
-echo "*** PLEASE CONFIGURE MANUALLY:"
-echo "*** SMTP PASSWORD in /opt/akp2/akp.params"
-echo "*** RUN 'psql akp -U akp < akp.sql' to init the database"
-echo "*** RUN 'systemctl start akp' to startup the service."
+echo "=== MANUAL CONFIGURATION STEPS==="
+echo "Configure SMTP password in the params file:"
+echo "  $ vi /opt/akp2/akp.params"
+echo "Load a recent database backup:"
+echo "  $ psql akp -U akp < akp.sql"
+echo "Startup service:"
+echo "  $ systemctl start akp"
