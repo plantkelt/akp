@@ -4,11 +4,6 @@ $ su postgres
 $ createuser akp
 $ createdb -E UTF8 -O akp akp
 
-2. Configure APACHE
-$ cp akp/conf/001-akp.conf /etc/apache2/sites-available/
-$ ln -s ../sites-available/001-akp.conf /etc/apache2/sites-enabled/001-akp
-$ /etc/init.d/apache restart
-
 3. Build AKP
 $ cd akp
 $ gradle assemble
@@ -23,9 +18,14 @@ Create an init script to run AKP, that launch the following cmd:
 
 cd /opt/akp-x.y.z && ./bin/akp @akp.params
 
-4. Configure APACHE REDIRECTION
+5. Configure APACHE REDIRECTION
 $ vi /etc/apache2/apache2.conf
 In <Directory> "/var/www/" conf add: AllowOverride All
 Add .htaccess file in /var/www/akp containing:
 RedirectMatch 301 ^.*$ http://www2.plantkelt.net/akp/web/
 
+6. Configure APACHE
+$ cp 001-akp.conf /etc/apache2/sites-available
+$ a2enmod proxy proxy_http
+$ a2ensite 001-akp
+Restart/reload apache
