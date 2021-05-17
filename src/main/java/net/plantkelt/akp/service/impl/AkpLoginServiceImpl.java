@@ -26,18 +26,18 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 
-import net.plantkelt.akp.domain.AkpSubscriptionRequest;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.service.AkpLogService;
-import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.utils.Pair;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
+
+import net.plantkelt.akp.domain.AkpSubscriptionRequest;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.service.AkpLogService;
+import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.utils.Pair;
 
 public class AkpLoginServiceImpl implements AkpLoginService {
 
@@ -242,6 +242,7 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", smtpHost);
 		props.put("mail.smtp.port", "" + smtpPort);
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 		javax.mail.Session session = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -292,5 +293,4 @@ public class AkpLoginServiceImpl implements AkpLoginService {
 			throw new RuntimeException(e);
 		}
 	}
-
 }
