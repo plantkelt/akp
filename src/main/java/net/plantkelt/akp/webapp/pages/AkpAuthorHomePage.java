@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
@@ -37,6 +38,7 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 	private IModel<String> sourceModel;
 
 	private IModel<String> addXidModel;
+	private IModel<Integer> limitModel;
 
 	public AkpAuthorHomePage() {
 		super();
@@ -46,13 +48,26 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
 		// Search
-		xidModel = new Model<String>();
-		nameModel = new Model<String>();
-		datesModel = new Model<String>();
-		sourceModel = new Model<String>();
-		addXidModel = new Model<String>();
+		xidModel = new Model<>();
+		nameModel = new Model<>();
+		datesModel = new Model<>();
+		sourceModel = new Model<>();
+		addXidModel = new Model<>();
 		SearchForm searchForm = new SearchForm("searchForm");
 		add(searchForm);
+
+		limitModel = new LoadableDetachableModel<Integer>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected Integer load() {
+				int ret = 10;
+			if (AkpWicketSession.get().isLoggedIn())
+				ret = 100;
+			if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
+				ret = 500;
+			return ret;
+			}
+		};
 
 		// Results
 		IModel<List<AkpAuthor>> resultsModel = new LoadableDetachableModel<List<AkpAuthor>>() {
@@ -61,12 +76,7 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 			@Override
 			protected List<AkpAuthor> load() {
 				if (somethingToSearchFor()) {
-					int limit = 10;
-					if (AkpWicketSession.get().isLoggedIn())
-						limit = 100;
-					if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
-						limit = 500;
-					return akpTaxonService.searchAuthor(limit,
+					return akpTaxonService.searchAuthor(limitModel.getObject(),
 							xidModel.getObject(), nameModel.getObject(),
 							datesModel.getObject(), sourceModel.getObject());
 				} else {
@@ -102,6 +112,23 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 			}
 		};
 		searchResultsSection.add(authorList);
+
+		Label numberOfResults = new Label("numberOfResults",
+				new StringResourceModel("author.search.number.of.results", this,
+						resultsModel));
+		searchResultsSection.add(numberOfResults);
+
+		Label resultsLimit = new Label("resultsLimit", new StringResourceModel(
+				"author.search.results.limit", this, null, limitModel)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isVisible() {
+				return limitModel.getObject() > 0;
+			}
+
+		};
+		searchResultsSection.add(resultsLimit);
 
 		// Add author section
 		WebMarkupContainer addSection = new WebMarkupContainer("addSection");
