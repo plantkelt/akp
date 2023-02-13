@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.extensions.yui.calendar.DateField;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -109,7 +109,7 @@ public class AkpLoginListPage extends AkpPageTemplate {
 		public SearchForm(String id) {
 			super(id);
 			add(new TextField<String>("login", loginModel));
-			add(new DateField("date", dateModel));
+			add(new DateTextField("date", dateModel));
 			add(new Button("previous") {
 				private static final long serialVersionUID = 1L;
 

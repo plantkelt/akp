@@ -109,7 +109,7 @@ public class AkpLexicalGroupPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				if (!canEdit)
 					return;
 				AkpUser user = AkpWicketSession.get().getAkpUser();
@@ -123,7 +123,7 @@ public class AkpLexicalGroupPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				if (!canEdit)
 					return;
 				akpTaxonService

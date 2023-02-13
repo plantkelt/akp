@@ -1,19 +1,20 @@
 package net.plantkelt.akp.hibernate;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.hibernate.dialect.Dialect;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.HibernateException;
+import org.hibernate.MappingException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerationException;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.id.IdentifierGeneratorHelper;
 import org.hibernate.id.IntegralDataTypeHolder;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 
 public class MaxIdGenerator implements IdentifierGenerator, Configurable {
@@ -23,20 +24,21 @@ public class MaxIdGenerator implements IdentifierGenerator, Configurable {
 	private String columnName;
 
 	@Override
-	public void configure(Type type, Properties params, Dialect dialect) {
+	public void configure(Type type, Properties params,
+			ServiceRegistry serviceRegistry) throws MappingException {
 		identifierType = type;
 		tableName = (String) params.getProperty("target_table");
 		columnName = (String) params.getProperty("target_column");
 	}
 
 	@Override
-	public synchronized Serializable generate(SessionImplementor session,
-			Object object) {
+	public Number generate(SharedSessionContractImplementor session,
+			Object object) throws HibernateException {
 		return generateHolder(session).makeValue();
 	}
 
 	protected IntegralDataTypeHolder generateHolder(
-			SessionImplementor session) {
+			SharedSessionContractImplementor session) {
 		Connection connection = session.connection();
 		try {
 			IntegralDataTypeHolder value = IdentifierGeneratorHelper

@@ -106,8 +106,7 @@
         <property name="code" type="string" length="40" column="code" />
         <property name="name" type="string" column="nom" />
         <property name="level" type="integer" column="niveau" />
-        <many-to-one name="langGroup" class="AkpLangGroup" column="grplng" not-null="true" lazy="false"
-            fetch="join" index="index_grplng_langue" />
+        <many-to-one name="langGroup" class="AkpLangGroup" column="grplng" not-null="true" lazy="false" fetch="join" index="index_grplng_langue" />
         <property name="desc" type="string" length="4000" column="description" />
     </class>
 
@@ -131,8 +130,7 @@
         <property name="parentId" type="int" column="parent" index="verna2_parent" />
         <property name="name" type="string" column="nom" />
         <property name="comments" type="string" column="commentaire" />
-        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true"
-            index="index_grplex2_verna2" />
+        <many-to-one name="lexicalGroup" class="AkpLexicalGroup" column="grplex2" not-null="true" index="index_grplex2_verna2" />
         <bag name="bibs" lazy="false" batch-size="100" table="bib_verna2">
             <key column="verna2" />
             <many-to-many column="bib" class="AkpBib" />
@@ -162,8 +160,10 @@
 
     <class name="AkpLogEntry" table="hist">
         <id name="xid" type="int">
-            <generator class="sequence">
-                <param name="sequence">hist_xid_seq</param>
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="increment_size">1</param>
+                <param name="sequence_name">hist_xid_seq</param>
             </generator>
         </id>
         <property name="date" type="timestamp" column="ts" not-null="true" index="index_date_hist" />
@@ -180,8 +180,10 @@
 
     <class name="AkpUserLogEntry" table="xlog">
         <id name="xid" type="int">
-            <generator class="sequence">
-                <param name="sequence">xlog_xid_seq</param>
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="increment_size">1</param>
+                <param name="sequence_name">xlog_xid_seq</param>
             </generator>
         </id>
         <property name="date" type="timestamp" column="ts" not-null="true" index="index_date_xlog" />

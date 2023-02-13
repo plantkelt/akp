@@ -1,13 +1,5 @@
 package net.plantkelt.akp.webapp.elements;
 
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitClassificationPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitSourcesPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitStatisticsPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitToolsPage;
-import net.plantkelt.akp.webapp.pages.AkpFirstVisitWhoPage;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -15,6 +7,14 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.StringResourceModel;
+
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitClassificationPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitMainPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitSourcesPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitStatisticsPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitToolsPage;
+import net.plantkelt.akp.webapp.pages.AkpFirstVisitWhoPage;
 
 public class AkpFirstVisitNavigator extends Panel {
 
@@ -40,7 +40,7 @@ public class AkpFirstVisitNavigator extends Panel {
 					"link", pageClass);
 			item.add(link);
 			Label pageLabel = new Label("label",
-					new StringResourceModel("first.visit." + i, null));
+					new StringResourceModel("first.visit." + i));
 			link.add(pageLabel);
 			if (parent.getClass().equals(pageClass)) {
 				item.add(new AttributeModifier("class", "selected"));

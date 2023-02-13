@@ -4,16 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpPlantTag;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.EditorModel;
-import net.plantkelt.akp.webapp.components.InPlaceEditor;
-import net.plantkelt.akp.webapp.components.InPlaceSelector;
-import net.plantkelt.akp.webapp.components.SelectorModel;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -24,12 +14,21 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpPlantTag;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.components.InPlaceSelector;
+import net.plantkelt.akp.webapp.components.SelectorModel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpPlantTagsPanel extends Panel {
 
@@ -44,7 +43,7 @@ public class AkpPlantTagsPanel extends Panel {
 		final boolean isAdmin = AkpWicketSession.get()
 				.hasRole(AkpUserRoles.ROLE_ADMIN);
 
-		IModel<List<AkpPlantTag>> listModel = new AbstractReadOnlyModel<List<AkpPlantTag>>() {
+		IModel<List<AkpPlantTag>> listModel = new IModel<List<AkpPlantTag>>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -174,7 +173,7 @@ public class AkpPlantTagsPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				Integer tagType = tagTypeModel.getObject();
 				if (tagType != null)
 					akpTaxonService.createNewPlantTag(plantModel.getObject(),

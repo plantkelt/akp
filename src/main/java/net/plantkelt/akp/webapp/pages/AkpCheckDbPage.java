@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpSearchResult;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
-
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,6 +17,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpSearchResult;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.elements.AkpSearchResultsPanel;
 
 @AuthorizeInstantiation(AkpUserRoles.ROLE_ADMIN)
 public class AkpCheckDbPage extends AkpPageTemplate {
@@ -161,7 +161,7 @@ public class AkpCheckDbPage extends AkpPageTemplate {
 		public CheckLink(String id, Checker checker) {
 			super(id, new Model<Checker>(checker));
 			add(new Label("checkLabel", new StringResourceModel(
-					"check.type." + checker.getCheckTypeId(), null)));
+					"check.type." + checker.getCheckTypeId())));
 		}
 
 		@Override

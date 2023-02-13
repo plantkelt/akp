@@ -33,7 +33,8 @@ public class AkpVernacularNamePanel extends Panel {
 
 	public AkpVernacularNamePanel(String id,
 			final IModel<AkpVernacularName> vernaNameModel,
-			final Component refreshComponent, final boolean canEdit, final boolean canRefPlant) {
+			final Component refreshComponent, final boolean canEdit,
+			final boolean canRefPlant) {
 		super(id);
 
 		AkpVernacularName vernaName = vernaNameModel.getObject();
@@ -154,7 +155,7 @@ public class AkpVernacularNamePanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				if (!canEdit)
 					return;
 				AkpUser user = AkpWicketSession.get().getAkpUser();

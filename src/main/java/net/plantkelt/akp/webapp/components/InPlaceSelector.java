@@ -39,7 +39,6 @@ public class InPlaceSelector<T> extends Border {
 			}
 		};
 		viewPanel.add(editLink);
-		viewPanel.add(getBodyContainer());
 		IModel<T> valueModel = new LoadableDetachableModel<T>() {
 			private static final long serialVersionUID = 1L;
 
@@ -74,7 +73,7 @@ public class InPlaceSelector<T> extends Border {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				T value = valueSelect.getModelObject();
 				selectorModel.saveObject(target, value);
 				viewPanel.setVisible(true);
@@ -86,7 +85,7 @@ public class InPlaceSelector<T> extends Border {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				viewPanel.setVisible(true);
 				editForm.setVisible(false);
 				target.add(editForm, viewPanel);

@@ -5,7 +5,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 
 public class CollapsibleButton extends Panel {
 
@@ -36,7 +36,7 @@ public class CollapsibleButton extends Panel {
 			}
 		};
 		AttributeModifier openClosedAttributeModifier = new AttributeModifier(
-				"class", new AbstractReadOnlyModel<String>() {
+				"class", new IModel<String>() {
 					private static final long serialVersionUID = 1L;
 
 					@Override

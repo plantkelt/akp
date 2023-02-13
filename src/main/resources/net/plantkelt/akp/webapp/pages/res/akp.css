@@ -158,38 +158,47 @@ div.wicket-aa ul li.selected {
 }
 
 /* === Palette === */
-table.palette {
+div.palette-choices, div.palette-selected, div.palette-buttons {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+div.palette-choices, div.palette-selected {
 	display: inline-block;
 	border-radius: 6px;
 	background-color: #dddddd;
 	padding: 0.4em;
 }
 
-table.palette td.header {
+div.palette-choices .palette-header, div.palette-selected .palette-header {
 	display: block;
 	font-weight: bold;
 	background-color: transparent;
-	border-top: none;
-	border-bottom: none;
 }
 
-table.palette td.pane select {
+div.palette-choices select, div.palette-selected select {
 	min-width: 12em;
 	border: none;
 }
 
-table.palette td.buttons button {
+div.palette-buttons button {
+	display: block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.palette-choices td.buttons button {
 	display: block;
 }
 
-table.palette td.buttons button.button.add div {
+div.palette-buttons button.palette-add div {
 	background-image: url("16x16/right-arrow.png");
 	background-size: 16px 16px;
 	height: 16px;
 	width: 16px;
 }
 
-table.palette td.buttons button.button.remove div {
+div.palette-buttons button.palette-remove div {
 	background-image: url("16x16/left-arrow.png");
 	background-size: 16px 16px;
 	height: 16px;

@@ -11,7 +11,7 @@ import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.IRequestHandler;
-import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
+import org.apache.wicket.request.cycle.IRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
 
 import com.google.inject.Injector;
@@ -125,7 +125,7 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 		getRequestCycleSettings().setGatherExtendedBrowserInfo(true);
 
 		// Install custom handler for exception.
-		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
+		getRequestCycleListeners().add(new IRequestCycleListener() {
 
 			@Override
 			public IRequestHandler onException(RequestCycle cycle,

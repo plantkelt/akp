@@ -1,7 +1,5 @@
 package net.plantkelt.akp.webapp.components;
 
-import net.plantkelt.akp.webapp.behaviors.InputMacros;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -14,6 +12,8 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+
+import net.plantkelt.akp.webapp.behaviors.InputMacros;
 
 public class InPlaceEditor extends Border {
 
@@ -45,7 +45,6 @@ public class InPlaceEditor extends Border {
 			}
 		};
 		viewPanel.add(editLink);
-		viewPanel.add(getBodyContainer());
 		IModel<String> stringModel = new LoadableDetachableModel<String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -77,7 +76,7 @@ public class InPlaceEditor extends Border {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				String value = nRows > 1 ? textArea.getModelObject()
 						: textField.getModelObject();
 				editorModel.saveObject(target, value);
@@ -93,7 +92,7 @@ public class InPlaceEditor extends Border {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				editorModel.cancelObject(target);
 				viewPanel.setVisible(true);
 				editForm.setVisible(false);

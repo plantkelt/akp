@@ -3,6 +3,22 @@ package net.plantkelt.akp.webapp.pages;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import com.google.inject.Inject;
+
 import net.plantkelt.akp.domain.AkpClass;
 import net.plantkelt.akp.domain.AkpPlant;
 import net.plantkelt.akp.domain.AkpUserRoles;
@@ -14,23 +30,6 @@ import net.plantkelt.akp.webapp.components.SelectorModel;
 import net.plantkelt.akp.webapp.elements.AkpClassSelectPanel;
 import net.plantkelt.akp.webapp.elements.AkpParentClassPathLabel;
 import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-
-import com.google.inject.Inject;
 
 public class AkpClassPage extends AkpPageTemplate {
 
@@ -148,16 +147,15 @@ public class AkpClassPage extends AkpPageTemplate {
 				});
 		mainPanel.add(levelEditor);
 		levelEditor.setReadOnly(!isAdmin || isFake);
-		Label levelLabel = new Label("levelName",
-				new AbstractReadOnlyModel<String>() {
-					private static final long serialVersionUID = 1L;
+		Label levelLabel = new Label("levelName", new IModel<String>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public String getObject() {
-						int level = akpClassModel.getObject().getLevel();
-						return getString("class.level." + level);
-					}
-				});
+			@Override
+			public String getObject() {
+				int level = akpClassModel.getObject().getLevel();
+				return getString("class.level." + level);
+			}
+		});
 		levelEditor.add(levelLabel);
 
 		// Comments

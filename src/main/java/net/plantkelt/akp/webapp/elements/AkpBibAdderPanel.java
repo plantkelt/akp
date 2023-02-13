@@ -4,13 +4,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpBib;
-import net.plantkelt.akp.domain.AkpUser;
-import net.plantkelt.akp.domain.AkpVernacularName;
-import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -23,6 +16,13 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpBib;
+import net.plantkelt.akp.domain.AkpUser;
+import net.plantkelt.akp.domain.AkpVernacularName;
+import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpBibAdderPanel extends Panel {
 
@@ -86,7 +86,7 @@ public class AkpBibAdderPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				AkpBib bib = akpTaxonService.getBib(bibEntryModel.getObject());
 				AkpVernacularName vernaName = vernaNameModel.getObject();
 				if (bib != null && !vernaName.getBibs().contains(bib)) {
@@ -105,7 +105,7 @@ public class AkpBibAdderPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				bibEntryModel.setObject("");
 				openSection.setVisible(true);
 				form.setVisible(false);

@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.service.AkpTaxonService;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -19,6 +16,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.service.AkpTaxonService;
 
 public class AkpPlantRefAdderPanel extends Panel {
 
@@ -82,7 +82,7 @@ public class AkpPlantRefAdderPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				String plantName = plantRefEntryModel.getObject();
 				if (plantName != null && plantName.matches("^[0-9]+ - .*")) {
 					String xidStr = plantName.substring(0,
@@ -100,7 +100,7 @@ public class AkpPlantRefAdderPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				plantRefEntryModel.setObject(null);
 				openSection.setVisible(true);
 				form.setVisible(false);

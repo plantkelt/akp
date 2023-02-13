@@ -58,14 +58,15 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 
 		limitModel = new LoadableDetachableModel<Integer>() {
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected Integer load() {
 				int ret = 10;
-			if (AkpWicketSession.get().isLoggedIn())
-				ret = 100;
-			if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
-				ret = 500;
-			return ret;
+				if (AkpWicketSession.get().isLoggedIn())
+					ret = 100;
+				if (AkpWicketSession.get().hasRole(AkpUserRoles.ROLE_ADMIN))
+					ret = 500;
+				return ret;
 			}
 		};
 
@@ -118,8 +119,9 @@ public class AkpAuthorHomePage extends AkpPageTemplate {
 						resultsModel));
 		searchResultsSection.add(numberOfResults);
 
-		Label resultsLimit = new Label("resultsLimit", new StringResourceModel(
-				"author.search.results.limit", this, null, limitModel)) {
+		Label resultsLimit = new Label("resultsLimit",
+				new StringResourceModel("author.search.results.limit", this,
+						null).setParameters(limitModel)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

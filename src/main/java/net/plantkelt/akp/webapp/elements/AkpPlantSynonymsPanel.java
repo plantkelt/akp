@@ -5,16 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.plantkelt.akp.domain.AkpAuthor;
-import net.plantkelt.akp.domain.AkpPlant;
-import net.plantkelt.akp.domain.AkpTaxon;
-import net.plantkelt.akp.domain.AkpUserRoles;
-import net.plantkelt.akp.service.AkpTaxonService;
-import net.plantkelt.akp.webapp.components.CollapsibleButton;
-import net.plantkelt.akp.webapp.components.EditorModel;
-import net.plantkelt.akp.webapp.components.InPlaceEditor;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -27,6 +17,16 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 
 import com.google.inject.Inject;
+
+import net.plantkelt.akp.domain.AkpAuthor;
+import net.plantkelt.akp.domain.AkpPlant;
+import net.plantkelt.akp.domain.AkpTaxon;
+import net.plantkelt.akp.domain.AkpUserRoles;
+import net.plantkelt.akp.service.AkpTaxonService;
+import net.plantkelt.akp.webapp.components.CollapsibleButton;
+import net.plantkelt.akp.webapp.components.EditorModel;
+import net.plantkelt.akp.webapp.components.InPlaceEditor;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpPlantSynonymsPanel extends Panel {
 
@@ -135,7 +135,7 @@ public class AkpPlantSynonymsPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+			protected void onSubmit(AjaxRequestTarget target) {
 				akpTaxonService.createNewTaxon(plantModel.getObject());
 				target.add(AkpPlantSynonymsPanel.this);
 			}
