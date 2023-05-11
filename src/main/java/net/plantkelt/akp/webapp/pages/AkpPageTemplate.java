@@ -2,14 +2,11 @@ package net.plantkelt.akp.webapp.pages;
 
 import javax.inject.Inject;
 
-import net.plantkelt.akp.service.AkpLoginService;
-import net.plantkelt.akp.webapp.elements.AkpHeaderPanel;
-import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
-
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptUrlReferenceHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -18,6 +15,10 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
+
+import net.plantkelt.akp.service.AkpLoginService;
+import net.plantkelt.akp.webapp.elements.AkpHeaderPanel;
+import net.plantkelt.akp.webapp.wicket.AkpWicketSession;
 
 public class AkpPageTemplate extends WebPage {
 
@@ -30,15 +31,15 @@ public class AkpPageTemplate extends WebPage {
 
 	public AkpPageTemplate() {
 		super();
-		init();
+		privateInit();
 	}
 
 	public AkpPageTemplate(PageParameters parameters) {
 		super(parameters);
-		init();
+		privateInit();
 	}
 
-	private void init() {
+	private void privateInit() {
 		if (getApplication().usesDevelopmentConfig()) {
 			add(new DebugBar("debug"));
 		} else {
@@ -62,15 +63,14 @@ public class AkpPageTemplate extends WebPage {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				AkpPageTemplate.class, "res/akp.css")));
-		response.render(JavaScriptHeaderItem
-				.forUrl("http://www.google-analytics.com/ga.js"));
-		response.render(JavaScriptHeaderItem
-				.forScript(
-						String.format(
-								"var pageTracker = _gat._getTracker('%s'); pageTracker._trackPageview();",
-								akpLoginService
-										.getGoogleAnalyticsTrackerAccount()),
-						"googleAnalyticsTracker"));
+		String analyticsId = akpLoginService.getGoogleAnalyticsTrackerAccount();
+		response.render(JavaScriptUrlReferenceHeaderItem.forUrl(
+				String.format("https://www.googletagmanager.com/gtag/js?id=%s",
+						analyticsId),
+				"googleAnalyticsLib").setAsync(true));
+		response.render(JavaScriptHeaderItem.forScript(String.format(
+				"window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', '%s');",
+				analyticsId), "googleAnalyticsTracker"));
 	}
 
 	public void setPageTitle(String pageTitle) {

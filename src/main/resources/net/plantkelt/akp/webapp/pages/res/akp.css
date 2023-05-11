@@ -1,4 +1,4 @@
-/* === Standard elements === */
+  /* === Standard elements === */
 body,table,select,input,button {
 	font-family: Helvetica, Arial, "sans-serif";
 	font-size: 12pt;
@@ -367,6 +367,8 @@ div.header {
 	border-bottom: 1px solid #888888;
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	height: 28px;
 }
 
 div.header div.logo {
@@ -866,6 +868,27 @@ div.loginSection p.motto {
 
 div.loginSection p.subscribe {
 	text-align: center;
+}
+
+div.loginSection dl dt {
+	display: inline-block;
+	width: 8em;
+	padding-left: 1em;
+}
+
+div.loginSection dl dd {
+	display: inline-block;
+}
+
+div.loginSection dl dd input {
+	width: 16em;
+}
+
+div.loginSection dl dd input[type=submit],
+div.loginSection dl dd input[type=reset] {
+	margin-top: 1em;
+	display: inline-block;
+	width: 8em;
 }
 
 /* === Paged control === */
