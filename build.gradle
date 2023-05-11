@@ -2,7 +2,8 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-sourceCompatibility = 11
+sourceCompatibility = '12'
+targetCompatibility = '12'
 
 repositories {
     mavenCentral()
