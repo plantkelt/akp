@@ -64,6 +64,8 @@ public class AkpWicketApplication extends AuthenticatedWebApplication {
 	@Override
 	protected void init() {
 		super.init();
+		// Disable CSP for the timebeing
+		getCspSettings().blocking().disabled();
 		// Guice
 		getComponentInstantiationListeners()
 				.add(new GuiceComponentInjector(this, injector));
